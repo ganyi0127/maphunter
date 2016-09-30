@@ -18,6 +18,7 @@ struct StroyData {
     var sportTime:CGFloat = 0
     var fat:CGFloat = 0
 }
+let weekStrList = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]
 class ThirdCell: UITableViewCell {
     
     @IBOutlet weak var typeLabel:UILabel!
@@ -36,6 +37,16 @@ class ThirdCell: UITableViewCell {
 
             //类型
             typeLabel.text = data.type.rawValue
+            
+            //时间 星期
+            let time = data.date.time
+            let hour = time / 60
+            let min = time % 60
+            let hourStr = hour > 10 ? "\(hour)" : "0\(hour)"
+            let minStr = min > 10 ? "\(min)" : "0\(min)"
+            let week = weekStrList[data.date.week]
+            timeLabel.text = week
+            
         }
     }
     
