@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "0003CEBDD2707572D3939C2623B71F30E4F96C11",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "0003CEBDD2707572D3939C2623B71F30E4F96C11" : 9223372036854775807,
+    "E9CDAD31FBE564EB5D84C2311B85DDB8D080DE94" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "6A736AC5-50D8-4B3E-ABFE-05684D79D1E4",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "0003CEBDD2707572D3939C2623B71F30E4F96C11" : "MapHunter\/",
+    "E9CDAD31FBE564EB5D84C2311B85DDB8D080DE94" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "MapHunter",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "MapHunter.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/ganyi0127\/maphunter.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0003CEBDD2707572D3939C2623B71F30E4F96C11"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/ganyi0127\/Miner",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E9CDAD31FBE564EB5D84C2311B85DDB8D080DE94"
+    }
+  ]
+}

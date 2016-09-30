@@ -26,26 +26,25 @@ class SubCell: UIView {
     private var gradientLayerMap = [SportType: CAGradientLayer]()
     //cell4体重移动点
     private var weightPointView:UIView?
+    //cell5遮罩
+    private var shapeLayer: CAShapeLayer?
+    fileprivate var foodImageHeight: CGFloat!
+    //cell5饮食情况
+    fileprivate let foodTextList = ["过低", "较低", "正常", "较多", "过多"]
+    //cell6
+    private var cellContent: Cell6Content?
     
     //保存形状 数组or字典
     private var shapeLayerList = [CAShapeLayer]()
     private var sportShapeLayerMap = [SportType: CAShapeLayer]()
-    
-//    private var shapeLayer:CAShapeLayer? = {
-//        let shapeLayer = CAShapeLayer()
-//        shapeLayer.strokeColor = UIColor.orange.cgColor
-//        shapeLayer.fillColor = nil
-//        shapeLayer.lineWidth = 20
-//        shapeLayer.lineCap = kCALineCapSquare
-//        
-//        return shapeLayer
-//    }()
+
     
     //--------------------------------------------------------------------------------
     var value1: CGFloat = 0{
         didSet{
             switch type! {
             case .cell1:
+                
                 label1.text = "\(value1)bpm"
             case .cell2:
                 let hour = Int(value1) / 60
@@ -61,10 +60,13 @@ class SubCell: UIView {
                 let min = Int(value1) % 60
                 label1.text = " \(hour)小时\(min)分钟\n 峰值锻炼"
             case .cell4:
-                
                 label1.text = " \(value1)kg"
-            default:
-                break
+            case .cell5:
+                let index = Int(value1) / 456
+                label1.text = "饮食情况:\(foodTextList[index])"
+                drawCell5(1 - (CGFloat(index) * 0.2 + 0.1))
+            case .cell6:
+                label1.text = "需消耗:\(value1)卡路里"
             }
         }
     }
@@ -88,6 +90,10 @@ class SubCell: UIView {
                 label2.text = " \(hour)小时\(min)分钟\n 心肺锻炼"
             case .cell4:
                 label2.text = " \(value2)kg"
+            case .cell6:
+                drawCell6(value1, completeValue: value2)
+                
+                label2.text = "已消耗:\(value2)卡路里"
             default:
                 break
             }
@@ -141,7 +147,7 @@ class SubCell: UIView {
     }
     
     //property --------------------------------------------------------------------------------
-    private var label1 = { () -> UILabel in
+    fileprivate var label1 = { () -> UILabel in
         let label = UILabel()
         label.frame.size = CGSize(width: 0, height: 18)
         label.textAlignment = .center
@@ -238,7 +244,7 @@ class SubCell: UIView {
             drawCell2([])
         case .cell3:
             let imageView = UIImageView(image: UIImage(named: "icon_run"))
-            imageView.frame.origin = CGPoint(x: frame.width / 2 - imageView.frame.width / 2, y: frame.height * 0.3)
+            imageView.frame.origin = CGPoint(x: frame.width / 2 - imageView.frame.width / 2, y: frame.height * 0.05)
             addSubview(imageView)
             
             //显示峰值锻炼
@@ -341,8 +347,49 @@ class SubCell: UIView {
             label4.textAlignment = .left
             addSubview(label4)
             
-        default:
-            break
+        case .cell5:
+            let imageView = UIImageView(image: UIImage(named: "icon_food"))
+            imageView.frame.origin = CGPoint(x: frame.width / 2 - imageView.frame.width / 2, y: frame.height * 0.05)
+            addSubview(imageView)
+            
+            //显示饮食状况
+            label1.frame = CGRect(x: 0, y: frame.height - label1.frame.height * 1.5, width: frame.width, height: label1.frame.height)
+            label1.text = "饮食情况:正常"
+            addSubview(label1)
+            
+            //底图
+            let imageView0 = UIImageView(image: UIImage(named: "icon_food_0"))
+            imageView0.frame = CGRect(x: frame.width / 2 - frame.width * 0.6 / 2, y: frame.height / 2 - frame.height * 0.6 / 2, width: frame.width * 0.6, height: frame.height * 0.6)
+            addSubview(imageView0)
+            
+            //正常food图
+            let imageView1 = UIImageView(image: UIImage(named: "icon_food_1"))
+            imageView1.frame = imageView0.frame
+            addSubview(imageView1)
+            imageView1.isUserInteractionEnabled = true
+
+            foodImageHeight = imageView0.frame.height
+            
+            //添加遮罩
+            let bezierPath = UIBezierPath(rect: CGRect(x: 0, y: 0, width: imageView0.frame.width, height: imageView0.frame.height))
+            shapeLayer = CAShapeLayer()
+            shapeLayer?.path = bezierPath.cgPath
+            imageView1.layer.mask = shapeLayer
+        case .cell6:
+            
+            cellContent = Cell6Content(frame: frame)
+            addSubview(cellContent!)
+            
+            //显示需消耗卡路里
+            label1.frame = CGRect(x: 0, y: frame.height - label1.frame.height * 2.8, width: frame.width, height: label1.frame.height)
+            label1.text = "需消耗:0卡路里"
+            label1.textAlignment = .left
+            addSubview(label1)
+            
+            label2.frame = CGRect(x: 0, y: frame.height - label1.frame.height * 1.5, width: frame.width, height: label1.frame.height)
+            label2.text = "已消耗:0卡路里"
+            label2.textAlignment = .left
+            addSubview(label2)
         }
     }
     
@@ -524,20 +571,61 @@ class SubCell: UIView {
         fadeInAnim.duration = pathAnim.duration
         weightPointView?.layer.add(fadeInAnim, forKey: nil)
     }
+    
+    //MARK:- Cell5饮食情况
+    fileprivate func drawCell5(_ rateValue: CGFloat){
+        guard let shape = shapeLayer else {
+            return
+        }
+        
+        let anim = CABasicAnimation(keyPath: "position.y")
+        let plusValue = foodImageHeight * 0.1 * (1 - rateValue * 10 / 9)
+        anim.toValue = foodImageHeight * rateValue - plusValue
+        anim.duration = 0.5
+        anim.fillMode = kCAFillModeBoth
+        anim.isRemovedOnCompletion = false
+        shape.add(anim, forKey: nil)
+    }
+    
+    //MARK:- Cell6颜色动画——赋值
+    private func drawCell6(_ demandValue: CGFloat, completeValue: CGFloat){
+        
+        //需消耗卡路里、已消耗卡路里
+        cellContent?.value = (demandValue, completeValue)
+    }
 }
 
 extension SubCell{
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let anim = CABasicAnimation(keyPath: "transform.scale.x")
-        anim.toValue = 0.5
-        anim.duration = 0.05
-        anim.fillMode = kCAFillModeBoth
-        anim.isRemovedOnCompletion = true
-        anim.autoreverses = true
-        layer.add(anim, forKey: "began")
+        
+        touches.forEach(){
+            touch in
+            let view = touch.view
+            
+            //cell5点击
+            if let imageView = view as? UIImageView, type == SubCellType.cell5 {
+                let location = touch.location(in: imageView)
+                let index = foodTextList.count - 1 - Int(location.y) / Int(foodImageHeight / 5)
+                label1.text = "饮食情况:\(foodTextList[index])"
+                drawCell5(1 - (CGFloat(index) * 0.2 + 0.1))
+                
+                return
+            }else{
+                
+                let anim = CABasicAnimation(keyPath: "transform.scale.x")
+                anim.toValue = 0.5
+                anim.duration = 0.05
+                anim.fillMode = kCAFillModeBoth
+                anim.isRemovedOnCompletion = true
+                anim.autoreverses = true
+                layer.add(anim, forKey: "began")
+            }
+        }        
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         closure?(type!)
     }
+    
+    
 }
