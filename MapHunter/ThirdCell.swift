@@ -39,14 +39,36 @@ class ThirdCell: UITableViewCell {
             typeLabel.text = data.type.rawValue
             
             //时间 星期
-            let time = data.date.time
-            let hour = time / 60
-            let min = time % 60
-            let hourStr = hour > 10 ? "\(hour)" : "0\(hour)"
-            let minStr = min > 10 ? "\(min)" : "0\(min)"
+            var time = data.date.time
+            var hour = time / 60
+            var min = Int(time) % 60
+            var hourStr = hour > 10 ? "\(hour)" : "0\(hour)"
+            var minStr = min > 10 ? "\(min)" : "0\(min)"
             let week = weekStrList[data.date.week]
-            timeLabel.text = week
+            timeLabel.text = hourStr + ":" + minStr + "  " + week
             
+            //运动时间
+            time = data.sportTime
+            hour = time / 60
+            min = Int(time) % 60
+            hourStr = hour > 10 ? "\(hour)小时" : "0\(hour)小时"
+            if hour == 0{
+                hourStr = ""
+            }
+            minStr = min > 10 ? "\(min)分钟" : "0\(min)分钟"
+            sportTimeLabel.text = hourStr + minStr + "分钟"
+            
+            //卡路里
+            let calorie = data.calorie
+            calorieLabel.text = "\(calorie)卡路里"
+            
+            //平均心率
+            let heartRate = data.heartRate
+            heartRateLabel.text = "平均心率:\(heartRate)bpm"
+            
+            //脂肪燃烧
+            let fat = data.fat
+            fatLabel.text = "\(fat)% 脂肪燃烧"
         }
     }
     
