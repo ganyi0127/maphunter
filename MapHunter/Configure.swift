@@ -20,6 +20,7 @@ let defaut_color = UIColor.orange
 
 let notiy = NotificationCenter.default
 let unselect_notiy = NSNotification.Name(rawValue: "unselect")
+let switch_notiy = NSNotification.Name("switch")
 
 //当前选择的日期
 var selectDate = Date()

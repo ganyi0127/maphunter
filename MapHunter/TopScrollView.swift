@@ -26,6 +26,9 @@ class TopScrollView: UIScrollView {
         }
     }
     
+    //DateProgress回收
+    fileprivate var dateProgressCollectionList = [DateProgress]()
+    
     //保存当前选择的月份
     fileprivate var dateProgressOfThisMonth = [DateProgress]()
     fileprivate var dateProgressOfLastMonth = [DateProgress]()
@@ -112,6 +115,36 @@ class TopScrollView: UIScrollView {
             setLastAndNextMonth(true)
             
         }else{
+            
+            //根据当前月份天数添加或删减dateProgress
+            while numberOfDaysInMonth != dateProgressOfCurrentMonth.count {
+               
+                if numberOfDaysInMonth > dateProgressOfCurrentMonth.count{
+                    //添加
+                    
+                    //获取最后一天日期
+                    let lastDateOfThisMonth = dateProgressOfCurrentMonth.last
+                    let date = Date(timeInterval: 60 * 60 * 24, since: lastDateOfThisMonth!.date!)
+                    
+                    var dateProgress: DateProgress!
+                    if dateProgressCollectionList.isEmpty{
+                        dateProgress = DateProgress("0")
+                    }else{
+                        dateProgress = dateProgressCollectionList.removeLast()
+                    }
+                    
+                    dateProgress.date = date
+                    dateProgress.curProgress = 80
+                    addSubview(dateProgress)
+                    dateProgressOfCurrentMonth.append(dateProgress)
+                }else{
+                    //删除
+                    let dateProgress = dateProgressOfCurrentMonth.removeLast()
+                    dateProgress.removeFromSuperview()
+                    dateProgressCollectionList.append(dateProgress)
+                }
+            }
+            
             //content范围
             contentSize = CGSize(width: view_size.width * CGFloat((numberOfDaysInMonth + weekday) / 7 + ((numberOfDaysInMonth + weekday) % 7 == 0 ? 0 : 1)),
                                  height: frame.height)
@@ -124,6 +157,7 @@ class TopScrollView: UIScrollView {
                 if let dateProgress:DateProgress = view as? DateProgress{
                     if !dateProgressOfCurrentMonth.contains(dateProgress){
                         view.removeFromSuperview()
+                        dateProgressCollectionList.append(dateProgress)
                     }
                 }
             }
@@ -136,7 +170,7 @@ class TopScrollView: UIScrollView {
             //排列
             dateProgressOfCurrentMonth.enumerated().forEach(){
                 index, dateProgress in
-                
+              
                 let dayIndex = index + 1
                 
                 let posX = CGFloat(dayIndex - 1) * singleWidth + singleWidth / 2 - dateProgress.frame.width / 2 + CGFloat(weekday - 1) * singleWidth
@@ -221,7 +255,14 @@ class TopScrollView: UIScrollView {
                 (1...numberOfDaysInLastMonth).forEach(){
                     dayIndex in
                     
-                    let dateProgress = DateProgress("\(dayIndex)")
+                    var dateProgress: DateProgress!
+                    if dateProgressCollectionList.isEmpty{
+                        
+                        dateProgress = DateProgress("\(dayIndex)")
+                    }else{
+                        dateProgress = dateProgressCollectionList.removeLast()
+                        dateProgress.text = "\(dayIndex)"
+                    }
                     
                     dateProgress.curProgress = 40
                     addSubview(dateProgress)
@@ -303,7 +344,13 @@ class TopScrollView: UIScrollView {
                 (1...numberOfDaysInNextMonth).forEach(){
                     dayIndex in
                     
-                    let dateProgress = DateProgress("\(dayIndex)")
+                    var dateProgress:DateProgress!
+                    if dateProgressCollectionList.isEmpty{
+                        dateProgress = DateProgress("\(dayIndex)")
+                    }else{
+                        dateProgress = dateProgressCollectionList.removeLast()
+                        dateProgress.text = "\(dayIndex)"
+                    }
                     
                     dateProgress.curProgress = 40
                     addSubview(dateProgress)
@@ -411,7 +458,13 @@ class TopScrollView: UIScrollView {
             (1...numberOfDaysInMonth).forEach(){
                 dayIndex in
                 
-                let dateProgress = DateProgress("\(dayIndex)")
+                var dateProgress: DateProgress!
+                if dateProgressCollectionList.isEmpty{
+                    dateProgress = DateProgress("\(dayIndex)")
+                }else{
+                    dateProgress = dateProgressCollectionList.removeLast()
+                    dateProgress.text = "\(dayIndex)"
+                }
                 //初始化数据进度
                 dateProgress.curProgress = 40
                 addSubview(dateProgress)
@@ -531,6 +584,7 @@ extension TopScrollView: UIScrollViewDelegate{
                     dateProgress in
                     if !dateProgressOfCurrentMonth.contains(dateProgress){
                         dateProgress.removeFromSuperview()
+                        dateProgressCollectionList.append(dateProgress)
                     }
                 }
 
@@ -546,6 +600,7 @@ extension TopScrollView: UIScrollViewDelegate{
                     dateProgress in
                     if !dateProgressOfCurrentMonth.contains(dateProgress){
                         dateProgress.removeFromSuperview()
+                        dateProgressCollectionList.append(dateProgress)
                     }
                 }
 

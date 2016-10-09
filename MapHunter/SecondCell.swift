@@ -78,7 +78,7 @@ class SecondCell: UITableViewCell {
         config()
         createContents()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -92,7 +92,7 @@ class SecondCell: UITableViewCell {
     }
     
     private func createContents(){
-        
+       
         switch cellRow {
         case 1:
             subCellType1 = SubCellType.cell1

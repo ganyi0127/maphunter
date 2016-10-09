@@ -55,17 +55,49 @@ class FirstCell: UITableViewCell {
         return stepProgress
     }()
     
+    //按钮
+    private var leftButton = { () -> UIButton in 
+        let button = UIButton(type: .custom)
+        button.setTitle("<", for: .normal)
+        button.setTitleColor(.gray, for: .normal)
+        button.titleLabel?.font = UIFont(name: font_name, size: 24)
+        button.tag = 0
+        return button
+    }()
+    private var rightButton = { () -> UIButton in
+        let button = UIButton(type: .custom)
+        button.setTitle(">", for: .normal)
+        button.setTitleColor(.gray, for: .normal)
+        button.titleLabel?.font = UIFont(name: font_name, size: 24)
+        button.tag = 1
+        return button
+    }()
+    
     //MARK:- init
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
         
         config()
+        createContents()
     }
     
     override func layoutIfNeeded() {
       
-        createContents()
+        stepProgress.frame.origin = CGPoint(x: frame.width / 2 - stepProgress.frame.width / 2, y: 0)
+        
+        let calorieOrigin = CGPoint(x: 0, y: frame.height - calorieIcon.frame.height)
+        calorieIcon.frame.origin = calorieOrigin
+        
+        let distanceOrigin = CGPoint(x: frame.width / 2 - distanceIcon.frame.width / 2, y: frame.height - distanceIcon.frame.height)
+        distanceIcon.frame.origin = distanceOrigin
+        
+        let timeOrigin = CGPoint(x: frame.width - timeIcon.frame.width, y: frame.height - timeIcon.frame.height)
+        timeIcon.frame.origin = timeOrigin
+        
+        leftButton.frame = CGRect(x: 0, y: frame.height * 0.3, width: frame.width * 0.2, height: frame.height * 0.2)
+        rightButton.frame = CGRect(x: frame.width - frame.width * 0.2, y: frame.height * 0.3, width: frame.width * 0.2, height: frame.height * 0.2)
     }
+    
     private func config(){
         
         var rotation = CATransform3DIdentity
@@ -74,27 +106,51 @@ class FirstCell: UITableViewCell {
         layer.shadowColor = UIColor.black.cgColor
         layer.transform = rotation
         
+        let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(swipe(gesture:)))
+        leftSwipe.direction = .left
+        contentView.addGestureRecognizer(leftSwipe)
+        
+        let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(swipe(gesture:)))
+        rightSwipe.direction = .right
+        contentView.addGestureRecognizer(rightSwipe)
     }
     
     private func createContents(){
         
         //添加步数
-        stepProgress.frame.origin = CGPoint(x: frame.width / 2 - stepProgress.frame.width / 2, y: 0)
         addSubview(stepProgress)
         
         //添加三个数据
-        let calorieOrigin = CGPoint(x: 0, y: frame.height - calorieIcon.frame.height)
-        calorieIcon.frame.origin = calorieOrigin
         addSubview(calorieIcon)
         
-        let distanceOrigin = CGPoint(x: frame.width / 2 - distanceIcon.frame.width / 2, y: frame.height - distanceIcon.frame.height)
-        distanceIcon.frame.origin = distanceOrigin
         addSubview(distanceIcon)
         
-        let timeOrigin = CGPoint(x: frame.width - timeIcon.frame.width, y: frame.height - timeIcon.frame.height)
-        timeIcon.frame.origin = timeOrigin
         addSubview(timeIcon)
         
+        //左右按钮
+        leftButton.addTarget(self, action: #selector(clickButton(sender:)), for: .touchUpInside)
+        addSubview(leftButton)
+        
+        rightButton.addTarget(self, action: #selector(clickButton(sender:)), for: .touchUpInside)
+        addSubview(rightButton)
+    }
+    
+    @objc private func swipe(gesture: UISwipeGestureRecognizer){
+        if gesture.direction == .left{
+            switchWithDirectionTag(tag: 1)
+        }else{
+            switchWithDirectionTag(tag: 0)
+        }
+    }
+    
+    @objc private func clickButton(sender: UIButton){
+        //0:left 1:right
+        switchWithDirectionTag(tag: sender.tag)
+    }
+    
+    //MARK:- 发送切换日期消息
+    private func switchWithDirectionTag(tag: Int){
+        notiy.post(name: switch_notiy, object: tag, userInfo: nil)
     }
 }
 

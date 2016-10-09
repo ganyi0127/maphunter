@@ -287,11 +287,13 @@ class SubCell: UIView {
             shapeLayer.lineCap = kCALineCapRound
             
             let bezierPath = UIBezierPath()
-            let startPoint = CGPoint(x: frame.width * 0.1, y: frame.height * 0.1)
-            let endPoint = CGPoint(x: frame.width * 0.9, y: frame.height * 0.8)
-            let controlPoint = CGPoint(x: endPoint.x, y: startPoint.y)
+            let startPoint =    CGPoint(x: frame.width * 0.05, y: frame.height * 0.5)
+            let endPoint =      CGPoint(x: frame.width * 0.95, y: frame.height * 0.5)
+            let controlPoint =  CGPoint(x: frame.width * 0.5, y: frame.height * 0.0)
             bezierPath.move(to: startPoint)
-            bezierPath.addQuadCurve(to: endPoint, controlPoint: controlPoint)
+//            bezierPath.addQuadCurve(to: endPoint, controlPoint: controlPoint)
+            let centerPoint = CGPoint(x: frame.width / 2, y: frame.height / 2)
+            bezierPath.addArc(withCenter: centerPoint, radius: frame.width * 0.45, startAngle: CGFloat(M_PI), endAngle: 0, clockwise: true)
             
             shapeLayer.path = bezierPath.cgPath
             

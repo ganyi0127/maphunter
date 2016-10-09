@@ -65,13 +65,30 @@ class TopView: UIView {
         config()
     }
     
+    deinit {
+        notiy.removeObserver(self, name: switch_notiy, object: nil)
+    }
+    
     override func draw(_ rect: CGRect) {
         
         createContents()
     }
     
     private func config(){
-       backgroundColor = .clear
+        backgroundColor = .clear
+        
+        notiy.addObserver(self, selector: #selector(switchDate(notification:)), name: switch_notiy, object: nil)
+    }
+    
+    //MARK:左右快捷切换日期
+    @objc private func switchDate(notification: NSNotification){
+        if notification.object as! Int == 0{
+            selectDate = Date(timeInterval: -60 * 60 * 24, since: selectDate)
+        }else{            
+            selectDate = Date(timeInterval: 60 * 60 * 24, since: selectDate)
+        }
+        
+        topScrollView?.edit(false)
     }
     
     private func createContents(){
@@ -84,18 +101,7 @@ class TopView: UIView {
             topScrollView?.closure = {
                 date in
                 
-                //点击日期事件回调
-                let formatter = DateFormatter()
-                formatter.dateFormat = "yyy-MM-dd"
-                let dateStr = formatter.string(from: date)
-                let todayStr = formatter.string(from: Date())
-                
-                //显示今天
-                if dateStr == todayStr{
-                    self.label.text = "今天"
-                }else{
-                    self.label.text = dateStr
-                }
+                self.updateDateInLabel(date: date)
                 
                 //收起日历
                 if self.isCalendarOpened{
@@ -128,6 +134,23 @@ class TopView: UIView {
         
         //初始化轮转周期
         cycleType = .month
+    }
+    
+    //MARK:- 更新显示当前日期
+    private func updateDateInLabel(date: Date){
+        
+        //点击日期事件回调
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyy-MM-dd"
+        let dateStr = formatter.string(from: date)
+        let todayStr = formatter.string(from: Date())
+        
+        //显示今天
+        if dateStr == todayStr{
+            self.label.text = "今天"
+        }else{
+            self.label.text = dateStr
+        }
     }
     
     //打开日历

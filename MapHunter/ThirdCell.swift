@@ -10,7 +10,7 @@ import UIKit
 enum SportType:String{
     case run = "跑步"
 }
-struct StroyData {
+struct StoryData {
     var type:SportType = SportType.run
     var date:(time: CGFloat, week: Int) = (0, 0)
     var calorie:CGFloat = 0
@@ -29,7 +29,7 @@ class ThirdCell: UITableViewCell {
     @IBOutlet weak var heartRateLabel:UILabel!
     @IBOutlet weak var fatLabel:UILabel!
     
-    var value:StroyData?{
+    var value:StoryData?{
         didSet{
             guard  let data = value else {
                 return
@@ -40,7 +40,7 @@ class ThirdCell: UITableViewCell {
             
             //时间 星期
             var time = data.date.time
-            var hour = time / 60
+            var hour = Int(time) / 60
             var min = Int(time) % 60
             var hourStr = hour > 10 ? "\(hour)" : "0\(hour)"
             var minStr = min > 10 ? "\(min)" : "0\(min)"
@@ -49,14 +49,15 @@ class ThirdCell: UITableViewCell {
             
             //运动时间
             time = data.sportTime
-            hour = time / 60
+            hour = Int(time) / 60
             min = Int(time) % 60
-            hourStr = hour > 10 ? "\(hour)小时" : "0\(hour)小时"
             if hour == 0{
                 hourStr = ""
+            }else{
+                hourStr = "\(hour)小时"
             }
-            minStr = min > 10 ? "\(min)分钟" : "0\(min)分钟"
-            sportTimeLabel.text = hourStr + minStr + "分钟"
+            minStr = "\(min)分钟"
+            sportTimeLabel.text = hourStr + minStr
             
             //卡路里
             let calorie = data.calorie

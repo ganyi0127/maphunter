@@ -51,6 +51,8 @@ class MapVC: UIViewController {
     lazy fileprivate var geocoder = {
         return CLGeocoder()
     }()
+    //编码锁 一次只能编码一次
+    private var geocoderLocked = false
     
     //地图视图
     @IBInspectable
@@ -174,6 +176,12 @@ class MapVC: UIViewController {
     //MARK:测试添加大头针
     @objc private func addAnnotation(tap: UITapGestureRecognizer){
         
+        guard !geocoderLocked else {
+            return
+        }
+        
+        geocoderLocked = true
+        
         if tap.numberOfTapsRequired == 1{
             //单次点击
             let touchPoint = tap.location(in: tap.view)
@@ -184,12 +192,22 @@ class MapVC: UIViewController {
             self.mapView.addAnnotation(annotation)
             
             //监控区域
-            let region = CLCircularRegion(center: coordinate, radius: 50, identifier: "sprite")
-            locationManager.startMonitoring(for: region)
-
+            if CLLocationManager.locationServicesEnabled(){
+                let region = CLCircularRegion(center: coordinate, radius: 500, identifier: "sprite")
+                locationManager.startMonitoring(for: region)
+            }else{
+                let message = "clocation can't offer location services!!!"
+                let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+                let cancelAction = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
+                alertController.addAction(cancelAction)
+                present(alertController, animated: true, completion: nil)
+            }
+            
             //反地理编码
             geocoder.reverseGeocodeLocation(CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)) {
                 placemarks, error in
+                
+                self.geocoderLocked = false
                 
                 guard error == nil else{
                     print("创建大头针 geocoder回调错误:\n\(error)")
@@ -642,6 +660,18 @@ extension MapVC:CLLocationManagerDelegate{
                     totalDistance = currentDistance + distance
                 }
             }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
+        if state == .inside{
+            print("inside")
+        }else if state == .outside{
+            print("ouside")
+        }else if state == .unknown{
+            print("unknown")
+        }else{
+            print("no catch")
         }
     }
     

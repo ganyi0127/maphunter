@@ -46,10 +46,11 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+     
         if section == 0{
             return nil
         }
-     
+        
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view_size.width, height: 50))
         headerView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
         
@@ -143,8 +144,18 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             return cell!
         }
         
-        //今日故事
-        cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        //今日故事 cell3
+        cell = tableView.dequeueReusableCell(withIdentifier: "cell")
+        
+        var value = StoryData()
+        value.type = SportType.run
+        value.date = (456, 1)
+        value.sportTime = 789
+        value.calorie = 123
+        value.heartRate = 101
+        value.fat = 202
+        
+        (cell as! ThirdCell).value = value
         
         return cell!
     }

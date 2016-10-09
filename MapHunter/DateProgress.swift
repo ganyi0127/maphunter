@@ -45,6 +45,11 @@ class DateProgress: UIView {
             let dateStr = formatter.string(from: date!)
             let selectStr = formatter.string(from: selectDate)
             
+            //修改显示日期 有重复
+            formatter.dateFormat = "dd"
+            let dayStr = formatter.string(from: date!)
+            label.text = dayStr
+            
             if dateStr == selectStr{
                 notiy.post(name: unselect_notiy, object: nil)
                 select(true)
@@ -53,6 +58,13 @@ class DateProgress: UIView {
         }
     }
     var isSelected = false
+    
+    //手动修改显示日期
+    var text: String?{
+        didSet{
+            label.text = text
+        }
+    }
     
     //MARK:- init
     init(_ text: String) {
@@ -117,6 +129,10 @@ class DateProgress: UIView {
     
     fileprivate func select(_ flag: Bool){
         
+        guard isSelected || flag else {
+            return
+        }
+        
         isSelected = flag
         
         var cgcolor:CGColor?
@@ -132,6 +148,10 @@ class DateProgress: UIView {
         anim.fillMode = kCAFillModeBoth
         anim.isRemovedOnCompletion = false
         shapeLayer?.add(anim, forKey: nil)
+    }
+    
+    deinit {
+        notiy.removeObserver(self, name: unselect_notiy, object: nil)
     }
 }
 
