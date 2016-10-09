@@ -148,9 +148,44 @@ class FirstCell: UITableViewCell {
         switchWithDirectionTag(tag: sender.tag)
     }
     
+    fileprivate var curTag = 0
     //MARK:- 发送切换日期消息
     private func switchWithDirectionTag(tag: Int){
-        notiy.post(name: switch_notiy, object: tag, userInfo: nil)
+        
+        //翻页动画效果
+        var transform = CATransform3DIdentity
+        transform.m34 = -1 / 500
+        
+        layer.transform = transform
+        
+        let anim = CABasicAnimation(keyPath: "transform.rotation.y")
+        anim.delegate = self
+        anim.fromValue = 0
+        anim.toValue = tag == 0 ? M_PI : -M_PI
+        anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        
+        let fadeAnim = CAKeyframeAnimation(keyPath: "opacity")
+        fadeAnim.values = [1, 0, 1]
+        fadeAnim.keyTimes = [0, 0.5, 1]
+        
+        let group = CAAnimationGroup()
+        group.duration = 0.5
+        group.animations = [anim, fadeAnim]
+        group.delegate = self
+        layer.add(group, forKey: "swith")
+        
+        //切换日期
+        curTag = tag
+    }
+}
+
+//MARK:- Animation delegate
+extension FirstCell: CAAnimationDelegate{
+    //完成动画后切换日期
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+
+        notiy.post(name: switch_notiy, object: curTag, userInfo: nil)
+
     }
 }
 
@@ -159,11 +194,11 @@ extension FirstCell{
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
         let anim = CABasicAnimation(keyPath: "transform.scale.x")
-        anim.toValue = 0.5
+        anim.toValue = 0.8
         anim.duration = 0.05
         anim.fillMode = kCAFillModeBoth
-        anim.isRemovedOnCompletion = true
         anim.autoreverses = true
+        anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         layer.add(anim, forKey: "began")
     }
     

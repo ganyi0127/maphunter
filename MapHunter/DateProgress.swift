@@ -57,7 +57,18 @@ class DateProgress: UIView {
             }
         }
     }
-    var isSelected = false
+    var isSelected = false{
+        didSet{
+            if isSelected{
+                let anim = CAKeyframeAnimation(keyPath: "transform.scale")
+                anim.values = [1, 1.2, 0.9, 1]
+                anim.keyTimes = [0, 0.4, 0.8, 1]
+                anim.duration = 0.5
+                anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+                layer.add(anim, forKey: nil)    
+            }
+        }
+    }
     
     //手动修改显示日期
     var text: String?{

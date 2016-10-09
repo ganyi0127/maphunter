@@ -55,17 +55,17 @@ class StepProgress: UIView {
     }
     
     private func createContents(){
-        
+        print(view_size)
         //添加圆形进度条
         if bgShapeLayer == nil{
             
             bgShapeLayer = CAShapeLayer()
-            bgShapeLayer?.strokeColor = UIColor.lightGray.cgColor
+            bgShapeLayer?.strokeColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+            bgShapeLayer?.lineDashPattern = [2, 2]
             bgShapeLayer?.fillColor = nil
             bgShapeLayer?.lineWidth = 16
-            bgShapeLayer?.lineCap = kCALineCapRound
             
-            let refreshRadius = frame.size.height/2 * 0.8
+            let refreshRadius = frame.size.height / 2 * 0.8
             let bezierPath = UIBezierPath()
             bezierPath.addArc(withCenter: CGPoint(x: frame.width / 2, y: frame.height / 2 - refreshRadius * 0.1),
                               radius: refreshRadius,

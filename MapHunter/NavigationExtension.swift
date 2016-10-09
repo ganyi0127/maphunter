@@ -17,6 +17,10 @@ extension UINavigationController:UINavigationControllerDelegate{
         if navigation_height == nil{
             navigation_height = navigationBar.frame.height
         }
+        
+        navigationBar.topItem?.title = "FunSport"
+        
+        navigationBar.backgroundColor = UIColor.black
     }
     
     //切换界面时调用_手环按钮
@@ -30,8 +34,19 @@ extension UINavigationController:UINavigationControllerDelegate{
                 viewController.navigationItem.leftBarButtonItem = linkBarButton
             }
             
+            if navigationItem.rightBarButtonItem == nil{
+                
+                let shareBarButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share(sender:)))
+                viewController.navigationItem.rightBarButtonItem = shareBarButton
+            }
         }else{
             navigationItem.leftBarButtonItem = nil
         }
+    }
+    
+    //MARK:分享
+    @objc private func share(sender: UIBarButtonItem){
+        
+        print("share action")
     }
 }

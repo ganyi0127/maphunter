@@ -22,6 +22,7 @@
 		BE2DCA011D9210A300978C97 /* MapHunterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2DCA001D9210A300978C97 /* MapHunterTests.swift */; };
 		BE2DCA0C1D9210A300978C97 /* MapHunterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2DCA0B1D9210A300978C97 /* MapHunterUITests.swift */; };
 		BE2DCA2D1D92257C00978C97 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE2DCA2C1D92257C00978C97 /* MapKit.framework */; };
+		BE743BE01DAA1D25002AC282 /* CellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE743BDF1DAA1D25002AC282 /* CellExtension.swift */; };
 		BEB248E71D9B4E2600C9F9ED /* ThirdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */; };
 		BEB248EA1D9BBC8D00C9F9ED /* StepProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248E91D9BBC8D00C9F9ED /* StepProgress.swift */; };
 		BEB248EC1D9BD91A00C9F9ED /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248EB1D9BD91A00C9F9ED /* IconView.swift */; };
@@ -114,6 +115,7 @@
 		BE2DCA0B1D9210A300978C97 /* MapHunterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapHunterUITests.swift; sourceTree = "<group>"; };
 		BE2DCA0D1D9210A300978C97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE2DCA2C1D92257C00978C97 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		BE743BDF1DAA1D25002AC282 /* CellExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellExtension.swift; sourceTree = "<group>"; };
 		BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdCell.swift; sourceTree = "<group>"; };
 		BEB248E91D9BBC8D00C9F9ED /* StepProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepProgress.swift; sourceTree = "<group>"; };
 		BEB248EB1D9BD91A00C9F9ED /* IconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				BE1C366F1D93745500AB4370 /* NavigationExtension.swift */,
 				BEDF4F711D99033000E98D63 /* LabelExtension.swift */,
 				BEDF4F731D99040300E98D63 /* ButtonExtension.swift */,
+				BE743BDF1DAA1D25002AC282 /* CellExtension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -639,6 +642,7 @@
 				BE2DC9F11D9210A300978C97 /* MapHunter.xcdatamodeld in Sources */,
 				BE1C36701D93745500AB4370 /* NavigationExtension.swift in Sources */,
 				BEDF4F771D9909ED00E98D63 /* TopScrollView.swift in Sources */,
+				BE743BE01DAA1D25002AC282 /* CellExtension.swift in Sources */,
 				BE2DC9EB1D9210A300978C97 /* MapVC.swift in Sources */,
 				BEDF4F561D96217A00E98D63 /* SpriteData.swift in Sources */,
 				BEDF4F691D98BBD700E98D63 /* CustomAnnotationView.swift in Sources */,
