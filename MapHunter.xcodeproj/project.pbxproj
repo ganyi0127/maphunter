@@ -23,6 +23,7 @@
 		BE2DCA0C1D9210A300978C97 /* MapHunterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2DCA0B1D9210A300978C97 /* MapHunterUITests.swift */; };
 		BE2DCA2D1D92257C00978C97 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE2DCA2C1D92257C00978C97 /* MapKit.framework */; };
 		BE743BE01DAA1D25002AC282 /* CellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE743BDF1DAA1D25002AC282 /* CellExtension.swift */; };
+		BE9DA8961DB0698500C4574B /* CoordinateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */; };
 		BEB248E71D9B4E2600C9F9ED /* ThirdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */; };
 		BEB248EA1D9BBC8D00C9F9ED /* StepProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248E91D9BBC8D00C9F9ED /* StepProgress.swift */; };
 		BEB248EC1D9BD91A00C9F9ED /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248EB1D9BD91A00C9F9ED /* IconView.swift */; };
@@ -116,6 +117,7 @@
 		BE2DCA0D1D9210A300978C97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE2DCA2C1D92257C00978C97 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		BE743BDF1DAA1D25002AC282 /* CellExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellExtension.swift; sourceTree = "<group>"; };
+		BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateTransform.swift; sourceTree = "<group>"; };
 		BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdCell.swift; sourceTree = "<group>"; };
 		BEB248E91D9BBC8D00C9F9ED /* StepProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepProgress.swift; sourceTree = "<group>"; };
 		BEB248EB1D9BD91A00C9F9ED /* IconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
@@ -359,6 +361,7 @@
 			isa = PBXGroup;
 			children = (
 				BE2DC9EA1D9210A300978C97 /* MapVC.swift */,
+				BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */,
 				BEDF4F681D98BBD700E98D63 /* CustomAnnotationView.swift */,
 				BEDF4F551D96217A00E98D63 /* SpriteData.swift */,
 			);
@@ -647,6 +650,7 @@
 				BEDF4F561D96217A00E98D63 /* SpriteData.swift in Sources */,
 				BEDF4F691D98BBD700E98D63 /* CustomAnnotationView.swift in Sources */,
 				BEDF4F721D99033000E98D63 /* LabelExtension.swift in Sources */,
+				BE9DA8961DB0698500C4574B /* CoordinateTransform.swift in Sources */,
 				BEDF4F6E1D98FCA900E98D63 /* FirstCell.swift in Sources */,
 				BEDF4F701D98FD1200E98D63 /* SecondCell.swift in Sources */,
 				BEDF4F741D99040300E98D63 /* ButtonExtension.swift in Sources */,
@@ -811,7 +815,7 @@
 					"$(PROJECT_DIR)/MapHunter",
 				);
 				INFOPLIST_FILE = MapHunter/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -821,6 +825,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -835,7 +840,7 @@
 					"$(PROJECT_DIR)/MapHunter",
 				);
 				INFOPLIST_FILE = MapHunter/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -844,6 +849,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.orangebrush.maphunterhome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

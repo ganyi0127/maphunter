@@ -34,7 +34,7 @@ extension UINavigationController:UINavigationControllerDelegate{
                 viewController.navigationItem.leftBarButtonItem = linkBarButton
             }
             
-            if navigationItem.rightBarButtonItem == nil{
+            if navigationItem.rightBarButtonItem == nil && viewController.isKind(of: StateVC.self){
                 
                 let shareBarButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share(sender:)))
                 viewController.navigationItem.rightBarButtonItem = shareBarButton

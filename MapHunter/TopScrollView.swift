@@ -76,8 +76,10 @@ class TopScrollView: UIScrollView {
         //当前月第一天星期数_月天数
         let range = calendar.range(of: Calendar.Component.day, in: Calendar.Component.month, for: selectDate)
         let numberOfDaysInMonth:Int = Int(range!.count)
-        var components = calendar.dateComponents([.year, .month], from: selectDate)
-        components.day = 1
+        var components = calendar.dateComponents([.year, .month, .day], from: selectDate)
+//        components.day = 1
+//        components.hour = 12
+        
         if isOpen {
             let digure = digureMonth(components.month!, curYear: components.year!, monthOffset: monthOffset)
             components.month = digure.month
@@ -193,7 +195,15 @@ class TopScrollView: UIScrollView {
                 
                 //设置日期_后
                 components.day = dayIndex
-                dateProgress.date = calendar.date(from: components)
+                
+                let date = calendar.date(from: components)
+                let zone = TimeZone.current
+                let deltaTime: TimeInterval = TimeInterval(zone.secondsFromGMT(for: date!))
+                let realDate = date?.addingTimeInterval(deltaTime)
+                
+                //修改日期
+                dateProgress.date = realDate
+                
                 //移动
                 UIView.animate(withDuration: duration!, animations: {
                     dateProgress.frame.origin = origin

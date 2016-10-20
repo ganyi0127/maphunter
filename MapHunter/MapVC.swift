@@ -412,8 +412,9 @@ extension MapVC: MKMapViewDelegate{
         let a = fabs(radLatitude1 - radLatitude2)
         let b = fabs(startLongitude * M_PI / 180 - endLongitude * M_PI / 180)
         
-        let s = 22 * asin(sqrt(pow(sin(a / 2), 2) + cos(radLatitude1) * cos(radLatitude2) * pow(sin(b / 2), 2))) * 6378137
-        return round(s * 10000) / Double(10000)
+        let earthRadius = 6378.137 //公里
+        let metre = 2 * asin(sqrt(pow(sin(a / 2), 2) + cos(radLatitude1) * cos(radLatitude2) * pow(sin(b / 2), 2))) * earthRadius
+        return round(metre * 1000) //四舍五入--米
     }
     
     //MARK:更新显示区域时调用will
@@ -425,7 +426,6 @@ extension MapVC: MKMapViewDelegate{
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         
     }
-    
     
     //MARK:添加大头针时调用(添加大头针动画)
     func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
@@ -544,8 +544,7 @@ extension MapVC: MKMapViewDelegate{
                 let distance = localPlaceLocation.distance(from: targetPlaceLocation)
                 print("距离:\(distance)米")
                 
-                let coordinateRegin = MKCoordinateRegionMakeWithDistance(self.mapView.userLocation.coordinate,
-                                                                         2 * distance, 2 * distance)
+                let coordinateRegin = MKCoordinateRegionMakeWithDistance(self.mapView.userLocation.coordinate, 2 * distance, 2 * distance)
                 self.mapView.setRegion(coordinateRegin, animated: true)
                 
             }
@@ -582,7 +581,13 @@ extension MapVC:CLLocationManagerDelegate{
             print("location get last error!")
             return
         }
-
+        
+        var coordinate = location.coordinate
+      
+        if CoordinateTransform.isLocationInChina(location: coordinate){
+            coordinate = CoordinateTransform.transformGCJ(fromWGBCoordinate: coordinate)
+        }
+      
         //绘制运动路径
         guard isRecording else {
             return
@@ -592,7 +597,7 @@ extension MapVC:CLLocationManagerDelegate{
         if locationList.isEmpty{
             
             //放置起始点
-            locationList.append((latitude: location.coordinate.latitude, longitude: location.coordinate.longitude))
+            locationList.append((latitude: coordinate.latitude, longitude: coordinate.longitude))
             
         }else{
             
@@ -605,7 +610,7 @@ extension MapVC:CLLocationManagerDelegate{
             let startCoordinate = CLLocationCoordinate2D(latitude: startCoordinateTuple.latitude, longitude: startCoordinateTuple.longitude)
             
             //获取当前位置数据
-            let endCoordinate = location.coordinate
+            let endCoordinate = coordinate
             
             //计算距离
             var distance = calculateDistance(start: startCoordinate, end: endCoordinate)
@@ -649,7 +654,7 @@ extension MapVC:CLLocationManagerDelegate{
                     }
                 }
                 
-                locationList.append((latitude: location.coordinate.latitude, longitude: location.coordinate.longitude))
+                locationList.append((latitude: coordinate.latitude, longitude: coordinate.longitude))
                 
                 //绘制路径
                 newOverlay = MKPolyline(coordinates: currentLocationList, count: 2)
@@ -706,7 +711,11 @@ extension MapVC:CLLocationManagerDelegate{
                 }
                 
                 if UIApplication.shared.canOpenURL(url){
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    if #available(iOS 10.0, *) {
+                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    } else {
+                        // Fallback on earlier versions
+                    }
                 }
             }else{
                 

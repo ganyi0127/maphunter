@@ -55,7 +55,7 @@ class StepProgress: UIView {
     }
     
     private func createContents(){
-        print(view_size)
+
         //添加圆形进度条
         if bgShapeLayer == nil{
             

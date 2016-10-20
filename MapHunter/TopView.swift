@@ -23,7 +23,7 @@ enum CycleType:Int {
 }
 @IBDesignable
 class TopView: UIView {
-    
+
     //回调
     var closure: ((_ date:Date) -> ())?
     
@@ -106,9 +106,10 @@ class TopView: UIView {
                 //收起日历
                 if self.isCalendarOpened{
                     self.clickButton()
+                }else{
+                    self.closure?(date)
                 }
                 
-                self.closure?(date)
             }
             addSubview(topScrollView!)
         }

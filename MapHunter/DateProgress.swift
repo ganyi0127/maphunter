@@ -131,7 +131,6 @@ class DateProgress: UIView {
         strokeStartAnimation.fillMode = kCAFillModeBoth
         strokeStartAnimation.isRemovedOnCompletion = false
         shapeLayer?.add(strokeStartAnimation, forKey: nil)
-
     }
     
     @objc private func unselect(notify:NSNotification){

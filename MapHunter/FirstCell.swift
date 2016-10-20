@@ -76,13 +76,27 @@ class FirstCell: UITableViewCell {
     //MARK:- init
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
+
+    }
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         config()
         createContents()
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func layoutIfNeeded() {
-      
+        super.layoutIfNeeded()
+    }
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+   
         stepProgress.frame.origin = CGPoint(x: frame.width / 2 - stepProgress.frame.width / 2, y: 0)
         
         let calorieOrigin = CGPoint(x: 0, y: frame.height - calorieIcon.frame.height)
@@ -97,7 +111,6 @@ class FirstCell: UITableViewCell {
         leftButton.frame = CGRect(x: 0, y: frame.height * 0.3, width: frame.width * 0.2, height: frame.height * 0.2)
         rightButton.frame = CGRect(x: frame.width - frame.width * 0.2, y: frame.height * 0.3, width: frame.width * 0.2, height: frame.height * 0.2)
     }
-    
     private func config(){
         
         var rotation = CATransform3DIdentity
@@ -159,7 +172,6 @@ class FirstCell: UITableViewCell {
         layer.transform = transform
         
         let anim = CABasicAnimation(keyPath: "transform.rotation.y")
-        anim.delegate = self
         anim.fromValue = 0
         anim.toValue = tag == 0 ? M_PI : -M_PI
         anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
@@ -168,9 +180,14 @@ class FirstCell: UITableViewCell {
         fadeAnim.values = [1, 0, 1]
         fadeAnim.keyTimes = [0, 0.5, 1]
         
+        let scaleAnim = CAKeyframeAnimation(keyPath: "transform.scale")
+        scaleAnim.values = [1, 0.7, 1]
+        scaleAnim.keyTimes = [0, 0.5, 1]
+        scaleAnim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        
         let group = CAAnimationGroup()
         group.duration = 0.5
-        group.animations = [anim, fadeAnim]
+        group.animations = [anim, fadeAnim, scaleAnim]
         group.delegate = self
         layer.add(group, forKey: "swith")
         
