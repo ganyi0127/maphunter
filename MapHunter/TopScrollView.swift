@@ -7,6 +7,7 @@
 //
 
 import UIKit
+var isOpen = false                      //是否展开日历
 class TopScrollView: UIScrollView {
     
     var cycleType:CycleType?{
@@ -15,11 +16,12 @@ class TopScrollView: UIScrollView {
         }
     }
     
+    var topDelegate: TopScrollDelegate?                    //代理
+    
     var closure: ((_ date: Date) -> ())?                //回调
     
     fileprivate let singleWidth = view_size.width / 7   //单元格宽度
     fileprivate let calendar = Calendar.current             //日历
-    fileprivate var isOpen = false                      //是否展开日历
     override var frame: CGRect{
         didSet{
             setNeedsDisplay()
@@ -77,8 +79,7 @@ class TopScrollView: UIScrollView {
         let range = calendar.range(of: Calendar.Component.day, in: Calendar.Component.month, for: selectDate)
         let numberOfDaysInMonth:Int = Int(range!.count)
         var components = calendar.dateComponents([.year, .month, .day], from: selectDate)
-//        components.day = 1
-//        components.hour = 12
+        components.day = 1  //用于获取1号星期数
         
         if isOpen {
             let digure = digureMonth(components.month!, curYear: components.year!, monthOffset: monthOffset)
@@ -136,7 +137,7 @@ class TopScrollView: UIScrollView {
                     }
                     
                     dateProgress.date = date
-                    dateProgress.curProgress = 80
+                   
                     addSubview(dateProgress)
                     dateProgressOfCurrentMonth.append(dateProgress)
                 }else{
@@ -190,7 +191,7 @@ class TopScrollView: UIScrollView {
                     }
                     
                     //回调
-                    self.closure?(date)
+                    self.topDelegate?.topScrollDidSelected(withData: date)
                 }
                 
                 //设置日期_后
@@ -204,13 +205,20 @@ class TopScrollView: UIScrollView {
                 //修改日期
                 dateProgress.date = realDate
                 
+                let month: Int = components.month!
+                let year: Int = components.year!
+                //获取数据
+                let tuple = topDelegate?.topScrollData(withDay: dayIndex, withMonth: month, withYear: year)
+                    
+                dateProgress.curValues = tuple!.curValues
+                dateProgress.maxValues = tuple!.maxValues
+
+                
+                
                 //移动
                 UIView.animate(withDuration: duration!, animations: {
                     dateProgress.frame.origin = origin
-                }){
-                    complete in
-                    
-                }
+                })
             }
         }
     }
@@ -240,8 +248,6 @@ class TopScrollView: UIScrollView {
         if open{
             
             //重置offset
-            
-            
             var components:DateComponents
             var range: Range<Int>?
             
@@ -274,7 +280,6 @@ class TopScrollView: UIScrollView {
                         dateProgress.text = "\(dayIndex)"
                     }
                     
-                    dateProgress.curProgress = 40
                     addSubview(dateProgress)
                     
                     //保存为上一月
@@ -288,6 +293,13 @@ class TopScrollView: UIScrollView {
                     components.day = dayIndex
                     dateProgress.date = calendar.date(from: components)
                     
+                    //获取数据
+                    let month = components.month!
+                    let year = components.year!
+                    let tuple = topDelegate?.topScrollData(withDay: dayIndex, withMonth: month, withYear: year)
+                    dateProgress.curValues = tuple!.curValues
+                    dateProgress.maxValues = tuple!.maxValues
+                    
                     //点击回调
                     dateProgress.closure = {
                         date, needDisplayDate in
@@ -302,7 +314,7 @@ class TopScrollView: UIScrollView {
                         self.dateProgressOfCurrentMonth.removeAll()
                         self.dateProgressOfCurrentMonth = self.dateProgressOfThisMonth
                         
-                        self.closure?(date)
+                        self.topDelegate?.topScrollDidSelected(withData: date)
                     }
                 }
             }else{
@@ -316,22 +328,7 @@ class TopScrollView: UIScrollView {
                     let posY = CGFloat((dayIndex + lastWeekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.3
                     dateProgress.frame.origin = CGPoint(x: posX, y: posY)
                     
-                    //点击回调
-                    dateProgress.closure = {
-                        date, needDisplayDate in
-                        
-                        //自动滑动到当前日期
-                        if needDisplayDate{
-                            let offset = CGPoint(x: view_size.width * CGFloat((dayIndex + lastWeekday - 2) / 7),
-                                                 y: 0)
-                            self.setContentOffset(offset, animated: true)
-                        }
-                        
-                        self.dateProgressOfCurrentMonth.removeAll()
-                        self.dateProgressOfCurrentMonth = self.dateProgressOfThisMonth
-                        
-                        self.closure?(date)
-                    }
+                    //点击回调delete
                 }
             }
             
@@ -362,7 +359,6 @@ class TopScrollView: UIScrollView {
                         dateProgress.text = "\(dayIndex)"
                     }
                     
-                    dateProgress.curProgress = 40
                     addSubview(dateProgress)
                     
                     //保存为下一月
@@ -375,6 +371,13 @@ class TopScrollView: UIScrollView {
                     //设置日期_后
                     components.day = dayIndex
                     dateProgress.date = calendar.date(from: components)
+                    
+                    //获取数据
+                    let month = components.month!
+                    let year = components.year!
+                    let tuple = topDelegate?.topScrollData(withDay: dayIndex, withMonth: month, withYear: year)
+                    dateProgress.curValues = tuple!.curValues
+                    dateProgress.maxValues = tuple!.maxValues
                     
                     //点击回调
                     dateProgress.closure = {
@@ -390,7 +393,7 @@ class TopScrollView: UIScrollView {
                         self.dateProgressOfCurrentMonth.removeAll()
                         self.dateProgressOfCurrentMonth = self.dateProgressOfThisMonth
                         
-                        self.closure?(date)
+                        self.topDelegate?.topScrollDidSelected(withData: date)
                     }
                 }
             }else{
@@ -404,28 +407,10 @@ class TopScrollView: UIScrollView {
                     let posY = CGFloat((dayIndex + nextWeekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.3
                     dateProgress.frame.origin = CGPoint(x: posX, y: posY)
                     
-                    //点击回调
-                    dateProgress.closure = {
-                        date, needDisplayDate in
-                        
-                        //自动滑动到当前日期
-                        if needDisplayDate{
-                            let offset = CGPoint(x: view_size.width * CGFloat((dayIndex + lastWeekday - 2) / 7),
-                                                 y: 0)
-                            self.setContentOffset(offset, animated: true)
-                        }
-                        
-                        self.dateProgressOfCurrentMonth.removeAll()
-                        self.dateProgressOfCurrentMonth = self.dateProgressOfThisMonth
-                        
-                        self.closure?(date)
-                    }
+                    //点击回调delete
                 }
             }
             
-        }else{
-            
-            //移除其他两月内容
         }
     }
     
@@ -456,7 +441,7 @@ class TopScrollView: UIScrollView {
                 let origin = CGPoint(x: CGFloat(index) * singleWidth + singleWidth / 2 - dateProgress.frame.width / 2,
                                      y: frame.size.height / 2 - dateProgress.frame.height / 2)
                 dateProgress.frame.origin = origin
-                dateProgress.curProgress = 80
+            
                 addSubview(dateProgress)
             }
         case .month:
@@ -476,7 +461,6 @@ class TopScrollView: UIScrollView {
                     dateProgress.text = "\(dayIndex)"
                 }
                 //初始化数据进度
-                dateProgress.curProgress = 40
                 addSubview(dateProgress)
 
                 dateProgressOfThisMonth.append(dateProgress)
@@ -501,7 +485,7 @@ class TopScrollView: UIScrollView {
                 let posY = frame.size.height / 2 - dateProgress.frame.height / 2
                 let origin = CGPoint(x: posX, y: posY)
                 dateProgress.frame.origin = origin
-                dateProgress.curProgress = 50
+
                 addSubview(dateProgress)
                 
                 if dateProgressWidth == nil{

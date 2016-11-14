@@ -13,6 +13,7 @@
 		BE1C36731D93763900AB4370 /* ItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1C36721D93763900AB4370 /* ItemButton.swift */; };
 		BE1C367A1D93887100AB4370 /* binding_state_0.png in Resources */ = {isa = PBXBuildFile; fileRef = BE1C36781D93887100AB4370 /* binding_state_0.png */; };
 		BE1C367B1D93887100AB4370 /* binding_state_1.png in Resources */ = {isa = PBXBuildFile; fileRef = BE1C36791D93887100AB4370 /* binding_state_1.png */; };
+		BE1F53491DC2FE7900EAD9BA /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1F53481DC2FE7900EAD9BA /* Time.swift */; };
 		BE2DC9E91D9210A300978C97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2DC9E81D9210A300978C97 /* AppDelegate.swift */; };
 		BE2DC9EB1D9210A300978C97 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2DC9EA1D9210A300978C97 /* MapVC.swift */; };
 		BE2DC9EE1D9210A300978C97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE2DC9EC1D9210A300978C97 /* Main.storyboard */; };
@@ -22,6 +23,8 @@
 		BE2DCA011D9210A300978C97 /* MapHunterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2DCA001D9210A300978C97 /* MapHunterTests.swift */; };
 		BE2DCA0C1D9210A300978C97 /* MapHunterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2DCA0B1D9210A300978C97 /* MapHunterUITests.swift */; };
 		BE2DCA2D1D92257C00978C97 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE2DCA2C1D92257C00978C97 /* MapKit.framework */; };
+		BE6ACD851DBC583C006C4471 /* TopScrollDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6ACD841DBC583C006C4471 /* TopScrollDelegate.swift */; };
+		BE71B9E71DBF4CAA00143E1E /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71B9E61DBF4CAA00143E1E /* Net.swift */; };
 		BE743BE01DAA1D25002AC282 /* CellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE743BDF1DAA1D25002AC282 /* CellExtension.swift */; };
 		BE9DA8961DB0698500C4574B /* CoordinateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */; };
 		BEB248E71D9B4E2600C9F9ED /* ThirdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */; };
@@ -101,6 +104,7 @@
 		BE1C36721D93763900AB4370 /* ItemButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemButton.swift; sourceTree = "<group>"; };
 		BE1C36781D93887100AB4370 /* binding_state_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = binding_state_0.png; sourceTree = "<group>"; };
 		BE1C36791D93887100AB4370 /* binding_state_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = binding_state_1.png; sourceTree = "<group>"; };
+		BE1F53481DC2FE7900EAD9BA /* Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		BE2DC9E51D9210A300978C97 /* MapHunter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapHunter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE2DC9E81D9210A300978C97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE2DC9EA1D9210A300978C97 /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
@@ -116,6 +120,8 @@
 		BE2DCA0B1D9210A300978C97 /* MapHunterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapHunterUITests.swift; sourceTree = "<group>"; };
 		BE2DCA0D1D9210A300978C97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE2DCA2C1D92257C00978C97 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		BE6ACD841DBC583C006C4471 /* TopScrollDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopScrollDelegate.swift; sourceTree = "<group>"; };
+		BE71B9E61DBF4CAA00143E1E /* Net.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		BE743BDF1DAA1D25002AC282 /* CellExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellExtension.swift; sourceTree = "<group>"; };
 		BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateTransform.swift; sourceTree = "<group>"; };
 		BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdCell.swift; sourceTree = "<group>"; };
@@ -273,6 +279,7 @@
 				BEDF4F361D93937C00E98D63 /* 地图 */,
 				BEDF4F381D93938D00E98D63 /* 健康 */,
 				BEDF4F391D93939900E98D63 /* 个人 */,
+				BE71B9E51DBF4C9400143E1E /* Net */,
 				BE1C366E1D93742700AB4370 /* Extension */,
 				BE1C36711D93761500AB4370 /* Buttons */,
 				BE2DCA1A1D9210D000978C97 /* SupportingFiles */,
@@ -316,6 +323,7 @@
 				BE2DC9F41D9210A300978C97 /* LaunchScreen.storyboard */,
 				BE2DC9F71D9210A300978C97 /* Info.plist */,
 				BEDF4F341D93910E00E98D63 /* Configure.swift */,
+				BE1F53481DC2FE7900EAD9BA /* Time.swift */,
 			);
 			name = SupportingFiles;
 			sourceTree = "<group>";
@@ -326,6 +334,21 @@
 				BE2DCA2C1D92257C00978C97 /* MapKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BE6ACD761DBC5475006C4471 /* include */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		BE71B9E51DBF4C9400143E1E /* Net */ = {
+			isa = PBXGroup;
+			children = (
+				BE71B9E61DBF4CAA00143E1E /* Net.swift */,
+			);
+			name = Net;
 			sourceTree = "<group>";
 		};
 		BEB248E81D9BBC7800C9F9ED /* Cell1 */ = {
@@ -439,8 +462,10 @@
 		BEDF4F751D9909A300E98D63 /* Top */ = {
 			isa = PBXGroup;
 			children = (
+				BE6ACD761DBC5475006C4471 /* include */,
 				BEDF4F6A1D98FB3800E98D63 /* TopView.swift */,
 				BEDF4F761D9909ED00E98D63 /* TopScrollView.swift */,
+				BE6ACD841DBC583C006C4471 /* TopScrollDelegate.swift */,
 				BEDF4F781D990EF800E98D63 /* DateProgress.swift */,
 			);
 			name = Top;
@@ -635,16 +660,19 @@
 				BEB2490B1D9E46BD00C9F9ED /* CellCube.swift in Sources */,
 				BE1C36731D93763900AB4370 /* ItemButton.swift in Sources */,
 				BE1C366D1D93725000AB4370 /* RootTBC.swift in Sources */,
+				BE71B9E71DBF4CAA00143E1E /* Net.swift in Sources */,
 				BEDF4F3B1D9393BC00E98D63 /* StateVC.swift in Sources */,
 				BEB248EC1D9BD91A00C9F9ED /* IconView.swift in Sources */,
 				BEB248E71D9B4E2600C9F9ED /* ThirdCell.swift in Sources */,
 				BEB248F71D9CB6DC00C9F9ED /* SubCell.swift in Sources */,
 				BEDF4F791D990EF800E98D63 /* DateProgress.swift in Sources */,
 				BEDF4F351D93910E00E98D63 /* Configure.swift in Sources */,
+				BE1F53491DC2FE7900EAD9BA /* Time.swift in Sources */,
 				BEDF4F3D1D9393F800E98D63 /* HealthVC.swift in Sources */,
 				BE2DC9F11D9210A300978C97 /* MapHunter.xcdatamodeld in Sources */,
 				BE1C36701D93745500AB4370 /* NavigationExtension.swift in Sources */,
 				BEDF4F771D9909ED00E98D63 /* TopScrollView.swift in Sources */,
+				BE6ACD851DBC583C006C4471 /* TopScrollDelegate.swift in Sources */,
 				BE743BE01DAA1D25002AC282 /* CellExtension.swift in Sources */,
 				BE2DC9EB1D9210A300978C97 /* MapVC.swift in Sources */,
 				BEDF4F561D96217A00E98D63 /* SpriteData.swift in Sources */,
@@ -756,6 +784,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -798,6 +827,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -823,6 +853,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.orangebrush.maphunterhome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -848,6 +879,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.orangebrush.maphunterhome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

@@ -57,7 +57,7 @@ class TopView: UIView {
         }
     }
     
-    private var isCalendarOpened: Bool = false
+    fileprivate var isCalendarOpened: Bool = false
     fileprivate var originViewFrame: CGRect!
     
     //MARK:- init
@@ -98,21 +98,23 @@ class TopView: UIView {
             
             let topScrollFrame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height / 2)
             topScrollView = TopScrollView(topScrollFrame)
-            topScrollView?.closure = {
-                date in
-                
-                self.updateDateInLabel(date: date)
-                
-                //收起日历
-                if self.isCalendarOpened{
-                    self.clickButton()
-                }else{
-                    self.closure?(date)
-                }
-                
-            }
+//            topScrollView?.closure = {
+//                date in
+//                
+//                self.updateDateInLabel(date: date)
+//                
+//                //收起日历
+//                if self.isCalendarOpened{
+//                    self.clickButton()
+//                }else{
+//                    self.closure?(date)
+//                }
+//                
+//            }
+            topScrollView?.topDelegate = self
             addSubview(topScrollView!)
         }
+        
         
         //label
         let selfSize = bounds.size
@@ -138,7 +140,7 @@ class TopView: UIView {
     }
     
     //MARK:- 更新显示当前日期
-    private func updateDateInLabel(date: Date){
+    fileprivate func updateDateInLabel(date: Date){
         
         //点击日期事件回调
         let formatter = DateFormatter()
@@ -155,7 +157,7 @@ class TopView: UIView {
     }
     
     //打开日历
-    @objc private func clickButton(){
+    @objc fileprivate func clickButton(){
        
         isCalendarOpened = !isCalendarOpened
         
@@ -174,6 +176,24 @@ class TopView: UIView {
         }){
             complete in
             
+        }
+    }
+}
+
+extension TopView : TopScrollDelegate{
+    func topScrollData(withDay day: Int, withMonth month: Int, withYear year: Int) -> (curValues: [CGFloat], maxValues: [CGFloat]) {
+        return ([12, 89, 2],[50, 100, 3])
+    }
+    
+    func topScrollDidSelected(withData date: Date) {
+        
+        self.updateDateInLabel(date: date)
+        
+        //收起日历
+        if isCalendarOpened{
+            clickButton()
+        }else{
+            closure?(date)
         }
     }
 }

@@ -54,6 +54,17 @@ class MapVC: UIViewController {
     //编码锁 一次只能编码一次
     private var geocoderLocked = false
     
+    //定时器
+    fileprivate var canGetCoordinate = true{
+        didSet{
+            if !canGetCoordinate {
+                _ = delay(5){
+                    self.canGetCoordinate = true
+                }
+            }
+        }
+    }
+    
     //地图视图
     @IBInspectable
     @IBOutlet weak var mapView: MKMapView!
@@ -102,8 +113,20 @@ class MapVC: UIViewController {
         }
     }
     
-    //MARK:存储sprite
-    fileprivate var spriteDataList = [SpriteData]()
+    //MARK:存储spriteAnnotation 保存id 与Annotation
+    fileprivate var spriteAnnotationMap = [Int : MKPointAnnotation]()
+    //存储精灵数据 id value
+    fileprivate var spriteResultMap = [Int: SpriteData](){
+        didSet{
+            spriteResultMap.forEach(){
+                id, result in
+                if spriteAnnotationMap[id] == nil {
+                    let annotation = addAnnotation(id, longtitude: result.longitude!, latitude: result.latitude!)
+                    spriteAnnotationMap[id] = annotation
+                }
+            }
+        }
+    }
     
     //MARK:- init -
     override func viewDidLoad() {
@@ -136,14 +159,6 @@ class MapVC: UIViewController {
         mapView.mapType = MKMapType.standard //普通地图
         mapView.showsUserLocation = true
         
-        //添加点击事件
-        let tap = UITapGestureRecognizer(target: self, action: #selector(MapVC.addAnnotation(tap:)))
-        mapView.addGestureRecognizer(tap)
-        
-        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(MapVC.addAnnotation(tap:)))
-        doubleTap.numberOfTapsRequired = 2
-        mapView.addGestureRecognizer(doubleTap)
-        
         //初始化编辑按钮
         buttonTitles.enumerated().forEach(){
             index, title in
@@ -174,55 +189,101 @@ class MapVC: UIViewController {
     }
     
     //MARK:测试添加大头针
-    @objc private func addAnnotation(tap: UITapGestureRecognizer){
+    private func addAnnotation(_ id: Int, longtitude: Double, latitude: Double) -> MKPointAnnotation{
         
-        guard !geocoderLocked else {
-            return
+//        guard !geocoderLocked else {
+//            return
+//        }
+//        
+//        geocoderLocked = true
+        
+        let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longtitude)
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
+        self.mapView.addAnnotation(annotation)
+
+        //监控区域
+        if CLLocationManager.locationServicesEnabled(){
+            let region = CLCircularRegion(center: coordinate, radius: 500, identifier: "\(id)")
+            locationManager.startMonitoring(for: region)
+//            let count1 = locationManager.monitoredRegions.count
+//            let count2 = locationManager.rangedRegions.count
+//            print("count1:\(count1)\ncount2:\(count2)")
+        }else{
+            let message = "location can't offer location services!!!"
+            let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            present(alertController, animated: true, completion: nil)
         }
         
-        geocoderLocked = true
+        //反地理编码
+        geocoder.reverseGeocodeLocation(CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)) {
+            placemarks, error in
+            
+            self.geocoderLocked = false
+            
+            guard error == nil else{
+                print("创建大头针 geocoder回调错误:\n\(error)")
+                return
+            }
+            
+            guard let placemark = placemarks?.last else{
+                return
+            }
+            
+            annotation.title = placemark.name
+            annotation.subtitle = "\(placemark.location!)"
+        }
         
-        if tap.numberOfTapsRequired == 1{
-            //单次点击
-            let touchPoint = tap.location(in: tap.view)
-            let coordinate = mapView.convert(touchPoint, toCoordinateFrom: tap.view)
+        return annotation
+    }
+    
+    //MARK:- 获取后台精灵位置 并更新
+    fileprivate func getSpriteCoordinateAndReflash(_ longtitude: Double, latitude: Double, radius: Double){
+
+        //开启定时器
+        canGetCoordinate = false
+        
+        //请求数据库
+        var params = [String: AnyObject]()
+        params["longtitude"] = longtitude as AnyObject?
+        params["latitude"] = latitude as AnyObject?
+        params["radius"] = radius as AnyObject?
+        Net.post(withNetType: .coordinates, params: params){
+            success, result, reason in
             
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinate
-            self.mapView.addAnnotation(annotation)
-            
-            //监控区域
-            if CLLocationManager.locationServicesEnabled(){
-                let region = CLCircularRegion(center: coordinate, radius: 500, identifier: "sprite")
-                locationManager.startMonitoring(for: region)
+            if success{
+
+                let list = result!["list"] as! NSArray
+                list.forEach(){
+                    body in
+                    
+                    let map = body as! NSDictionary
+                    
+                    let exsit = map["exist"] as! Bool
+                    let id = map["id"] as! Int
+                    let type = map["type"] as! Int
+                    let longtitude = map["longtitude"] as! Double
+                    let latitude = map["latitude"] as! Double
+                    
+                    var spriteData = SpriteData()
+                    spriteData.type = type
+                    spriteData.id = id
+                    spriteData.exist = exsit
+                    spriteData.longitude = longtitude
+                    spriteData.latitude = latitude
+                    
+                    self.spriteResultMap[id] = spriteData        //保存
+                }
+                
             }else{
-                let message = "clocation can't offer location services!!!"
-                let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-                let cancelAction = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
+                let alertController = UIAlertController(title: "错误", message: reason!, preferredStyle: .alert)
+                let cancelAction = UIAlertAction(title: "确定", style: .cancel, handler: nil)
                 alertController.addAction(cancelAction)
-                present(alertController, animated: true, completion: nil)
+                self.present(alertController, animated: true, completion: nil)
             }
-            
-            //反地理编码
-            geocoder.reverseGeocodeLocation(CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)) {
-                placemarks, error in
-                
-                self.geocoderLocked = false
-                
-                guard error == nil else{
-                    print("创建大头针 geocoder回调错误:\n\(error)")
-                    return
-                }
-                
-                guard let placemark = placemarks?.last else{
-                    return
-                }
-                
-                annotation.title = placemark.name
-                annotation.subtitle = "\(placemark.location!)"
-            }
-        }else{
-            //双击
         }
     }
     
@@ -314,89 +375,6 @@ extension MapVC: MKMapViewDelegate{
             userLocation.title = "local" + (placemark.name ?? "")
             userLocation.subtitle = "\(placemark.location!)"
         }
-        
-        
-//        //绘制运动路径
-//        guard isRecording else {
-//            return
-//        }
-//        
-//        
-//        if locationList.isEmpty{
-//            
-//            //放置起始点
-//            locationList.append((latitude: location.coordinate.latitude, longitude: location.coordinate.longitude))
-//            
-//        }else{
-//            
-//            //获取最新位置数据
-//            guard let startCoordinateTuple = locationList.last else{
-//                print("获取最新位置数据错误")
-//                return
-//            }
-//            
-//            let startCoordinate = CLLocationCoordinate2D(latitude: startCoordinateTuple.latitude, longitude: startCoordinateTuple.longitude)
-//            
-//            //获取当前位置数据
-//            let endCoordinate = location.coordinate
-//            
-//            //计算距离
-//            var distance = calculateDistance(start: startCoordinate, end: endCoordinate)
-//            print("移动距离:\(distance)米")
-//            
-//            
-//            if distance >= 10 {
-//                
-//                var currentLocationList = [startCoordinate, endCoordinate]
-//                
-//                //获取倒数第二个点位置_筛选坐标_判断移动位置是否真实
-//                if locationList.count >= 2{
-//                    let preCoordinateTuple = locationList[locationList.count - 2]
-//                    let preCoordinate = CLLocationCoordinate2D(latitude: preCoordinateTuple.latitude, longitude: preCoordinateTuple.longitude)
-//                    let distanceBetweenPreCoordinateToStart = calculateDistance(start: preCoordinate, end: startCoordinate)
-//                    
-//                    let distanceBetweenPreCoordinateToEnd = calculateDistance(start: preCoordinate, end: endCoordinate)
-//                    
-//                    //如果当前移动的距离与之前的距离比小于正三角，则修正
-//                    if distanceBetweenPreCoordinateToEnd < distance || distanceBetweenPreCoordinateToEnd < distanceBetweenPreCoordinateToStart{
-//                        
-//                        //移除之前定位的坐标点
-//                        locationList.removeLast()
-//                        //移除最新添加的overlay
-//                        if let overlay:MKOverlay = newOverlay{
-//                            
-//                            mapView.remove(overlay)
-//                            newOverlay = nil
-//                        }
-//                        //修正需绘制的路径
-//                        currentLocationList = [preCoordinate, endCoordinate]
-//                        //修改之前添加的距离
-//                        if let currentDistance = totalDistance{
-//                            totalDistance = currentDistance - distanceBetweenPreCoordinateToStart
-//                        }
-//                        
-//                        //修正distance值为倒数第二个位置与当前位置距离
-//                        distance = distanceBetweenPreCoordinateToEnd
-//                        
-//                        print("坐标修正:\(locationList.count)")
-//                    }
-//                }
-//                
-//                locationList.append((latitude: location.coordinate.latitude, longitude: location.coordinate.longitude))
-//                
-//                //绘制路径
-//                newOverlay = MKPolyline(coordinates: currentLocationList, count: 2)
-//                mapView.add(newOverlay!)
-//                
-//                //记录总距离
-//                if let currentDistance = totalDistance{
-//                    totalDistance = currentDistance + distance
-//                }
-//            }
-//        }
-        
-        //判断精灵是否可捕获
-        
     }
     
     //MARK:距离计算
@@ -472,12 +450,10 @@ extension MapVC: MKMapViewDelegate{
         guard annotation.isKind(of: MKPointAnnotation.classForCoder()) else {
             return nil
         }
-        
+
         let identify = "sprite"
-        
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identify)
         if annotationView == nil {
-            
             annotationView = CustomAnnotationView(annotation: annotation, reuseIdentifier: identify)
             (annotationView?.leftCalloutAccessoryView as! UIButton).addTarget(self, action: #selector(MapVC.onAnnotationClick(sender:)), for: .touchUpInside)
             (annotationView?.rightCalloutAccessoryView as! UIButton).addTarget(self, action: #selector(MapVC.onAnnotationClick(sender:)), for: .touchUpInside)
@@ -496,6 +472,7 @@ extension MapVC: MKMapViewDelegate{
         if sender.tag == 0{
             //左信息
             currentAnnotationView.removeFromSuperview()
+            
             selectAnnotationView = nil
             
         }else{
@@ -562,7 +539,7 @@ extension MapVC: MKMapViewDelegate{
     //MARK:线路绘制
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         
-        print("overlay")
+        print("draw overlay")
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.lineWidth = 2
         renderer.strokeColor = .orange
@@ -575,17 +552,22 @@ extension MapVC:CLLocationManagerDelegate{
     
     //开始定位追踪_返回位置信息数组
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("location:\(locations)")
+//        print("location:\(locations)")
         
         guard let location = locations.last else {
             print("location get last error!")
             return
         }
-        
         var coordinate = location.coordinate
       
         if CoordinateTransform.isLocationInChina(location: coordinate){
             coordinate = CoordinateTransform.transformGCJ(fromWGBCoordinate: coordinate)
+        }
+        
+        //定时器完成后请求精灵位置
+        if canGetCoordinate {
+            //定时获取精灵位置 并刷新
+            getSpriteCoordinateAndReflash(coordinate.longitude, latitude: coordinate.latitude, radius: 5000)
         }
       
         //绘制运动路径
@@ -615,7 +597,6 @@ extension MapVC:CLLocationManagerDelegate{
             //计算距离
             var distance = calculateDistance(start: startCoordinate, end: endCoordinate)
             print("移动距离:\(distance)米")
-            
             
             if distance >= 10 {
                 
@@ -684,11 +665,50 @@ extension MapVC:CLLocationManagerDelegate{
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
 
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+
+        //移除指定annotation
+        guard let id: Int = Int(region.identifier) else{
+            return
+        }
         
-        let alertController = UIAlertController(title: "进入区域", message: "\(region)", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
-        alertController.addAction(cancelAction)
-        present(alertController, animated: true, completion: nil)
+        if let annotation = spriteAnnotationMap[id]{
+            
+            //写入后台标记以获取
+            //请求后台
+            var params = [String: AnyObject]()
+            params["id"] = id as AnyObject?
+ 
+            Net.post(withNetType: .mark, params: params){
+                success, result, reason in
+
+                if success{
+
+                    let code = result!["code"] as! Int
+                    
+                    var resultStr:String!
+                    if code == 200{
+                        resultStr = "捕获成功"
+                        
+                        //删除视图
+                        self.mapView.removeAnnotation(annotation)
+                        self.spriteAnnotationMap[id] = nil
+                        self.spriteResultMap[id] = nil
+                        self.mapView.reloadInputViews()
+                    }else{
+                        resultStr = "捕获失败：已被捕获"
+                    }
+                    let alertController = UIAlertController(title: "捕获信息", message: resultStr, preferredStyle: .alert)
+                    let cancelAction = UIAlertAction(title: "确定", style: .cancel, handler: nil)
+                    alertController.addAction(cancelAction)
+                    self.present(alertController, animated: true, completion: nil)
+                }else{
+                    let alertController = UIAlertController(title: "捕获信息", message: reason!, preferredStyle: .alert)
+                    let cancelAction = UIAlertAction(title: "确定", style: .cancel, handler: nil)
+                    alertController.addAction(cancelAction)
+                    self.present(alertController, animated: true, completion: nil)
+                }
+            }
+        }
     }
     
     //离开某个区域调用

@@ -14,22 +14,28 @@ class DateProgress: UIView {
     
     private var shapeLayer:CAShapeLayer? = {
         let shapeLayer = CAShapeLayer()
-        shapeLayer.strokeColor = UIColor.orange.cgColor
+        shapeLayer.strokeColor = UIColor.clear.cgColor
         shapeLayer.fillColor = UIColor.orange.withAlphaComponent(0.5).cgColor
-        shapeLayer.lineWidth = 4
-        shapeLayer.lineCap = kCALineCapRound
+        shapeLayer.lineWidth = 0
         
         return shapeLayer
     }()
     
     //当前进度_目标
-    var curProgress:CGFloat?{
+    var curValues = [CGFloat](){
         didSet{
-            beginRefreshing()            
+            if !maxValues.isEmpty{
+                beginRefreshing()
+            }
         }
     }
-    private var preProgress:CGFloat = 0
-    private var targetProgress:CGFloat = 100
+    var maxValues = [CGFloat](){
+        didSet{
+            if !curValues.isEmpty {
+                beginRefreshing()
+            }
+        }
+    }
     
     //显示当前lable
     private var label = UILabel()
@@ -53,7 +59,10 @@ class DateProgress: UIView {
             if dateStr == selectStr{
                 notiy.post(name: unselect_notiy, object: nil)
                 select(true)
-                closure?(date!, true)
+                
+                if !isOpen{
+                    closure?(date!, true)
+                }
             }
         }
     }
@@ -77,6 +86,18 @@ class DateProgress: UIView {
         }
     }
     
+    private var refreshRadius:CGFloat!
+    private var shapeList = [CAShapeLayer]()
+    private let shapeColorList = [UIColor.orange.cgColor, UIColor.yellow.cgColor, UIColor.cyan.cgColor]
+    private let strokeAnim: CABasicAnimation = {
+       let anim = CABasicAnimation(keyPath: "strokeEnd")
+        anim.fromValue = -0.5
+        anim.duration = 1.5
+        anim.fillMode = kCAFillModeBoth
+        anim.isRemovedOnCompletion = false
+        return anim
+    }()
+    
     //MARK:- init
     init(_ text: String) {
         let radius = view_size.width / 8
@@ -84,7 +105,7 @@ class DateProgress: UIView {
         super.init(frame: initFrame)
         
         label.text = text
-        
+
         config()
         createContents()
     }
@@ -105,7 +126,7 @@ class DateProgress: UIView {
     private func createContents(){
         
         //添加圆形进度条
-        let refreshRadius = frame.size.height/2 * 0.8
+        refreshRadius = frame.size.height/2 * 0.8
         let bezierPath = UIBezierPath()
         bezierPath.addArc(withCenter: CGPoint(x: frame.width / 2, y: frame.height / 2),
                           radius: refreshRadius * 0.9,
@@ -119,18 +140,48 @@ class DateProgress: UIView {
         //设置中央文字
         label.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
         label.textAlignment = .center
+        label.layer.zPosition = 3
         addSubview(label)
     }
     
     private func beginRefreshing(){
         
-        let strokeStartAnimation = CABasicAnimation(keyPath: "strokeEnd")
-        strokeStartAnimation.fromValue = -0.5
-        strokeStartAnimation.toValue = curProgress! / targetProgress
-        strokeStartAnimation.duration = 1.5
-        strokeStartAnimation.fillMode = kCAFillModeBoth
-        strokeStartAnimation.isRemovedOnCompletion = false
-        shapeLayer?.add(strokeStartAnimation, forKey: nil)
+        let bezierPath = UIBezierPath()
+        if !maxValues.isEmpty && !curValues.isEmpty && maxValues.count == curValues.count {
+        
+            maxValues.enumerated().forEach(){
+                index, maxValue in
+                
+                let curValue = curValues[index]
+
+                //绘制
+                let lineWidth = refreshRadius * 0.15
+                let radius = frame.height / 2.0 * 0.7 - CGFloat(index) * lineWidth
+                
+                bezierPath.removeAllPoints()
+                bezierPath.addArc(withCenter: CGPoint(x: frame.width / 2, y: frame.height / 2), radius: radius, startAngle: -(CGFloat)(M_PI_2), endAngle: CGFloat(M_PI) * 1.5, clockwise: true)
+                
+                let listCount = shapeList.count
+                
+                if listCount - 1 < index{
+                    let shapeLayer = CAShapeLayer()
+                    shapeLayer.lineWidth = lineWidth
+                    shapeLayer.strokeColor = shapeColorList[index]
+                    shapeLayer.fillColor = UIColor.clear.cgColor
+                    shapeLayer.path = bezierPath.cgPath
+                    shapeLayer.zPosition = 1
+                    shapeLayer.lineCap = kCALineCapRound
+                    
+                    shapeList.append(shapeLayer)
+                    layer.addSublayer(shapeLayer)
+                }
+                
+                //添加动画
+                let dataShapeLayer = shapeList[index]
+                strokeAnim.toValue = curValue / maxValue
+                dataShapeLayer.add(strokeAnim, forKey: "data")
+            }
+        }
     }
     
     @objc private func unselect(notify:NSNotification){
