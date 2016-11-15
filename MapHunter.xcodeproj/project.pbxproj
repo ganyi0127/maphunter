@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		32C5726A1DD9C2E700CEC5EB /* GradientPolylineOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 32C572691DD9C2E700CEC5EB /* GradientPolylineOverlay.m */; };
+		32C5726E1DDAA7C500CEC5EB /* GradientPolylineRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 32C5726D1DDAA7C500CEC5EB /* GradientPolylineRenderer.m */; };
 		BE1C366B1D926FEF00AB4370 /* annotation_image.png in Resources */ = {isa = PBXBuildFile; fileRef = BE1C366A1D926FEF00AB4370 /* annotation_image.png */; };
 		BE1C366D1D93725000AB4370 /* RootTBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1C366C1D93725000AB4370 /* RootTBC.swift */; };
 		BE1C36701D93745500AB4370 /* NavigationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1C366F1D93745500AB4370 /* NavigationExtension.swift */; };
@@ -98,6 +100,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		32C572671DD9C2E700CEC5EB /* MapHunter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MapHunter-Bridging-Header.h"; sourceTree = "<group>"; };
+		32C572681DD9C2E700CEC5EB /* GradientPolylineOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientPolylineOverlay.h; sourceTree = "<group>"; };
+		32C572691DD9C2E700CEC5EB /* GradientPolylineOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientPolylineOverlay.m; sourceTree = "<group>"; };
+		32C5726C1DDAA7C500CEC5EB /* GradientPolylineRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientPolylineRenderer.h; sourceTree = "<group>"; };
+		32C5726D1DDAA7C500CEC5EB /* GradientPolylineRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientPolylineRenderer.m; sourceTree = "<group>"; };
 		BE1C366A1D926FEF00AB4370 /* annotation_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = annotation_image.png; sourceTree = "<group>"; };
 		BE1C366C1D93725000AB4370 /* RootTBC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootTBC.swift; sourceTree = "<group>"; };
 		BE1C366F1D93745500AB4370 /* NavigationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationExtension.swift; sourceTree = "<group>"; };
@@ -203,6 +210,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		32C5726B1DD9C2FD00CEC5EB /* 自定义路径 */ = {
+			isa = PBXGroup;
+			children = (
+				32C572681DD9C2E700CEC5EB /* GradientPolylineOverlay.h */,
+				32C572691DD9C2E700CEC5EB /* GradientPolylineOverlay.m */,
+				32C5726C1DDAA7C500CEC5EB /* GradientPolylineRenderer.h */,
+				32C5726D1DDAA7C500CEC5EB /* GradientPolylineRenderer.m */,
+				32C572671DD9C2E700CEC5EB /* MapHunter-Bridging-Header.h */,
+			);
+			name = "自定义路径";
+			sourceTree = "<group>";
+		};
 		BE1C36691D92603100AB4370 /* resc */ = {
 			isa = PBXGroup;
 			children = (
@@ -387,6 +406,7 @@
 				BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */,
 				BEDF4F681D98BBD700E98D63 /* CustomAnnotationView.swift */,
 				BEDF4F551D96217A00E98D63 /* SpriteData.swift */,
+				32C5726B1DD9C2FD00CEC5EB /* 自定义路径 */,
 			);
 			name = "地图";
 			sourceTree = "<group>";
@@ -540,7 +560,7 @@
 					BE2DC9E41D9210A300978C97 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = T65EE75V48;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -657,12 +677,14 @@
 			files = (
 				BEDF4F6B1D98FB3800E98D63 /* TopView.swift in Sources */,
 				BEDF4F3F1D93942E00E98D63 /* MeVC.swift in Sources */,
+				32C5726E1DDAA7C500CEC5EB /* GradientPolylineRenderer.m in Sources */,
 				BEB2490B1D9E46BD00C9F9ED /* CellCube.swift in Sources */,
 				BE1C36731D93763900AB4370 /* ItemButton.swift in Sources */,
 				BE1C366D1D93725000AB4370 /* RootTBC.swift in Sources */,
 				BE71B9E71DBF4CAA00143E1E /* Net.swift in Sources */,
 				BEDF4F3B1D9393BC00E98D63 /* StateVC.swift in Sources */,
 				BEB248EC1D9BD91A00C9F9ED /* IconView.swift in Sources */,
+				32C5726A1DD9C2E700CEC5EB /* GradientPolylineOverlay.m in Sources */,
 				BEB248E71D9B4E2600C9F9ED /* ThirdCell.swift in Sources */,
 				BEB248F71D9CB6DC00C9F9ED /* SubCell.swift in Sources */,
 				BEDF4F791D990EF800E98D63 /* DateProgress.swift in Sources */,
@@ -853,7 +875,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.orangebrush.maphunterhome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "MapHunter/MapHunter-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -879,7 +901,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.orangebrush.maphunterhome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "MapHunter/MapHunter-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

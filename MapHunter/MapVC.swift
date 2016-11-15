@@ -12,6 +12,9 @@ import CoreLocation
 import AudioToolbox
 
 class MapVC: UIViewController {
+    
+    //存储上一节点速度 km/h
+    fileprivate var preVelcity: Float?
 
     //位置管理器
     lazy private var locationManager = { () -> CLLocationManager in
@@ -207,9 +210,6 @@ class MapVC: UIViewController {
         if CLLocationManager.locationServicesEnabled(){
             let region = CLCircularRegion(center: coordinate, radius: 500, identifier: "\(id)")
             locationManager.startMonitoring(for: region)
-//            let count1 = locationManager.monitoredRegions.count
-//            let count2 = locationManager.rangedRegions.count
-//            print("count1:\(count1)\ncount2:\(count2)")
         }else{
             let message = "location can't offer location services!!!"
             let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
@@ -379,7 +379,7 @@ extension MapVC: MKMapViewDelegate{
     
     //MARK:距离计算
     fileprivate func calculateDistance(start:CLLocationCoordinate2D, end:CLLocationCoordinate2D) -> Double{
-
+        
         let startLongitude = start.longitude
         let startLatitude = start.latitude
         let endLongitude = end.longitude
@@ -539,10 +539,20 @@ extension MapVC: MKMapViewDelegate{
     //MARK:线路绘制
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         
-        print("draw overlay")
+        if overlay.isKind(of: GradientPolylineOverlay.self) {
+
+            //自定义轨迹
+            let polylineRenderer = GradientPolylineRenderer(overlay: overlay)
+            polylineRenderer.lineWidth = 8
+            return polylineRenderer
+        }
+
+        //系统轨迹
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.lineWidth = 2
+
         renderer.strokeColor = .orange
+
         return renderer
     }
 }
@@ -552,25 +562,26 @@ extension MapVC:CLLocationManagerDelegate{
     
     //开始定位追踪_返回位置信息数组
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        print("location:\(locations)")
         
+        //获取最后记录点
         guard let location = locations.last else {
             print("location get last error!")
             return
         }
         var coordinate = location.coordinate
       
+        //转化为中国坐标
         if CoordinateTransform.isLocationInChina(location: coordinate){
             coordinate = CoordinateTransform.transformGCJ(fromWGBCoordinate: coordinate)
         }
         
-        //定时器完成后请求精灵位置
+        //定时器完成后请求5000m范围内精灵位置
         if canGetCoordinate {
             //定时获取精灵位置 并刷新
             getSpriteCoordinateAndReflash(coordinate.longitude, latitude: coordinate.latitude, radius: 5000)
         }
       
-        //绘制运动路径
+        //判断是否绘制运动路径
         guard isRecording else {
             return
         }
@@ -583,7 +594,7 @@ extension MapVC:CLLocationManagerDelegate{
             
         }else{
             
-            //获取最新位置数据
+            //获取上一个位置数据
             guard let startCoordinateTuple = locationList.last else{
                 print("获取最新位置数据错误")
                 return
@@ -596,6 +607,7 @@ extension MapVC:CLLocationManagerDelegate{
             
             //计算距离
             var distance = calculateDistance(start: startCoordinate, end: endCoordinate)
+            
             print("移动距离:\(distance)米")
             
             if distance >= 10 {
@@ -637,9 +649,19 @@ extension MapVC:CLLocationManagerDelegate{
                 
                 locationList.append((latitude: coordinate.latitude, longitude: coordinate.longitude))
                 
+
                 //绘制路径
-                newOverlay = MKPolyline(coordinates: currentLocationList, count: 2)
-                mapView.add(newOverlay!)
+                let startVelcity = preVelcity ?? Float(arc4random_uniform(35)) / 10 + 1
+                let endVelcity = Float(arc4random_uniform(35)) / 10 + 1
+                preVelcity = endVelcity
+                let centerOverlay = GradientPolylineOverlay(start: currentLocationList[0],
+                                                            end: currentLocationList[1],
+                                                            startVelcity: startVelcity,
+                                                            endVelcity: endVelcity)
+                centerOverlay?.add(currentLocationList[0], velcity: startVelcity)
+                centerOverlay?.add(currentLocationList[1], velcity: endVelcity)
+                mapView.add(centerOverlay!, level: .aboveLabels)
+
                 
                 //记录总距离
                 if let currentDistance = totalDistance{

@@ -34,6 +34,7 @@ class CoordinateTransform {
         return wgsCoordinate
     }
     
+    //MARK:- 判断是否在中国
     class func isLocationInChina(location: CLLocationCoordinate2D) -> Bool{
         if location.longitude < 72.004 || location.longitude > 137.8347 || location.latitude < 0.8293 || location.latitude > 55.8271{
             return false
