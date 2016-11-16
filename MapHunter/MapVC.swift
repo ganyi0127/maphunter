@@ -81,7 +81,7 @@ class MapVC: UIViewController {
     //编辑按钮
     private var isEdit = false
     private var editButtons = [UIButton]()
-    private let buttonTitles = ["开始记录", "分享1", "分享2", "分享3"]
+    private let buttonTitles = ["开始记录", "开启精灵", "分享2", "分享3"]
     
     //重定位按钮
     @IBOutlet weak var relocationButton: UIButton!
@@ -112,6 +112,22 @@ class MapVC: UIViewController {
                 //重置记录数据
                 
                 //分享路线
+            }
+        }
+    }
+    //是否开启精灵图层
+    fileprivate var isSpriteDisplay = false{
+        didSet{
+            
+            let spriteDisplayButton = editButtons[1]
+            spriteDisplayButton.setTitle(isSpriteDisplay ? "关闭精灵" : "开启精灵", for: .normal)
+            spriteDisplayButton.backgroundColor = isSpriteDisplay ? .green : .red
+            
+            if isSpriteDisplay {
+                
+            }else{
+                //清空精灵
+                spriteResultMap.removeAll()
             }
         }
     }
@@ -175,7 +191,7 @@ class MapVC: UIViewController {
             button.layer.opacity = 0
             button.tag = index
             
-            button.addTarget(self, action: #selector(MapVC.onEdit(sender:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(onEdit(sender:)), for: .touchUpInside)
             
             editButtons.append(button)
             view.addSubview(button)
@@ -242,7 +258,12 @@ class MapVC: UIViewController {
     
     //MARK:- 获取后台精灵位置 并更新
     fileprivate func getSpriteCoordinateAndReflash(_ longtitude: Double, latitude: Double, radius: Double){
-
+        
+        //判断是否已开启精灵图层
+        guard isSpriteDisplay else {
+            return
+        }
+        
         //开启定时器
         canGetCoordinate = false
         
@@ -329,9 +350,11 @@ class MapVC: UIViewController {
         
         switch sender.tag {
         case 0:
-            
+            //开启/关闭路线记录
             isRecording = !isRecording
-            
+        case 1:
+            //开启/关闭精灵图层
+            isSpriteDisplay = !isSpriteDisplay
         default:
             break
         }
