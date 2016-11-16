@@ -11,8 +11,8 @@
 #import "GradientPolylineOverlay.h"
 //#import "Constant.h"
 
-#define V_MAX 4.5
-#define V_MIN 1.0
+#define V_MAX 7.0
+#define V_MIN 5.0
 #define H_MAX 0.33
 #define H_MIN 0.03
 

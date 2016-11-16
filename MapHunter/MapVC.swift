@@ -14,7 +14,9 @@ import AudioToolbox
 class MapVC: UIViewController {
     
     //存储上一节点速度 km/h
-    fileprivate var preVelcity: Float?
+    fileprivate var preVelcity: Float = 0
+    //存储上一节点时间 Date
+    fileprivate var preDate = Date()
 
     //位置管理器
     lazy private var locationManager = { () -> CLLocationManager in
@@ -645,7 +647,7 @@ extension MapVC:CLLocationManagerDelegate{
                     
                     let distanceBetweenPreCoordinateToEnd = calculateDistance(start: preCoordinate, end: endCoordinate)
                     
-                    //如果当前移动的距离与之前的距离比小于正三角，则修正
+                    //如果当前移动的距离与之前的距离比小于正三角，则修正 (一旦调用,速度计算存在偏差)
                     if distanceBetweenPreCoordinateToEnd < distance || distanceBetweenPreCoordinateToEnd < distanceBetweenPreCoordinateToStart{
                         
                         //移除之前定位的坐标点
@@ -672,11 +674,17 @@ extension MapVC:CLLocationManagerDelegate{
                 
                 locationList.append((latitude: coordinate.latitude, longitude: coordinate.longitude))
                 
-
-                //绘制路径
-                let startVelcity = preVelcity ?? Float(arc4random_uniform(35)) / 10 + 1
-                let endVelcity = Float(arc4random_uniform(35)) / 10 + 1
+                //计算速度
+                let deltaSecond = deltaTime(from: preDate, to: Date())
+                preDate = Date()
+                
+                let startVelcity = preVelcity / 3.5
+                let endVelcity = Float(distance / deltaSecond) * 3.6 / 3.5
                 preVelcity = endVelcity
+                
+                print("velcity:\n start-\(startVelcity)\n end---\(endVelcity)")
+                
+                //绘制路径
                 let centerOverlay = GradientPolylineOverlay(start: currentLocationList[0],
                                                             end: currentLocationList[1],
                                                             startVelcity: startVelcity,
@@ -692,6 +700,15 @@ extension MapVC:CLLocationManagerDelegate{
                 }
             }
         }
+    }
+    
+    private func deltaTime(from startDate: Date, to endDate: Date) -> TimeInterval{
+        let calender = Calendar(identifier: .gregorian)
+        let deltaSecond = calender.dateComponents([Calendar.Component.second], from: startDate, to: endDate)
+        guard let result = deltaSecond.second else{
+            return 0
+        }
+        return TimeInterval(result)
     }
     
     func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
