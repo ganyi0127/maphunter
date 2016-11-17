@@ -635,7 +635,7 @@ extension MapVC:CLLocationManagerDelegate{
             
             print("移动距离:\(distance)米")
             
-            if distance >= 5 {
+            if distance >= 10 {
                 
                 var currentLocationList = [startCoordinate, endCoordinate]
                 
@@ -677,8 +677,8 @@ extension MapVC:CLLocationManagerDelegate{
                 let deltaSecond = deltaTime(from: preDate, to: Date())
                 preDate = Date()
                 
-                let startVelcity = preVelcity / 3.5
-                let endVelcity = Float(distance / deltaSecond) * 3.6 / 3.5
+                let startVelcity = preVelcity
+                let endVelcity = Float(distance / deltaSecond) * 3.6
                 preVelcity = endVelcity
                 
                 print("velcity:\n start-\(startVelcity)\n end---\(endVelcity)")
