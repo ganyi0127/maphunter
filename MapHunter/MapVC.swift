@@ -635,42 +635,41 @@ extension MapVC:CLLocationManagerDelegate{
             
             print("移动距离:\(distance)米")
             
-            if distance >= 10 {
+            if distance >= 5 {
                 
                 var currentLocationList = [startCoordinate, endCoordinate]
                 
                 //获取倒数第二个点位置_筛选坐标_判断移动位置是否真实
-                if locationList.count >= 2{
-                    let preCoordinateTuple = locationList[locationList.count - 2]
-                    let preCoordinate = CLLocationCoordinate2D(latitude: preCoordinateTuple.latitude, longitude: preCoordinateTuple.longitude)
-                    let distanceBetweenPreCoordinateToStart = calculateDistance(start: preCoordinate, end: startCoordinate)
-                    
-                    let distanceBetweenPreCoordinateToEnd = calculateDistance(start: preCoordinate, end: endCoordinate)
-                    
-                    //如果当前移动的距离与之前的距离比小于正三角，则修正 (一旦调用,速度计算存在偏差)
-                    if distanceBetweenPreCoordinateToEnd < distance || distanceBetweenPreCoordinateToEnd < distanceBetweenPreCoordinateToStart{
-                        
-                        //移除之前定位的坐标点
-                        locationList.removeLast()
-                        //移除最新添加的overlay
-                        if let overlay:MKOverlay = newOverlay{
-                            
-                            mapView.remove(overlay)
-                            newOverlay = nil
-                        }
-                        //修正需绘制的路径
-                        currentLocationList = [preCoordinate, endCoordinate]
-                        //修改之前添加的距离
-                        if let currentDistance = totalDistance{
-                            totalDistance = currentDistance - distanceBetweenPreCoordinateToStart
-                        }
-                        
-                        //修正distance值为倒数第二个位置与当前位置距离
-                        distance = distanceBetweenPreCoordinateToEnd
-                        
-                        print("坐标修正:\(locationList.count)")
-                    }
-                }
+//                if locationList.count >= 2{
+//                    let preCoordinateTuple = locationList[locationList.count - 2]
+//                    let preCoordinate = CLLocationCoordinate2D(latitude: preCoordinateTuple.latitude, longitude: preCoordinateTuple.longitude)
+//                    let distanceBetweenPreCoordinateToStart = calculateDistance(start: preCoordinate, end: startCoordinate)
+//                    
+//                    let distanceBetweenPreCoordinateToEnd = calculateDistance(start: preCoordinate, end: endCoordinate)
+//                    //如果当前移动的距离与之前的距离比小于正三角，则修正 (一旦调用,速度计算存在偏差)
+//                    if distanceBetweenPreCoordinateToEnd < distance || distanceBetweenPreCoordinateToEnd < distanceBetweenPreCoordinateToStart{
+//                        
+//                        //移除之前定位的坐标点
+//                        locationList.removeLast()
+//                        //移除最新添加的overlay
+//                        if let overlay:MKOverlay = newOverlay{
+//                            
+//                            mapView.remove(overlay)
+//                            newOverlay = nil
+//                        }
+//                        //修正需绘制的路径
+//                        currentLocationList = [preCoordinate, endCoordinate]
+//                        //修改之前添加的距离
+//                        if let currentDistance = totalDistance{
+//                            totalDistance = currentDistance - distanceBetweenPreCoordinateToStart
+//                        }
+//                        
+//                        //修正distance值为倒数第二个位置与当前位置距离
+//                        distance = distanceBetweenPreCoordinateToEnd
+//                        
+//                        print("坐标修正:\(locationList.count)")
+//                    }
+//                }
                 
                 locationList.append((latitude: coordinate.latitude, longitude: coordinate.longitude))
                 
