@@ -670,8 +670,7 @@ extension MapVC:CLLocationManagerDelegate{
 //                        print("坐标修正:\(locationList.count)")
 //                    }
 //                }
-                print("its 673 line2")
-                print("new")
+                
                 locationList.append((latitude: coordinate.latitude, longitude: coordinate.longitude))
                 
                 //计算速度
