@@ -631,7 +631,7 @@ extension MapVC:CLLocationManagerDelegate{
             let endCoordinate = coordinate
             
             //计算距离
-            var distance = calculateDistance(start: startCoordinate, end: endCoordinate)
+            let distance = calculateDistance(start: startCoordinate, end: endCoordinate)
             
             print("移动距离:\(distance)米")
             
