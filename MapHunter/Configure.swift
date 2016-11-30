@@ -15,7 +15,7 @@ let view_size = UIScreen.main.bounds.size
 var navigation_height:CGFloat?
 
 //通用字体、颜色
-let font_name = "Optima-ExtraBlack"
+let font_name = "GillSans-Italic"
 let defaut_color = UIColor.orange
 
 let notiy = NotificationCenter.default

@@ -71,7 +71,7 @@ class SecondCell: UITableViewCell {
     
     //MARK:- init
     init(_ row: Int, reuseIdentifier identifier: String){
-        super.init(style: UITableViewCellStyle.default, reuseIdentifier: identifier)
+        super.init(style: .default, reuseIdentifier: identifier)
         
         //row: 1, 2, 3
         cellRow = row

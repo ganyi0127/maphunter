@@ -9,11 +9,15 @@
 import UIKit
 class StateVC: UIViewController {
     
-    @IBOutlet weak var topView: TopView!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var topView: TopView!            //日历
+    @IBOutlet weak var tableView: UITableView!      //内容
+    
+    
+    
+    //MARK:- init
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         config()
         createContents()
     }
@@ -35,7 +39,10 @@ class StateVC: UIViewController {
             print("date: \(date)")
             self.tableView.reloadData()
         }
+        
+        
     }
+    
 }
 
 //MARK:- tableView
@@ -76,7 +83,7 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0{
-            return 4
+            return 2
         }
         
         return 2
@@ -96,10 +103,10 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             switch indexPath.row {
             case 0:
                 return view_size.width * 2 / 3
-            case 1, 2, 3:
-                return view_size.width / 2
+//            case 1, 2, 3:
+//                return view_size.width / 2
             default:
-                return view_size.width / 10
+                return view_size.width / 3
             }
         }
         
@@ -119,6 +126,8 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
                 switch indexPath.row {
                 case 0:
                     cell = FirstCell(style: .default, reuseIdentifier: identifier)
+                case 1:
+                    cell = DetailCell(reuseIdentifier: identifier)
                 default:
                     cell = SecondCell(indexPath.row, reuseIdentifier: identifier)
                     cell?.contentView.backgroundColor = tableView.backgroundColor
@@ -128,15 +137,16 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             //添加数据
             switch indexPath.row {
             case 0:
-                (cell as! FirstCell).step = 1367
-                (cell as! FirstCell).calorie = 144
-                (cell as! FirstCell).distance = 5
-                (cell as! FirstCell).time = 123
-            case 1, 2, 3:
-                
-                let cellDate = CellData(value1: 123, value2: 456, value3: 789, value4: 101, value5: 102, value6: [12,34,56])
-                (cell as! SecondCell).cellData1 = cellDate
-                (cell as! SecondCell).cellData2 = cellDate
+//                (cell as! FirstCell).step = 1367
+//                (cell as! FirstCell).calorie = 144
+//                (cell as! FirstCell).distance = 5
+//                (cell as! FirstCell).time = 123
+                break
+//            case 1, 2, 3:
+//                
+//                let cellDate = CellData(value1: 123, value2: 456, value3: 789, value4: 101, value5: 102, value6: [12,34,56])
+//                (cell as! SecondCell).cellData1 = cellDate
+//                (cell as! SecondCell).cellData2 = cellDate
             default:
                 break
             }

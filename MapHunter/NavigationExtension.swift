@@ -19,8 +19,10 @@ extension UINavigationController:UINavigationControllerDelegate{
         }
         
         navigationBar.topItem?.title = "FunSport"
+        navigationBar.tintColor = UIColor(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1)
         
-        navigationBar.backgroundColor = UIColor.black
+        navigationBar.backgroundColor = UIColor(red: 242 / 255, green: 242 / 255, blue: 242 / 255, alpha: 1)
+//        navigationBar.isTranslucent = false
     }
     
     //切换界面时调用_手环按钮

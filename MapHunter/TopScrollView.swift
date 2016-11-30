@@ -18,8 +18,6 @@ class TopScrollView: UIScrollView {
     
     var topDelegate: TopScrollDelegate?                    //代理
     
-    var closure: ((_ date: Date) -> ())?                //回调
-    
     fileprivate let singleWidth = view_size.width / 7   //单元格宽度
     fileprivate let calendar = Calendar.current             //日历
     override var frame: CGRect{
@@ -514,7 +512,7 @@ extension TopScrollView: UIScrollViewDelegate{
         if isOpen{
             backColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
         }else{
-            backColor = UIColor.white.cgColor
+            backColor = UIColor(red: 242 / 255, green: 242 / 255, blue: 242 / 255, alpha: 1).cgColor
         }
         ctx?.setFillColor(backColor!)
         ctx?.fill(rect)

@@ -15,7 +15,7 @@ class DateProgress: UIView {
     private var shapeLayer:CAShapeLayer? = {
         let shapeLayer = CAShapeLayer()
         shapeLayer.strokeColor = UIColor.clear.cgColor
-        shapeLayer.fillColor = UIColor.orange.withAlphaComponent(0.5).cgColor
+        shapeLayer.fillColor = UIColor.clear.cgColor
         shapeLayer.lineWidth = 0
         
         return shapeLayer
@@ -88,7 +88,9 @@ class DateProgress: UIView {
     
     private var refreshRadius:CGFloat!
     private var shapeList = [CAShapeLayer]()
-    private let shapeColorList = [UIColor.orange.cgColor, UIColor.yellow.cgColor, UIColor.cyan.cgColor]
+    private let shapeColorList = [UIColor(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1).cgColor,
+                                  UIColor.orange.cgColor,
+                                  UIColor.yellow.cgColor]
     private let strokeAnim: CABasicAnimation = {
        let anim = CABasicAnimation(keyPath: "strokeEnd")
         anim.fromValue = -0.5
@@ -105,7 +107,7 @@ class DateProgress: UIView {
         super.init(frame: initFrame)
         
         label.text = text
-
+        
         config()
         createContents()
     }
@@ -155,7 +157,7 @@ class DateProgress: UIView {
                 let curValue = curValues[index]
 
                 //绘制
-                let lineWidth = refreshRadius * 0.15
+                let lineWidth = refreshRadius * 0.1
                 let radius = frame.height / 2.0 * 0.7 - CGFloat(index) * lineWidth
                 
                 bezierPath.removeAllPoints()
@@ -198,9 +200,9 @@ class DateProgress: UIView {
         
         var cgcolor:CGColor?
         if flag{
-            cgcolor = UIColor.green.withAlphaComponent(0.5).cgColor
+            cgcolor = UIColor.green.withAlphaComponent(0.3).cgColor
         }else{
-            cgcolor = UIColor.orange.withAlphaComponent(0.5).cgColor
+            cgcolor = UIColor.clear.cgColor
         }
         
         let anim = CABasicAnimation(keyPath: "fillColor")
