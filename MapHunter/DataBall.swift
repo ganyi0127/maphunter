@@ -87,11 +87,11 @@ class DataBall: UIView {
     }
     
     //显示curLable
-    private lazy var mainLabel: UILabel = { ()->UILabel in
+    private lazy var mainLabel: UILabel = {
         let frame = CGRect(x: 0, y: self.frame.height / 2, width: self.frame.width, height: self.frame.height * 0.2)
         let curLabel = UILabel(frame: frame)
         curLabel.textAlignment = .center
-        curLabel.font = UIFont.systemFont(ofSize: self.frame.height * 0.2)
+        curLabel.font = UIFont(name: font_name, size: self.frame.height * 0.2)
         return curLabel
     }()
     
@@ -100,7 +100,7 @@ class DataBall: UIView {
         let frame = CGRect(x: 0, y: self.frame.height / 2 + 15, width: self.frame.width, height: self.frame.height * 0.2)
         let targetLabel = UILabel(frame: frame)
         targetLabel.textAlignment = .center
-        targetLabel.font = UIFont.systemFont(ofSize: self.frame.height * 0.1)
+        targetLabel.font = UIFont(name: font_name, size: self.frame.height * 0.1)
         return targetLabel
     }()
     
@@ -113,11 +113,11 @@ class DataBall: UIView {
         get{
             switch sportType as DataBallType {
             case .running:
-                return UIColor(red: 27 / 255, green: 227 / 255, blue: 114 / 255, alpha: 1)
+                return SportColor.running
             case .walking:
-                return UIColor(red: 82 / 255, green: 158 / 255, blue: 242 / 255, alpha: 1)
+                return SportColor.walking
             case .riding:
-                return UIColor(red: 251 / 255, green: 196 / 255, blue: 61 / 255, alpha: 1)
+                return SportColor.riding
             }
         }
     }
@@ -149,11 +149,11 @@ class DataBall: UIView {
         if bgShapeLayer == nil{
             
             bgShapeLayer = CAShapeLayer()
-            bgShapeLayer?.fillColor = color.cgColor
+            bgShapeLayer?.fillColor = defaultColor.cgColor //color.cgColor
             
             let refreshRadius = frame.size.height / 2 * 0.8
             let bezierPath = UIBezierPath()
-            bezierPath.addArc(withCenter: CGPoint(x: frame.width / 2, y: frame.height / 2 - refreshRadius * 0.1),
+            bezierPath.addArc(withCenter: CGPoint(x: frame.width / 2, y: frame.height / 2 - refreshRadius * 0.0),
                               radius: refreshRadius,
                               startAngle: CGFloat(-M_PI_2),
                               endAngle: CGFloat(M_PI * 1.5),
@@ -170,7 +170,7 @@ class DataBall: UIView {
             shapeLayer = CAShapeLayer()
             shapeLayer?.strokeColor = UIColor.white.withAlphaComponent(0.3).cgColor
             shapeLayer?.fillColor = nil
-            shapeLayer?.lineWidth = 2
+            shapeLayer?.lineWidth = 0
             shapeLayer?.lineCap = kCALineCapRound
             
             shapeLayer?.path = bgShapeLayer?.path
@@ -187,7 +187,11 @@ class DataBall: UIView {
 //        stepImageView.frame.origin = stepImageViewOrigin
 //        addSubview(stepImageView)
         
+        //初始化随机飘动
         randomAction()
+        
+        //初始化粒子特效
+        addEmitter()
     }
     
     //MARK:- 随机运动
@@ -258,8 +262,68 @@ class DataBall: UIView {
         shapeLayer?.add(strokeEndAnimation, forKey: nil)
         
     }
+    
+    //MARK:- 添加粒子特效
+    fileprivate func addEmitter(){
+        
+        let emitter = CAEmitterLayer()
+        emitter.emitterPosition = CGPoint(x: 0, y: 0)
+        //发射源大小
+        emitter.emitterSize = CGSize(width: frame.width * 0.8, height: frame.height * 0.8)
+        emitter.position = CGPoint(x: frame.width / 2, y: frame.height / 2)
+        
+        emitter.emitterMode = kCAEmitterLayerOutline    //发射模式
+        emitter.emitterShape = kCAEmitterLayerCircle    //发射源形状
+        
+        emitter.renderMode = kCAEmitterLayerBackToFront    //渲染模式
+        emitter.zPosition = -10
+        
+        let flake = CAEmitterCell.init()
+        
+        
+        //颗粒大小
+        flake.scale = 0.15
+        flake.scaleRange = 0.05
+        
+        //缩放比例速度
+        flake.scaleSpeed = -0.05
+        
+        //因子
+        flake.birthRate = 1500
+        
+        //生命周期
+        flake.lifetime = 5
+        
+        flake.alphaSpeed = -0.4
+        
+        //粒子速度
+        flake.velocity = 5
+        flake.velocityRange = 1
+        
+        //方向加速度分量
+        flake.yAcceleration = 0
+        
+        //发射角度
+        flake.emissionRange = CGFloat(M_PI) * 2
+        
+        //自动旋转
+        flake.spinRange = CGFloat(M_PI) * 0.5
+        
+        flake.contents = UIImage(named: "fire")?.cgImage
+        flake.color = color.cgColor
+        
+//        emitter.shadowOpacity = 1
+//        emitter.shadowRadius = 0
+//        emitter.shadowOffset = CGSize(width: 0, height: 1)
+//        emitter.shadowColor = UIColor.gray.cgColor
+        
+        emitter.emitterCells = [flake]
+        
+        layer.addSublayer(emitter)
+    }
 }
 
+//MARK:- 点击事件
 extension DataBall{
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -267,11 +331,19 @@ extension DataBall{
         let anim = CAKeyframeAnimation(keyPath: "transform.scale")
         anim.values = [1, 1.15, 0.9, 1]
         anim.keyTimes = [0, 0.4, 0.8, 1]
-        anim.duration = 0.3
         anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
-        layer.add(anim, forKey: nil)
+        
+        let moveAnim = CABasicAnimation(keyPath: "position")
+        moveAnim.toValue = layer.position
+        moveAnim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+        
+        let groupAnim = CAAnimationGroup()
+        groupAnim.animations = [moveAnim, anim]
+        groupAnim.duration = 0.3
+        layer.add(groupAnim, forKey: nil)
         
         randomAction()
+        
     }
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         

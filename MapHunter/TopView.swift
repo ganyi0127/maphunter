@@ -33,6 +33,7 @@ class TopView: UIView {
         label.backgroundColor = UIColor.clear
         label.text = "..."
         label.textColor = UIColor(red: 50 / 255, green: 50 / 255, blue: 50 / 255, alpha: 1)
+        label.font = UIFont(name: font_name, size: 17)
         label.textAlignment = .center
         return label
     }()
@@ -155,8 +156,10 @@ class TopView: UIView {
         //显示今天
         if dateStr == todayStr{
             self.label.text = "今天 " + weekList[weekday - 1]
+            todayButton.isHidden = true
         }else{
             self.label.text = dateStr + " " + weekList[weekday - 1]
+            todayButton.isHidden = false
         }
     }
     

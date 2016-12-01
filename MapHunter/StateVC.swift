@@ -29,6 +29,10 @@ class StateVC: UIViewController {
         
         //清除顶部空白区域
         automaticallyAdjustsScrollViewInsets = false
+        
+        //设置背景
+        view.backgroundColor = defaultColor
+        tableView.backgroundColor = defaultColor
     }
     
     private func createContents(){
@@ -40,9 +44,39 @@ class StateVC: UIViewController {
             self.tableView.reloadData()
         }
         
-        
+        setupRefresh()
     }
     
+    //MARK:- 下拉刷新
+    private func setupRefresh(){
+        //添加刷新控件
+        let control = { () -> UIRefreshControl in
+            let ctrl = UIRefreshControl()
+            ctrl.tintColor = UIColor(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1)
+            ctrl.attributedTitle = NSAttributedString(string: "同步健康数据")
+            ctrl.addTarget(self, action: #selector(refreshStateChange(_:)), for: .valueChanged)
+            return ctrl
+        }()
+        
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = control
+        } else {
+            tableView.addSubview(control)
+        }
+        
+        //进入刷新状态
+        control.beginRefreshing()
+        //加载数据
+        refreshStateChange(control)
+    }
+    
+    @objc private func refreshStateChange(_ control: UIRefreshControl){
+        
+        _ = delay(1){
+            
+            control.endRefreshing()
+        }
+    }
 }
 
 //MARK:- tableView
@@ -128,6 +162,13 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
                     cell = FirstCell(style: .default, reuseIdentifier: identifier)
                 case 1:
                     cell = DetailCell(reuseIdentifier: identifier)
+                    (cell as! DetailCell).closure = {
+                        detailType in
+                        //选中回调
+                        print("selected: \(detailType)")
+                        let detaiViewController = DetailViewController(detailType: detailType)
+                        self.navigationController?.show(detaiViewController, sender: cell)
+                    }
                 default:
                     cell = SecondCell(indexPath.row, reuseIdentifier: identifier)
                     cell?.contentView.backgroundColor = tableView.backgroundColor

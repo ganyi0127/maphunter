@@ -88,9 +88,9 @@ class DateProgress: UIView {
     
     private var refreshRadius:CGFloat!
     private var shapeList = [CAShapeLayer]()
-    private let shapeColorList = [UIColor(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1).cgColor,
-                                  UIColor.orange.cgColor,
-                                  UIColor.yellow.cgColor]
+    private let shapeColorList = [SportColor.walking.cgColor,
+                                  SportColor.running.cgColor,
+                                  SportColor.riding.cgColor]
     private let strokeAnim: CABasicAnimation = {
        let anim = CABasicAnimation(keyPath: "strokeEnd")
         anim.fromValue = -0.5
@@ -143,6 +143,7 @@ class DateProgress: UIView {
         label.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
         label.textAlignment = .center
         label.layer.zPosition = 3
+        label.textColor = UIColor(red: 155 / 255, green: 155 / 255, blue: 155 / 255, alpha: 1)
         addSubview(label)
     }
     
@@ -200,7 +201,7 @@ class DateProgress: UIView {
         
         var cgcolor:CGColor?
         if flag{
-            cgcolor = UIColor.green.withAlphaComponent(0.3).cgColor
+            cgcolor = UIColor.gray.withAlphaComponent(0.3).cgColor
         }else{
             cgcolor = UIColor.clear.cgColor
         }

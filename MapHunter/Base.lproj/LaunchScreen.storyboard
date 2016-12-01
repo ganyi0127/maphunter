@@ -5,6 +5,7 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,17 +21,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZNs-IO-3bF">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FunSport" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OD4-PF-2Ud">
+                                <rect key="frame" x="93.5" y="320" width="187.5" height="28.5"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Italic" family="Helvetica Neue" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="ZNs-IO-3bF" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="VkA-pE-SmH"/>
-                            <constraint firstItem="ZNs-IO-3bF" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="dM7-iR-p2S"/>
-                            <constraint firstItem="ZNs-IO-3bF" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" id="ibX-Qy-XpK"/>
-                            <constraint firstItem="ZNs-IO-3bF" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="x0q-uE-EDw"/>
+                            <constraint firstItem="OD4-PF-2Ud" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="6Se-OE-buC"/>
+                            <constraint firstItem="OD4-PF-2Ud" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="a18-0m-Rbu"/>
+                            <constraint firstItem="OD4-PF-2Ud" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="1/2" id="cta-Q2-kSC"/>
                         </constraints>
                     </view>
                 </viewController>

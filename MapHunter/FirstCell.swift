@@ -105,11 +105,12 @@ class FirstCell: UITableViewCell {
     
     override func layoutIfNeeded() {
         super.layoutIfNeeded()
+        
     }
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
-   
+        print("draw")
         walkingDataBall.frame.origin = CGPoint(x: frame.width / 2 - walkingDataBall.frame.width / 2,
                                                y: frame.height / 2 - walkingDataBall.frame.height)
         walkingDataBall.randomAction()
@@ -205,16 +206,17 @@ class FirstCell: UITableViewCell {
         let fadeAnim = CAKeyframeAnimation(keyPath: "opacity")
         fadeAnim.values = [1, 0, 0, 1]
         fadeAnim.keyTimes = [0, 0.5, 0.8, 1]
+        fadeAnim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         
         let scaleAnim = CAKeyframeAnimation(keyPath: "transform.scale")
-        scaleAnim.values = [1, 0.7, 0.7, 1]
-        scaleAnim.keyTimes = [0, 0.5, 0.8, 1]
-        //            scaleAnim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        scaleAnim.values = [1, 0.7, 0.7, 1, 1.1, 1]
+        scaleAnim.keyTimes = [0, 0.5, 0.8, 0.9, 0.95, 1]
+        scaleAnim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         
         let moveAnim = CAKeyframeAnimation(keyPath: "position.x")
         moveAnim.values = [view_size.width / 2, tag == 0 ? view_size.width * 1.5 : -view_size.width / 2, view_size.width / 2, view_size.width / 2]
         moveAnim.keyTimes = [0, 0.5, 0.8, 1]
-        //            moveAnim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        moveAnim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         
         let group = CAAnimationGroup()
         group.duration = 1.0
@@ -235,8 +237,12 @@ extension FirstCell: CAAnimationDelegate{
     //完成动画后切换日期
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         
+        //发送切换日期消息
         notiy.post(name: switch_notiy, object: curTag, userInfo: nil)
 
+        runningDataBall.randomAction()
+        walkingDataBall.randomAction()
+        ridingDataBall.randomAction()
     }
 }
 

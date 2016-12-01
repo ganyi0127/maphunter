@@ -9,7 +9,6 @@
 import UIKit
 extension UILabel{
     open override func awakeFromNib() {
-        let font = UIFont(name: font_name, size: self.font.pointSize)
-        self.font = font
+        self.font = UIFont(name: font_name, size: self.font.pointSize)
     }
 }

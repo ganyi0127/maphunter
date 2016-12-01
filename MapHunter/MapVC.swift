@@ -587,14 +587,16 @@ extension MapVC:CLLocationManagerDelegate{
     
     //开始定位追踪_返回位置信息数组
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
+        print("location selected")
         //获取最后记录点
         guard let location = locations.last else {
             print("location get last error!")
             return
         }
         var coordinate = location.coordinate
-      
+        
+        //添加后台坐标绘制
+        
         //转化为中国坐标
         if CoordinateTransform.isLocationInChina(location: coordinate){
             coordinate = CoordinateTransform.transformGCJ(fromWGBCoordinate: coordinate)
@@ -692,7 +694,7 @@ extension MapVC:CLLocationManagerDelegate{
                 centerOverlay?.add(currentLocationList[1], velcity: endVelcity)
                 mapView.add(centerOverlay!, level: .aboveLabels)
 
-                
+                print("mapViewOverLayCount: \(mapView.overlays.count)")
                 //记录总距离
                 if let currentDistance = totalDistance{
                     totalDistance = currentDistance + distance

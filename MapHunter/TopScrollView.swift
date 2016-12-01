@@ -508,13 +508,13 @@ extension TopScrollView: UIScrollViewDelegate{
         ctx?.clear(rect)
         
         //填充背景
-        var backColor:CGColor?
+        var backColor:CGColor
         if isOpen{
-            backColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+            backColor = defaultColor.cgColor
         }else{
-            backColor = UIColor(red: 242 / 255, green: 242 / 255, blue: 242 / 255, alpha: 1).cgColor
+            backColor = defaultColor.cgColor
         }
-        ctx?.setFillColor(backColor!)
+        ctx?.setFillColor(backColor)
         ctx?.fill(rect)
         
         if isOpen{
@@ -524,8 +524,8 @@ extension TopScrollView: UIScrollViewDelegate{
             //文字：配置
             let paragraphStyle:NSParagraphStyle = NSParagraphStyle.default.mutableCopy() as! NSParagraphStyle
             var attributes = [
-                NSFontAttributeName: UIFont.systemFont(ofSize: 12),
-                NSForegroundColorAttributeName: UIColor.white,
+                NSFontAttributeName: UIFont.systemFont(ofSize: 12), //文字大小
+                NSForegroundColorAttributeName: UIColor.lightGray,  //文字颜色
                 NSParagraphStyleAttributeName: paragraphStyle]
             
             //绘制文字： 星期
@@ -543,8 +543,8 @@ extension TopScrollView: UIScrollViewDelegate{
             
             //绘制年月: 
             attributes = [
-                NSFontAttributeName: UIFont.systemFont(ofSize: 24),
-                NSForegroundColorAttributeName: UIColor.white,
+                NSFontAttributeName: UIFont.systemFont(ofSize: 24), //文字大小
+                NSForegroundColorAttributeName: UIColor.lightGray,  //文字颜色
                 NSParagraphStyleAttributeName: paragraphStyle]
             
             var components = calendar.dateComponents([.year, .month], from: selectDate)
