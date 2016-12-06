@@ -23,8 +23,10 @@ class MapVC: UIViewController {
         
         let locationManager = CLLocationManager()
         
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest   //精确度
-        locationManager.distanceFilter = 5                          //位置更新距离限制
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation          //精确度
+        locationManager.pausesLocationUpdatesAutomatically = false                      //关闭自动暂停
+        //locationManager.allowDeferredLocationUpdates(untilTraveled: 10, timeout: 1000)  //定位距离与时间
+        locationManager.distanceFilter = 5                                              //位置更新距离限制
 
         //开启定位
         if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.notDetermined &&
@@ -171,7 +173,7 @@ class MapVC: UIViewController {
         if CLLocationManager.locationServicesEnabled(){
             locationManager.startUpdatingLocation()
         }else{
-            print("无法开启定位")
+            debugPrint("无法开启定位")
         }
         
         locationManager.delegate = self
@@ -693,23 +695,27 @@ extension MapVC:CLLocationManagerDelegate{
                 centerOverlay?.add(currentLocationList[0], velcity: startVelcity)
                 centerOverlay?.add(currentLocationList[1], velcity: endVelcity)
                 mapView.add(centerOverlay!, level: .aboveLabels)
-
+                
                 print("mapViewOverLayCount: \(mapView.overlays.count)")
                 //记录总距离
                 if let currentDistance = totalDistance{
                     totalDistance = currentDistance + distance
                 }
+                
             }
         }
     }
     
     private func deltaTime(from startDate: Date, to endDate: Date) -> TimeInterval{
         let calender = Calendar(identifier: .gregorian)
-        let deltaSecond = calender.dateComponents([Calendar.Component.second], from: startDate, to: endDate)
-        guard let result = deltaSecond.second else{
+        let deltaSecond = calender.dateComponents([Calendar.Component.nanosecond], from: startDate, to: endDate)
+        print("delta second:", deltaSecond)
+
+        guard let result = deltaSecond.nanosecond else{
             return 0
         }
-        return TimeInterval(result)
+        let doubleResult = TimeInterval(result) * pow(10, -9)
+        return doubleResult
     }
     
     func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
@@ -728,7 +734,7 @@ extension MapVC:CLLocationManagerDelegate{
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
 
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
-
+        
         //移除指定annotation
         guard let id: Int = Int(region.identifier) else{
             return

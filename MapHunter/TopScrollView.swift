@@ -524,7 +524,7 @@ extension TopScrollView: UIScrollViewDelegate{
             //文字：配置
             let paragraphStyle:NSParagraphStyle = NSParagraphStyle.default.mutableCopy() as! NSParagraphStyle
             var attributes = [
-                NSFontAttributeName: UIFont.systemFont(ofSize: 12), //文字大小
+                NSFontAttributeName: UIFont(name: font_name, size: 12) ?? UIFont.systemFont(ofSize: 12), //文字大小
                 NSForegroundColorAttributeName: UIColor.lightGray,  //文字颜色
                 NSParagraphStyleAttributeName: paragraphStyle]
             
@@ -543,7 +543,7 @@ extension TopScrollView: UIScrollViewDelegate{
             
             //绘制年月: 
             attributes = [
-                NSFontAttributeName: UIFont.systemFont(ofSize: 24), //文字大小
+                NSFontAttributeName: UIFont(name: font_name, size: 24) ?? UIFont.systemFont(ofSize: 24), //文字大小
                 NSForegroundColorAttributeName: UIColor.lightGray,  //文字颜色
                 NSParagraphStyleAttributeName: paragraphStyle]
             
