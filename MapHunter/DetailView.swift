@@ -78,13 +78,13 @@ class DetailView: UIView {
         var imgStr: String!
         switch type as DetailType {
         case .step:
-            imgStr = "icon_step"
+            imgStr = "resource/icon_step"
         case .calorie:
-            imgStr = "icon_calorie"
+            imgStr = "resource/icon_calorie"
         case .distance:
-            imgStr = "icon_distance"
+            imgStr = "resource/icon_distance"
         case .more:
-            imgStr = "icon_more"
+            imgStr = "resource/icon_more"
         }
         
         let image = UIImage(named: imgStr)

@@ -44,7 +44,7 @@ class TopView: UIView {
         let buttonFrame = CGRect(origin: buttonOrigin, size: CGSize(width: buttonWidth, height: buttonWidth))
         let dateButton = UIButton(frame: buttonFrame)
         dateButton.tag = 1
-        dateButton.setImage(UIImage(named: "icon_calendar"), for: .normal)
+        dateButton.setImage(UIImage(named: "resource/icon_calendar"), for: .normal)
         dateButton.addTarget(self, action: #selector(TopView.clickButton), for: .touchUpInside)
         return dateButton
     }()
@@ -55,7 +55,7 @@ class TopView: UIView {
         let buttonFrame = CGRect(origin: buttonOrigin, size: CGSize(width: buttonWidth, height: buttonWidth))
         let todayButton = UIButton(frame: buttonFrame)
         todayButton.tag = 0
-        todayButton.setImage(UIImage(named: "icon_today"), for: .normal)
+        todayButton.setImage(UIImage(named: "resource/icon_today"), for: .normal)
         todayButton.addTarget(self, action: #selector(TopView.clickButton), for: .touchUpInside)
         return todayButton
         

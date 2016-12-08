@@ -97,7 +97,7 @@ class StepProgress: UIView {
         addSubview(label)
         
         //添加icon
-        let stepImageView = UIImageView(image: UIImage(named: "icon_step"))
+        let stepImageView = UIImageView(image: UIImage(named: "resource/icon_step"))
         let stepImageViewOrigin = CGPoint(x: frame.width / 2 - stepImageView.frame.width / 2, y: frame.height / 2 - stepImageView.frame.height / 2)
         stepImageView.frame.origin = stepImageViewOrigin
         addSubview(stepImageView)

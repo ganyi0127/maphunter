@@ -11,7 +11,7 @@
 #import "GradientPolylineOverlay.h"
 //#import "Constant.h"
 
-#define V_MAX 7.0
+#define V_MAX 20.0
 #define V_MIN 5.0
 #define H_MAX 0.33
 #define H_MIN 0.03
@@ -107,6 +107,7 @@
             //跑步渐变
             ccolor = [UIColor colorWithHue:hues[i] saturation:1.0f brightness:1.0f alpha:1.0f];
             if (i==0){
+//                pcolor = [UIColor colorWithHue:hues[i] saturation:1.0f brightness:1.0f alpha:1.0f];
                 CGPathMoveToPoint(path, nil, point.x, point.y);
             } else {
                 CGPoint prevPoint = [self pointForMapPoint:polyline.points[i-1]];

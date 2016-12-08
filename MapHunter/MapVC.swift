@@ -11,32 +11,36 @@ import MapKit
 import CoreLocation
 import AudioToolbox
 
+//位置管理器
+var globalLocationManager: CLLocationManager = { () -> CLLocationManager in
+    
+    let locationManager = CLLocationManager()
+    
+    locationManager.allowsBackgroundLocationUpdates = true
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest                           //精确度
+    locationManager.pausesLocationUpdatesAutomatically = false                          //关闭自动暂停
+    //locationManager.allowDeferredLocationUpdates(untilTraveled: 10, timeout: 1000)    //定位距离与时间
+    locationManager.distanceFilter = 5                                                  //位置更新距离限制
+    //开启定位
+//    if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.notDetermined &&
+//        locationManager.responds(to: #selector(CLLocationManager.requestAlwaysAuthorization)){
+        print("请求允许访问")
+        locationManager.requestAlwaysAuthorization()  //请求允许访问
+//    }
+
+    return locationManager
+}()
+
 class MapVC: UIViewController {
+    
+    //test 仅创建一次判断
+    var centerOverlay: GradientPolylineOverlay?
     
     //存储上一节点速度 km/h
     fileprivate var preVelcity: Float = 0
     //存储上一节点时间 Date
     fileprivate var preDate = Date()
 
-    //位置管理器
-    lazy private var locationManager = { () -> CLLocationManager in
-        
-        let locationManager = CLLocationManager()
-        
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation          //精确度
-        locationManager.pausesLocationUpdatesAutomatically = false                      //关闭自动暂停
-        //locationManager.allowDeferredLocationUpdates(untilTraveled: 10, timeout: 1000)  //定位距离与时间
-        locationManager.distanceFilter = 5                                              //位置更新距离限制
-
-        //开启定位
-        if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.notDetermined &&
-            locationManager.responds(to: #selector(CLLocationManager.requestAlwaysAuthorization)){
-            
-            locationManager.requestAlwaysAuthorization()  //请求允许访问
-        }
-        
-        return locationManager
-    }()
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var totalDistanceLabel: UILabel!
     
@@ -50,6 +54,9 @@ class MapVC: UIViewController {
             totalDistanceLabel.text = "移动距离:\(distance)"
         }
     }
+    
+    //获取定位管理类
+//    private let locationManager = globaLocationManager
     
     //保存最新添加的overlay,用于修正删除
     fileprivate var newOverlay:MKOverlay?
@@ -109,6 +116,7 @@ class MapVC: UIViewController {
                 //清空记录数据
                 totalDistance = 0
                 locationList.removeAll()
+                centerOverlay = nil
                 mapView.removeOverlays(mapView.overlays)
                 
             }else{
@@ -160,10 +168,15 @@ class MapVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        debugPrint("mapvc view will appear")
         super.viewWillAppear(animated)
-        
     }
-
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        debugPrint("mapvc view will disappear")
+        super.viewWillDisappear(animated)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -171,13 +184,14 @@ class MapVC: UIViewController {
     private func config(){
         
         if CLLocationManager.locationServicesEnabled(){
-            locationManager.startUpdatingLocation()
+            globalLocationManager.startUpdatingLocation()
+            
         }else{
             debugPrint("无法开启定位")
         }
         
-        locationManager.delegate = self
-        
+        globalLocationManager.delegate = self
+
         mapView.userTrackingMode = MKUserTrackingMode.followWithHeading    //当前地图跟踪模式
         mapView.mapType = MKMapType.standard //普通地图
         mapView.showsUserLocation = true
@@ -229,7 +243,7 @@ class MapVC: UIViewController {
         //监控区域
         if CLLocationManager.locationServicesEnabled(){
             let region = CLCircularRegion(center: coordinate, radius: 500, identifier: "\(id)")
-            locationManager.startMonitoring(for: region)
+            globalLocationManager.startMonitoring(for: region)
         }else{
             let message = "location can't offer location services!!!"
             let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
@@ -577,7 +591,7 @@ extension MapVC: MKMapViewDelegate{
         //系统轨迹
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.lineWidth = 2
-
+        
         renderer.strokeColor = .orange
 
         return renderer
@@ -589,7 +603,8 @@ extension MapVC:CLLocationManagerDelegate{
     
     //开始定位追踪_返回位置信息数组
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("location selected")
+        debugPrint("location selected")
+        
         //获取最后记录点
         guard let location = locations.last else {
             print("location get last error!")
@@ -597,7 +612,12 @@ extension MapVC:CLLocationManagerDelegate{
         }
         var coordinate = location.coordinate
         
-        //添加后台坐标绘制
+        //精度
+        debugPrint("水平精度", location.horizontalAccuracy)
+        debugPrint("垂直精度", location.verticalAccuracy)
+        guard fabs(location.horizontalAccuracy) < 70, fabs(location.verticalAccuracy) < 15 else {
+            return
+        }
         
         //转化为中国坐标
         if CoordinateTransform.isLocationInChina(location: coordinate){
@@ -625,7 +645,7 @@ extension MapVC:CLLocationManagerDelegate{
             
             //获取上一个位置数据
             guard let startCoordinateTuple = locationList.last else{
-                print("获取最新位置数据错误")
+                debugPrint("获取最新位置数据错误")
                 return
             }
             
@@ -637,9 +657,10 @@ extension MapVC:CLLocationManagerDelegate{
             //计算距离
             let distance = calculateDistance(start: startCoordinate, end: endCoordinate)
             
-            print("移动距离:\(distance)米")
+            debugPrint("移动距离:\(distance)米")
             
-            if distance >= 10 {
+            //移动距离大于一定值便绘制
+            if distance >= 5 {
                 
                 var currentLocationList = [startCoordinate, endCoordinate]
                 
@@ -679,6 +700,10 @@ extension MapVC:CLLocationManagerDelegate{
                 
                 //计算速度
                 let deltaSecond = deltaTime(from: preDate, to: Date())
+                print("deltaSecond:", deltaSecond)
+//                if deltaSecond < 2 {
+//                    return
+//                }
                 preDate = Date()
                 
                 let startVelcity = preVelcity
@@ -686,14 +711,17 @@ extension MapVC:CLLocationManagerDelegate{
                 preVelcity = endVelcity
                 
                 print("velcity:\n start-\(startVelcity)\n end---\(endVelcity)")
-                
+                print(currentLocationList)
                 //绘制路径
-                let centerOverlay = GradientPolylineOverlay(start: currentLocationList[0],
+                if centerOverlay == nil{
+                    centerOverlay = GradientPolylineOverlay(start: currentLocationList[0],
                                                             end: currentLocationList[1],
                                                             startVelcity: startVelcity,
                                                             endVelcity: endVelcity)
-                centerOverlay?.add(currentLocationList[0], velcity: startVelcity)
+                }
                 centerOverlay?.add(currentLocationList[1], velcity: endVelcity)
+                
+                mapView.removeOverlays(mapView.overlays)
                 mapView.add(centerOverlay!, level: .aboveLabels)
                 
                 print("mapViewOverLayCount: \(mapView.overlays.count)")
@@ -701,7 +729,6 @@ extension MapVC:CLLocationManagerDelegate{
                 if let currentDistance = totalDistance{
                     totalDistance = currentDistance + distance
                 }
-                
             }
         }
     }
@@ -709,7 +736,7 @@ extension MapVC:CLLocationManagerDelegate{
     private func deltaTime(from startDate: Date, to endDate: Date) -> TimeInterval{
         let calender = Calendar(identifier: .gregorian)
         let deltaSecond = calender.dateComponents([Calendar.Component.nanosecond], from: startDate, to: endDate)
-        print("delta second:", deltaSecond)
+        debugPrint("delta second:", deltaSecond)
 
         guard let result = deltaSecond.nanosecond else{
             return 0

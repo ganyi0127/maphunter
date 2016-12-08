@@ -95,7 +95,7 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view_size.width, height: 50))
         headerView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
         
-        let imageView = UIImageView(image: UIImage(named: "icon_menu"))
+        let imageView = UIImageView(image: UIImage(named: "resource/icon_menu"))
         imageView.frame = CGRect(x: imageView.frame.width * 0.3,
                                  y: imageView.frame.height * 0.3,
                                  width: imageView.frame.width,

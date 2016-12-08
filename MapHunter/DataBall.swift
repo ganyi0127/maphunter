@@ -182,7 +182,7 @@ class DataBall: UIView {
         addSubview(subLabel)
         
         //添加icon
-//        let stepImageView = UIImageView(image: UIImage(named: "icon_step"))
+//        let stepImageView = UIImageView(image: UIImage(named: "resource/icon_step"))
 //        let stepImageViewOrigin = CGPoint(x: frame.width / 2 - stepImageView.frame.width / 2, y: frame.height / 2 - stepImageView.frame.height / 2)
 //        stepImageView.frame.origin = stepImageViewOrigin
 //        addSubview(stepImageView)
@@ -309,7 +309,7 @@ class DataBall: UIView {
         //自动旋转
         flake.spinRange = CGFloat(M_PI) * 0.5
         
-        flake.contents = UIImage(named: "fire")?.cgImage
+        flake.contents = UIImage(named: "resource/fire")?.cgImage
         flake.color = color.cgColor
         
 //        emitter.shadowOpacity = 1

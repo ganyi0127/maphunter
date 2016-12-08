@@ -15,8 +15,9 @@ class ItemButton: UIBarButtonItem {
     //绑定状态图片
     private var bindingImageMap:[String: UIImage?]{
         get{
-            let onImage = getMatchedImage(originImage: UIImage(named: "binding_state_1")!)
-            let offImage = getMatchedImage(originImage: UIImage(named: "binding_state_0")!)
+            
+            let onImage = getMatchedImage(originImage: UIImage(named: "resource/binding_state_1")!)
+            let offImage = getMatchedImage(originImage: UIImage(named: "resource/binding_state_0")!)
             return ["on": onImage, "off": offImage]
         }
     }

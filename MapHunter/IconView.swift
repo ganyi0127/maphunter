@@ -70,13 +70,13 @@ class IconView: UIImageView {
        
         switch type! {
         case .calorie:
-            image = UIImage(named: "icon_calorie")
+            image = UIImage(named: "resource/icon_calorie")
             label.text = "\(value)卡路里"
         case .distance:
-            image = UIImage(named: "icon_distance")
+            image = UIImage(named: "resource/icon_distance")
             label.text = "\(value)公里"
         case .time:
-            image = UIImage(named: "icon_time")
+            image = UIImage(named: "resource/icon_time")
             label.text = "\(value)分钟"
         }
     }
