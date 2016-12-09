@@ -352,7 +352,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" pitchEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LNO-D0-cuc">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" pitchEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LNO-D0-cuc">
                                 <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="WUW-Rg-EX9"/>
@@ -377,6 +377,17 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="3MR-aG-Rfk">
+                                <rect key="frame" x="16" y="532" width="343" height="29"/>
+                                <segments>
+                                    <segment title="步行"/>
+                                    <segment title="跑步"/>
+                                    <segment title="骑行"/>
+                                </segments>
+                                <connections>
+                                    <action selector="selectSport:" destination="BYZ-38-t0r" eventType="valueChanged" id="AcR-YA-IZT"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -386,11 +397,14 @@
                             <constraint firstItem="UGN-V9-Uds" firstAttribute="top" secondItem="e04-JS-Sqe" secondAttribute="bottom" constant="15" id="Srz-eN-xX6"/>
                             <constraint firstItem="2od-Sd-JTv" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="1/4" id="XIu-cl-kue"/>
                             <constraint firstAttribute="leadingMargin" secondItem="UGN-V9-Uds" secondAttribute="leading" id="aK3-ZG-5fz"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="3MR-aG-Rfk" secondAttribute="leading" id="bEo-oL-Wcu"/>
                             <constraint firstItem="2od-Sd-JTv" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="1/16" id="dll-fL-3Er"/>
                             <constraint firstItem="UGN-V9-Uds" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="1/2" id="eb2-lv-GlC"/>
+                            <constraint firstItem="2od-Sd-JTv" firstAttribute="top" secondItem="3MR-aG-Rfk" secondAttribute="bottom" constant="8" id="fC3-5L-eEr"/>
                             <constraint firstItem="LNO-D0-cuc" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="kdE-Z2-YTd"/>
                             <constraint firstItem="e04-JS-Sqe" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="1/2" id="lL3-lz-Ldo"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="2od-Sd-JTv" secondAttribute="bottom" constant="8.5" id="mfS-ze-mpj"/>
+                            <constraint firstItem="3MR-aG-Rfk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="nsb-Wt-rDC"/>
                             <constraint firstItem="LNO-D0-cuc" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="r6j-HL-VGz"/>
                             <constraint firstItem="e04-JS-Sqe" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="ybF-oV-DH6"/>
                             <constraint firstItem="LNO-D0-cuc" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="yph-aL-v5h"/>
@@ -412,7 +426,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="378.75" y="40.140845070422536"/>
+            <point key="canvasLocation" x="378.39999999999998" y="40.029985007496258"/>
         </scene>
     </scenes>
     <resources>

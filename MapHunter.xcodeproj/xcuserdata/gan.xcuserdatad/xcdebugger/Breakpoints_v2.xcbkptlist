@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/MapVC.swift"
-            timestampString = "502872882.365636"
+            timestampString = "502961276.36066"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "561"
-            endingLineNumber = "561"
+            startingLineNumber = "572"
+            endingLineNumber = "572"
             landmarkName = "onAnnotationClick(sender:)"
             landmarkType = "7">
          </BreakpointContent>

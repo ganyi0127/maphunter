@@ -9,6 +9,7 @@
 #import "GradientPolylineRenderer.h"
 #import <pthread.h>
 #import "GradientPolylineOverlay.h"
+#import "MapHunter-Swift.h"
 //#import "Constant.h"
 
 #define V_MAX 20.0

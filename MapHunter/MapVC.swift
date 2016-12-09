@@ -112,7 +112,7 @@ class MapVC: UIViewController {
             recordButton.setTitle(isRecording ? "停止记录" : "开始记录", for: .normal)
             recordButton.backgroundColor = isRecording ? .green : .red
             
-            if isRecording{                
+            if isRecording{
                 //清空记录数据
                 totalDistance = 0
                 locationList.removeAll()
@@ -225,6 +225,17 @@ class MapVC: UIViewController {
         
     }
     
+    @IBAction func selectSport(_ sender: UISegmentedControl) {
+        let index = sender.selectedSegmentIndex
+        if index == 0{
+            //步行
+//            V_MAX = 1
+        }else if index == 1{
+            //跑步
+        }else if index == 2{
+            //骑行
+        }
+    }
     //MARK:测试添加大头针
     private func addAnnotation(_ id: Int, longtitude: Double, latitude: Double) -> MKPointAnnotation{
         

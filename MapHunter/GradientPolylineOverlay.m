@@ -9,7 +9,7 @@
 #import "GradientPolylineOverlay.h"
 #import <pthread.h>
 
-#define INITIAL_POINT_SPACE 1000
+#define INITIAL_POINT_SPACE 2
 #define MINIMUM_DELTA_METERS 10.0
 
 @implementation GradientPolylineOverlay{
