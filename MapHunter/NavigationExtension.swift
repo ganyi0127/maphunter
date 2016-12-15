@@ -68,12 +68,7 @@ extension UINavigationController: UINavigationControllerDelegate{
             navigationController.navigationBar.backgroundColor = .clear
             
             //显示tabbar
-            var tabbarFrame = viewController.tabBarController!.tabBar.frame
-            tabbarFrame.origin.y = view_size.height - tabbarFrame.height
-            let duration: TimeInterval = 0.1
-            UIView.animate(withDuration: duration){
-                viewController.tabBarController?.tabBar.frame = tabbarFrame
-            }
+            setTabbar(hidden: false)
         }else{
             navigationItem.leftBarButtonItem = nil
             
@@ -83,19 +78,34 @@ extension UINavigationController: UINavigationControllerDelegate{
             navigationController.navigationBar.backgroundColor = nil
             
             //隐藏tabbar
-            let tabbarFrame = viewController.tabBarController!.tabBar.frame
-            let offsetY:CGFloat = tabbarFrame.origin.y > view_size.height ? 0 : tabbarFrame.height + view_size.width * 0.06
-            let duration: TimeInterval = 0.1
-            UIView.animate(withDuration: duration){
-                viewController.tabBarController?.tabBar.frame = tabbarFrame.offsetBy(dx: 0, dy: offsetY)
-            }
+            setTabbar(hidden: true)
         }
     }
     
     //MARK:分享
     @objc private func switchCalender(sender: UIBarButtonItem){
-        
         notiy.post(name: calendar_notiy, object: nil)
+    }
+    
+    //MARK:- 控制tabbar显示与隐藏
+    public func setTabbar(hidden flag: Bool){
+        if flag {
+            //隐藏tabbar
+            let tabbarFrame = tabBarController!.tabBar.frame
+            let offsetY:CGFloat = tabbarFrame.origin.y > view_size.height ? 0 : tabbarFrame.height + view_size.width * 0.06
+            let duration: TimeInterval = 0.1
+            UIView.animate(withDuration: duration){
+                self.tabBarController?.tabBar.frame = tabbarFrame.offsetBy(dx: 0, dy: offsetY)
+            }
+        }else{
+            //显示tabbar
+            var tabbarFrame = tabBarController!.tabBar.frame
+            tabbarFrame.origin.y = view_size.height - tabbarFrame.height
+            let duration: TimeInterval = 0.1
+            UIView.animate(withDuration: duration){
+                self.tabBarController?.tabBar.frame = tabbarFrame
+            }
+        }
     }
     
     //MARK:- 转场代理实现

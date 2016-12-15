@@ -169,11 +169,15 @@ class MapVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         debugPrint("mapvc view will appear")
+        if CLLocationManager.locationServicesEnabled(){
+            globalLocationManager.startUpdatingLocation()   //开始定位
+        }
         super.viewWillAppear(animated)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         debugPrint("mapvc view will disappear")
+        globalLocationManager.stopUpdatingLocation()    //停止定位
         super.viewWillDisappear(animated)
     }
     

@@ -14,6 +14,7 @@
 		327383721E00F4A000767708 /* CustomPopAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327383711E00F4A000767708 /* CustomPopAnimation.swift */; };
 		32C5726A1DD9C2E700CEC5EB /* GradientPolylineOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 32C572691DD9C2E700CEC5EB /* GradientPolylineOverlay.m */; };
 		32C5726E1DDAA7C500CEC5EB /* GradientPolylineRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 32C5726D1DDAA7C500CEC5EB /* GradientPolylineRenderer.m */; };
+		32CCE7131E02321E008AAB8C /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CCE7121E02321E008AAB8C /* ViewExtension.swift */; };
 		32D411E81DEBCEC2008EE637 /* DataBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D411E71DEBCEC2008EE637 /* DataBall.swift */; };
 		32D4123F1DED713D008EE637 /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4123E1DED713D008EE637 /* DetailCell.swift */; };
 		32D412461DEE8793008EE637 /* TarbarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D412451DEE8793008EE637 /* TarbarExtension.swift */; };
@@ -100,6 +101,7 @@
 		32C572691DD9C2E700CEC5EB /* GradientPolylineOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientPolylineOverlay.m; sourceTree = "<group>"; };
 		32C5726C1DDAA7C500CEC5EB /* GradientPolylineRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientPolylineRenderer.h; sourceTree = "<group>"; };
 		32C5726D1DDAA7C500CEC5EB /* GradientPolylineRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientPolylineRenderer.m; sourceTree = "<group>"; };
+		32CCE7121E02321E008AAB8C /* ViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		32D411E71DEBCEC2008EE637 /* DataBall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataBall.swift; sourceTree = "<group>"; };
 		32D4123E1DED713D008EE637 /* DetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
 		32D412451DEE8793008EE637 /* TarbarExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarbarExtension.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				BEDF4F731D99040300E98D63 /* ButtonExtension.swift */,
 				BE743BDF1DAA1D25002AC282 /* CellExtension.swift */,
 				320535351DFE59C80087068E /* ImageExtension.swift */,
+				32CCE7121E02321E008AAB8C /* ViewExtension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -591,6 +594,7 @@
 				BEDF4F3F1D93942E00E98D63 /* MeVC.swift in Sources */,
 				32C5726E1DDAA7C500CEC5EB /* GradientPolylineRenderer.m in Sources */,
 				BEB2490B1D9E46BD00C9F9ED /* CellCube.swift in Sources */,
+				32CCE7131E02321E008AAB8C /* ViewExtension.swift in Sources */,
 				BE1C36731D93763900AB4370 /* ItemButton.swift in Sources */,
 				BE1C366D1D93725000AB4370 /* RootTBC.swift in Sources */,
 				BE71B9E71DBF4CAA00143E1E /* Net.swift in Sources */,

@@ -13,6 +13,7 @@ class RootTBC: UITabBarController {
     private var menuButtonFlag: Bool = false{
         didSet{
             if menuButtonFlag{
+                
                 let animation = CABasicAnimation(keyPath: "transform.rotation.z")
                 animation.duration = 0.2
                 animation.repeatCount = 1
@@ -23,7 +24,12 @@ class RootTBC: UITabBarController {
                 animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
                 menuButton.layer.add(animation, forKey: nil)
                 
+                
                 //添加高斯模糊
+                effectView.alpha = 0
+                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+                    self.effectView.alpha = 1
+                }, completion: nil)
                 self.selectedViewController?.view.addSubview(effectView)
                 effectView.addGestureRecognizer(tap)
                 
@@ -57,7 +63,16 @@ class RootTBC: UITabBarController {
                 
                 //移除高斯模糊
                 effectView.removeGestureRecognizer(tap)
-                effectView.removeFromSuperview()
+                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+                    self.effectView.alpha = 0
+                }){
+                    _ in
+                    
+                    //当动画结束后、页面为关闭状态时移除效果
+                    if !self.menuButtonFlag{
+                        self.effectView.removeFromSuperview()
+                    }
+                }
                 
                 //显示tabbar
                 var tabbarFrame = self.tabBar.frame
@@ -68,14 +83,17 @@ class RootTBC: UITabBarController {
                 UIView.animate(withDuration: duration, delay: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {
                     self.tabBar.frame = tabbarFrame
                     self.menuButton.frame = buttonFrame
-                }, completion: nil)
+                }){
+                    _ in
+                    
+                }
             }
         }
     }
     
     //按钮
     private lazy var menuButton: UIButton! = { () -> UIButton in
-        let menuButtonWidth = view_size.width * 0.2
+        let menuButtonWidth = self.tabBar.frame.height * 1.2 //view_size.width * 0.2
         let menuButtonFrame = CGRect(x: view_size.width / 2 - menuButtonWidth / 2,
                                      y: -menuButtonWidth * 0.3,
                                      width: menuButtonWidth,
@@ -125,6 +143,7 @@ class RootTBC: UITabBarController {
     
     //MARK:- 点击展开按钮
     @objc private func clickMenuButton(sender: UIButton){
+
         menuButtonFlag = !menuButtonFlag
     }
     

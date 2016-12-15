@@ -110,6 +110,8 @@ class TopScrollView: UIScrollView {
                 
                 //移动
                 dateProgress.frame.origin = origin
+                
+                dateProgress.alpha = 1
             }
             
             //创建或销毁其他月份
@@ -218,7 +220,9 @@ class TopScrollView: UIScrollView {
                 //移动
                 UIView.animate(withDuration: duration!, animations: {
                     dateProgress.frame.origin = origin
-                })
+                }){ _ in
+                    dateProgress.alpha = 0
+                }
             }
         }
     }

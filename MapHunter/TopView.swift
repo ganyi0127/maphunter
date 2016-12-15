@@ -166,10 +166,16 @@ class TopView: UIView {
                 let bigFrame = CGRect(x: 0, y: 0, width: view_size.width, height: view_size.height)
                 self.topScrollView?.frame = bigFrame
                 self.frame.size = bigFrame.size
+                
+                //隐藏tabbar
+                self.viewController().navigationController?.setTabbar(hidden: true)
             }else{
                 let smallFrame = CGRect(x: 0, y: -1, width: view_size.width, height: self.originViewFrame.size.height / 2)
                 self.topScrollView?.frame = smallFrame
                 self.frame.size = self.originViewFrame.size
+                
+                //显示tabbar
+                self.viewController().navigationController?.setTabbar(hidden: false)
             }
         }){
             complete in
