@@ -9,82 +9,33 @@
 import UIKit
 class FirstCell: UITableViewCell {
     
-//    //步数
-//    var step = 0{
-//        didSet{
-//            walkingDataBall.curProgress = CGFloat(step)
-//        }
-//    }
-//    
-//    //卡路里
-//    var calorie = 0{
-//        didSet{
-//            calorieIcon.value = Int(calorie)
-//        }
-//    }
-//    private var calorieIcon:IconView = {
-//        let calorieIcon = IconView(.calorie)
-//        return calorieIcon
-//    }()
-//    
-//    //距离
-//    var distance = 0{
-//        didSet{
-//            distanceIcon.value = Int(distance)
-//        }
-//    }
-//    
-//    private var distanceIcon:IconView = {
-//        let distanceIcon = IconView(.distance)
-//        return distanceIcon
-//    }()
-//    
-//    //运动时间
-//    var time = 0{
-//        didSet{
-//            timeIcon.value = Int(time)
-//        }
-//    }
-//    private var timeIcon:IconView = {
-//        let timeIcon = IconView(.time)
-//        return timeIcon
-//    }()
-    
-    //走路
-    fileprivate var walkingDataBall: DataBall = {
-        let walkingDataBall = DataBall(dataBallType: .walking)
-        return walkingDataBall
+    //运动
+    fileprivate var sportDataCube: DataCube = {
+        let sportDataCube = DataCube(dataCubeType: .sport)
+        return sportDataCube
     }()
     
-    //跑步
-    fileprivate var runningDataBall: DataBall = {
-        let runningDataBall = DataBall(dataBallType: .running)
-        return runningDataBall
+    //心率
+    fileprivate var heartRateDataCube: DataCube = {
+        let heartRateDataCube = DataCube(dataCubeType: .heartrate)
+        return heartRateDataCube
     }()
     
-    //骑行
-    fileprivate var ridingDataBall: DataBall = {
-        let ridingDataBall = DataBall(dataBallType: .riding)
-        return ridingDataBall
+    //睡眠
+    fileprivate var sleepDataCube: DataCube = {
+        let sleepDataCube = DataCube(dataCubeType: .sleep)
+        return sleepDataCube
     }()
     
-//    //按钮
-//    private var leftButton = { () -> UIButton in 
-//        let button = UIButton(type: .custom)
-//        button.setTitle("<", for: .normal)
-//        button.setTitleColor(.gray, for: .normal)
-//        button.titleLabel?.font = UIFont(name: font_name, size: 24)
-//        button.tag = 0
-//        return button
-//    }()
-//    private var rightButton = { () -> UIButton in
-//        let button = UIButton(type: .custom)
-//        button.setTitle(">", for: .normal)
-//        button.setTitleColor(.gray, for: .normal)
-//        button.titleLabel?.font = UIFont(name: font_name, size: 24)
-//        button.tag = 1
-//        return button
-//    }()
+    //体重
+    fileprivate var weightDataCube: DataCube = {
+        let weightDataCube = DataCube(dataCubeType: .weight)
+        return weightDataCube
+    }()
+    
+    
+    //MARK:- 点击回调
+    var closure: ((DataCubeType)->())?
     
     //MARK:- init
     override func didMoveToSuperview() {
@@ -111,27 +62,19 @@ class FirstCell: UITableViewCell {
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         print("draw")
-        walkingDataBall.frame.origin = CGPoint(x: frame.width / 2 - walkingDataBall.frame.width / 2,
-                                               y: frame.height / 2 - walkingDataBall.frame.height)
-        walkingDataBall.randomAction()
-        runningDataBall.frame.origin = CGPoint(x: runningDataBall.frame.width * 0.2,
-                                               y: frame.height * 0.4)
-        runningDataBall.randomAction()
-        ridingDataBall.frame.origin = CGPoint(x: frame.width - ridingDataBall.frame.width * 1.2,
-                                              y: frame.height * 0.4)
-        ridingDataBall.randomAction()
         
-//        let calorieOrigin = CGPoint(x: 0, y: frame.height - calorieIcon.frame.height)
-//        calorieIcon.frame.origin = calorieOrigin
-//        
-//        let distanceOrigin = CGPoint(x: frame.width / 2 - distanceIcon.frame.width / 2, y: frame.height - distanceIcon.frame.height)
-//        distanceIcon.frame.origin = distanceOrigin
-//        
-//        let timeOrigin = CGPoint(x: frame.width - timeIcon.frame.width, y: frame.height - timeIcon.frame.height)
-//        timeIcon.frame.origin = timeOrigin
-//        
-//        leftButton.frame = CGRect(x: 0, y: frame.height * 0.05, width: frame.width * 0.2, height: frame.height * 0.2)
-//        rightButton.frame = CGRect(x: frame.width - frame.width * 0.2, y: frame.height * 0.05, width: frame.width * 0.2, height: frame.height * 0.2)
+        sportDataCube.frame.origin = CGPoint(x: frame.width * 0.03,
+                                               y: frame.height * 0.03)
+        
+        heartRateDataCube.frame.origin = CGPoint(x: frame.width / 2 + frame.width * 0.015,
+                                               y: frame.height * 0.03)
+        
+        sleepDataCube.frame.origin = CGPoint(x: frame.width * 0.03,
+                                              y: sportDataCube.frame.height + frame.height * 0.06)
+        
+        weightDataCube.frame.origin = CGPoint(x: frame.width / 2 + frame.width * 0.015,
+                                              y: heartRateDataCube.frame.height + frame.height * 0.06)
+
     }
     
     private func config(){
@@ -156,23 +99,36 @@ class FirstCell: UITableViewCell {
     private func createContents(){
         
         //添加主页气泡 running walking riding
-        addSubview(walkingDataBall)
-        addSubview(runningDataBall)
-        addSubview(ridingDataBall)
+
+        var data = DataCubeData()
+        data.value1 = 123
+        data.value2 = 456
+        data.value3 = 789
+        data.value4 = 222
         
-        //添加三个数据
-//        addSubview(calorieIcon)
-//        
-//        addSubview(distanceIcon)
-//        
-//        addSubview(timeIcon)
-//        
-//        //左右按钮
-//        leftButton.addTarget(self, action: #selector(clickButton(sender:)), for: .touchUpInside)
-//        addSubview(leftButton)
-//        
-//        rightButton.addTarget(self, action: #selector(clickButton(sender:)), for: .touchUpInside)
-//        addSubview(rightButton)
+        sportDataCube.data = data
+        addSubview(sportDataCube)
+        
+        heartRateDataCube.data = data
+        addSubview(heartRateDataCube)
+        
+        sleepDataCube.data = data
+        addSubview(sleepDataCube)
+        
+        weightDataCube.data = data
+        addSubview(weightDataCube)
+        
+        //添加回调
+        sportDataCube.closure = clickedCube
+        heartRateDataCube.closure = clickedCube
+        sleepDataCube.closure = clickedCube
+        weightDataCube.closure = clickedCube
+    }
+    
+    //MARK:- cube点击回调
+    private func clickedCube(_ type: DataCubeType){
+        
+        closure?(type)
     }
     
     @objc private func swipe(gesture: UISwipeGestureRecognizer){
@@ -240,9 +196,9 @@ extension FirstCell: CAAnimationDelegate{
         //发送切换日期消息
         notiy.post(name: switch_notiy, object: curTag, userInfo: nil)
 
-        runningDataBall.randomAction()
-        walkingDataBall.randomAction()
-        ridingDataBall.randomAction()
+//        runningDataCube.randomAction()
+//        walkingDataCube.randomAction()
+//        ridingDataCube.randomAction()
     }
 }
 

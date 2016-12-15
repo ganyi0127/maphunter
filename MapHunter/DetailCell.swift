@@ -37,8 +37,6 @@ class DetailCell: UITableViewCell {
 //        layer.transform = transform
         
         backgroundColor = .clear
-        
-        
     }
     
     private func createContents(){

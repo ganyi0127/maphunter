@@ -31,45 +31,7 @@ class ThirdCell: UITableViewCell {
     
     var value:StoryData?{
         didSet{
-            guard  let data = value else {
-                return
-            }
-
-            //类型
-            typeLabel.text = data.type.rawValue
             
-            //时间 星期
-            var time = data.date.time
-            var hour = Int(time) / 60
-            var min = Int(time) % 60
-            var hourStr = hour > 10 ? "\(hour)" : "0\(hour)"
-            var minStr = min > 10 ? "\(min)" : "0\(min)"
-            let week = weekStrList[data.date.week]
-            timeLabel.text = hourStr + ":" + minStr + "  " + week
-            
-            //运动时间
-            time = data.sportTime
-            hour = Int(time) / 60
-            min = Int(time) % 60
-            if hour == 0{
-                hourStr = ""
-            }else{
-                hourStr = "\(hour)小时"
-            }
-            minStr = "\(min)分钟"
-            sportTimeLabel.text = hourStr + minStr
-            
-            //卡路里
-            let calorie = data.calorie
-            calorieLabel.text = "\(calorie)卡路里"
-            
-            //平均心率
-            let heartRate = data.heartRate
-            heartRateLabel.text = "平均心率:\(heartRate)bpm"
-            
-            //脂肪燃烧
-            let fat = data.fat
-            fatLabel.text = "\(fat)% 脂肪燃烧"
         }
     }
     
@@ -86,6 +48,42 @@ class ThirdCell: UITableViewCell {
     
     private func createContents(){
         
+        let startColor = UIColor(red: 255 / 255, green: 156 / 255, blue: 0, alpha: 1)
+        let endColor = UIColor(red: 255 / 255, green: 140 / 255, blue: 5 / 255, alpha: 1)
+        
+        //绘制渐变
+        let gradient = CAGradientLayer()
+        gradient.frame = CGRect(x: view_size.width * 0.03,
+                                y: view_size.width * 0.03,
+                                width: view_size.width * 0.94,
+                                height: view_size.width * 0.94 * 200 / 718)
+        gradient.locations = [0.2, 0.8]
+        gradient.startPoint = CGPoint(x: 0, y: 0)
+        gradient.endPoint = CGPoint(x: 0, y: 1)
+        gradient.colors = [startColor.cgColor, endColor.cgColor]
+        gradient.cornerRadius =  view_size.width * 0.02
+        gradient.shadowColor = UIColor.black.cgColor
+        layer.addSublayer(gradient)
+        
+        //添加美术图片
+        let iconSize = CGSize(width: gradient.frame.height / 3, height: gradient.frame.height / 3)
+        let icon = UIImage(named: "resource/icon_walk")?.transfromImage(size: iconSize)
+        let imageSize = CGSize(width: gradient.frame.height, height: gradient.frame.height)
+        let image = UIImage(named: "resource/walk")?.transfromImage(size: imageSize)
+        
+        let iconView = UIImageView(frame: CGRect(x: view_size.width * 0.05,
+                                                 y: view_size.width * 0.05,
+                                                 width: iconSize.width,
+                                                 height: iconSize.height))
+        iconView.image = icon
+        addSubview(iconView)
+        
+        let imageView = UIImageView(frame: CGRect(x: view_size.width - imageSize.width * 1.5,
+                                                  y: view_size.width * 0.03,
+                                                  width: imageSize.width,
+                                                  height: imageSize.height))
+        imageView.image = image
+        addSubview(imageView)
     }
 }
 
@@ -96,7 +94,7 @@ extension ThirdCell{
         
         ctx?.clear(rect)
         //填充背景
-        let backColor = UIColor.white.cgColor
+        let backColor = timeColor.cgColor
         ctx?.setFillColor(backColor)
         ctx?.fill(rect)
         

@@ -12,7 +12,8 @@ class StateVC: UIViewController {
     @IBOutlet weak var topView: TopView!            //日历
     @IBOutlet weak var tableView: UITableView!      //内容
     
-    
+    //转场代理
+    fileprivate var customAnimationController: CustomAnimationController?
     
     //MARK:- init
     override func viewDidLoad() {
@@ -20,6 +21,16 @@ class StateVC: UIViewController {
 
         config()
         createContents()
+    }
+    
+    //MARK:- 转场
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        //...
+        if segue.identifier == "DetailViewController" {
+            let toVC = segue.destination
+            toVC.transitioningDelegate = self
+        }
     }
     
     private func config(){
@@ -33,6 +44,9 @@ class StateVC: UIViewController {
         //设置背景
         view.backgroundColor = defaultColor
         tableView.backgroundColor = defaultColor
+        
+        //转场
+        customAnimationController = CustomAnimationController()
     }
     
     private func createContents(){
@@ -93,22 +107,20 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
         }
         
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view_size.width, height: 50))
-        headerView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
+        headerView.backgroundColor = timeColor
         
-        let imageView = UIImageView(image: UIImage(named: "resource/icon_menu"))
-        imageView.frame = CGRect(x: imageView.frame.width * 0.3,
-                                 y: imageView.frame.height * 0.3,
-                                 width: imageView.frame.width,
-                                 height: imageView.frame.height)
+        let imageViewFrame = CGRect(x: view_size.width * 0.1, y: 15, width: 20, height: 20)
+        let imageView = UIImageView(frame: imageViewFrame)
+        imageView.image = UIImage(named: "resource/mystory")?.transfromImage(size: CGSize(width: 20, height: 20))
         headerView.addSubview(imageView)
         
         let label = UILabel(frame: CGRect(x: imageView.frame.origin.x + imageView.frame.width * 1.5,
-                                          y: imageView.frame.origin.y,
+                                          y: 25 - 9,
                                           width: view_size.width,
                                           height: 18))
-        label.textColor = .white
+        label.textColor = wordColor
         label.font = UIFont(name: font_name, size: 18)
-        label.text = "今日故事"
+        label.text = "我的一天"
         label.textAlignment = .left
         headerView.addSubview(label)
         
@@ -136,9 +148,9 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             
             switch indexPath.row {
             case 0:
-                return view_size.width * 2 / 3
-//            case 1, 2, 3:
-//                return view_size.width / 2
+                return view_size.width
+            case 1:
+                return view_size.height * 0.1
             default:
                 return view_size.width / 3
             }
@@ -159,16 +171,26 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             if cell == nil{
                 switch indexPath.row {
                 case 0:
+                    //四模块
                     cell = FirstCell(style: .default, reuseIdentifier: identifier)
-                case 1:
-                    cell = DetailCell(reuseIdentifier: identifier)
-                    (cell as! DetailCell).closure = {
-                        detailType in
-                        //选中回调
-                        print("selected: \(detailType)")
-                        let detaiViewController = DetailViewController(detailType: detailType)
+                    (cell as! FirstCell).closure = {
+                        dataCubeType in
+                        
+                        //进入详情页面
+                        let detaiViewController = DetailViewController(detailType: dataCubeType)
                         self.navigationController?.show(detaiViewController, sender: cell)
                     }
+                    
+                case 1:
+//                    cell = DetailCell(reuseIdentifier: identifier)
+//                    (cell as! DetailCell).closure = {
+//                        detailType in
+//                        //选中回调
+//                        print("selected: \(detailType)")
+//                        let detaiViewController = DetailViewController(detailType: detailType)
+//                        self.navigationController?.show(detaiViewController, sender: cell)
+//                    }
+                    cell = CalendarCell(reuseIdentifier: identifier)
                 default:
                     cell = SecondCell(indexPath.row, reuseIdentifier: identifier)
                     cell?.contentView.backgroundColor = tableView.backgroundColor
@@ -183,11 +205,9 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
 //                (cell as! FirstCell).distance = 5
 //                (cell as! FirstCell).time = 123
                 break
-//            case 1, 2, 3:
-//                
-//                let cellDate = CellData(value1: 123, value2: 456, value3: 789, value4: 101, value5: 102, value6: [12,34,56])
-//                (cell as! SecondCell).cellData1 = cellDate
-//                (cell as! SecondCell).cellData2 = cellDate
+            case 1:
+                (cell as! CalendarCell).date = selectDate
+
             default:
                 break
             }
@@ -209,5 +229,12 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
         (cell as! ThirdCell).value = value
         
         return cell!
+    }
+}
+
+//MARK:- 转场实现
+extension StateVC: UIViewControllerTransitioningDelegate{
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return customAnimationController
     }
 }

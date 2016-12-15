@@ -7,7 +7,7 @@
 //
 
 import UIKit
-extension UINavigationController:UINavigationControllerDelegate{
+extension UINavigationController: UINavigationControllerDelegate{
     
     open override func awakeFromNib() {
         
@@ -18,7 +18,7 @@ extension UINavigationController:UINavigationControllerDelegate{
             navigation_height = navigationBar.frame.height
         }
         
-        navigationBar.topItem?.title = "FunSport"
+        
         
         navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: font_name, size: 17)!,
                                              NSForegroundColorAttributeName: UIColor(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1)]
@@ -27,7 +27,7 @@ extension UINavigationController:UINavigationControllerDelegate{
         
         navigationBar.backgroundColor = defaultColor
         
-        let image = UIImage(named: "navigation_back")
+        let image = UIImage(named: "resource/navigation_back")?.transfromImage(size: CGSize(width: view_size.width, height: navigation_height! + 64))
         navigationBar.setBackgroundImage(image, for: .default)
         navigationBar.shadowImage = UIImage()
     }
@@ -45,17 +45,72 @@ extension UINavigationController:UINavigationControllerDelegate{
             
             if navigationItem.rightBarButtonItem == nil && viewController.isKind(of: StateVC.self){
                 
-                let shareBarButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share(sender:)))
-                viewController.navigationItem.rightBarButtonItem = shareBarButton
+                let image = UIImage(named: "resource/icon_calendar")
+                let imageSize = CGSize(width: navigation_height! * 0.6, height: navigation_height! * 0.6)
+                let calenderBarButton = UIBarButtonItem(image: image?.transfromImage(size: imageSize), style: .done, target: self, action: #selector(switchCalender(sender:)))
+                viewController.navigationItem.rightBarButtonItem = calenderBarButton
+            }
+            
+            //设置显示navigation
+            var image: UIImage!
+            if viewController.isKind(of: MapVC.self){
+                //地图页面置透明
+                image = UIImage(named: "resource/navigation_alpha")
+                
+                navigationBar.topItem?.title = nil
+            }else{
+                //设置为不透明
+                image = UIImage(named: "resource/navigation_back")?.transfromImage(size: CGSize(width: view_size.width, height: navigation_height! + 64))
+                
+                navigationBar.topItem?.title = "FunSport"
+            }
+            navigationBar.setBackgroundImage(image, for: .default)
+            navigationController.navigationBar.backgroundColor = .clear
+            
+            //显示tabbar
+            var tabbarFrame = viewController.tabBarController!.tabBar.frame
+            tabbarFrame.origin.y = view_size.height - tabbarFrame.height
+            let duration: TimeInterval = 0.1
+            UIView.animate(withDuration: duration){
+                viewController.tabBarController?.tabBar.frame = tabbarFrame
             }
         }else{
             navigationItem.leftBarButtonItem = nil
+            
+            //设置navigation透明
+            let image = UIImage(named: "resource/navigation_alpha")
+            navigationController.navigationBar.setBackgroundImage(image, for: .default)
+            navigationController.navigationBar.backgroundColor = nil
+            
+            //隐藏tabbar
+            let tabbarFrame = viewController.tabBarController!.tabBar.frame
+            let offsetY:CGFloat = tabbarFrame.origin.y > view_size.height ? 0 : tabbarFrame.height + view_size.width * 0.06
+            let duration: TimeInterval = 0.1
+            UIView.animate(withDuration: duration){
+                viewController.tabBarController?.tabBar.frame = tabbarFrame.offsetBy(dx: 0, dy: offsetY)
+            }
         }
     }
     
     //MARK:分享
-    @objc private func share(sender: UIBarButtonItem){
+    @objc private func switchCalender(sender: UIBarButtonItem){
         
-        print("share action")
+        notiy.post(name: calendar_notiy, object: nil)
+    }
+    
+    //MARK:- 转场代理实现
+    public func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        //状态页自定义切换
+        if fromVC.isKind(of: StateVC.self) || toVC.isKind(of: StateVC.self) {
+            
+            if operation == .push{
+                return CustomAnimationController()
+            }
+            return CustomPopAnimatation()
+        }
+        
+        return nil
     }
 }
+

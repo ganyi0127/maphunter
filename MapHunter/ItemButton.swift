@@ -16,8 +16,8 @@ class ItemButton: UIBarButtonItem {
     private var bindingImageMap:[String: UIImage?]{
         get{
             
-            let onImage = getMatchedImage(originImage: UIImage(named: "resource/binding_state_1")!)
-            let offImage = getMatchedImage(originImage: UIImage(named: "resource/binding_state_0")!)
+            let onImage = UIImage(named: "resource/binding_state_1")!.transfromImage(size: CGSize(width: navigation_height! * 0.6, height: navigation_height! * 0.6))
+            let offImage = UIImage(named: "resource/binding_state_0")!.transfromImage(size: CGSize(width: navigation_height! * 0.6, height: navigation_height! * 0.6))
             return ["on": onImage, "off": offImage]
         }
     }

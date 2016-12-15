@@ -42,8 +42,9 @@
         float curVelo = velocity[i];
         
         if(curVelo>0.){
-            curVelo = ((curVelo < V_MIN) ? V_MIN : (curVelo  > V_MAX) ? V_MAX : curVelo);
-            (*_hue)[i] = H_MIN + ((curVelo-V_MIN)*(H_MAX-H_MIN))/(V_MAX-V_MIN);
+            
+            curVelo = ((curVelo < [OCVariable share].v_min) ? [OCVariable share].v_min : (curVelo  > [OCVariable share].v_max) ? [OCVariable share].v_max : curVelo);
+            (*_hue)[i] = H_MIN + ((curVelo-[OCVariable share].v_min)*(H_MAX-H_MIN))/([OCVariable share].v_max-[OCVariable share].v_min);
         }else{
             //暂停颜色
             (*_hue)[i] = 0.;

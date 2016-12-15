@@ -9,9 +9,13 @@
 import UIKit
 class DetailViewController: UIViewController {
     
+    private var type: DataCubeType!
+    
     //MARK:- init
-    init(detailType: DetailType){
+    init(detailType: DataCubeType){
         super.init(nibName: nil, bundle: nil)
+        
+        type = detailType
         
         config()
         createContents()
@@ -26,10 +30,26 @@ class DetailViewController: UIViewController {
     }
     
     private func config(){
-        view.backgroundColor = UIColor(red: 242 / 255, green: 242 / 255, blue: 242 / 255, alpha: 1)
+        view.backgroundColor = .clear
+        
+        //绘制渐变
+        let gradient = CAGradientLayer()
+        gradient.frame = view.bounds
+        gradient.locations = [0.2, 0.8]
+        gradient.startPoint = CGPoint(x: 0, y: 0)
+        gradient.endPoint = CGPoint(x: 1, y: 1)
+        gradient.colors = [modelStartColors[type]!.cgColor, modelEndColors[type]!.cgColor]
+        gradient.cornerRadius = 10
+        view.layer.addSublayer(gradient)
     }
     
     private func createContents(){
+        
+    }
+}
+
+extension DetailViewController{
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
     }
 }

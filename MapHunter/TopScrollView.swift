@@ -140,9 +140,11 @@ class TopScrollView: UIScrollView {
                     dateProgressOfCurrentMonth.append(dateProgress)
                 }else{
                     //删除
-                    let dateProgress = dateProgressOfCurrentMonth.removeLast()
-                    dateProgress.removeFromSuperview()
-                    dateProgressCollectionList.append(dateProgress)
+                    if !dateProgressOfCurrentMonth.isEmpty{
+                        let dateProgress = dateProgressOfCurrentMonth.removeLast()
+                        dateProgress.removeFromSuperview()
+                        dateProgressCollectionList.append(dateProgress)
+                    }
                 }
             }
             

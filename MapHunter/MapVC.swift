@@ -222,18 +222,22 @@ class MapVC: UIViewController {
     
     private func createContents(){
         
-        
     }
     
     @IBAction func selectSport(_ sender: UISegmentedControl) {
         let index = sender.selectedSegmentIndex
         if index == 0{
             //步行
-//            V_MAX = 1
+            OCVariable.share().v_max = 7.5
+            OCVariable.share().v_min = 6
         }else if index == 1{
             //跑步
+            OCVariable.share().v_max = 10
+            OCVariable.share().v_min = 7.5
         }else if index == 2{
             //骑行
+            OCVariable.share().v_max = 25
+            OCVariable.share().v_min = 20
         }
     }
     //MARK:测试添加大头针
