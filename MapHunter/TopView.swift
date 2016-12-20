@@ -80,7 +80,6 @@ class TopView: UIView {
     
     deinit {
         notiy.removeObserver(self, name: switch_notiy, object: nil)
-        notiy.removeObserver(self, name: calendar_notiy, object: nil)
     }
     
     override func draw(_ rect: CGRect) {
@@ -92,7 +91,6 @@ class TopView: UIView {
         backgroundColor = .clear
         
         notiy.addObserver(self, selector: #selector(switchDate(notification:)), name: switch_notiy, object: nil)
-        notiy.addObserver(self, selector: #selector(clickCalendar), name: calendar_notiy, object: nil)
     }
     
     //MARK:左右快捷切换日期
@@ -155,7 +153,8 @@ class TopView: UIView {
 //        }
     }
     
-    @objc fileprivate func clickCalendar(){
+    //MARK:- 点击日历按钮
+    func clickCalendar(){
         //展开日历
         isCalendarOpened = !isCalendarOpened
         

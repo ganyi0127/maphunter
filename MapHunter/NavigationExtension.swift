@@ -24,7 +24,6 @@ extension UINavigationController: UINavigationControllerDelegate{
                                              NSForegroundColorAttributeName: UIColor(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1)]
         
         navigationBar.tintColor = UIColor(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1)
-        
         navigationBar.backgroundColor = defaultColor
         
         let image = UIImage(named: "resource/navigation_back")?.transfromImage(size: CGSize(width: view_size.width, height: navigation_height! + 64))
@@ -38,22 +37,34 @@ extension UINavigationController: UINavigationControllerDelegate{
         //判断是否为根视图
         if viewControllers.count == 1{
             if navigationItem.leftBarButtonItem == nil {
-                
-                let linkBarButton = ItemButton(buttonType: .link)
-                viewController.navigationItem.leftBarButtonItem = linkBarButton
+                if viewController.isKind(of: StateVC.self){
+                    let linkBarButton = ItemButton(buttonType: .link)
+                    viewController.navigationItem.leftBarButtonItem = linkBarButton
+                }
             }
             
-            if navigationItem.rightBarButtonItem == nil && viewController.isKind(of: StateVC.self){
+            if navigationItem.rightBarButtonItem == nil {
                 
-                let image = UIImage(named: "resource/icon_calendar")
-                let imageSize = CGSize(width: navigation_height! * 0.6, height: navigation_height! * 0.6)
-                let calenderBarButton = UIBarButtonItem(image: image?.transfromImage(size: imageSize), style: .done, target: self, action: #selector(switchCalender(sender:)))
-                viewController.navigationItem.rightBarButtonItem = calenderBarButton
+                if viewController.isKind(of: StateVC.self){
+                    //状态视图
+                    let image = UIImage(named: "resource/icon_calendar")
+                    let imageSize = CGSize(width: navigation_height! * 0.6, height: navigation_height! * 0.6)
+//                    let calenderBarButton = UIBarButtonItem(image: image?.transfromImage(size: imageSize), style: .done, target: self, action: #selector(switchCalender(sender:)))
+                    let calenderBarButton = UIBarButtonItem(image: image?.transfromImage(size: imageSize), style: .done, target: (viewController as! StateVC).topView, action: #selector((viewController as! StateVC).topView.clickCalendar))
+                    
+                    viewController.navigationItem.rightBarButtonItem = calenderBarButton
+                }else if viewController.isKind(of: MeVC.self){
+                    //个人视图
+                    let image = UIImage(named: "resource/me/me_setting")
+                    let imageSize = CGSize(width: navigation_height! * 0.6, height: navigation_height! * 0.6)
+                    let calenderBarButton = UIBarButtonItem(image: image?.transfromImage(size: imageSize), style: .done, target: viewController, action: #selector(MeVC.clickSetting(sender:)))
+                    viewController.navigationItem.rightBarButtonItem = calenderBarButton
+                }
             }
             
             //设置显示navigation
             var image: UIImage!
-            if viewController.isKind(of: MapVC.self){
+            if viewController.isKind(of: MapVC.self) || viewController.isKind(of: MeVC.self){
                 //地图页面置透明
                 image = UIImage(named: "resource/navigation_alpha")
                 
@@ -80,11 +91,6 @@ extension UINavigationController: UINavigationControllerDelegate{
             //隐藏tabbar
             setTabbar(hidden: true)
         }
-    }
-    
-    //MARK:分享
-    @objc private func switchCalender(sender: UIBarButtonItem){
-        notiy.post(name: calendar_notiy, object: nil)
     }
     
     //MARK:- 控制tabbar显示与隐藏
@@ -119,13 +125,35 @@ extension UINavigationController: UINavigationControllerDelegate{
     //MARK:- 转场代理实现
     public func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
-        //状态页自定义切换
+        //模版
         if fromVC.isKind(of: StateVC.self) || toVC.isKind(of: StateVC.self) {
             
             if operation == .push{
-                return CustomAnimationController()
+                return StatePushController()
             }
-            return CustomPopAnimatation()
+            return StatePopController()
+        }
+        
+//        if fromVC.isKind(of: MeVC.self) || toVC.isKind(of: MeVC.self) {
+//            if operation == .push {
+//                return MePushController()
+//            }
+//            return MePopController()
+//        }
+        
+        //头像点击
+        if fromVC.isKind(of: MeVC.self) && toVC.isKind(of: MeInfo.self){
+            let indexPath = IndexPath(row: 0, section: 0)
+            let meVC = fromVC as! MeVC
+            let cell = meVC.tableview.cellForRow(at: indexPath) as! MeCell1
+            let startRect = cell.convert(cell.headImageView.frame, to: meVC.view)
+            return StatePushController(startRect: startRect)
+        }else if fromVC.isKind(of: MeInfo.self) && toVC.isKind(of: MeVC.self){
+            let indexPath = IndexPath(row: 0, section: 0)
+            let meVC = toVC as! MeVC
+            let cell = meVC.tableview.cellForRow(at: indexPath) as! MeCell1
+            let endRect = cell.convert(cell.headImageView.frame, to: meVC.view)
+            return StatePopController(endRect: endRect)
         }
         
         return nil

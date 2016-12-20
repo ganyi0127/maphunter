@@ -7,16 +7,23 @@
 //
 
 import Foundation
-class CustomAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
+class StatePushController: NSObject, UIViewControllerAnimatedTransitioning {
     
     fileprivate weak var transitionContext: UIViewControllerContextTransitioning?
     fileprivate weak var fromViewController: UIViewController?
     fileprivate weak var toViewController: UIViewController?
     
-    var clickPoint: CGPoint!
+    private var startRect: CGRect?
+    
+    convenience init(startRect: CGRect) {
+        self.init()
+        
+        self.startRect = startRect
+    }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.2
+        
+        return 0.3
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -36,38 +43,25 @@ class CustomAnimationController: NSObject, UIViewControllerAnimatedTransitioning
         let toViewView = toViewController!.view
         containerView.addSubview(toViewView!)
         
-        //animate
-        /*
-        let duration = transitionDuration(using: transitionContext)
-        
-        UIView.animate(withDuration: duration, animations: {
-            
-            //执行动画
-            fromViewController?.view.alpha = 0
-            toViewController?.view.frame = finalFrame
-        }){
-            complete in
-            
-            //完成动画
-            fromViewController?.view.alpha = 1
-            transitionContext.completeTransition(true)
-        }
-         */
-        
-        
         //路径动画
         toViewController?.view.frame = finalFrame
         
         let startRadius = view_size.width * 0.1
-        let circlePathInitial = UIBezierPath(ovalIn: CGRect(x: view_size.width / 2 - startRadius,
-                                                            y: view_size.height / 2 - startRadius,
-                                                            width: startRadius,
-                                                            height: startRadius))
+        
+        let initialRect = startRect ?? CGRect(x: view_size.width / 2 - startRadius,
+                                              y: view_size.height / 2 - startRadius,
+                                              width: startRadius * 2,
+                                              height: startRadius * 2)
+        let circlePathInitial = UIBezierPath(ovalIn: initialRect)
 
-        let circlePathFinally = UIBezierPath(ovalIn: CGRect(x: view_size.width / 2 - view_size.height / 2,
-                                                            y: 0,
-                                                            width: view_size.height,
-                                                            height: view_size.height))
+        let finallyRect = startRect == nil ? CGRect(x: view_size.width / 2 - view_size.height / 2,
+                                                    y: 0,
+                                                    width: view_size.height,
+                                                    height: view_size.height) : CGRect(x: startRect!.origin.x - view_size.height,
+                                                                                       y: startRect!.origin.y - view_size.height,
+                                                                                       width: view_size.height * 2,
+                                                                                       height: view_size.height * 2)
+        let circlePathFinally = UIBezierPath(ovalIn: finallyRect)
         
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = circlePathInitial.cgPath
@@ -80,13 +74,14 @@ class CustomAnimationController: NSObject, UIViewControllerAnimatedTransitioning
         maskAnim.isRemovedOnCompletion = false
         maskAnim.fillMode = kCAFillModeBoth
         maskAnim.delegate = self
+        maskAnim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         shapeLayer.add(maskAnim, forKey: "path")
     }
     
 }
 
 //MARK:- 路径动画代理
-extension CustomAnimationController: CAAnimationDelegate{
+extension StatePushController: CAAnimationDelegate{
     
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         

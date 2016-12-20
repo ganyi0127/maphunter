@@ -11,7 +11,6 @@ class MeVC: UIViewController {
     
     @IBOutlet weak var tableview: UITableView!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,6 +26,19 @@ class MeVC: UIViewController {
     
     private func createContents(){
         
+    }
+    
+    //MARK:- 点击设置
+    func clickSetting(sender: UIBarButtonItem){
+        debugPrint("setting")
+    }
+    
+    @IBAction func clickImageView(_ sender: UITapGestureRecognizer) {
+        
+        guard let infoViewController = storyboard?.instantiateViewController(withIdentifier: "meinfo") else{
+            return
+        }
+        navigationController?.pushViewController(infoViewController, animated: true)
     }
 }
 
@@ -47,7 +59,7 @@ extension MeVC: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                return view_size.width / 2
+                return 244 //view_size.width / 2
             }else{
                 return 44
             }
@@ -57,8 +69,9 @@ extension MeVC: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+
         if section == 0{
-            return 0
+            return 20
         }else{
             return 18
         }
@@ -66,20 +79,35 @@ extension MeVC: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        var cell: UITableViewCell?
+        if indexPath.section == 0 && indexPath.row == 0 {
+            cell = tableView.dequeueReusableCell(withIdentifier: "cell")
+            return cell!
+        }
+        
         let identifier = "\(indexPath.section)_\(indexPath.row)"
-        var cell = tableView.dequeueReusableCell(withIdentifier: identifier)
+        cell = tableView.dequeueReusableCell(withIdentifier: identifier)
         if cell == nil {
             if indexPath.section == 0 {
-                if indexPath.row == 0 {
-                    cell = MeCell1(reuseIdentifier: identifier)
-                }else{
-                    cell = MeCell2(reuseIdentifier: identifier)
-                }
+                cell = MeCell2(reuseIdentifier: identifier)
+                
             }else{
                 cell = MeCell3(type: MeCell3Type(rawValue: indexPath.row)!, reuseIdentifier: identifier)
             }
         }
         
         return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.section == 0 {
+            
+        }else{
+            let cell: MeCell3 = tableView.cellForRow(at: indexPath) as! MeCell3
+            let type = cell.type
+            let detailViewController = MeDetails(type: type!)
+            navigationController?.pushViewController(detailViewController, animated: true)
+        }
     }
 }

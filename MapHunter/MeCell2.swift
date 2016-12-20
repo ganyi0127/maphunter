@@ -20,10 +20,18 @@ class MeCell2: UITableViewCell {
     }
     
     private func config(){
-        
+        selectionStyle = .default
     }
     
     private func createContents(){
         
+        //设置文字
+        let labelFrame = CGRect(x: 0, y: 10, width: frame.size.width, height: 24)
+        let label = UILabel(frame: labelFrame)
+        label.text = "个人总成绩"
+        label.textColor = wordColor
+        label.font = UIFont(name: font_name, size: 12)
+        label.textAlignment = .center
+        contentView.addSubview(label)
     }
 }

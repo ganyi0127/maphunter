@@ -9,12 +9,16 @@
 /* Begin PBXBuildFile section */
 		320535361DFE59C80087068E /* ImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320535351DFE59C80087068E /* ImageExtension.swift */; };
 		320535391DFE7AFC0087068E /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320535381DFE7AFC0087068E /* CalendarCell.swift */; };
-		3205353B1DFFD1F00087068E /* CustomAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3205353A1DFFD1F00087068E /* CustomAnimationController.swift */; };
+		3205353B1DFFD1F00087068E /* StatePushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3205353A1DFFD1F00087068E /* StatePushController.swift */; };
 		3267D0511DF7E7B40060B9C2 /* resource in Resources */ = {isa = PBXBuildFile; fileRef = 3267D0501DF7E7B40060B9C2 /* resource */; };
-		327383721E00F4A000767708 /* CustomPopAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327383711E00F4A000767708 /* CustomPopAnimation.swift */; };
+		327383721E00F4A000767708 /* StatePopController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327383711E00F4A000767708 /* StatePopController.swift */; };
 		32C3E6201E07E3CA00D34A74 /* MeCell1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C3E61F1E07E3CA00D34A74 /* MeCell1.swift */; };
 		32C3E6221E07E5CF00D34A74 /* MeCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C3E6211E07E5CF00D34A74 /* MeCell2.swift */; };
 		32C3E6241E07E5F400D34A74 /* MeCell3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C3E6231E07E5F400D34A74 /* MeCell3.swift */; };
+		32C3E6271E0904B900D34A74 /* MeDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C3E6261E0904B900D34A74 /* MeDetails.swift */; };
+		32C3E6291E090B4C00D34A74 /* MePushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C3E6281E090B4C00D34A74 /* MePushController.swift */; };
+		32C3E62B1E09121800D34A74 /* MePopController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C3E62A1E09121800D34A74 /* MePopController.swift */; };
+		32C3E62D1E091F2200D34A74 /* MeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C3E62C1E091F2200D34A74 /* MeInfo.swift */; };
 		32C5726A1DD9C2E700CEC5EB /* GradientPolylineOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 32C572691DD9C2E700CEC5EB /* GradientPolylineOverlay.m */; };
 		32C5726E1DDAA7C500CEC5EB /* GradientPolylineRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 32C5726D1DDAA7C500CEC5EB /* GradientPolylineRenderer.m */; };
 		32CCE7131E02321E008AAB8C /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CCE7121E02321E008AAB8C /* ViewExtension.swift */; };
@@ -96,12 +100,16 @@
 /* Begin PBXFileReference section */
 		320535351DFE59C80087068E /* ImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
 		320535381DFE7AFC0087068E /* CalendarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
-		3205353A1DFFD1F00087068E /* CustomAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAnimationController.swift; sourceTree = "<group>"; };
+		3205353A1DFFD1F00087068E /* StatePushController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatePushController.swift; sourceTree = "<group>"; };
 		3267D0501DF7E7B40060B9C2 /* resource */ = {isa = PBXFileReference; lastKnownFileType = folder; path = resource; sourceTree = "<group>"; };
-		327383711E00F4A000767708 /* CustomPopAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPopAnimation.swift; sourceTree = "<group>"; };
+		327383711E00F4A000767708 /* StatePopController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatePopController.swift; sourceTree = "<group>"; };
 		32C3E61F1E07E3CA00D34A74 /* MeCell1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeCell1.swift; sourceTree = "<group>"; };
 		32C3E6211E07E5CF00D34A74 /* MeCell2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeCell2.swift; sourceTree = "<group>"; };
 		32C3E6231E07E5F400D34A74 /* MeCell3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeCell3.swift; sourceTree = "<group>"; };
+		32C3E6261E0904B900D34A74 /* MeDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeDetails.swift; sourceTree = "<group>"; };
+		32C3E6281E090B4C00D34A74 /* MePushController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MePushController.swift; sourceTree = "<group>"; };
+		32C3E62A1E09121800D34A74 /* MePopController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MePopController.swift; sourceTree = "<group>"; };
+		32C3E62C1E091F2200D34A74 /* MeInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeInfo.swift; sourceTree = "<group>"; };
 		32C572671DD9C2E700CEC5EB /* MapHunter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MapHunter-Bridging-Header.h"; sourceTree = "<group>"; };
 		32C572681DD9C2E700CEC5EB /* GradientPolylineOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientPolylineOverlay.h; sourceTree = "<group>"; };
 		32C572691DD9C2E700CEC5EB /* GradientPolylineOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientPolylineOverlay.m; sourceTree = "<group>"; };
@@ -191,6 +199,30 @@
 				320535381DFE7AFC0087068E /* CalendarCell.swift */,
 			);
 			name = CalendarCell;
+			sourceTree = "<group>";
+		};
+		32C3E6251E09049100D34A74 /* 健康详情 */ = {
+			isa = PBXGroup;
+			children = (
+				32C3E6261E0904B900D34A74 /* MeDetails.swift */,
+			);
+			name = "健康详情";
+			sourceTree = "<group>";
+		};
+		32C3E62F1E092F4B00D34A74 /* 个人设置 */ = {
+			isa = PBXGroup;
+			children = (
+				32C3E6301E092F6700D34A74 /* 个人资料修改 */,
+			);
+			name = "个人设置";
+			sourceTree = "<group>";
+		};
+		32C3E6301E092F6700D34A74 /* 个人资料修改 */ = {
+			isa = PBXGroup;
+			children = (
+				32C3E62C1E091F2200D34A74 /* MeInfo.swift */,
+			);
+			name = "个人资料修改";
 			sourceTree = "<group>";
 		};
 		32C5726B1DD9C2FD00CEC5EB /* 自定义路径 */ = {
@@ -394,8 +426,8 @@
 			isa = PBXGroup;
 			children = (
 				BEDF4F3A1D9393BC00E98D63 /* StateVC.swift */,
-				3205353A1DFFD1F00087068E /* CustomAnimationController.swift */,
-				327383711E00F4A000767708 /* CustomPopAnimation.swift */,
+				3205353A1DFFD1F00087068E /* StatePushController.swift */,
+				327383711E00F4A000767708 /* StatePopController.swift */,
 				BEDF4F751D9909A300E98D63 /* Top */,
 				BEDF4F6C1D98FC5E00E98D63 /* cells */,
 			);
@@ -414,9 +446,13 @@
 			isa = PBXGroup;
 			children = (
 				BEDF4F3E1D93942E00E98D63 /* MeVC.swift */,
+				32C3E6281E090B4C00D34A74 /* MePushController.swift */,
+				32C3E62A1E09121800D34A74 /* MePopController.swift */,
 				32C3E61F1E07E3CA00D34A74 /* MeCell1.swift */,
 				32C3E6211E07E5CF00D34A74 /* MeCell2.swift */,
 				32C3E6231E07E5F400D34A74 /* MeCell3.swift */,
+				32C3E62F1E092F4B00D34A74 /* 个人设置 */,
+				32C3E6251E09049100D34A74 /* 健康详情 */,
 			);
 			name = "个人";
 			sourceTree = "<group>";
@@ -600,7 +636,7 @@
 				BEDF4F6B1D98FB3800E98D63 /* TopView.swift in Sources */,
 				32D4129B1DEEB6EF008EE637 /* DetailView.swift in Sources */,
 				32C3E6201E07E3CA00D34A74 /* MeCell1.swift in Sources */,
-				327383721E00F4A000767708 /* CustomPopAnimation.swift in Sources */,
+				327383721E00F4A000767708 /* StatePopController.swift in Sources */,
 				32C3E6241E07E5F400D34A74 /* MeCell3.swift in Sources */,
 				BEDF4F3F1D93942E00E98D63 /* MeVC.swift in Sources */,
 				32C5726E1DDAA7C500CEC5EB /* GradientPolylineRenderer.m in Sources */,
@@ -612,13 +648,17 @@
 				BEDF4F3B1D9393BC00E98D63 /* StateVC.swift in Sources */,
 				32D412461DEE8793008EE637 /* TarbarExtension.swift in Sources */,
 				BEB248EC1D9BD91A00C9F9ED /* IconView.swift in Sources */,
+				32C3E62B1E09121800D34A74 /* MePopController.swift in Sources */,
 				32E238AB1DFA996E001969AE /* OCVariable.swift in Sources */,
 				32C5726A1DD9C2E700CEC5EB /* GradientPolylineOverlay.m in Sources */,
+				32C3E6291E090B4C00D34A74 /* MePushController.swift in Sources */,
 				320535391DFE7AFC0087068E /* CalendarCell.swift in Sources */,
+				32C3E6271E0904B900D34A74 /* MeDetails.swift in Sources */,
 				BEB248E71D9B4E2600C9F9ED /* ThirdCell.swift in Sources */,
 				32D411E81DEBCEC2008EE637 /* DataBall.swift in Sources */,
 				32D4123F1DED713D008EE637 /* DetailCell.swift in Sources */,
 				BEB248F71D9CB6DC00C9F9ED /* SubCell.swift in Sources */,
+				32C3E62D1E091F2200D34A74 /* MeInfo.swift in Sources */,
 				BEDF4F791D990EF800E98D63 /* DateProgress.swift in Sources */,
 				BEDF4F351D93910E00E98D63 /* Configure.swift in Sources */,
 				32D4129E1DEEC4C0008EE637 /* DetailViewController.swift in Sources */,
@@ -643,7 +683,7 @@
 				BEB248EA1D9BBC8D00C9F9ED /* StepProgress.swift in Sources */,
 				BEB249091D9E202000C9F9ED /* Cell6Content.swift in Sources */,
 				BE2DC9E91D9210A300978C97 /* AppDelegate.swift in Sources */,
-				3205353B1DFFD1F00087068E /* CustomAnimationController.swift in Sources */,
+				3205353B1DFFD1F00087068E /* StatePushController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,25 +16,12 @@ class StateVC: UIViewController {
     fileprivate var newY: CGFloat = 0
     fileprivate var oldY: CGFloat = 0
     
-    //转场代理
-    fileprivate var customAnimationController: CustomAnimationController?
-    
     //MARK:- init
     override func viewDidLoad() {
         super.viewDidLoad()
 
         config()
         createContents()
-    }
-    
-    //MARK:- 转场
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        //...
-        if segue.identifier == "DetailViewController" {
-            let toVC = segue.destination
-            toVC.transitioningDelegate = self
-        }
     }
     
     private func config(){
@@ -48,9 +35,7 @@ class StateVC: UIViewController {
         //设置背景
         view.backgroundColor = defaultColor
         tableView.backgroundColor = defaultColor
-        
-        //转场
-        customAnimationController = CustomAnimationController()
+
     }
     
     private func createContents(){
@@ -277,11 +262,4 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
         oldY = newY
     }
 
-}
-
-//MARK:- 转场实现
-extension StateVC: UIViewControllerTransitioningDelegate{
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return customAnimationController
-    }
 }
