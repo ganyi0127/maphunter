@@ -159,8 +159,7 @@ class TopView: UIView {
         //展开日历
         isCalendarOpened = !isCalendarOpened
         
-        UIView.animate(withDuration: 0.3, animations: {
-            
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
             self.topScrollView?.edit(self.isCalendarOpened)
             if self.isCalendarOpened{
                 let bigFrame = CGRect(x: 0, y: 0, width: view_size.width, height: view_size.height)
@@ -177,14 +176,11 @@ class TopView: UIView {
                 //显示tabbar
                 self.viewController().navigationController?.setTabbar(hidden: false)
             }
-        }){
-            complete in
-
-        }
+        }, completion: nil)
     }
     //MARK:- 按钮点击
     @objc fileprivate func clickButton(sender: UIButton){
-       
+        
         switch sender.tag {
         case 0:
             //返回到今天日期

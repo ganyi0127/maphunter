@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 import AudioToolbox
+import MediaPlayer
 
 //位置管理器
 var globalLocationManager: CLLocationManager = { () -> CLLocationManager in
@@ -623,7 +624,7 @@ extension MapVC:CLLocationManagerDelegate{
     //开始定位追踪_返回位置信息数组
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         debugPrint("location selected")
-        
+
         //获取最后记录点
         guard let location = locations.last else {
             print("location get last error!")

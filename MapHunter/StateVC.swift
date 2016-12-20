@@ -12,6 +12,10 @@ class StateVC: UIViewController {
     @IBOutlet weak var topView: TopView!            //日历
     @IBOutlet weak var tableView: UITableView!      //内容
     
+    //上拉下拉
+    fileprivate var newY: CGFloat = 0
+    fileprivate var oldY: CGFloat = 0
+    
     //转场代理
     fileprivate var customAnimationController: CustomAnimationController?
     
@@ -66,6 +70,12 @@ class StateVC: UIViewController {
         //添加刷新控件
         let control = { () -> UIRefreshControl in
             let ctrl = UIRefreshControl()
+            ctrl.backgroundColor = .clear
+            
+//            let cusView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+//            cusView.backgroundColor = .red
+//            ctrl.addSubview(cusView)
+            
             ctrl.tintColor = UIColor(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1)
             ctrl.attributedTitle = NSAttributedString(string: "同步健康数据")
             ctrl.addTarget(self, action: #selector(refreshStateChange(_:)), for: .valueChanged)
@@ -230,6 +240,43 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
         
         return cell!
     }
+    
+    //上拉下拉
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard scrollView == tableView else {
+            return
+        }
+        
+        newY = scrollView.contentOffset.y
+        
+        if #available(iOS 10.0, *) {
+            if let refreshControl = tableView.refreshControl{
+                if refreshControl.isRefreshing {
+                    oldY = 0
+                    return
+                }
+            }
+        } else {
+            let refreshControls = tableView.subviews.filter(){$0.isKind(of: UIRefreshControl.self)}
+            if !refreshControls.isEmpty{
+                oldY = 0
+                return
+            }
+        }
+        
+        guard fabs(newY - oldY) > 100 else {
+            return
+        }
+
+        if newY > oldY {
+            navigationController?.setTabbar(hidden: true)
+        }else{
+            navigationController?.setTabbar(hidden: false)
+        }
+        
+        oldY = newY
+    }
+
 }
 
 //MARK:- 转场实现

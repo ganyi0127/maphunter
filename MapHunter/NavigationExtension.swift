@@ -89,21 +89,29 @@ extension UINavigationController: UINavigationControllerDelegate{
     
     //MARK:- 控制tabbar显示与隐藏
     public func setTabbar(hidden flag: Bool){
+        
+        var tabbarFrame = tabBarController!.tabBar.frame
+        
         if flag {
             //隐藏tabbar
-            let tabbarFrame = tabBarController!.tabBar.frame
-            let offsetY:CGFloat = tabbarFrame.origin.y > view_size.height ? 0 : tabbarFrame.height + view_size.width * 0.06
-            let duration: TimeInterval = 0.1
-            UIView.animate(withDuration: duration){
-                self.tabBarController?.tabBar.frame = tabbarFrame.offsetBy(dx: 0, dy: offsetY)
+            if tabbarFrame.origin.y < view_size.height {
+                
+                let offsetY:CGFloat = tabbarFrame.height + view_size.width * 0.06
+                let duration: TimeInterval = 0.2
+                UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: {
+                    self.tabBarController?.tabBar.frame = tabbarFrame.offsetBy(dx: 0, dy: offsetY)
+                }, completion: nil)
             }
         }else{
             //显示tabbar
-            var tabbarFrame = tabBarController!.tabBar.frame
-            tabbarFrame.origin.y = view_size.height - tabbarFrame.height
-            let duration: TimeInterval = 0.1
-            UIView.animate(withDuration: duration){
-                self.tabBarController?.tabBar.frame = tabbarFrame
+
+            if tabbarFrame.origin.y >= view_size.height{
+                
+                tabbarFrame.origin.y = view_size.height - tabbarFrame.height
+                let duration: TimeInterval = 0.2
+                UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: {
+                    self.tabBarController?.tabBar.frame = tabbarFrame
+                }, completion: nil)
             }
         }
     }

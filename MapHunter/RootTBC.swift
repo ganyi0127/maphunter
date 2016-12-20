@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MediaPlayer
 class RootTBC: UITabBarController {
     
     //展开按钮
@@ -139,6 +140,7 @@ class RootTBC: UITabBarController {
         
         tabBar.addSubview(menuButton)
         menuButtonFlag = false
+
     }
     
     //MARK:- 点击展开按钮
