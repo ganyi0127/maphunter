@@ -30,7 +30,10 @@ class MeVC: UIViewController {
     
     //MARK:- 点击设置
     func clickSetting(sender: UIBarButtonItem){
-        debugPrint("setting")
+        guard let settingViewController = storyboard?.instantiateViewController(withIdentifier: "mesetting") else {
+            return
+        }
+        navigationController?.pushViewController(settingViewController, animated: true)
     }
     
     @IBAction func clickImageView(_ sender: UITapGestureRecognizer) {

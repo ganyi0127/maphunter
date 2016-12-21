@@ -124,7 +124,6 @@ class MeCell1: UITableViewCell {
         if responds(to: #selector(setter: MeCell1.preservesSuperviewLayoutMargins)) {
             preservesSuperviewLayoutMargins = false
         }
-
     }
     
     private func createContents(){

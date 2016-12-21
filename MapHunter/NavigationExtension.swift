@@ -18,8 +18,7 @@ extension UINavigationController: UINavigationControllerDelegate{
             navigation_height = navigationBar.frame.height
         }
         
-        
-        
+        //设置title
         navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: font_name, size: 17)!,
                                              NSForegroundColorAttributeName: UIColor(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1)]
         
@@ -29,6 +28,7 @@ extension UINavigationController: UINavigationControllerDelegate{
         let image = UIImage(named: "resource/navigation_back")?.transfromImage(size: CGSize(width: view_size.width, height: navigation_height! + 64))
         navigationBar.setBackgroundImage(image, for: .default)
         navigationBar.shadowImage = UIImage()
+        
     }
     
     //切换界面时调用_手环按钮
@@ -49,8 +49,10 @@ extension UINavigationController: UINavigationControllerDelegate{
                     //状态视图
                     let image = UIImage(named: "resource/icon_calendar")
                     let imageSize = CGSize(width: navigation_height! * 0.6, height: navigation_height! * 0.6)
-//                    let calenderBarButton = UIBarButtonItem(image: image?.transfromImage(size: imageSize), style: .done, target: self, action: #selector(switchCalender(sender:)))
-                    let calenderBarButton = UIBarButtonItem(image: image?.transfromImage(size: imageSize), style: .done, target: (viewController as! StateVC).topView, action: #selector((viewController as! StateVC).topView.clickCalendar))
+                    let calenderBarButton = UIBarButtonItem(image: image?.transfromImage(size: imageSize),
+                                                            style: .done,
+                                                            target: (viewController as! StateVC).topView,
+                                                            action: #selector((viewController as! StateVC).topView.clickCalendar))
                     
                     viewController.navigationItem.rightBarButtonItem = calenderBarButton
                 }else if viewController.isKind(of: MeVC.self){
@@ -63,34 +65,48 @@ extension UINavigationController: UINavigationControllerDelegate{
             }
             
             //设置显示navigation
-            var image: UIImage!
             if viewController.isKind(of: MapVC.self) || viewController.isKind(of: MeVC.self){
                 //地图页面置透明
-                image = UIImage(named: "resource/navigation_alpha")
+                setNavigation(hidden: true)
                 
                 navigationBar.topItem?.title = nil
             }else{
                 //设置为不透明
-                image = UIImage(named: "resource/navigation_back")?.transfromImage(size: CGSize(width: view_size.width, height: navigation_height! + 64))
+                setNavigation(hidden: false)
                 
                 navigationBar.topItem?.title = "FunSport"
             }
-            navigationBar.setBackgroundImage(image, for: .default)
-            navigationController.navigationBar.backgroundColor = .clear
             
             //显示tabbar
             setTabbar(hidden: false)
         }else{
             navigationItem.leftBarButtonItem = nil
             
-            //设置navigation透明
-            let image = UIImage(named: "resource/navigation_alpha")
-            navigationController.navigationBar.setBackgroundImage(image, for: .default)
-            navigationController.navigationBar.backgroundColor = nil
+            //模块页面隐藏navigation
+//            if viewController.isKind(of: DetailViewController.self) {
+//                setNavigation(hidden: true)
+//            }else{
+//                setNavigation(hidden: false)
+//            }
             
             //隐藏tabbar
             setTabbar(hidden: true)
         }
+    }
+    
+    //MARK:- 控制navigation显示与隐藏
+    public func setNavigation(hidden flag: Bool){
+        var image: UIImage!
+        if flag {
+            //设置navigation透明
+            image = UIImage(named: "resource/navigation_alpha")
+            navigationBar.backgroundColor = nil
+        }else{
+            //设置为不透明
+            image = UIImage(named: "resource/navigation_back")?.transfromImage(size: CGSize(width: view_size.width, height: navigation_height! + 64))
+            navigationBar.backgroundColor = .clear
+        }
+        navigationBar.setBackgroundImage(image, for: .default)
     }
     
     //MARK:- 控制tabbar显示与隐藏
@@ -134,25 +150,20 @@ extension UINavigationController: UINavigationControllerDelegate{
             return StatePopController()
         }
         
-//        if fromVC.isKind(of: MeVC.self) || toVC.isKind(of: MeVC.self) {
-//            if operation == .push {
-//                return MePushController()
-//            }
-//            return MePopController()
-//        }
-        
         //头像点击
         if fromVC.isKind(of: MeVC.self) && toVC.isKind(of: MeInfo.self){
             let indexPath = IndexPath(row: 0, section: 0)
             let meVC = fromVC as! MeVC
             let cell = meVC.tableview.cellForRow(at: indexPath) as! MeCell1
-            let startRect = cell.convert(cell.headImageView.frame, to: meVC.view)
+            var startRect = cell.convert(cell.headImageView.frame, to: meVC.view)
+            startRect.origin.y -= 64
             return StatePushController(startRect: startRect)
         }else if fromVC.isKind(of: MeInfo.self) && toVC.isKind(of: MeVC.self){
             let indexPath = IndexPath(row: 0, section: 0)
             let meVC = toVC as! MeVC
             let cell = meVC.tableview.cellForRow(at: indexPath) as! MeCell1
-            let endRect = cell.convert(cell.headImageView.frame, to: meVC.view)
+            var endRect = cell.convert(cell.headImageView.frame, to: meVC.view)
+            endRect.origin.y -= 64
             return StatePopController(endRect: endRect)
         }
         

@@ -19,6 +19,12 @@
 		32C3E6291E090B4C00D34A74 /* MePushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C3E6281E090B4C00D34A74 /* MePushController.swift */; };
 		32C3E62B1E09121800D34A74 /* MePopController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C3E62A1E09121800D34A74 /* MePopController.swift */; };
 		32C3E62D1E091F2200D34A74 /* MeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C3E62C1E091F2200D34A74 /* MeInfo.swift */; };
+		32C3E6321E0A385E00D34A74 /* HeadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C3E6311E0A385E00D34A74 /* HeadViewController.swift */; };
+		32C3E6341E0A694E00D34A74 /* AlertExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C3E6331E0A694E00D34A74 /* AlertExtension.swift */; };
+		32C3E6361E0A7D8D00D34A74 /* MeSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C3E6351E0A7D8D00D34A74 /* MeSetting.swift */; };
+		32C3E6381E0A837900D34A74 /* MeUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C3E6371E0A837900D34A74 /* MeUnit.swift */; };
+		32C3E63A1E0A86A000D34A74 /* MeWeekbegin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C3E6391E0A86A000D34A74 /* MeWeekbegin.swift */; };
+		32C3E63C1E0A86F600D34A74 /* MeVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C3E63B1E0A86F600D34A74 /* MeVersion.swift */; };
 		32C5726A1DD9C2E700CEC5EB /* GradientPolylineOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 32C572691DD9C2E700CEC5EB /* GradientPolylineOverlay.m */; };
 		32C5726E1DDAA7C500CEC5EB /* GradientPolylineRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 32C5726D1DDAA7C500CEC5EB /* GradientPolylineRenderer.m */; };
 		32CCE7131E02321E008AAB8C /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CCE7121E02321E008AAB8C /* ViewExtension.swift */; };
@@ -110,6 +116,12 @@
 		32C3E6281E090B4C00D34A74 /* MePushController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MePushController.swift; sourceTree = "<group>"; };
 		32C3E62A1E09121800D34A74 /* MePopController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MePopController.swift; sourceTree = "<group>"; };
 		32C3E62C1E091F2200D34A74 /* MeInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeInfo.swift; sourceTree = "<group>"; };
+		32C3E6311E0A385E00D34A74 /* HeadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadViewController.swift; sourceTree = "<group>"; };
+		32C3E6331E0A694E00D34A74 /* AlertExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertExtension.swift; sourceTree = "<group>"; };
+		32C3E6351E0A7D8D00D34A74 /* MeSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeSetting.swift; sourceTree = "<group>"; };
+		32C3E6371E0A837900D34A74 /* MeUnit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeUnit.swift; sourceTree = "<group>"; };
+		32C3E6391E0A86A000D34A74 /* MeWeekbegin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeWeekbegin.swift; sourceTree = "<group>"; };
+		32C3E63B1E0A86F600D34A74 /* MeVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeVersion.swift; sourceTree = "<group>"; };
 		32C572671DD9C2E700CEC5EB /* MapHunter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MapHunter-Bridging-Header.h"; sourceTree = "<group>"; };
 		32C572681DD9C2E700CEC5EB /* GradientPolylineOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientPolylineOverlay.h; sourceTree = "<group>"; };
 		32C572691DD9C2E700CEC5EB /* GradientPolylineOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientPolylineOverlay.m; sourceTree = "<group>"; };
@@ -212,7 +224,11 @@
 		32C3E62F1E092F4B00D34A74 /* 个人设置 */ = {
 			isa = PBXGroup;
 			children = (
+				32C3E6351E0A7D8D00D34A74 /* MeSetting.swift */,
 				32C3E6301E092F6700D34A74 /* 个人资料修改 */,
+				32C3E6371E0A837900D34A74 /* MeUnit.swift */,
+				32C3E6391E0A86A000D34A74 /* MeWeekbegin.swift */,
+				32C3E63B1E0A86F600D34A74 /* MeVersion.swift */,
 			);
 			name = "个人设置";
 			sourceTree = "<group>";
@@ -221,6 +237,7 @@
 			isa = PBXGroup;
 			children = (
 				32C3E62C1E091F2200D34A74 /* MeInfo.swift */,
+				32C3E6311E0A385E00D34A74 /* HeadViewController.swift */,
 			);
 			name = "个人资料修改";
 			sourceTree = "<group>";
@@ -265,6 +282,7 @@
 				BE743BDF1DAA1D25002AC282 /* CellExtension.swift */,
 				320535351DFE59C80087068E /* ImageExtension.swift */,
 				32CCE7121E02321E008AAB8C /* ViewExtension.swift */,
+				32C3E6331E0A694E00D34A74 /* AlertExtension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -645,6 +663,9 @@
 				BE1C36731D93763900AB4370 /* ItemButton.swift in Sources */,
 				BE1C366D1D93725000AB4370 /* RootTBC.swift in Sources */,
 				BE71B9E71DBF4CAA00143E1E /* Net.swift in Sources */,
+				32C3E6321E0A385E00D34A74 /* HeadViewController.swift in Sources */,
+				32C3E6381E0A837900D34A74 /* MeUnit.swift in Sources */,
+				32C3E63C1E0A86F600D34A74 /* MeVersion.swift in Sources */,
 				BEDF4F3B1D9393BC00E98D63 /* StateVC.swift in Sources */,
 				32D412461DEE8793008EE637 /* TarbarExtension.swift in Sources */,
 				BEB248EC1D9BD91A00C9F9ED /* IconView.swift in Sources */,
@@ -654,8 +675,10 @@
 				32C3E6291E090B4C00D34A74 /* MePushController.swift in Sources */,
 				320535391DFE7AFC0087068E /* CalendarCell.swift in Sources */,
 				32C3E6271E0904B900D34A74 /* MeDetails.swift in Sources */,
+				32C3E63A1E0A86A000D34A74 /* MeWeekbegin.swift in Sources */,
 				BEB248E71D9B4E2600C9F9ED /* ThirdCell.swift in Sources */,
 				32D411E81DEBCEC2008EE637 /* DataBall.swift in Sources */,
+				32C3E6361E0A7D8D00D34A74 /* MeSetting.swift in Sources */,
 				32D4123F1DED713D008EE637 /* DetailCell.swift in Sources */,
 				BEB248F71D9CB6DC00C9F9ED /* SubCell.swift in Sources */,
 				32C3E62D1E091F2200D34A74 /* MeInfo.swift in Sources */,
@@ -682,6 +705,7 @@
 				BEDF4F741D99040300E98D63 /* ButtonExtension.swift in Sources */,
 				BEB248EA1D9BBC8D00C9F9ED /* StepProgress.swift in Sources */,
 				BEB249091D9E202000C9F9ED /* Cell6Content.swift in Sources */,
+				32C3E6341E0A694E00D34A74 /* AlertExtension.swift in Sources */,
 				BE2DC9E91D9210A300978C97 /* AppDelegate.swift in Sources */,
 				3205353B1DFFD1F00087068E /* StatePushController.swift in Sources */,
 			);

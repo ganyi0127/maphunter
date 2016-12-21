@@ -21,6 +21,10 @@ class DetailViewController: UIViewController {
         createContents()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigation(hidden: true)
+    }
+    
     override func show(_ vc: UIViewController, sender: Any?) {
         print("sender: \(sender)")
     }
