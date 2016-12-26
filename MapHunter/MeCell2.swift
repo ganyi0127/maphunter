@@ -26,7 +26,7 @@ class MeCell2: UITableViewCell {
     private func createContents(){
         
         //设置文字
-        let labelFrame = CGRect(x: 0, y: 10, width: frame.size.width, height: 24)
+        let labelFrame = CGRect(x: 0, y: 10, width: view_size.width, height: 24)
         let label = UILabel(frame: labelFrame)
         label.text = "个人总成绩"
         label.textColor = wordColor

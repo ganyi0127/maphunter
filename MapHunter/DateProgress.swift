@@ -100,6 +100,8 @@ class DateProgress: UIView {
         return anim
     }()
     
+    private var tap: UITapGestureRecognizer?
+    
     //MARK:- init
     init(_ text: String) {
         let radius = view_size.width / 8
@@ -116,6 +118,11 @@ class DateProgress: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        notiy.removeObserver(self, name: unselect_notiy, object: nil)
+//        removeGestureRecognizer(tap!)
+    }
+    
     private func config(){
       
         backgroundColor = .clear
@@ -123,6 +130,21 @@ class DateProgress: UIView {
         isUserInteractionEnabled = true
         
         notiy.addObserver(self, selector: #selector(unselect(notify:)), name: unselect_notiy, object: nil)
+        
+        //添加点击事件
+//        tap = UITapGestureRecognizer(target: self, action: #selector(click(recognizer:)))
+//        tap?.numberOfTapsRequired = 1
+//        tap?.numberOfTouchesRequired = 1
+//        addGestureRecognizer(tap!)
+    }
+    
+    //MARK:- 点击事件
+    @objc private func click(recognizer: UITapGestureRecognizer){
+        selectDate = date!
+        
+        notiy.post(name: unselect_notiy, object: nil)
+        select(true)
+        closure?(date!, false)
     }
     
     private func createContents(){
@@ -212,10 +234,6 @@ class DateProgress: UIView {
         anim.fillMode = kCAFillModeBoth
         anim.isRemovedOnCompletion = false
         shapeLayer?.add(anim, forKey: nil)
-    }
-    
-    deinit {
-        notiy.removeObserver(self, name: unselect_notiy, object: nil)
     }
 }
 

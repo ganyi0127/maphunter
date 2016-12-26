@@ -12,6 +12,22 @@ class StateVC: UIViewController {
     @IBOutlet weak var topView: TopView!            //日历
     @IBOutlet weak var tableView: UITableView!      //内容
     
+    //毛玻璃 打开日历后蒙版
+    private lazy var effectView = { () -> UIVisualEffectView in
+        let blur: UIBlurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let effectView: UIVisualEffectView = UIVisualEffectView(effect: blur)
+        effectView.isUserInteractionEnabled = false
+        effectView.frame = CGRect(x: 0, y: view_size.height * 0, width: view_size.width, height: view_size.height * 1)
+        return effectView
+    }()
+    //取消点击事件
+    private lazy var tap: UITapGestureRecognizer = {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.tap(recognizer:)))
+        tap.numberOfTapsRequired = 1
+        tap.numberOfTouchesRequired = 1
+        return tap
+    }()
+    
     //上拉下拉
     fileprivate var newY: CGFloat = 0
     fileprivate var oldY: CGFloat = 0
@@ -48,6 +64,44 @@ class StateVC: UIViewController {
         }
         
         setupRefresh()
+    }
+    
+    //MARK:- 添加或移除蒙版
+    func setBlur(hidden: Bool){
+       
+        if hidden {
+//            tableView.isUserInteractionEnabled = true
+            //移除高斯模糊
+//            effectView.removeGestureRecognizer(tap)
+//            UIView.animate(withDuration: 0, delay: 0, options: .curveEaseOut, animations: {
+//                self.effectView.alpha = 0
+//            }){
+//                _ in
+//                //当动画结束后、移除效果
+//                self.effectView.removeFromSuperview()
+//            }
+            
+            tableView.removeGestureRecognizer(tap)
+        }else{
+//            tableView.isUserInteractionEnabled = false
+            //添加高斯模糊
+//            effectView.alpha = 0
+//            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+//                self.effectView.alpha = 1
+//            }, completion: nil)
+//            tableView.addSubview(effectView)
+//            view.insertSubview(effectView, belowSubview: topView)
+//            tap.delegate = self
+//            effectView.addGestureRecognizer(tap)
+            
+            tableView.addGestureRecognizer(tap)
+        }
+    }
+    
+    //MARK:- 点击关闭按钮
+    @objc private func tap(recognizer: UITapGestureRecognizer){
+        setBlur(hidden: true)
+        topView.clickCalendar()
     }
     
     //MARK:- 下拉刷新
@@ -172,7 +226,7 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
                         dataCubeType in
                         
                         //进入详情页面
-                        let detaiViewController = DetailViewController(detailType: dataCubeType)
+                        let detaiViewController = DetailViewController(detailType: dataCubeType, date: selectDate)
                         self.navigationController?.show(detaiViewController, sender: cell)
                     }
                     
@@ -262,4 +316,27 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
         oldY = newY
     }
 
+}
+
+extension StateVC: UIGestureRecognizerDelegate{
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        
+        
+        print(touch.view?.classForCoder)
+        
+        guard let v = touch.view, v.isKind(of: UIVisualEffectView.self) else {
+            return false
+        }
+        
+        let location = touch.location(in: view)
+        if topView.topScrollView!.frame.contains(location) {
+           return false
+        }
+        return true
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive press: UIPress) -> Bool {
+        return false
+    }
 }

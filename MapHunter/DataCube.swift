@@ -69,46 +69,42 @@ class DataCube: UIView {
         didSet{
             switch type as DataCubeType {
             case .sport:
-                let text = "\(Int16(data.value1))步"
+                var text = "\(Int16(data.value1))步"
                 let mainAttributedString = NSMutableAttributedString(string: text,
-                    attributes: [NSFontAttributeName:
-                    UIFont(name: font_name, size: self.frame.height * 0.2)!])
+                                                                     attributes: [NSFontAttributeName: fontBig])
                 mainAttributedString.addAttribute(NSFontAttributeName, value: UIFont(name: font_name, size: self.frame.height * 0.07)!, range: NSMakeRange(text.characters.count - 1, 1))
                 mainLabel.attributedText = mainAttributedString
                 
-                let subAttributedString = NSAttributedString(string: "还有\(Int16(data.value2))步完成",
-                    attributes: [NSFontAttributeName:
-                        UIFont(name: font_name, size: self.frame.height * 0.07)!])
+                text = "还有\(Int16(data.value2))步完成"
+                let subAttributedString = NSAttributedString(string: text,
+                                                             attributes: [NSFontAttributeName: fontSmall])
                 subLabel.attributedText = subAttributedString
             case .heartrate:
                 
                 let text = "\(Int16(data.value1))Bmp"
                 let mainAttributedString = NSMutableAttributedString(string: text,
-                                                                     attributes: [NSFontAttributeName:
-                                                                        UIFont(name: font_name, size: self.frame.height * 0.2)!])
-                mainAttributedString.addAttribute(NSFontAttributeName, value: UIFont(name: font_name, size: self.frame.height * 0.07)!, range: NSMakeRange(text.characters.count - 3, 3))
+                                                                     attributes: [NSFontAttributeName: fontBig])
+                mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 3, 3))
                 mainLabel.attributedText = mainAttributedString
             case .sleep:
                 
                 let text = "\(Int16(data.value1))小时\(Int16(data.value2))分钟"
                 let mainAttributedString = NSMutableAttributedString(string: text,
-                                                                     attributes: [NSFontAttributeName:
-                                                                        UIFont(name: font_name, size: self.frame.height * 0.2)!])
-                mainAttributedString.addAttribute(NSFontAttributeName, value: UIFont(name: font_name, size: self.frame.height * 0.07)!, range: NSMakeRange(text.characters.count - 2, 2))
-                mainAttributedString.addAttribute(NSFontAttributeName, value: UIFont(name: font_name, size: self.frame.height * 0.07)!, range: NSMakeRange(text.characters.count - 7, 2))
+                                                                     attributes: [NSFontAttributeName: fontBig])
+                mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 2, 2))
+                mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 7, 2))
                 mainLabel.attributedText = mainAttributedString
             case .weight:
                 
-                let text = "\(Int16(data.value1))Kg"
+                var text = "\(Int16(data.value1))Kg"
                 let mainAttributedString = NSMutableAttributedString(string: text,
-                                                                     attributes: [NSFontAttributeName:
-                                                                        UIFont(name: font_name, size: self.frame.height * 0.2)!])
-                mainAttributedString.addAttribute(NSFontAttributeName, value: UIFont(name: font_name, size: self.frame.height * 0.07)!, range: NSMakeRange(text.characters.count - 2, 2))
+                                                                     attributes: [NSFontAttributeName: fontBig])
+                mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 2, 2))
                 mainLabel.attributedText = mainAttributedString
                 
-                let subAttributedString = NSAttributedString(string: "目标体重\(data.value2)Kg",
-                    attributes: [NSFontAttributeName:
-                        UIFont(name: font_name, size: self.frame.height * 0.07)!])
+                text = "目标体重\(data.value2)Kg"
+                let subAttributedString = NSAttributedString(string: text,
+                                                             attributes: [NSFontAttributeName: fontSmall])
                 subLabel.attributedText = subAttributedString
             }
         }
@@ -161,7 +157,7 @@ class DataCube: UIView {
         gradient.startPoint = CGPoint(x: 0, y: 0)
         gradient.endPoint = CGPoint(x: 1, y: 1)
         gradient.colors = [modelStartColors[type]!.cgColor, modelEndColors[type]!.cgColor]
-        gradient.cornerRadius = frame.size.width * 0.1
+        gradient.cornerRadius = frame.size.width * 0.05
         layer.addSublayer(gradient)
         
         

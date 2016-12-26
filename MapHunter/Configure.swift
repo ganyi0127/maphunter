@@ -16,6 +16,11 @@ var navigation_height:CGFloat?
 
 //通用字体、颜色
 let font_name = "GillSans-Italic"
+let fontSmall = UIFont(name: font_name, size: 12)!
+let fontMiddle = UIFont(name: font_name, size: 17)!
+let fontBig = UIFont(name: font_name, size: 24)!
+let fontHuge = UIFont(name: font_name, size: 44)!
+
 let defaut_color = UIColor.orange
 
 let notiy = NotificationCenter.default
@@ -41,12 +46,12 @@ let wordColor = UIColor(red: 50 / 255, green: 50 / 255, blue: 50 / 255, alpha: 1
 
 let modelStartColors: [DataCubeType: UIColor] = [
     .sport: UIColor(red: 245 / 255, green: 102 / 255, blue: 46 / 255, alpha: 1),
-    .heartrate: UIColor(red: 251 / 255, green: 90 / 255, blue: 147 / 255, alpha: 1),
-    .sleep: UIColor(red: 2 / 255, green: 160 / 255, blue: 206 / 255, alpha: 1),
+    .heartrate: UIColor(red: 33 / 255, green: 199 / 255, blue: 206 / 255, alpha: 1),
+    .sleep: UIColor(red: 80 / 255, green: 32 / 255, blue: 142 / 255, alpha: 1),
     .weight: UIColor(red: 45 / 255, green: 196 / 255, blue: 148 / 255, alpha: 1)]
 
 let modelEndColors: [DataCubeType: UIColor] = [
     .sport: UIColor(red: 241 / 255, green: 68 / 255, blue: 51 / 255, alpha: 1),
-    .heartrate: UIColor(red: 232 / 255, green: 55 / 255, blue: 134 / 255, alpha: 1),
-    .sleep: UIColor(red: 0 / 255, green: 130 / 255, blue: 168 / 255, alpha: 1),
+    .heartrate: UIColor(red: 21 / 255, green: 136 / 255, blue: 200 / 255, alpha: 1),
+    .sleep: UIColor(red: 43 / 255, green: 0 / 255, blue: 95 / 255, alpha: 1),
     .weight: UIColor(red: 55 / 255, green: 183 / 255, blue: 128 / 255, alpha: 1)]

@@ -51,7 +51,7 @@ class TopView: UIView {
 //    }()
     
     //日期显示
-    private var topScrollView: TopScrollView?
+    var topScrollView: TopScrollView?
     //轮转类型：week month year
     private var cycleType:CycleType?{
         didSet{
@@ -80,17 +80,26 @@ class TopView: UIView {
     
     deinit {
         notiy.removeObserver(self, name: switch_notiy, object: nil)
+        notiy.removeObserver(self, name: calendar_notiy, object: nil)
     }
     
     override func draw(_ rect: CGRect) {
 
 //        createContents()
+        
+//        let bigFrame = CGRect(x: 0, y: 0, width: view_size.width, height: view_size.height * 0.6)
+//        self.frame.size = bigFrame.size
     }
     
     private func config(){
         backgroundColor = .clear
         
+//        layer.zPosition = 1
+        isUserInteractionEnabled = true
+        
         notiy.addObserver(self, selector: #selector(switchDate(notification:)), name: switch_notiy, object: nil)
+        notiy.addObserver(self, selector: #selector(clickCalendar), name: calendar_notiy, object: nil)
+        
     }
     
     //MARK:左右快捷切换日期
@@ -158,24 +167,35 @@ class TopView: UIView {
         //展开日历
         isCalendarOpened = !isCalendarOpened
         
+        self.topScrollView?.edit(self.isCalendarOpened)
+        let bigFrame = CGRect(x: 0, y: 0, width: view_size.width, height: view_size.height * 0.6)
+        let smallFrame = CGRect(x: 0, y: -1, width: view_size.width, height: self.originViewFrame.size.height / 2)
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-            self.topScrollView?.edit(self.isCalendarOpened)
+            
             if self.isCalendarOpened{
-                let bigFrame = CGRect(x: 0, y: 0, width: view_size.width, height: view_size.height)
+                
                 self.topScrollView?.frame = bigFrame
-                self.frame.size = bigFrame.size
                 
                 //隐藏tabbar
                 self.viewController().navigationController?.setTabbar(hidden: true)
             }else{
-                let smallFrame = CGRect(x: 0, y: -1, width: view_size.width, height: self.originViewFrame.size.height / 2)
+                
                 self.topScrollView?.frame = smallFrame
-                self.frame.size = self.originViewFrame.size
                 
                 //显示tabbar
                 self.viewController().navigationController?.setTabbar(hidden: false)
             }
-        }, completion: nil)
+        }, completion: {
+            complete in
+            if self.isCalendarOpened{
+                
+                self.frame.size = bigFrame.size
+                (self.viewController() as! StateVC).setBlur(hidden: false)
+            }else{
+                self.frame.size = smallFrame.size
+                (self.viewController() as! StateVC).setBlur(hidden: true)
+            }
+        })
     }
     //MARK:- 按钮点击
     @objc fileprivate func clickButton(sender: UIButton){

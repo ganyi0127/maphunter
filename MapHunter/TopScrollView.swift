@@ -65,12 +65,21 @@ class TopScrollView: UIScrollView {
     }
     
     private func createContents(){
-        
+        //添加点击事件
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(click(recognizer:)))
+//        tap.numberOfTapsRequired = 1
+//        tap.numberOfTouchesRequired = 1
+//        addGestureRecognizer(tap)
+    }
+    //MARK:- 点击事件
+    @objc private func click(recognizer: UITapGestureRecognizer){
+        print("test tap")
     }
     
     //MARK:- 重新排列——全屏——滑动
+    var isEdit: Bool = false
     func edit(_ open: Bool){
-       
+        
         isOpen = open
         
         //当前月第一天星期数_月天数
@@ -89,7 +98,7 @@ class TopScrollView: UIScrollView {
         var duration:TimeInterval?
         if isOpen{
             
-            contentSize = CGSize(width: view_size.width * 3, height: view_size.height)
+            contentSize = CGSize(width: view_size.width * 3, height: view_size.height * 0.6)
             contentOffset = CGPoint(x: view_size.width, y: 0)
             duration = 0.8
             
@@ -105,7 +114,7 @@ class TopScrollView: UIScrollView {
                 let dayIndex = index + 1
                 
                 let posX = CGFloat((dayIndex + weekday - 2) % 7) * singleWidth + singleWidth / 2 - dateProgress.frame.width / 2 + view_size.width
-                let posY = CGFloat((dayIndex + weekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.3
+                let posY = CGFloat((dayIndex + weekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.2
                 let origin = CGPoint(x: posX, y: posY)
                 
                 //移动
@@ -290,7 +299,7 @@ class TopScrollView: UIScrollView {
                     dateProgressOfLastMonth.append(dateProgress)
                     
                     let posX = CGFloat((dayIndex + lastWeekday - 2) % 7) * singleWidth + singleWidth / 2 - dateProgress.frame.width / 2
-                    let posY = CGFloat((dayIndex + lastWeekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.3
+                    let posY = CGFloat((dayIndex + lastWeekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.2
                     dateProgress.frame.origin = CGPoint(x: posX, y: posY)
                     
                     //设置日期_后
@@ -354,7 +363,7 @@ class TopScrollView: UIScrollView {
                 
                 (1...numberOfDaysInNextMonth).forEach(){
                     dayIndex in
-                    
+
                     var dateProgress:DateProgress!
                     if dateProgressCollectionList.isEmpty{
                         dateProgress = DateProgress("\(dayIndex)")
@@ -368,8 +377,9 @@ class TopScrollView: UIScrollView {
                     //保存为下一月
                     dateProgressOfNextMonth.append(dateProgress)
                     
+                    
                     let posX = CGFloat((dayIndex + nextWeekday - 2) % 7) * singleWidth + singleWidth / 2 - dateProgress.frame.width / 2 + view_size.width * 2
-                    let posY = CGFloat((dayIndex + nextWeekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.3
+                    let posY = CGFloat((dayIndex + nextWeekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.2
                     dateProgress.frame.origin = CGPoint(x: posX, y: posY)
                     
                     //设置日期_后
@@ -408,7 +418,7 @@ class TopScrollView: UIScrollView {
                     let dayIndex = index + 1
                     
                     let posX = CGFloat((dayIndex + nextWeekday - 2) % 7) * singleWidth + singleWidth / 2 - dateProgress.frame.width / 2 + view_size.width * 2
-                    let posY = CGFloat((dayIndex + nextWeekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.3
+                    let posY = CGFloat((dayIndex + nextWeekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.2
                     dateProgress.frame.origin = CGPoint(x: posX, y: posY)
                     
                     //点击回调delete
@@ -542,7 +552,7 @@ extension TopScrollView: UIScrollViewDelegate{
                 let dataTitle = NSString(string: text)
                 var dataTitleRect = dataTitle.boundingRect(with: frame.size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
                 dataTitleRect.origin = CGPoint(x: CGFloat(index) * singleWidth + view_size.width + singleWidth / 2 - 6,
-                                               y: view_size.height * 0.25)
+                                               y: view_size.height * 0.15)
                 dataTitle.draw(in: dataTitleRect, withAttributes: attributes)
              
             }
@@ -559,7 +569,7 @@ extension TopScrollView: UIScrollViewDelegate{
             let dataTitle = NSString(string: "\(digure.year)年 \(digure.month)月")
             var dataTitleRect = dataTitle.boundingRect(with: frame.size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
             dataTitleRect.origin = CGPoint(x: singleWidth + view_size.width + singleWidth / 2,
-                                           y: view_size.height * 0.15)
+                                           y: view_size.height * 0.05)
             dataTitle.draw(in: dataTitleRect, withAttributes: attributes)
         }
     }
@@ -585,7 +595,8 @@ extension TopScrollView: UIScrollViewDelegate{
                         dateProgressCollectionList.append(dateProgress)
                     }
                 }
-
+                dateProgressOfLastMonth.removeAll()
+                
                 dateProgressOfLastMonth = dateProgressOfThisMonth
                 dateProgressOfThisMonth = dateProgressOfNextMonth
                 dateProgressOfNextMonth.removeAll()
@@ -601,6 +612,7 @@ extension TopScrollView: UIScrollViewDelegate{
                         dateProgressCollectionList.append(dateProgress)
                     }
                 }
+                dateProgressOfNextMonth.removeAll()
 
                 dateProgressOfNextMonth = dateProgressOfThisMonth
                 dateProgressOfThisMonth = dateProgressOfLastMonth

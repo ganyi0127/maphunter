@@ -47,14 +47,14 @@ extension UINavigationController: UINavigationControllerDelegate{
                 
                 if viewController.isKind(of: StateVC.self){
                     //状态视图
-                    let image = UIImage(named: "resource/icon_calendar")
-                    let imageSize = CGSize(width: navigation_height! * 0.6, height: navigation_height! * 0.6)
-                    let calenderBarButton = UIBarButtonItem(image: image?.transfromImage(size: imageSize),
-                                                            style: .done,
-                                                            target: (viewController as! StateVC).topView,
-                                                            action: #selector((viewController as! StateVC).topView.clickCalendar))
-                    
-                    viewController.navigationItem.rightBarButtonItem = calenderBarButton
+//                    let image = UIImage(named: "resource/icon_calendar")
+//                    let imageSize = CGSize(width: navigation_height! * 0.6, height: navigation_height! * 0.6)
+//                    let calenderBarButton = UIBarButtonItem(image: image?.transfromImage(size: imageSize),
+//                                                            style: .done,
+//                                                            target: (viewController as! StateVC).topView,
+//                                                            action: #selector((viewController as! StateVC).topView.clickCalendar))
+//                    
+//                    viewController.navigationItem.rightBarButtonItem = calenderBarButton
                 }else if viewController.isKind(of: MeVC.self){
                     //个人视图
                     let image = UIImage(named: "resource/me/me_setting")
@@ -69,7 +69,6 @@ extension UINavigationController: UINavigationControllerDelegate{
                 //地图页面置透明
                 setNavigation(hidden: true)
                 
-                navigationBar.topItem?.title = nil
             }else{
                 //设置为不透明
                 setNavigation(hidden: false)
@@ -81,13 +80,6 @@ extension UINavigationController: UINavigationControllerDelegate{
             setTabbar(hidden: false)
         }else{
             navigationItem.leftBarButtonItem = nil
-            
-            //模块页面隐藏navigation
-//            if viewController.isKind(of: DetailViewController.self) {
-//                setNavigation(hidden: true)
-//            }else{
-//                setNavigation(hidden: false)
-//            }
             
             //隐藏tabbar
             setTabbar(hidden: true)

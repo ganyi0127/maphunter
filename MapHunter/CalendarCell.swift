@@ -15,7 +15,7 @@ class CalendarCell: UITableViewCell {
         label.backgroundColor = UIColor.clear
         label.text = "..."
         label.textColor = wordColor
-        label.font = UIFont(name: font_name, size: 17)
+        label.font = fontMiddle
         label.textAlignment = .center
         return label
     }()
@@ -74,12 +74,22 @@ class CalendarCell: UITableViewCell {
         //日期显示按钮
         let labelFrame = CGRect(x: 0, y: selfSize.height / 2 - selfSize.height / 4, width: view_size.width, height: selfSize.height / 2)
         label.frame = labelFrame
+        label.isUserInteractionEnabled = true
         contentView.addSubview(label)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(click))
+        tap.numberOfTapsRequired = 1
+        tap.numberOfTouchesRequired = 1
+        label.addGestureRecognizer(tap)
         
         //左右按钮
         contentView.addSubview(leftButton)
         contentView.addSubview(rightButton)
-        
+    }
+    
+    //MARK:- 点击事件
+    @objc private func click(){
+        notiy.post(name: calendar_notiy, object: nil)
     }
     
     //MARK:- 更新显示当前日期
@@ -87,20 +97,35 @@ class CalendarCell: UITableViewCell {
         
         //点击日期事件回调
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyy-MM-dd"
+        formatter.dateFormat = " dd MM月" //"yyy-MM-dd"
         let dateStr = formatter.string(from: date)
         let todayStr = formatter.string(from: Date())
         
         //星期数量
-        let calendar = Calendar.current
-        let weekday = calendar.component(.weekday, from: date)
-        let weekList = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]
-        //显示今天
+//        let calendar = Calendar.current
+//        let weekday = calendar.component(.weekday, from: date)
+//        let weekList = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]
+        
+        //显示
+        var text: String
         if dateStr == todayStr{
-            self.label.text = "今天 " + weekList[weekday - 1]
+            text = " Today," + dateStr
+            
         }else{
-            self.label.text = dateStr + " " + weekList[weekday - 1]
+            text = dateStr
         }
+        
+        let attributedString = NSMutableAttributedString(string: text)
+        let attributeDict = [NSFontAttributeName: fontMiddle, NSForegroundColorAttributeName: wordColor]
+        attributedString.addAttributes(attributeDict, range: NSMakeRange(0, attributedString.length))
+        
+        let imageAttach = NSTextAttachment()
+        imageAttach.image = UIImage(named: "resource/icon_calendar")?.transfromImage(size: CGSize(width: 17, height: 17))
+        
+        let attributeImage = NSAttributedString(attachment: imageAttach)
+        
+        attributedString.insert(attributeImage, at: 0)
+        self.label.attributedText = attributedString
     }
     
     @objc private func clickButton(sender: UIButton){
