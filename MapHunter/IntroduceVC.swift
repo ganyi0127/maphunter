@@ -17,10 +17,17 @@ class IntroduceVC: UIViewController {
     private func config(){
         
         navigationItem.hidesBackButton = true
+        
     }
     
     private func createContents(){
         
     }
     
+}
+
+extension IntroduceVC{
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        _ = navigationController?.popViewController(animated: true)
+    }
 }

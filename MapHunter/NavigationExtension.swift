@@ -166,6 +166,13 @@ extension UINavigationController: UINavigationControllerDelegate{
             return BottomPopController()
         }
         
+        //介绍页面
+        if fromVC.isKind(of: DetailViewController.self) && toVC.isKind(of: IntroduceVC.self){
+            return MiddlePushController()
+        }else if fromVC.isKind(of: IntroduceVC.self) && toVC.isKind(of: DetailViewController.self){
+            return MiddlePopController()
+        }
+        
         return nil
     }
 }

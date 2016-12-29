@@ -53,6 +53,8 @@
 		BE4BFE981E1502F300F3FE91 /* BottomPushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE971E1502F300F3FE91 /* BottomPushController.swift */; };
 		BE4BFE9A1E15031C00F3FE91 /* BottomPopController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE991E15031C00F3FE91 /* BottomPopController.swift */; };
 		BE4BFE9C1E150FD200F3FE91 /* IntroduceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE9B1E150FD200F3FE91 /* IntroduceVC.swift */; };
+		BE4BFE9E1E15140400F3FE91 /* MiddlePushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE9D1E15140400F3FE91 /* MiddlePushController.swift */; };
+		BE4BFEA01E15141A00F3FE91 /* MiddlePopController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE9F1E15141A00F3FE91 /* MiddlePopController.swift */; };
 		BE6ACD851DBC583C006C4471 /* TopScrollDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6ACD841DBC583C006C4471 /* TopScrollDelegate.swift */; };
 		BE71B9E71DBF4CAA00143E1E /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71B9E61DBF4CAA00143E1E /* Net.swift */; };
 		BE7319FD1E0B7D9B002BDF2D /* DetailScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7319FC1E0B7D9B002BDF2D /* DetailScrollView.swift */; };
@@ -168,6 +170,8 @@
 		BE4BFE971E1502F300F3FE91 /* BottomPushController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomPushController.swift; sourceTree = "<group>"; };
 		BE4BFE991E15031C00F3FE91 /* BottomPopController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomPopController.swift; sourceTree = "<group>"; };
 		BE4BFE9B1E150FD200F3FE91 /* IntroduceVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroduceVC.swift; sourceTree = "<group>"; };
+		BE4BFE9D1E15140400F3FE91 /* MiddlePushController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiddlePushController.swift; sourceTree = "<group>"; };
+		BE4BFE9F1E15141A00F3FE91 /* MiddlePopController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiddlePopController.swift; sourceTree = "<group>"; };
 		BE6ACD841DBC583C006C4471 /* TopScrollDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopScrollDelegate.swift; sourceTree = "<group>"; };
 		BE71B9E61DBF4CAA00143E1E /* Net.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		BE7319FC1E0B7D9B002BDF2D /* DetailScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailScrollView.swift; sourceTree = "<group>"; };
@@ -497,6 +501,8 @@
 				327383711E00F4A000767708 /* StatePopController.swift */,
 				BE4BFE971E1502F300F3FE91 /* BottomPushController.swift */,
 				BE4BFE991E15031C00F3FE91 /* BottomPopController.swift */,
+				BE4BFE9D1E15140400F3FE91 /* MiddlePushController.swift */,
+				BE4BFE9F1E15141A00F3FE91 /* MiddlePopController.swift */,
 				BEDF4F751D9909A300E98D63 /* Top */,
 				BEDF4F6C1D98FC5E00E98D63 /* cells */,
 			);
@@ -712,6 +718,7 @@
 				BE731A011E0B8958002BDF2D /* DetailBack.swift in Sources */,
 				BEB2490B1D9E46BD00C9F9ED /* CellCube.swift in Sources */,
 				32CCE7131E02321E008AAB8C /* ViewExtension.swift in Sources */,
+				BE4BFEA01E15141A00F3FE91 /* MiddlePopController.swift in Sources */,
 				BE7319FF1E0B7F00002BDF2D /* DetailTop.swift in Sources */,
 				BE1C36731D93763900AB4370 /* ItemButton.swift in Sources */,
 				BE1C366D1D93725000AB4370 /* RootTBC.swift in Sources */,
@@ -737,6 +744,7 @@
 				BEB248F71D9CB6DC00C9F9ED /* SubCell.swift in Sources */,
 				32C3E62D1E091F2200D34A74 /* MeInfo.swift in Sources */,
 				BEDF4F791D990EF800E98D63 /* DateProgress.swift in Sources */,
+				BE4BFE9E1E15140400F3FE91 /* MiddlePushController.swift in Sources */,
 				BEDF4F351D93910E00E98D63 /* Configure.swift in Sources */,
 				32D4129E1DEEC4C0008EE637 /* DetailViewController.swift in Sources */,
 				BE1F53491DC2FE7900EAD9BA /* Time.swift in Sources */,
