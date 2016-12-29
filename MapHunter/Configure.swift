@@ -15,7 +15,8 @@ let view_size = UIScreen.main.bounds.size
 var navigation_height:CGFloat?
 
 //通用字体、颜色
-let font_name = "GillSans-Italic"
+let font_name = "AvenirNextCondensed-DemiBold"
+let fontTiny = UIFont(name: font_name, size: 9)!
 let fontSmall = UIFont(name: font_name, size: 12)!
 let fontMiddle = UIFont(name: font_name, size: 17)!
 let fontBig = UIFont(name: font_name, size: 24)!

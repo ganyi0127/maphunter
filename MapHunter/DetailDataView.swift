@@ -37,15 +37,35 @@ class DetailDataView: UIView {
         didSet{
             //展示数据
             var text: String
+            var unit: String
             switch type as DetailDataViewType {
-            case .totalTime, .activityTime, .restTime:
-                text = "\(value!)分钟"
+            case .totalTime, .activityTime, .restTime, .deepSleep, .lightSleep, .sleepTime, .quiteSleep, .wakeTime, .weightStartTime:
+                unit = "分钟"
+                
+                let hour = Int16(value!) / 60
+                let minute = Int16(value!) % 60
+                let minuteStr = "\(minute)"
+                text = "\(hour)小时" + minuteStr + "分钟"
+                let mainAttributedString = NSMutableAttributedString(string: text,
+                                                                     attributes: [NSFontAttributeName: fontBig])
+                let unitLength = unit.characters.count
+                mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - unitLength, unitLength))
+                mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - unitLength * 2 - minuteStr.characters.count, unitLength))
+                secondLabel?.attributedText = mainAttributedString
+                return
+            case .wakeCount:
+                unit = "次"
+            case .weightDelta:
+                unit = "Kg"
             default:
-                text = "\(value!)大卡"
+                unit = "大卡"
             }
+            
+            text = "\(Int16(value!))" + unit
             let mainAttributedString = NSMutableAttributedString(string: text,
                                                                  attributes: [NSFontAttributeName: fontBig])
-            mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 2, 2))
+            let unitLength = unit.characters.count
+            mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - unitLength, unitLength))
             secondLabel?.attributedText = mainAttributedString            
         }
     }

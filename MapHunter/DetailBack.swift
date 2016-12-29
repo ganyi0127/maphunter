@@ -9,9 +9,9 @@
 import Foundation
 let edgeWidth = view_size.width * 0.025 //边宽
 class DetailBack: UIView {
-    private var type: DataCubeType!         //类型
+    fileprivate var type: DataCubeType!         //类型
     
-    private var detailTop: DetailTop?       //top view
+    var detailTop: DetailTop?       //top view
     
     private var dataViewTypeMap = [DetailDataViewType: DetailDataView]()
     private var dataViewTypeList = [DetailDataViewType](){
@@ -67,6 +67,7 @@ class DetailBack: UIView {
         
         //添加top
         detailTop = DetailTop(detailType: type)
+        detailTop?.delegate = self
         addSubview(detailTop!)
     }
     
@@ -86,5 +87,102 @@ class DetailBack: UIView {
         
         //趋势
         
+    }
+}
+
+//MARK:- 数据代理
+extension DetailBack: DetailTopDelegate{
+    func detailTopData() -> [CGFloat] {
+        switch type as DataCubeType  {
+        case .sport:
+            //运动数据
+            var result = [CGFloat]()
+            let headCount = Int(arc4random_uniform(40))
+            let tailCount = Int(arc4random_uniform(40)) + 56
+            (0..<96).forEach(){
+                i in
+                if i < headCount{
+                    result.append(0)
+                }else if i > tailCount{
+                    result.append(0)
+                }else{
+                    let data = CGFloat(arc4random_uniform(300))
+                    result.append(data)
+                }
+            }
+            return result
+        case .heartrate:
+            //心率数据
+            var result = [CGFloat]()
+            let headCount = Int(arc4random_uniform(12 * 1))
+            let tailCount = Int(arc4random_uniform(12 * 1)) + 12 * 23
+            (0..<(24*12)).forEach(){
+                i in
+                if i < headCount{
+                    result.append(0)
+                }else if i > tailCount{
+                    result.append(0)
+                }else{
+                    let data = CGFloat(arc4random_uniform(120)) + 50
+                    result.append(data)
+                }
+            }
+            return result
+        case .sleep:
+            //睡眠数据
+            var result = [CGFloat]()
+            let count = Int(arc4random_uniform(20)) + 5
+            (0..<count).forEach(){
+                i in
+                
+                var data = CGFloat(arc4random_uniform(200)) + 10
+                
+                //添加类型 0深睡 1浅睡 2快速眼动 3清醒
+                var sleepType = Int16(arc4random_uniform(4))
+                if let last = result.last{
+                    while sleepType == Int16(last) / sleepTypeBit{
+                        sleepType = Int16(arc4random_uniform(4))
+                    }
+                }
+                data += CGFloat(sleepType * sleepTypeBit)
+                result.append(data)
+            }
+            return result
+        case .weight:
+            //体重数据
+            var result = [CGFloat]()
+            (0..<7).forEach(){
+                i in
+                let data = CGFloat(arc4random_uniform(40)) + 50
+                result.append(data)
+            }
+            return result
+        }
+    }
+    
+    //获取睡眠开始时间
+    func detailSleepBeginTime() -> Date {
+        let yesterday = Date(timeIntervalSinceNow: -60 * 60 * 24)
+        let calendar = Calendar.current
+        var components = calendar.dateComponents([.hour, .minute], from: yesterday)
+        components.hour = 22
+        components.minute = 30
+        let date = calendar.date(from: components)
+        return date!
+    }
+    
+    //获取日期数组
+    func detailWeightDates() -> [Date] {
+        var result = [Date]()
+        var date: Date = Date()
+        result.append(date)
+        (0..<6).forEach(){
+            i in
+            let random = Double(arc4random_uniform(5)) + 1
+            let newDate = Date(timeInterval: -60 * 60 * 24 * random, since: date)
+            date = newDate
+            result.append(newDate)
+        }
+        return result.reversed()
     }
 }

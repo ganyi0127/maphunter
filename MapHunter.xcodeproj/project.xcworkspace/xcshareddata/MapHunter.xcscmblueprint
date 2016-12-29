@@ -5,11 +5,13 @@
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
     "0003CEBDD2707572D3939C2623B71F30E4F96C11" : 9223372036854775807,
+    "8671E1697BD3AC7375D594AB502C86E42B633068" : 9223372036854775807,
     "E9CDAD31FBE564EB5D84C2311B85DDB8D080DE94" : 9223372036854775807
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "6A736AC5-50D8-4B3E-ABFE-05684D79D1E4",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "0003CEBDD2707572D3939C2623B71F30E4F96C11" : "MapHunter\/",
+    "8671E1697BD3AC7375D594AB502C86E42B633068" : "angelfit\/",
     "E9CDAD31FBE564EB5D84C2311B85DDB8D080DE94" : ""
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "MapHunter",
@@ -20,6 +22,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/ganyi0127\/maphunter.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0003CEBDD2707572D3939C2623B71F30E4F96C11"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/orangebrush\/angelfit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8671E1697BD3AC7375D594AB502C86E42B633068"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/ganyi0127\/Miner",

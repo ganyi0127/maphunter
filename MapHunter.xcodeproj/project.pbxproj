@@ -278,8 +278,8 @@
 				32D4129D1DEEC4C0008EE637 /* DetailViewController.swift */,
 				BE7319FC1E0B7D9B002BDF2D /* DetailScrollView.swift */,
 				BE731A001E0B8958002BDF2D /* DetailBack.swift */,
-				BE731A021E0B8CD1002BDF2D /* DetailDataView.swift */,
 				BE731A041E0BCF4E002BDF2D /* 顶部图 */,
+				BE731A181E10C4E6002BDF2D /* 详情模块 */,
 			);
 			name = "模块";
 			sourceTree = "<group>";
@@ -415,6 +415,14 @@
 				BE7319FE1E0B7F00002BDF2D /* DetailTop.swift */,
 			);
 			name = "顶部图";
+			sourceTree = "<group>";
+		};
+		BE731A181E10C4E6002BDF2D /* 详情模块 */ = {
+			isa = PBXGroup;
+			children = (
+				BE731A021E0B8CD1002BDF2D /* DetailDataView.swift */,
+			);
+			name = "详情模块";
 			sourceTree = "<group>";
 		};
 		BEB248E81D9BBC7800C9F9ED /* Cell1 */ = {

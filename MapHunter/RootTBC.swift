@@ -147,8 +147,7 @@ class RootTBC: UITabBarController {
     @objc private func clickMenuButton(sender: UIButton){
 
         menuButtonFlag = !menuButtonFlag
-//        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
-        AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
     }
     
     //MARK:- 点击关闭按钮

@@ -73,7 +73,7 @@ extension UINavigationController: UINavigationControllerDelegate{
                 //设置为不透明
                 setNavigation(hidden: false)
                 
-                navigationBar.topItem?.title = "FunSport"
+                navigationBar.topItem?.title = "" //"FunSport"
             }
             
             //显示tabbar

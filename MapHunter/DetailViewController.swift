@@ -60,6 +60,10 @@ class DetailViewController: UIViewController {
         
         //添加scrollView
         let detailScrollView = DetailScrollView(detailType: type, date: date)
+        detailScrollView.detailBack.detailTop?.closure = {
+            //点击模块回调
+            print(self.type)
+        }
         view.addSubview(detailScrollView)
     }
     
