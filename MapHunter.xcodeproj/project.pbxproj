@@ -48,6 +48,10 @@
 		BE2DCA011D9210A300978C97 /* MapHunterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2DCA001D9210A300978C97 /* MapHunterTests.swift */; };
 		BE2DCA0C1D9210A300978C97 /* MapHunterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2DCA0B1D9210A300978C97 /* MapHunterUITests.swift */; };
 		BE2DCA2D1D92257C00978C97 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE2DCA2C1D92257C00978C97 /* MapKit.framework */; };
+		BE4BFE931E14F5EB00F3FE91 /* DetailInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE921E14F5EB00F3FE91 /* DetailInfoVC.swift */; };
+		BE4BFE961E14F89B00F3FE91 /* TargetSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE951E14F89B00F3FE91 /* TargetSettingVC.swift */; };
+		BE4BFE981E1502F300F3FE91 /* BottomPushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE971E1502F300F3FE91 /* BottomPushController.swift */; };
+		BE4BFE9A1E15031C00F3FE91 /* BottomPopController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE991E15031C00F3FE91 /* BottomPopController.swift */; };
 		BE6ACD851DBC583C006C4471 /* TopScrollDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6ACD841DBC583C006C4471 /* TopScrollDelegate.swift */; };
 		BE71B9E71DBF4CAA00143E1E /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71B9E61DBF4CAA00143E1E /* Net.swift */; };
 		BE7319FD1E0B7D9B002BDF2D /* DetailScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7319FC1E0B7D9B002BDF2D /* DetailScrollView.swift */; };
@@ -158,6 +162,10 @@
 		BE2DCA0B1D9210A300978C97 /* MapHunterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapHunterUITests.swift; sourceTree = "<group>"; };
 		BE2DCA0D1D9210A300978C97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE2DCA2C1D92257C00978C97 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		BE4BFE921E14F5EB00F3FE91 /* DetailInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailInfoVC.swift; sourceTree = "<group>"; };
+		BE4BFE951E14F89B00F3FE91 /* TargetSettingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetSettingVC.swift; sourceTree = "<group>"; };
+		BE4BFE971E1502F300F3FE91 /* BottomPushController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomPushController.swift; sourceTree = "<group>"; };
+		BE4BFE991E15031C00F3FE91 /* BottomPopController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomPopController.swift; sourceTree = "<group>"; };
 		BE6ACD841DBC583C006C4471 /* TopScrollDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopScrollDelegate.swift; sourceTree = "<group>"; };
 		BE71B9E61DBF4CAA00143E1E /* Net.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		BE7319FC1E0B7D9B002BDF2D /* DetailScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailScrollView.swift; sourceTree = "<group>"; };
@@ -280,6 +288,7 @@
 				BE731A001E0B8958002BDF2D /* DetailBack.swift */,
 				BE731A041E0BCF4E002BDF2D /* 顶部图 */,
 				BE731A181E10C4E6002BDF2D /* 详情模块 */,
+				BE4BFE941E14F87700F3FE91 /* 目标设置页面 */,
 			);
 			name = "模块";
 			sourceTree = "<group>";
@@ -394,6 +403,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		BE4BFE941E14F87700F3FE91 /* 目标设置页面 */ = {
+			isa = PBXGroup;
+			children = (
+				BE4BFE951E14F89B00F3FE91 /* TargetSettingVC.swift */,
+			);
+			name = "目标设置页面";
+			sourceTree = "<group>";
+		};
 		BE6ACD761DBC5475006C4471 /* include */ = {
 			isa = PBXGroup;
 			children = (
@@ -421,6 +438,7 @@
 			isa = PBXGroup;
 			children = (
 				BE731A021E0B8CD1002BDF2D /* DetailDataView.swift */,
+				BE4BFE921E14F5EB00F3FE91 /* DetailInfoVC.swift */,
 			);
 			name = "详情模块";
 			sourceTree = "<group>";
@@ -474,6 +492,8 @@
 				BEDF4F3A1D9393BC00E98D63 /* StateVC.swift */,
 				3205353A1DFFD1F00087068E /* StatePushController.swift */,
 				327383711E00F4A000767708 /* StatePopController.swift */,
+				BE4BFE971E1502F300F3FE91 /* BottomPushController.swift */,
+				BE4BFE991E15031C00F3FE91 /* BottomPopController.swift */,
 				BEDF4F751D9909A300E98D63 /* Top */,
 				BEDF4F6C1D98FC5E00E98D63 /* cells */,
 			);
@@ -696,6 +716,7 @@
 				32C3E6321E0A385E00D34A74 /* HeadViewController.swift in Sources */,
 				32C3E6381E0A837900D34A74 /* MeUnit.swift in Sources */,
 				32C3E63C1E0A86F600D34A74 /* MeVersion.swift in Sources */,
+				BE4BFE931E14F5EB00F3FE91 /* DetailInfoVC.swift in Sources */,
 				BEDF4F3B1D9393BC00E98D63 /* StateVC.swift in Sources */,
 				32D412461DEE8793008EE637 /* TarbarExtension.swift in Sources */,
 				BEB248EC1D9BD91A00C9F9ED /* IconView.swift in Sources */,
@@ -724,13 +745,16 @@
 				BE1C36701D93745500AB4370 /* NavigationExtension.swift in Sources */,
 				BEDF4F771D9909ED00E98D63 /* TopScrollView.swift in Sources */,
 				BE6ACD851DBC583C006C4471 /* TopScrollDelegate.swift in Sources */,
+				BE4BFE981E1502F300F3FE91 /* BottomPushController.swift in Sources */,
 				32E238AF1DFE2C9B001969AE /* DataCube.swift in Sources */,
 				BE743BE01DAA1D25002AC282 /* CellExtension.swift in Sources */,
 				BE2DC9EB1D9210A300978C97 /* MapVC.swift in Sources */,
 				BEDF4F561D96217A00E98D63 /* SpriteData.swift in Sources */,
 				BEDF4F691D98BBD700E98D63 /* CustomAnnotationView.swift in Sources */,
 				BEDF4F721D99033000E98D63 /* LabelExtension.swift in Sources */,
+				BE4BFE961E14F89B00F3FE91 /* TargetSettingVC.swift in Sources */,
 				BE9DA8961DB0698500C4574B /* CoordinateTransform.swift in Sources */,
+				BE4BFE9A1E15031C00F3FE91 /* BottomPopController.swift in Sources */,
 				BEDF4F6E1D98FCA900E98D63 /* FirstCell.swift in Sources */,
 				BEDF4F701D98FD1200E98D63 /* SecondCell.swift in Sources */,
 				BEDF4F741D99040300E98D63 /* ButtonExtension.swift in Sources */,

@@ -62,7 +62,9 @@ class DetailViewController: UIViewController {
         let detailScrollView = DetailScrollView(detailType: type, date: date)
         detailScrollView.detailBack.detailTop?.closure = {
             //点击模块回调
-            print(self.type)
+//            let targetSettingVC = TargetSettingVC(type: self.type)
+            let targetSettingVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "targetsetting")
+            self.navigationController?.show(targetSettingVC, sender: nil)
         }
         view.addSubview(detailScrollView)
     }

@@ -170,13 +170,18 @@ class DetailTop: UIView {
         
         self.selectedLabel.frame.origin.x = dataWidth / 2 - 20
         selectedView.addSubview(self.selectedLabel)
+        
+        if self.type == .weight{
+            selectedView.addSubview(self.weightDeltaLabel)
+        }
         return selectedView
     }()
     //显示选择数据值
     fileprivate lazy var selectedLabel: UILabel = {
         let selectedLabel: UILabel = UILabel()
+        selectedLabel.tag = 0
         selectedLabel.font = fontSmall
-        if self.type == .sleep{
+        if self.type == .sleep || self.type == .weight{
             selectedLabel.frame = CGRect(x: -20, y: -34, width: 80, height: 34)
             selectedLabel.layer.backgroundColor = UIColor.white.cgColor
             selectedLabel.textColor = .black
@@ -194,6 +199,18 @@ class DetailTop: UIView {
         selectedLabel.layer.shadowOffset = CGSize(width: 0, height: 0)
         selectedLabel.clipsToBounds = false
         return selectedLabel
+    }()
+    
+    //显示体重数据
+    fileprivate lazy var weightDeltaLabel: UILabel = {
+        let weightDeltaLabel: UILabel = UILabel()
+        weightDeltaLabel.tag = 1
+        weightDeltaLabel.font = fontBig
+        weightDeltaLabel.frame = CGRect(x: -20, y: 0, width: 80, height: 44)
+        weightDeltaLabel.textColor = UIColor.red.withAlphaComponent(0.5)
+        weightDeltaLabel.textAlignment = .center
+        weightDeltaLabel.layer.shadowColor = UIColor.black.cgColor
+        return weightDeltaLabel
     }()
     
     //MARK:- 存储数据
@@ -1016,36 +1033,77 @@ extension DetailTop{
                 }
                 selectedLabel.text = timeStart + unit + timeEnd + "\n" + typeStr
             case .weight:
+                
+                //重置触摸位置
+                dataIndex = Int((location.x - radius - dataWidth / 2) / dataWidth)
+                
                 selectedView.isHidden = false
                 unit = "kg"
                 
                 //改变显示view x轴位置
                 var currentX = location.x
-                let circle = markCircleList[dataIndex]
-                if currentX < circle.position.x{
-                    currentX = circle.position.x
+                let firstCircleX = (bounds.size.width - radius * 2) / CGFloat(dataList.count) + radius
+                if currentX < firstCircleX{
+                    currentX = firstCircleX
                 }
-                selectedView.frame.origin.x = location.x
+                selectedView.frame.origin.x = currentX
                 
                 //绘制渐变
                 let gradient = CAGradientLayer()
                 gradient.frame = CGRect(x: 0, y: 0,
-                                        width: bounds.width - (location.x),
+                                        width: bounds.width - radius - currentX,
                                         height: self.superview!.frame.origin.y - 24)
                 gradient.locations = [0.2, 1]
                 gradient.startPoint = CGPoint(x: 1, y: 0)
                 gradient.endPoint = CGPoint(x: 1, y: 1)
-            xs}
+                gradient.name = "layer"
+                gradient.colors = [UIColor.white.withAlphaComponent(0.3).cgColor, modelStartColors[self.type]!.cgColor]
+                if let oldLayers = selectedView.layer.sublayers?.filter({$0.name == "layer"}){
+                    if let last = oldLayers.last{
+                        last.removeFromSuperlayer()
+                    }
+                }
+                selectedView.layer.addSublayer(gradient)
+                
+                //改变label位置
+                let labels = selectedView.subviews.filter(){$0.isKind(of: UILabel.self)}
+                labels.forEach(){
+                    label in
+                    UIView.animate(withDuration: 0.3){
+                        
+                        if label.tag == 0{
+                            
+                            var posX = (currentX - label.frame.width) / 2
+                            let convertX = self.convert(CGPoint(x: posX, y: 0), from: self.selectedView).x
+                            if convertX < 0{
+                                posX = self.convert(.zero, to: self.selectedView).x
+                            }else if convertX + label.frame.width > self.bounds.width{
+                                posX = self.convert(CGPoint(x: self.bounds.width - label.frame.width, y: 0), to: self.selectedView).x
+                            }
+                            label.frame.origin.x = posX
+                        }else{
+                            label.frame.origin.x = (self.bounds.width - currentX - label.frame.width) / 2
+                        }
+                    }
+                }
                 
                 //设置显示值 selected view
                 let data = dataList[dataIndex]
                 
                 //获取日期
                 let formatter = DateFormatter()
-                formatter.dateFormat = "yyy年MM月dd日"
+                formatter.dateFormat = "yyy-MM-dd"
                 let dateStr = formatter.string(from: dateList![dataIndex])
                 
                 selectedLabel.text = "\(data)" + unit + "\n" + dateStr
+                
+                //体重差值
+                if dataIndex == dataList.count - 1{
+                    weightDeltaLabel.text = ""
+                }else{
+                    let lastData = dataList.last!
+                    weightDeltaLabel.text = "\(lastData - data)"
+                }
             }
             
             
