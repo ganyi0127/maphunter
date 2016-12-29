@@ -70,6 +70,11 @@ class DetailDataView: UIView {
         }
     }
     
+    //点击事件
+    var tap: UITapGestureRecognizer?
+    var closure: (()->())?
+    
+    //MARK:- init
     init(detailDataViewType: DetailDataViewType){
         let frame = CGRect(x: 0,
                            y: 0,
@@ -85,6 +90,10 @@ class DetailDataView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        removeGestureRecognizer(tap!)
     }
     
     private func config(){
@@ -104,6 +113,16 @@ class DetailDataView: UIView {
         rightSeparator.backgroundColor = subWordColor
         rightSeparator.alpha = 0.05
         addSubview(rightSeparator)
+        
+        //初始化点击事件
+        tap = UITapGestureRecognizer(target: self, action: #selector(click(recongnizer:)))
+        tap?.numberOfTapsRequired = 1
+        tap?.numberOfTouchesRequired = 1
+        addGestureRecognizer(tap!)
+    }
+    
+    @objc func click(recongnizer: UITapGestureRecognizer){
+        closure?()
     }
     
     private func createContents(){

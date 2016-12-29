@@ -1,5 +1,5 @@
 //
-//  TargetSettingVC.swift
+//  IntroduceVC.swift
 //  MapHunter
 //
 //  Created by ganyi on 2016/12/29.
@@ -7,8 +7,7 @@
 //
 
 import Foundation
-import UIKit
-class TargetSettingVC: UIViewController {
+class IntroduceVC: UIViewController {
     
     override func viewDidLoad() {
         config()
@@ -23,10 +22,5 @@ class TargetSettingVC: UIViewController {
     private func createContents(){
         
     }
-}
-
-extension TargetSettingVC{
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        _ = navigationController?.popViewController(animated: true)
-    }
+    
 }

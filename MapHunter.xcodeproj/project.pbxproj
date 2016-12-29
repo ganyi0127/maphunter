@@ -52,6 +52,7 @@
 		BE4BFE961E14F89B00F3FE91 /* TargetSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE951E14F89B00F3FE91 /* TargetSettingVC.swift */; };
 		BE4BFE981E1502F300F3FE91 /* BottomPushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE971E1502F300F3FE91 /* BottomPushController.swift */; };
 		BE4BFE9A1E15031C00F3FE91 /* BottomPopController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE991E15031C00F3FE91 /* BottomPopController.swift */; };
+		BE4BFE9C1E150FD200F3FE91 /* IntroduceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE9B1E150FD200F3FE91 /* IntroduceVC.swift */; };
 		BE6ACD851DBC583C006C4471 /* TopScrollDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6ACD841DBC583C006C4471 /* TopScrollDelegate.swift */; };
 		BE71B9E71DBF4CAA00143E1E /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71B9E61DBF4CAA00143E1E /* Net.swift */; };
 		BE7319FD1E0B7D9B002BDF2D /* DetailScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7319FC1E0B7D9B002BDF2D /* DetailScrollView.swift */; };
@@ -166,6 +167,7 @@
 		BE4BFE951E14F89B00F3FE91 /* TargetSettingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetSettingVC.swift; sourceTree = "<group>"; };
 		BE4BFE971E1502F300F3FE91 /* BottomPushController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomPushController.swift; sourceTree = "<group>"; };
 		BE4BFE991E15031C00F3FE91 /* BottomPopController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomPopController.swift; sourceTree = "<group>"; };
+		BE4BFE9B1E150FD200F3FE91 /* IntroduceVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroduceVC.swift; sourceTree = "<group>"; };
 		BE6ACD841DBC583C006C4471 /* TopScrollDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopScrollDelegate.swift; sourceTree = "<group>"; };
 		BE71B9E61DBF4CAA00143E1E /* Net.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		BE7319FC1E0B7D9B002BDF2D /* DetailScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailScrollView.swift; sourceTree = "<group>"; };
@@ -288,7 +290,7 @@
 				BE731A001E0B8958002BDF2D /* DetailBack.swift */,
 				BE731A041E0BCF4E002BDF2D /* 顶部图 */,
 				BE731A181E10C4E6002BDF2D /* 详情模块 */,
-				BE4BFE941E14F87700F3FE91 /* 目标设置页面 */,
+				BE4BFE941E14F87700F3FE91 /* 目标设置\介绍页面 */,
 			);
 			name = "模块";
 			sourceTree = "<group>";
@@ -403,12 +405,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		BE4BFE941E14F87700F3FE91 /* 目标设置页面 */ = {
+		BE4BFE941E14F87700F3FE91 /* 目标设置\介绍页面 */ = {
 			isa = PBXGroup;
 			children = (
 				BE4BFE951E14F89B00F3FE91 /* TargetSettingVC.swift */,
+				BE4BFE9B1E150FD200F3FE91 /* IntroduceVC.swift */,
 			);
-			name = "目标设置页面";
+			name = "目标设置\\介绍页面";
 			sourceTree = "<group>";
 		};
 		BE6ACD761DBC5475006C4471 /* include */ = {
@@ -761,6 +764,7 @@
 				BE731A031E0B8CD1002BDF2D /* DetailDataView.swift in Sources */,
 				BEB248EA1D9BBC8D00C9F9ED /* StepProgress.swift in Sources */,
 				BEB249091D9E202000C9F9ED /* Cell6Content.swift in Sources */,
+				BE4BFE9C1E150FD200F3FE91 /* IntroduceVC.swift in Sources */,
 				32C3E6341E0A694E00D34A74 /* AlertExtension.swift in Sources */,
 				BE2DC9E91D9210A300978C97 /* AppDelegate.swift in Sources */,
 				3205353B1DFFD1F00087068E /* StatePushController.swift in Sources */,

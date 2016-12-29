@@ -159,6 +159,13 @@ extension UINavigationController: UINavigationControllerDelegate{
             return StatePopController(endRect: endRect)
         }
         
+        //目标页面
+        if fromVC.isKind(of: DetailViewController.self) && toVC.isKind(of: TargetSettingVC.self) {
+            return BottomPushController()
+        }else if fromVC.isKind(of: TargetSettingVC.self) && toVC.isKind(of: DetailViewController.self){
+            return BottomPopController()
+        }
+        
         return nil
     }
 }

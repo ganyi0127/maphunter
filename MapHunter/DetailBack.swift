@@ -12,6 +12,7 @@ class DetailBack: UIView {
     fileprivate var type: DataCubeType!         //类型
     
     var detailTop: DetailTop?       //top view
+    var closure: (()->())?          //统一回调
     
     private var dataViewTypeMap = [DetailDataViewType: DetailDataView]()
     private var dataViewTypeList = [DetailDataViewType](){
@@ -30,6 +31,9 @@ class DetailBack: UIView {
                 detailDataView.frame.origin = CGPoint(x: CGFloat(index % 2) * self.frame.width / 2,
                                                       y: detailTop!.frame.height + CGFloat(index / 2) * detailDataView.frame.height)
                 detailDataView.value = 123
+                detailDataView.closure = {
+                    self.closure?()
+                }
                 dataViewTypeMap[dataViewType] = detailDataView
                 addSubview(detailDataView)
             }

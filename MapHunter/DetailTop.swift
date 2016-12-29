@@ -880,6 +880,23 @@ class DetailTop: UIView {
 
 extension DetailTop{
     func currentTouchesBegan(_ touches: Set<UITouch>) {
+        
+        touches.forEach(){
+            touch in
+            let location = touch.location(in: self)
+            let dataWidth = (bounds.size.width - radius * 2) / CGFloat(dataList.count)
+            let dataIndex = Int((location.x - radius) / dataWidth)
+            guard dataIndex < dataList.count, dataIndex >= 0 else{
+                return
+            }
+            
+            switch type as DataCubeType{
+            case .sport, .sleep:
+                selectedView.frame.origin.x = self.radius + CGFloat(dataIndex) * dataWidth
+            default:
+                break
+            }
+        }
         currentTouchesMoved(touches)
     }
     
@@ -899,11 +916,13 @@ extension DetailTop{
             var unit: String
             switch type as DataCubeType{
             case .sport:
-                selectedView.isHidden = false
                 unit = "步"
                 
                 //改变显示view x轴位置
-                selectedView.frame.origin.x = radius + CGFloat(dataIndex) * dataWidth
+                UIView.animate(withDuration: 0.3){
+                    self.selectedView.isHidden = false
+                    self.selectedView.frame.origin.x = self.radius + CGFloat(dataIndex) * dataWidth
+                }
                 
                 //设置显示值 selected view
                 let data = dataList[dataIndex]
@@ -962,27 +981,28 @@ extension DetailTop{
                 }
                 
                 //改变显示view x轴位置
-                selectedView.frame.origin.x = radius + preOffsetX
-                
-                //绘制渐变
-                let gradient = CAGradientLayer()
-                gradient.frame = CGRect(x: 0, y: 0, width: width, height: self.superview!.frame.origin.y - 24)
-                gradient.locations = [0.2, 1]
-                gradient.startPoint = CGPoint(x: 1, y: 0)
-                gradient.endPoint = CGPoint(x: 1, y: 1)
-                gradient.name = "layer"
-                gradient.colors = [UIColor.white.withAlphaComponent(0.3).cgColor, modelStartColors[self.type]!.cgColor]
-                if let oldLayers = selectedView.layer.sublayers?.filter({$0.name == "layer"}){
-                    if let last = oldLayers.last{
-                        last.removeFromSuperlayer()
-                    }
-                }
-                selectedView.layer.addSublayer(gradient)
                 
                 //改变label位置
                 let labels = selectedView.subviews.filter(){$0.isKind(of: UILabel.self)}
                 if let label = labels.last{
                     UIView.animate(withDuration: 0.3){
+                        
+                        self.selectedView.frame.origin.x = self.radius + preOffsetX
+                        
+                        //绘制渐变
+                        let gradient = CAGradientLayer()
+                        gradient.frame = CGRect(x: 0, y: 0, width: width, height: self.superview!.frame.origin.y - 24)
+                        gradient.locations = [0.2, 1]
+                        gradient.startPoint = CGPoint(x: 1, y: 0)
+                        gradient.endPoint = CGPoint(x: 1, y: 1)
+                        gradient.name = "layer"
+                        gradient.colors = [UIColor.white.withAlphaComponent(0.3).cgColor, modelStartColors[self.type]!.cgColor]
+                        if let oldLayers = self.selectedView.layer.sublayers?.filter({$0.name == "layer"}){
+                            if let last = oldLayers.last{
+                                last.removeFromSuperlayer()
+                            }
+                        }
+                        self.selectedView.layer.addSublayer(gradient)
                         
                         var posX = (width - label.frame.width) / 2
                         let convertX = self.convert(CGPoint(x: posX, y: 0), from: self.selectedView).x
