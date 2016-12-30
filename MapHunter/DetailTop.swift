@@ -274,6 +274,11 @@ class DetailTop: UIView {
         gradient.endPoint = CGPoint(x: 1, y: 1)
         gradient.colors = [modelStartColors[type]!.cgColor, modelEndColors[type]!.cgColor]
         gradient.cornerRadius = radius
+        gradient.shadowColor = UIColor.black.cgColor
+        gradient.shadowOffset = CGSize(width: 0, height: 2)
+        gradient.shadowRadius = 2
+        gradient.shadowOpacity = 0.5
+        gradient.masksToBounds = false
         layer.addSublayer(gradient)
         
         //添加点击事件

@@ -29,6 +29,8 @@ class DetailScrollView: UIScrollView {
     private func config(){
 
         self.showsVerticalScrollIndicator = false
+        
+        delegate = self
     }
     
     private func createContents(){
@@ -65,5 +67,16 @@ extension DetailScrollView{
 }
 
 extension DetailScrollView: UIScrollViewDelegate{
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        
+    }
     
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let offsetY = scrollView.contentOffset.y
+        if offsetY < (detailBack.frame.origin.y - 66) / 2 {
+            scrollView.setContentOffset(CGPoint(x: 0, y: -66), animated: true)
+        }else if offsetY < detailBack.frame.origin.y - 66 {
+            scrollView.setContentOffset(CGPoint(x: 0, y: detailBack.frame.origin.y - 66), animated: true)
+        }
+    }
 }
