@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AngelFit
 class MeSetting: UITableViewController {
     
     override func viewDidLoad() {
@@ -23,7 +24,9 @@ class MeSetting: UITableViewController {
     }
     
     private func createContents(){
-        
+        let handler = CoreDataHandler()
+        print(handler)
+        GodPeripheralDelegate
     }
 }
 

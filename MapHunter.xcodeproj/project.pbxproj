@@ -55,6 +55,9 @@
 		BE4BFE9C1E150FD200F3FE91 /* IntroduceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE9B1E150FD200F3FE91 /* IntroduceVC.swift */; };
 		BE4BFE9E1E15140400F3FE91 /* MiddlePushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE9D1E15140400F3FE91 /* MiddlePushController.swift */; };
 		BE4BFEA01E15141A00F3FE91 /* MiddlePopController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE9F1E15141A00F3FE91 /* MiddlePopController.swift */; };
+		BE54CB1F1E17938F00DDFFC6 /* WeightEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE54CB1E1E17938F00DDFFC6 /* WeightEditVC.swift */; };
+		BE54CB221E17AA9B00DDFFC6 /* AngelFit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE54CB201E17A94F00DDFFC6 /* AngelFit.framework */; };
+		BE54CB231E17AA9B00DDFFC6 /* AngelFit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE54CB201E17A94F00DDFFC6 /* AngelFit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BE6ACD851DBC583C006C4471 /* TopScrollDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6ACD841DBC583C006C4471 /* TopScrollDelegate.swift */; };
 		BE71B9E71DBF4CAA00143E1E /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71B9E61DBF4CAA00143E1E /* Net.swift */; };
 		BE7319FD1E0B7D9B002BDF2D /* DetailScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7319FC1E0B7D9B002BDF2D /* DetailScrollView.swift */; };
@@ -108,6 +111,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				BE54CB231E17AA9B00DDFFC6 /* AngelFit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -172,6 +176,8 @@
 		BE4BFE9B1E150FD200F3FE91 /* IntroduceVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroduceVC.swift; sourceTree = "<group>"; };
 		BE4BFE9D1E15140400F3FE91 /* MiddlePushController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiddlePushController.swift; sourceTree = "<group>"; };
 		BE4BFE9F1E15141A00F3FE91 /* MiddlePopController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiddlePopController.swift; sourceTree = "<group>"; };
+		BE54CB1E1E17938F00DDFFC6 /* WeightEditVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightEditVC.swift; sourceTree = "<group>"; };
+		BE54CB201E17A94F00DDFFC6 /* AngelFit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AngelFit.framework; sourceTree = "<group>"; };
 		BE6ACD841DBC583C006C4471 /* TopScrollDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopScrollDelegate.swift; sourceTree = "<group>"; };
 		BE71B9E61DBF4CAA00143E1E /* Net.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		BE7319FC1E0B7D9B002BDF2D /* DetailScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailScrollView.swift; sourceTree = "<group>"; };
@@ -206,6 +212,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE54CB221E17AA9B00DDFFC6 /* AngelFit.framework in Frameworks */,
 				BE2DCA2D1D92257C00978C97 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -294,7 +301,7 @@
 				BE731A001E0B8958002BDF2D /* DetailBack.swift */,
 				BE731A041E0BCF4E002BDF2D /* 顶部图 */,
 				BE731A181E10C4E6002BDF2D /* 详情模块 */,
-				BE4BFE941E14F87700F3FE91 /* 目标设置\介绍页面 */,
+				BE4BFE941E14F87700F3FE91 /* 目标设置\介绍页面\编辑页面 */,
 			);
 			name = "模块";
 			sourceTree = "<group>";
@@ -346,6 +353,7 @@
 		BE2DC9E71D9210A300978C97 /* MapHunter */ = {
 			isa = PBXGroup;
 			children = (
+				BE54CB201E17A94F00DDFFC6 /* AngelFit.framework */,
 				BE2DC9EC1D9210A300978C97 /* Main.storyboard */,
 				BE1C366C1D93725000AB4370 /* RootTBC.swift */,
 				BEDF4F371D93938500E98D63 /* 状态 */,
@@ -409,13 +417,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		BE4BFE941E14F87700F3FE91 /* 目标设置\介绍页面 */ = {
+		BE4BFE941E14F87700F3FE91 /* 目标设置\介绍页面\编辑页面 */ = {
 			isa = PBXGroup;
 			children = (
 				BE4BFE951E14F89B00F3FE91 /* TargetSettingVC.swift */,
 				BE4BFE9B1E150FD200F3FE91 /* IntroduceVC.swift */,
+				BE54CB1E1E17938F00DDFFC6 /* WeightEditVC.swift */,
 			);
-			name = "目标设置\\介绍页面";
+			name = "目标设置\\介绍页面\\编辑页面";
 			sourceTree = "<group>";
 		};
 		BE6ACD761DBC5475006C4471 /* include */ = {
@@ -733,6 +742,7 @@
 				32C3E62B1E09121800D34A74 /* MePopController.swift in Sources */,
 				32E238AB1DFA996E001969AE /* OCVariable.swift in Sources */,
 				32C5726A1DD9C2E700CEC5EB /* GradientPolylineOverlay.m in Sources */,
+				BE54CB1F1E17938F00DDFFC6 /* WeightEditVC.swift in Sources */,
 				32C3E6291E090B4C00D34A74 /* MePushController.swift in Sources */,
 				320535391DFE7AFC0087068E /* CalendarCell.swift in Sources */,
 				32C3E6271E0904B900D34A74 /* MeDetails.swift in Sources */,

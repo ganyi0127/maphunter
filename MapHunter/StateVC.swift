@@ -13,13 +13,13 @@ class StateVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!      //内容
     
     //毛玻璃 打开日历后蒙版
-    private lazy var effectView = { () -> UIVisualEffectView in
-        let blur: UIBlurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
-        let effectView: UIVisualEffectView = UIVisualEffectView(effect: blur)
-        effectView.isUserInteractionEnabled = false
-        effectView.frame = CGRect(x: 0, y: view_size.height * 0, width: view_size.width, height: view_size.height * 1)
-        return effectView
-    }()
+//    private lazy var effectView = { () -> UIVisualEffectView in
+//        let blur: UIBlurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+//        let effectView: UIVisualEffectView = UIVisualEffectView(effect: blur)
+//        effectView.isUserInteractionEnabled = false
+//        effectView.frame = CGRect(x: 0, y: view_size.height * 0, width: view_size.width, height: view_size.height * 1)
+//        return effectView
+//    }()
     //取消点击事件
     private lazy var tap: UITapGestureRecognizer = {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.tap(recognizer:)))
@@ -70,30 +70,8 @@ class StateVC: UIViewController {
     func setBlur(hidden: Bool){
        
         if hidden {
-//            tableView.isUserInteractionEnabled = true
-            //移除高斯模糊
-//            effectView.removeGestureRecognizer(tap)
-//            UIView.animate(withDuration: 0, delay: 0, options: .curveEaseOut, animations: {
-//                self.effectView.alpha = 0
-//            }){
-//                _ in
-//                //当动画结束后、移除效果
-//                self.effectView.removeFromSuperview()
-//            }
-            
             tableView.removeGestureRecognizer(tap)
         }else{
-//            tableView.isUserInteractionEnabled = false
-            //添加高斯模糊
-//            effectView.alpha = 0
-//            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
-//                self.effectView.alpha = 1
-//            }, completion: nil)
-//            tableView.addSubview(effectView)
-//            view.insertSubview(effectView, belowSubview: topView)
-//            tap.delegate = self
-//            effectView.addGestureRecognizer(tap)
-            
             tableView.addGestureRecognizer(tap)
         }
     }
@@ -109,12 +87,7 @@ class StateVC: UIViewController {
         //添加刷新控件
         let control = { () -> UIRefreshControl in
             let ctrl = UIRefreshControl()
-            ctrl.backgroundColor = .clear
-            
-//            let cusView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-//            cusView.backgroundColor = .red
-//            ctrl.addSubview(cusView)
-            
+            ctrl.backgroundColor = nil
             ctrl.tintColor = UIColor(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1)
             ctrl.attributedTitle = NSAttributedString(string: "同步健康数据")
             ctrl.addTarget(self, action: #selector(refreshStateChange(_:)), for: .valueChanged)
@@ -134,10 +107,13 @@ class StateVC: UIViewController {
     }
     
     @objc private func refreshStateChange(_ control: UIRefreshControl){
-        
-        _ = delay(1){
+
+        DispatchQueue.main.async {
             
-            control.endRefreshing()
+            _ = delay(1){
+                control.endRefreshing()
+                
+            }
         }
     }
 }
@@ -318,12 +294,10 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
 
 }
 
+//MARK:- 手势事件
 extension StateVC: UIGestureRecognizerDelegate{
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        
-        
-        print(touch.view?.classForCoder)
         
         guard let v = touch.view, v.isKind(of: UIVisualEffectView.self) else {
             return false

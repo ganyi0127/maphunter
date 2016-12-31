@@ -213,6 +213,30 @@ class DetailTop: UIView {
         return weightDeltaLabel
     }()
     
+    //编辑按钮
+    fileprivate lazy var weightEditButton: UIButton = {
+        let button = UIButton(type: UIButtonType.roundedRect)
+        button.tintColor = .white
+        button.backgroundColor = nil
+        button.setTitle("编辑", for: .normal)
+        button.titleLabel?.font = fontSmall
+        button.addTarget(self, action: #selector(edit), for: .touchUpInside)
+        button.frame = CGRect(x: self.bounds.width - self.bounds.width * 0.2 * 1.2,
+                              y: (self.bounds.height - self.bounds.height * 0.3) / 2,
+                              width: self.bounds.width * 0.2,
+                              height: self.bounds.height * 0.3)
+        let buttonRect = CGRect(origin: .zero, size: button.bounds.size)
+        let bezier = UIBezierPath(roundedRect: buttonRect, cornerRadius: 3)
+        
+        let buttonLayer = CAShapeLayer()
+        buttonLayer.path = bezier.cgPath
+        buttonLayer.fillColor = nil
+        buttonLayer.strokeColor = UIColor.white.cgColor
+        buttonLayer.lineWidth = 1
+        button.layer.addSublayer(buttonLayer)
+        return button
+    }()
+    
     //MARK:- 存储数据
     fileprivate var deltaMinute: Int = 0
     fileprivate let radius: CGFloat = 10
@@ -236,6 +260,7 @@ class DetailTop: UIView {
     private var tap: UITapGestureRecognizer?
     
     var closure: (()->())?
+    var editClosure: (()->())?
     
     //MARK:- init
     init(detailType: DataCubeType){
@@ -289,6 +314,11 @@ class DetailTop: UIView {
         addGestureRecognizer(tap!)
     }
     
+    //MARK:- weight编辑点击按钮
+    @objc private func edit(){
+        editClosure?()
+    }
+    
     //MARK:- 点击事件
     @objc private func click(recognizer: UITapGestureRecognizer){
         closure?()
@@ -328,6 +358,9 @@ class DetailTop: UIView {
         case .sleep:
             addSubview(leftLabel)
             leftValue = 123
+            
+            //添加编辑按钮
+            addSubview(weightEditButton)
         default:
             break
         }

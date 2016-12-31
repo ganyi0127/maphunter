@@ -1,0 +1,10 @@
+framework module AngelFit {
+  umbrella header "AngelFit.h"
+
+  export *
+  module * { export * }
+}
+
+module AngelFit.Swift {
+    header "AngelFit-Swift.h"
+}

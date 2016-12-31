@@ -65,6 +65,11 @@ class DetailViewController: UIViewController {
             let targetSettingVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "targetsetting")
             self.navigationController?.show(targetSettingVC, sender: nil)
         }
+        detailScrollView.detailBack.detailTop?.editClosure = {
+            //点击编辑回调
+            let weightEditVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "weightedit")
+            self.navigationController?.show(weightEditVC, sender: nil)
+        }
         detailScrollView.detailBack.closure = {
             //点击数据view回调
             let introduceVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "introduce")
