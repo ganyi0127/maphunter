@@ -27,7 +27,7 @@ class DataCube: UIView {
     
     //显示curLable
     private lazy var mainLabel: UILabel = {
-        let frame = CGRect(x: 0, y: 10, width: self.frame.width, height: self.frame.height * 0.2)
+        let frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height * 0.24)
         let curLabel: UILabel = UILabel(frame: frame)
         curLabel.textAlignment = .left
         curLabel.textColor = .white
@@ -37,7 +37,7 @@ class DataCube: UIView {
     
     //显示subLable
     private lazy var subLabel: UILabel = {
-        let frame = CGRect(x: 0, y: 10 + self.frame.height * 0.2, width: self.frame.width, height: self.frame.height * 0.2)
+        let frame = CGRect(x: 0, y: 0 + self.frame.height * 0.24, width: self.frame.width, height: self.frame.height * 0.2)
         let targetLabel = UILabel(frame: frame)
         targetLabel.textAlignment = .left
         targetLabel.textColor = .white
@@ -71,8 +71,8 @@ class DataCube: UIView {
             case .sport:
                 var text = "\(Int16(data.value1))步"
                 let mainAttributedString = NSMutableAttributedString(string: text,
-                                                                     attributes: [NSFontAttributeName: fontBig])
-                mainAttributedString.addAttribute(NSFontAttributeName, value: UIFont(name: font_name, size: self.frame.height * 0.07)!, range: NSMakeRange(text.characters.count - 1, 1))
+                                                                     attributes: [NSFontAttributeName: fontHuge])
+                mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 1, 1))
                 mainLabel.attributedText = mainAttributedString
                 
                 text = "还有\(Int16(data.value2))步完成"
@@ -83,22 +83,22 @@ class DataCube: UIView {
                 
                 let text = "\(Int16(data.value1))Bmp"
                 let mainAttributedString = NSMutableAttributedString(string: text,
-                                                                     attributes: [NSFontAttributeName: fontBig])
+                                                                     attributes: [NSFontAttributeName: fontHuge])
                 mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 3, 3))
                 mainLabel.attributedText = mainAttributedString
             case .sleep:
                 
-                let text = "\(Int16(data.value1))小时\(Int16(data.value2))分钟"
+                let text = "\(Int16(data.value1) / 80)小时\(Int16(data.value2) / 10)分钟"
                 let mainAttributedString = NSMutableAttributedString(string: text,
-                                                                     attributes: [NSFontAttributeName: fontBig])
+                                                                     attributes: [NSFontAttributeName: fontHuge])
                 mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 2, 2))
-                mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 7, 2))
+                mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 6, 2))
                 mainLabel.attributedText = mainAttributedString
             case .weight:
                 
                 var text = "\(Int16(data.value1))Kg"
                 let mainAttributedString = NSMutableAttributedString(string: text,
-                                                                     attributes: [NSFontAttributeName: fontBig])
+                                                                     attributes: [NSFontAttributeName: fontHuge])
                 mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 2, 2))
                 mainLabel.attributedText = mainAttributedString
                 
