@@ -71,8 +71,10 @@ class StateVC: UIViewController {
        
         if hidden {
             tableView.removeGestureRecognizer(tap)
+            tableView.alpha = 1
         }else{
             tableView.addGestureRecognizer(tap)
+            tableView.alpha = 0.2
         }
     }
     

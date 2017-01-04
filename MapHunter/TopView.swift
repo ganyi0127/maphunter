@@ -213,7 +213,7 @@ class TopView: UIView {
 
 extension TopView : TopScrollDelegate{
     func topScrollData(withDay day: Int, withMonth month: Int, withYear year: Int) -> (curValues: [CGFloat], maxValues: [CGFloat]) {
-        return ([12, 89, 2],[50, 100, 3])
+        return ([80, 89],[96, 100])
     }
     
     func topScrollDidSelected(withData date: Date) {

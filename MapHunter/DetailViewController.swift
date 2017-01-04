@@ -26,6 +26,8 @@ class DetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigation(hidden: true)
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
         //显示日期
         let formatter = DateFormatter()
@@ -35,7 +37,7 @@ class DetailViewController: UIViewController {
         
         if dateStr == todayStr {
             navigationItem.title = "今天"
-        }else{            
+        }else{
             navigationItem.title = dateStr
         }
     }
@@ -46,6 +48,7 @@ class DetailViewController: UIViewController {
     
     private func config(){
         view.backgroundColor = .clear
+        
         
         //绘制渐变
         let gradient = CAGradientLayer()
@@ -63,7 +66,7 @@ class DetailViewController: UIViewController {
         detailScrollView.detailBack.detailTop?.closure = {
             //点击模块回调
             let targetSettingVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "targetsetting")
-            self.navigationController?.show(targetSettingVC, sender: nil)
+            self.present(targetSettingVC, animated: true, completion: nil)
         }
         detailScrollView.detailBack.detailTop?.editClosure = {
             //点击编辑回调

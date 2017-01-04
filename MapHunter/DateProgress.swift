@@ -12,11 +12,11 @@ import UIKit
 @IBDesignable
 class DateProgress: UIView {
     
-    private var shapeLayer:CAShapeLayer? = {
+    private lazy var shapeLayer:CAShapeLayer? = {
         let shapeLayer = CAShapeLayer()
-        shapeLayer.strokeColor = UIColor.clear.cgColor
+        shapeLayer.strokeColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
         shapeLayer.fillColor = UIColor.clear.cgColor
-        shapeLayer.lineWidth = 0
+        shapeLayer.lineWidth = self.refreshRadius * 0.2
         
         return shapeLayer
     }()
@@ -88,8 +88,8 @@ class DateProgress: UIView {
     
     private var refreshRadius:CGFloat!
     private var shapeList = [CAShapeLayer]()
-    private let shapeColorList = [SportColor.walking.cgColor,
-                                  SportColor.running.cgColor,
+    private let shapeColorList = [SportColor.running.cgColor,
+                                  SportColor.walking.cgColor,
                                   SportColor.riding.cgColor]
     private let strokeAnim: CABasicAnimation = {
        let anim = CABasicAnimation(keyPath: "strokeEnd")
@@ -104,7 +104,7 @@ class DateProgress: UIView {
     
     //MARK:- init
     init(_ text: String) {
-        let radius = view_size.width / 8
+        let radius = view_size.width / 12
         let initFrame = CGRect(x: 0, y: 0, width: radius, height: radius)
         super.init(frame: initFrame)
         
@@ -162,10 +162,10 @@ class DateProgress: UIView {
         self.layer.addSublayer(shapeLayer!)
         
         //设置中央文字
-        label.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
+        label.frame = CGRect(x: bounds.width / 2 - refreshRadius, y: -frame.width * 0.8, width: refreshRadius * 2, height: refreshRadius * 2)
         label.textAlignment = .center
         label.layer.zPosition = 3
-        label.textColor = UIColor(red: 155 / 255, green: 155 / 255, blue: 155 / 255, alpha: 1)
+        label.textColor = .gray
         addSubview(label)
     }
     
@@ -180,8 +180,8 @@ class DateProgress: UIView {
                 let curValue = curValues[index]
 
                 //绘制
-                let lineWidth = refreshRadius * 0.1
-                let radius = frame.height / 2.0 * 0.7 - CGFloat(index) * lineWidth
+                let lineWidth = refreshRadius * 0.2
+                let radius = frame.height / 2.0 * 0.7 - CGFloat(index) * lineWidth * 1.8
                 
                 bezierPath.removeAllPoints()
                 bezierPath.addArc(withCenter: CGPoint(x: frame.width / 2, y: frame.height / 2), radius: radius, startAngle: -(CGFloat)(M_PI_2), endAngle: CGFloat(M_PI) * 1.5, clockwise: true)
@@ -223,17 +223,21 @@ class DateProgress: UIView {
         
         var cgcolor:CGColor?
         if flag{
-            cgcolor = UIColor.gray.withAlphaComponent(0.3).cgColor
+            cgcolor = SportColor.running.cgColor
+            label.textColor = .white
         }else{
             cgcolor = UIColor.clear.cgColor
+            label.textColor = .gray
         }
-        
-        let anim = CABasicAnimation(keyPath: "fillColor")
-        anim.toValue = cgcolor
-        anim.duration = 0.3
-        anim.fillMode = kCAFillModeBoth
-        anim.isRemovedOnCompletion = false
-        shapeLayer?.add(anim, forKey: nil)
+
+        label.layer.backgroundColor = cgcolor
+        label.layer.cornerRadius = label.bounds.width / 2
+//        let anim = CABasicAnimation(keyPath: "fillColor")
+//        anim.toValue = cgcolor
+//        anim.duration = 0.3
+//        anim.fillMode = kCAFillModeBoth
+//        anim.isRemovedOnCompletion = false
+//        shapeLayer?.add(anim, forKey: nil)
     }
 }
 

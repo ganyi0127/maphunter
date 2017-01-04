@@ -34,8 +34,8 @@ var selectDate = Date()
 
 //运动数据颜色
 struct SportColor{
-    static let running = UIColor(red: 27 / 255, green: 227 / 255, blue: 114 / 255, alpha: 1)
-    static let walking = UIColor(red: 82 / 255, green: 158 / 255, blue: 242 / 255, alpha: 1)
+    static let running = UIColor(red: 249 / 255, green: 107 / 255, blue: 30 / 255, alpha: 1)
+    static let walking = UIColor(red: 48 / 255, green: 114 / 255, blue: 225 / 255, alpha: 1)
     static let riding = UIColor(red: 251 / 255, green: 196 / 255, blue: 61 / 255, alpha: 1)
 }
 

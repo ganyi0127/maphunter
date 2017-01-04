@@ -31,16 +31,16 @@ class DetailTop: UIView {
             switch type as DataCubeType {
             case .sport:
                 unit = "%"
-                text = "\(value / 10000 * 100)" + unit
+                text = "\(Int16(value / 10000 * 100))" + unit
             case .heartrate:
                 unit = "Bmp"
-                text = "\(Int16(value))\n" + unit
+                text = "\(Int16(value / 10))" + unit
             case .sleep:
                 unit = "%"
-                text = "\(value / 10000 * 100)" + unit
+                text = "\(Int16(value / 10000 * 100))" + unit
             case .weight:
                 unit = "Kg"
-                text = "\(Int16(value))\n" + unit
+                text = "\(Int16(value / 100))" + unit
             }
             
             let mainAttributedString = NSMutableAttributedString(string: text,
@@ -115,7 +115,7 @@ class DetailTop: UIView {
                              width: self.bounds.size.height * 1.5,
                              height: self.bounds.size.height)
         label.textAlignment = .center
-        label.font = fontMiddle
+        label.font = fontSmall
         label.textColor = .white
         label.numberOfLines = 0
         return label
@@ -168,7 +168,7 @@ class DetailTop: UIView {
         gradient.name = "layer"
         selectedView.layer.addSublayer(gradient)
         
-        self.selectedLabel.frame.origin.x = dataWidth / 2 - 20
+        self.selectedLabel.frame.origin.x = dataWidth / 2 - 40
         selectedView.addSubview(self.selectedLabel)
         
         if self.type == .weight{
@@ -181,15 +181,11 @@ class DetailTop: UIView {
         let selectedLabel: UILabel = UILabel()
         selectedLabel.tag = 0
         selectedLabel.font = fontSmall
-        if self.type == .sleep || self.type == .weight{
-            selectedLabel.frame = CGRect(x: -20, y: -34, width: 80, height: 34)
-            selectedLabel.layer.backgroundColor = UIColor.white.cgColor
-            selectedLabel.textColor = .black
-        }else{
-            selectedLabel.frame = CGRect(x: -20, y: -34, width: 40, height: 34)
-            selectedLabel.layer.backgroundColor = UIColor.white.withAlphaComponent(0.3).cgColor
-            selectedLabel.textColor = .white
-        }
+        
+        selectedLabel.frame = CGRect(x: -40, y: -34, width: 80, height: 34)
+        selectedLabel.layer.backgroundColor = UIColor.white.cgColor
+        selectedLabel.textColor = .black
+        
         selectedLabel.textAlignment = .center
         selectedLabel.numberOfLines = -1
         selectedLabel.layer.cornerRadius = 2
@@ -211,6 +207,30 @@ class DetailTop: UIView {
         weightDeltaLabel.textAlignment = .center
         weightDeltaLabel.layer.shadowColor = UIColor.black.cgColor
         return weightDeltaLabel
+    }()
+    
+    //显示进度
+    private lazy var progressLayer: CALayer = {
+        let bezierRadius = self.bounds.height - 4 - 4
+        let bezierRect = CGRect(x: 0,
+                                y: 0,
+                                width: bezierRadius,
+                                height: bezierRadius)
+        let bezier = UIBezierPath(ovalIn: bezierRect)
+        
+        let shapeLayer = CAShapeLayer()
+        
+        let transform = CATransform3DIdentity
+        let rotateTransform = CATransform3DRotate(transform, -CGFloat(M_PI_2), 0, 0, 1)
+        let translateTransform = CATransform3DTranslate(rotateTransform, self.bounds.height / 2 - bezierRadius / 2 - self.bounds.height, self.bounds.width / 2 - bezierRadius / 2, 0)
+        shapeLayer.transform = translateTransform
+        
+        shapeLayer.path = bezier.cgPath
+        shapeLayer.fillColor = nil
+        shapeLayer.strokeColor = UIColor.white.withAlphaComponent(0.5).cgColor
+        shapeLayer.lineWidth = 2
+        shapeLayer.strokeEnd = self.value / 10000
+        return shapeLayer
     }()
     
     //编辑按钮
@@ -239,7 +259,7 @@ class DetailTop: UIView {
     
     //MARK:- 存储数据
     fileprivate var deltaMinute: Int = 0
-    fileprivate let radius: CGFloat = 10
+    fileprivate let radius: CGFloat = 8
     fileprivate var headCount: Int!
     var dataList: [CGFloat]!
     
@@ -294,7 +314,7 @@ class DetailTop: UIView {
         //绘制渐变
         let gradient = CAGradientLayer()
         gradient.frame = bounds
-        gradient.locations = [0.2, 0.8]
+        gradient.locations = [0, 1]
         gradient.startPoint = CGPoint(x: 1, y: 0)
         gradient.endPoint = CGPoint(x: 1, y: 1)
         gradient.colors = [modelStartColors[type]!.cgColor, modelEndColors[type]!.cgColor]
@@ -347,20 +367,28 @@ class DetailTop: UIView {
         //添加数据
         value = 6000
         
-        //添加左右标签
+        //添加左右标签与进度
         switch type as DataCubeType {
         case .sport:
+            
+            //左右标签
             addSubview(leftLabel)
             addSubview(rightLabel)
-            
             leftValue = 123
             rightValue = 456
+            
+            //绘制进度
+            layer.addSublayer(progressLayer)
         case .sleep:
+            //左右标签
             addSubview(leftLabel)
             leftValue = 123
             
             //添加编辑按钮
             addSubview(weightEditButton)
+            
+            //绘制进度
+            layer.addSublayer(progressLayer)
         default:
             break
         }
@@ -377,7 +405,7 @@ class DetailTop: UIView {
         var dataList = del.detailTopData()
         
         //获取常量
-        let cornerRadius: CGFloat = 2                                               //圆角半径
+        let cornerRadius: CGFloat = 1                                               //圆角半径
         
         //获取最大数值
         guard var maxData = dataList.max(), maxData > 0 else {
@@ -407,24 +435,34 @@ class DetailTop: UIView {
         var rectWidth = (bounds.size.width - radius * 2) / CGFloat(dataListCount)   //柱状图宽度
         let detailBackOriginY = self.superview!.frame.origin.y                      //柱状图高度
         
-        //数据间隔分钟时间
+        //数据起始结束文字
+        var beginText = ""
+        var endText = ""
+        
+        //数据
         switch type as DataCubeType {
         case .sport:
             deltaMinute = 15
             
+            //默认最大值
+            if maxData < 100{
+                maxData = 100
+            }
+            
+            let rectHeight = detailBackOriginY * 0.6
             //绘制柱状图
             dataList.enumerated().forEach(){
                 index, data in
                 
                 let bezier = UIBezierPath(roundedRect: CGRect(x: CGFloat(index) * rectWidth + radius + rectWidth * 0.1,
-                                                              y: -detailBackOriginY + cornerRadius,
+                                                              y: -rectHeight + cornerRadius,
                                                               width: rectWidth * 0.8,
-                                                              height: detailBackOriginY),
+                                                              height: rectHeight),
                                           cornerRadius: cornerRadius)
                 
                 let shapeLayer = CAShapeLayer()
                 shapeLayer.path = bezier.cgPath
-                shapeLayer.fillColor = UIColor.yellow.cgColor
+                shapeLayer.fillColor = UIColor.white.cgColor
                 shapeLayer.lineWidth = 0
                 layer.insertSublayer(shapeLayer, at: 0)
                 
@@ -432,45 +470,33 @@ class DetailTop: UIView {
                 let anim = CABasicAnimation(keyPath: "transform.scale.y")
                 anim.fromValue = 0
                 anim.toValue = data / maxData
-                anim.duration = 0.3
+                anim.duration = 0.2
                 let time = layer.convertTime(CACurrentMediaTime(), from: nil)       //马赫时间
                 anim.beginTime = time + TimeInterval(index) * 0.01
                 anim.fillMode = kCAFillModeBoth
                 anim.isRemovedOnCompletion = false
-                anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+                anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
                 shapeLayer.add(anim, forKey: nil)
             }
             
-            //绘制起始文字
-            let startLabel = UILabel()
-            startLabel.frame = CGRect(x: radius, y: 0, width: bounds.size.width / 2, height: 12)
-            startLabel.textColor = .white
-            startLabel.font = fontSmall
-            startLabel.textAlignment = .left
-            startLabel.text = "\(headCount / (60 / deltaMinute)):\(headCount % (60 / deltaMinute) * deltaMinute)"
-            addSubview(startLabel)
-            
-            //绘制结束文字
-            let endLabel = UILabel()
-            endLabel.frame = CGRect(x: bounds.size.width / 2 - radius, y: 0, width: bounds.size.width / 2, height: 12)
-            endLabel.textColor = .white
-            endLabel.font = fontSmall
-            endLabel.textAlignment = .right
-            endLabel.text = "\(23 - tailCount / (60 / deltaMinute)):\(59 - tailCount % (60 / deltaMinute) * deltaMinute)"
-            addSubview(endLabel)
+            //起始文字
+            beginText = "\(headCount / (60 / deltaMinute)):\(headCount % (60 / deltaMinute) * deltaMinute)"
+            endText = "\(23 - tailCount / (60 / deltaMinute)):\(59 - tailCount % (60 / deltaMinute) * deltaMinute)"
             
         case .heartrate:
             deltaMinute = 5
             
             let screenCount = 80           //每屏数据量
             
+            let rectHeight = detailBackOriginY * 0.6
+            
             //创建滑动视图
             heartrateDataScroll = UIScrollView(frame: CGRect(x: radius,
-                                                             y: -detailBackOriginY,
+                                                             y: -rectHeight,
                                                              width: bounds.size.width - radius * 2,
-                                                             height: detailBackOriginY))
+                                                             height: rectHeight))
             heartrateDataScroll.contentSize = CGSize(width: (bounds.size.width - radius * 2) * CGFloat(dataListCount) / CGFloat(screenCount) + radius,
-                                                     height: detailBackOriginY)
+                                                     height: rectHeight)
             heartrateDataScroll.contentOffset.x = heartrateDataScroll.contentSize.width - (bounds.size.width - radius * 2) / 2
             addSubview(heartrateDataScroll)
             
@@ -478,8 +504,8 @@ class DetailTop: UIView {
             
             //绘制数据线
             let upLineBezier = UIBezierPath()
-            upLineBezier.move(to: CGPoint(x: 0, y: detailBackOriginY * 0.2))
-            upLineBezier.addLine(to: CGPoint(x: heartrateDataScroll.contentSize.width, y: detailBackOriginY * 0.2))
+            upLineBezier.move(to: CGPoint(x: 0, y: rectHeight * 0.2))
+            upLineBezier.addLine(to: CGPoint(x: heartrateDataScroll.contentSize.width, y: rectHeight * 0.2))
             let upLineLayer = CAShapeLayer()
             upLineLayer.path = upLineBezier.cgPath
             upLineLayer.strokeColor = UIColor.red.withAlphaComponent(0.5).cgColor
@@ -488,7 +514,7 @@ class DetailTop: UIView {
             heartrateDataScroll.layer.addSublayer(upLineLayer)
             
             let upLabel = UILabel()
-            upLabel.frame = CGRect(x: heartrateDataScroll.contentSize.width, y:  detailBackOriginY * 0.2 - 0.5, width: 25, height: 17)
+            upLabel.frame = CGRect(x: heartrateDataScroll.contentSize.width, y:  rectHeight * 0.2 - 0.5, width: 25, height: 17)
             upLabel.text = "120"
             upLabel.font = fontSmall
             upLabel.textColor = .white
@@ -504,7 +530,7 @@ class DetailTop: UIView {
                 index, data in
                 if index == 0{
                     let startPoint = CGPoint(x: rectWidth / 2 + radius,
-                                             y: (detailBackOriginY - lineOffset) - (detailBackOriginY - lineOffset) * (data - minData) / (maxData - minData) + lineOffset / 2)
+                                             y: (rectHeight - lineOffset) - (rectHeight - lineOffset) * (data - minData) / (maxData - minData) + lineOffset / 2)
                     bezier.move(to: startPoint)
                     
                     //添加小圆圈
@@ -520,7 +546,7 @@ class DetailTop: UIView {
                 }else{
                     let currentPoint = bezier.currentPoint
                     let nextPoint = CGPoint(x: CGFloat(index) * rectWidth + rectWidth / 2 + radius,
-                                            y: (detailBackOriginY - lineOffset) - (detailBackOriginY - lineOffset) * (data - minData) / (maxData - minData) + lineOffset / 2)
+                                            y: (rectHeight - lineOffset) - (rectHeight - lineOffset) * (data - minData) / (maxData - minData) + lineOffset / 2)
                     let controlPoint1 = CGPoint(x: currentPoint.x + rectWidth * 0.8, y: currentPoint.y)
                     let controlPoint2 = CGPoint(x: nextPoint.x - rectWidth * 0.8, y: nextPoint.y)
                     bezier.addCurve(to: nextPoint, controlPoint1: controlPoint1, controlPoint2: controlPoint2)
@@ -611,7 +637,7 @@ class DetailTop: UIView {
                     sleepColor = UIColor(red: 85 / 255, green: 187 / 255, blue: 252 / 255, alpha: 1).cgColor
                 case 3:
                     //清醒
-                    sleepColor = UIColor.orange.cgColor
+                    sleepColor = UIColor(red: 255 / 255, green: 205 / 255, blue: 52 / 255, alpha: 1).cgColor
                     height *= 0.5
                 default:
                     sleepColor = UIColor.clear.cgColor
@@ -659,26 +685,8 @@ class DetailTop: UIView {
             let hour = "\(timeResult.hour)"
             let minute = timeResult.minute < 10 ? "0\(timeResult.minute)" : "\(timeResult.minute)"
             
-            let timeStart = "\(startSleepHour):\(startSleepMinute)"
-            let timeEnd = hour + ":" + minute
-            
-            //绘制起始文字
-            let startLabel = UILabel()
-            startLabel.frame = CGRect(x: radius, y: 0, width: bounds.size.width / 2, height: 12)
-            startLabel.textColor = .white
-            startLabel.font = fontSmall
-            startLabel.textAlignment = .left
-            startLabel.text = timeStart
-            addSubview(startLabel)
-            
-            //绘制结束文字
-            let endLabel = UILabel()
-            endLabel.frame = CGRect(x: bounds.size.width / 2 - radius, y: 0, width: bounds.size.width / 2, height: 12)
-            endLabel.textColor = .white
-            endLabel.font = fontSmall
-            endLabel.textAlignment = .right
-            endLabel.text = timeEnd
-            addSubview(endLabel)
+            beginText = "\(startSleepHour):\(startSleepMinute)"
+            endText = hour + ":" + minute
             
             //绘制类型文字
             let label0 = UILabel(frame: CGRect(x: 0, y: -rectHeight * 1 , width: bounds.size.width / 2, height: rectHeight))
@@ -889,27 +897,27 @@ class DetailTop: UIView {
             //获取日期
             let formatter = DateFormatter()
             formatter.dateFormat = "yyy年MM月dd日"
-            let beginDateStr = formatter.string(from: dateList!.first!)
-            let endDateStr = formatter.string(from: dateList!.last!)
-            
-            //绘制起始文字
-            let startLabel = UILabel()
-            startLabel.frame = CGRect(x: radius, y: 0, width: bounds.size.width / 2, height: 12)
-            startLabel.textColor = .white
-            startLabel.font = fontSmall
-            startLabel.textAlignment = .left
-            startLabel.text = beginDateStr
-            addSubview(startLabel)
-            
-            //绘制结束文字
-            let endLabel = UILabel()
-            endLabel.frame = CGRect(x: bounds.size.width / 2 - radius, y: 0, width: bounds.size.width / 2, height: 12)
-            endLabel.textColor = .white
-            endLabel.font = fontSmall
-            endLabel.textAlignment = .right
-            endLabel.text = endDateStr
-            addSubview(endLabel)
+            beginText = formatter.string(from: dateList!.first!)
+            endText = formatter.string(from: dateList!.last!)
         }
+        
+        //绘制起始文字
+        let startLabel = UILabel()
+        startLabel.frame = CGRect(x: radius, y: 8, width: bounds.size.width / 2, height: 12)
+        startLabel.textColor = .white
+        startLabel.font = fontSmall
+        startLabel.textAlignment = .left
+        startLabel.text = beginText
+        addSubview(startLabel)
+        
+        //绘制结束文字
+        let endLabel = UILabel()
+        endLabel.frame = CGRect(x: bounds.size.width / 2 - radius, y: 8, width: bounds.size.width / 2, height: 12)
+        endLabel.textColor = .white
+        endLabel.font = fontSmall
+        endLabel.textAlignment = .right
+        endLabel.text = endText
+        addSubview(endLabel)
         
         //添加选择view
         addSubview(selectedView)
@@ -960,6 +968,27 @@ extension DetailTop{
                 UIView.animate(withDuration: 0.3){
                     self.selectedView.isHidden = false
                     self.selectedView.frame.origin.x = self.radius + CGFloat(dataIndex) * dataWidth
+                    
+                }
+                
+                //改变label位置
+                let labels = selectedView.subviews.filter(){$0.isKind(of: UILabel.self)}
+                labels.forEach(){
+                    label in
+                    UIView.animate(withDuration: 0.3){
+                        
+                        if label.tag == 0{
+                            
+                            var posX: CGFloat = (self.selectedView.bounds.width - label.bounds.width) / 2
+                            let convertX = self.convert(CGPoint(x: posX, y: 0), from: self.selectedView).x
+                            if convertX < 0{
+                                posX = self.convert(.zero, to: self.selectedView).x
+                            }else if convertX + label.frame.width > self.bounds.width{
+                                posX = self.convert(CGPoint(x: self.bounds.width - label.frame.width, y: 0), to: self.selectedView).x
+                            }
+                            label.frame.origin.x = posX
+                        }
+                    }
                 }
                 
                 //设置显示值 selected view
@@ -968,6 +997,7 @@ extension DetailTop{
                 let minute: String = (headCount + dataIndex) % (60 / deltaMinute) == 0 ? "00" : "\((headCount + dataIndex) % (60 / deltaMinute) * deltaMinute)"
                 let time = hour + ":" + minute
                 selectedLabel.text = "\(Int16(data))" + unit + "\n\(time)"
+                
             case .heartrate:
                 unit = "Bmp"
                 
@@ -1131,7 +1161,7 @@ extension DetailTop{
                         
                         if label.tag == 0{
                             
-                            var posX = (currentX - label.frame.width) / 2
+                            var posX: CGFloat = -label.bounds.width / 2
                             let convertX = self.convert(CGPoint(x: posX, y: 0), from: self.selectedView).x
                             if convertX < 0{
                                 posX = self.convert(.zero, to: self.selectedView).x
@@ -1160,7 +1190,7 @@ extension DetailTop{
                     weightDeltaLabel.text = ""
                 }else{
                     let lastData = dataList.last!
-                    weightDeltaLabel.text = "\(lastData - data)"
+                    weightDeltaLabel.text = lastData - data >= 0 ? "+\(lastData - data)" : "-\(data - lastData)"
                 }
             }
             

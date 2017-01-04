@@ -24,8 +24,8 @@ class MeSetting: UITableViewController {
     }
     
     private func createContents(){
-        let handler = CoreDataHandler()
-        print(handler)
+//        let handler = CoreDataHandler()
+//        print(handler)
     }
 }
 

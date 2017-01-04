@@ -22,13 +22,12 @@ extension UINavigationController: UINavigationControllerDelegate{
         navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: font_name, size: 17)!,
                                              NSForegroundColorAttributeName: UIColor(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1)]
         
-        navigationBar.tintColor = UIColor(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1)
+        
         navigationBar.backgroundColor = defaultColor
         
         let image = UIImage(named: "resource/navigation_back")?.transfromImage(size: CGSize(width: view_size.width, height: navigation_height! + 64))
         navigationBar.setBackgroundImage(image, for: .default)
         navigationBar.shadowImage = UIImage()
-        
     }
     
     //切换界面时调用_手环按钮
@@ -36,6 +35,9 @@ extension UINavigationController: UINavigationControllerDelegate{
         
         //判断是否为根视图
         if viewControllers.count == 1{
+            
+            navigationBar.tintColor = wordColor
+            
             if navigationItem.leftBarButtonItem == nil {
                 if viewController.isKind(of: StateVC.self){
                     let linkBarButton = ItemButton(buttonType: .link)
@@ -79,6 +81,13 @@ extension UINavigationController: UINavigationControllerDelegate{
             //显示tabbar
             setTabbar(hidden: false)
         }else{
+            
+//            if viewController.isKind(of: DetailViewController.self) {
+//                navigationBar.tintColor = .white
+//            }else{
+//                navigationBar.tintColor = wordColor
+//            }
+            
             navigationItem.leftBarButtonItem = nil
             
             //隐藏tabbar

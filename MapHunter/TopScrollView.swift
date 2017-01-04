@@ -73,7 +73,7 @@ class TopScrollView: UIScrollView {
     }
     //MARK:- 点击事件
     @objc private func click(recognizer: UITapGestureRecognizer){
-        print("test tap")
+        debugPrint("test tap")
     }
     
     //MARK:- 重新排列——全屏——滑动
@@ -114,7 +114,7 @@ class TopScrollView: UIScrollView {
                 let dayIndex = index + 1
                 
                 let posX = CGFloat((dayIndex + weekday - 2) % 7) * singleWidth + singleWidth / 2 - dateProgress.frame.width / 2 + view_size.width
-                let posY = CGFloat((dayIndex + weekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.2
+                let posY = CGFloat((dayIndex + weekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.15
                 let origin = CGPoint(x: posX, y: posY)
                 
                 //移动
@@ -299,7 +299,7 @@ class TopScrollView: UIScrollView {
                     dateProgressOfLastMonth.append(dateProgress)
                     
                     let posX = CGFloat((dayIndex + lastWeekday - 2) % 7) * singleWidth + singleWidth / 2 - dateProgress.frame.width / 2
-                    let posY = CGFloat((dayIndex + lastWeekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.2
+                    let posY = CGFloat((dayIndex + lastWeekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.15
                     dateProgress.frame.origin = CGPoint(x: posX, y: posY)
                     
                     //设置日期_后
@@ -338,7 +338,7 @@ class TopScrollView: UIScrollView {
                     let dayIndex = index + 1
                     
                     let posX = CGFloat((dayIndex + lastWeekday - 2) % 7) * singleWidth + singleWidth / 2 - dateProgress.frame.width / 2 // + view_size.width
-                    let posY = CGFloat((dayIndex + lastWeekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.3
+                    let posY = CGFloat((dayIndex + lastWeekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.15
                     dateProgress.frame.origin = CGPoint(x: posX, y: posY)
                     
                     //点击回调delete
@@ -379,7 +379,7 @@ class TopScrollView: UIScrollView {
                     
                     
                     let posX = CGFloat((dayIndex + nextWeekday - 2) % 7) * singleWidth + singleWidth / 2 - dateProgress.frame.width / 2 + view_size.width * 2
-                    let posY = CGFloat((dayIndex + nextWeekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.2
+                    let posY = CGFloat((dayIndex + nextWeekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.15
                     dateProgress.frame.origin = CGPoint(x: posX, y: posY)
                     
                     //设置日期_后
@@ -418,7 +418,7 @@ class TopScrollView: UIScrollView {
                     let dayIndex = index + 1
                     
                     let posX = CGFloat((dayIndex + nextWeekday - 2) % 7) * singleWidth + singleWidth / 2 - dateProgress.frame.width / 2 + view_size.width * 2
-                    let posY = CGFloat((dayIndex + nextWeekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.2
+                    let posY = CGFloat((dayIndex + nextWeekday - 2) / 7) * singleWidth * 1.0 + view_size.height * 0.15
                     dateProgress.frame.origin = CGPoint(x: posX, y: posY)
                     
                     //点击回调delete
@@ -552,7 +552,7 @@ extension TopScrollView: UIScrollViewDelegate{
                 let dataTitle = NSString(string: text)
                 var dataTitleRect = dataTitle.boundingRect(with: frame.size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
                 dataTitleRect.origin = CGPoint(x: CGFloat(index) * singleWidth + view_size.width + singleWidth / 2 - 6,
-                                               y: view_size.height * 0.15)
+                                               y: view_size.height * 0.05)
                 dataTitle.draw(in: dataTitleRect, withAttributes: attributes)
              
             }
@@ -569,7 +569,7 @@ extension TopScrollView: UIScrollViewDelegate{
             let dataTitle = NSString(string: "\(digure.year)年 \(digure.month)月")
             var dataTitleRect = dataTitle.boundingRect(with: frame.size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
             dataTitleRect.origin = CGPoint(x: singleWidth + view_size.width + singleWidth / 2,
-                                           y: view_size.height * 0.05)
+                                           y: view_size.height * 0.0)
             dataTitle.draw(in: dataTitleRect, withAttributes: attributes)
         }
     }
@@ -597,9 +597,22 @@ extension TopScrollView: UIScrollViewDelegate{
                 }
                 dateProgressOfLastMonth.removeAll()
                 
-                dateProgressOfLastMonth = dateProgressOfThisMonth
-                dateProgressOfThisMonth = dateProgressOfNextMonth
+                //赋值
+                dateProgressOfThisMonth.forEach(){
+                    dateProgress in
+                    dateProgressOfLastMonth.append(dateProgress)
+                }
+                dateProgressOfThisMonth.removeAll()
+
+                dateProgressOfNextMonth.forEach(){
+                    dateProgress in
+                    dateProgressOfThisMonth.append(dateProgress)
+                }
                 dateProgressOfNextMonth.removeAll()
+                
+//                dateProgressOfLastMonth = dateProgressOfThisMonth
+//                dateProgressOfThisMonth = dateProgressOfNextMonth
+//                dateProgressOfNextMonth.removeAll()
                 
                 monthOffset += 1
                 
@@ -613,10 +626,22 @@ extension TopScrollView: UIScrollViewDelegate{
                     }
                 }
                 dateProgressOfNextMonth.removeAll()
-
-                dateProgressOfNextMonth = dateProgressOfThisMonth
-                dateProgressOfThisMonth = dateProgressOfLastMonth
+                
+                //赋值
+                dateProgressOfThisMonth.forEach(){
+                    dateProgress in
+                    dateProgressOfNextMonth.append(dateProgress)
+                }
+                dateProgressOfThisMonth.removeAll()
+                
+                dateProgressOfLastMonth.forEach(){
+                    dateProgress in
+                    dateProgressOfThisMonth.append(dateProgress)
+                }
                 dateProgressOfLastMonth.removeAll()
+//                dateProgressOfNextMonth = dateProgressOfThisMonth
+//                dateProgressOfThisMonth = dateProgressOfLastMonth
+//                dateProgressOfLastMonth.removeAll()
                 
                 monthOffset -= 1
             }
