@@ -34,25 +34,57 @@ class TargetSettingVC: UIViewController {
     //体重
     var weightValue: Float = 60{
         didSet{
-            weightLabel.text = String(format: "%.1f", weightValue)
+            weightLabel.text = String(format: "%.1f", weightValue) + "kg"
         }
     }
     
     //睡眠
     var sleepTime: (hour: Int16, minute: Int16) = (0, 0){
         didSet{
-            resetSleepLabel()
+            setStroke()
+            setSleepLabel()
         }
     }
-    var wakeTime: (hour: Int16, minute: Int16) = (7, 0){
+    var wakeTime: (hour: Int16, minute: Int16) = (0, 0){
         didSet{
-            resetSleepLabel()
+            setStroke()
+            setSleepLabel()
         }
     }
     
+    //时间轴
+    private let bottomBezier = UIBezierPath()
+    private let timeLayer = CAShapeLayer()
+    private var circleRadius: CGFloat!
+    fileprivate var centerPoint: CGPoint!
+    
+    //摇杆
+    fileprivate let sleepJoystick: UIImageView = {
+        let image = UIImage(named: "resource/target/target_sleep_begin")?.transfromImage(size: CGSize(width: 30, height: 30))
+        let sleepJoystick = UIImageView(image: image)
+        sleepJoystick.tag = 1
+        sleepJoystick.isUserInteractionEnabled = true
+        return sleepJoystick
+    }()
+    fileprivate let wakeJoystick: UIImageView = {
+        let image = UIImage(named: "resource/target/target_sleep_end")?.transfromImage(size: CGSize(width: 30, height: 30))
+        let wakeJoystick = UIImageView(image: image)
+        wakeJoystick.tag = 2
+        wakeJoystick.isUserInteractionEnabled = true
+        return wakeJoystick
+    }()
+    fileprivate var selectTag = 0       //1:左摇杆 2:右摇杆
+    
+    //MARK:- init
     override func viewDidLoad() {
         config()
         createContents()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        //绘制睡眠控件
+        drawSleepGraphic()
     }
     
     private func config(){
@@ -82,22 +114,73 @@ class TargetSettingVC: UIViewController {
         weightSlider.setThumbImage(weightThumbImage, for: .normal)
         weightSlider.setThumbImage(weightThumbImage, for: .highlighted)
         
-        //绘制睡眠控件
-        drawSleepGraphic()
+        //设置center IMAGE
+        let centerImage = UIImage(named: "resource/target/target_sleep_center.png")//?.transfromImage(size: centerImageView.bounds.size)
+        centerImageView.image = centerImage
+        
     }
     
     private func drawSleepGraphic(){
         
+        //获取常量
+        let lineWidth: CGFloat = 4
         let circleFrame = centerImageView.frame
-        let circleRadius = circleFrame.width / 2
-        let bottomBezier = UIBezierPath(ovalIn: centerImageView.bounds)
+        circleRadius = circleFrame.width / 2
+        centerPoint = CGPoint(x: circleFrame.width / 2 + circleFrame.origin.x, y: circleFrame.height / 2 + circleFrame.origin.y)
         
+        //绘制路径
+        bottomBezier.addArc(withCenter: centerPoint, radius: circleRadius, startAngle: -(CGFloat)(M_PI_2), endAngle: CGFloat(M_PI) * 1.5, clockwise: true)
+        
+        //绘制底部圆圈
         let bottomLayer = CAShapeLayer()
         bottomLayer.path = bottomBezier.cgPath
         bottomLayer.fillColor = nil
-        bottomLayer.strokeColor = UIColor.lightGray.cgColor
-        bottomLayer.lineWidth = 8
-        centerImageView.layer.addSublayer(bottomLayer)
+        bottomLayer.strokeColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+        bottomLayer.lineWidth = lineWidth
+        centerImageView.superview?.layer.addSublayer(bottomLayer)
+        
+        //绘制动态圆圈
+        timeLayer.path = bottomBezier.cgPath
+        timeLayer.fillColor = nil
+        timeLayer.strokeColor = modelStartColors[.sleep]?.cgColor
+        timeLayer.lineWidth = lineWidth
+        timeLayer.lineCap = kCALineCapRound
+        centerImageView.superview?.layer.addSublayer(timeLayer)
+        
+        //添加摇杆
+        centerImageView.superview?.addSubview(sleepJoystick)
+        centerImageView.superview?.addSubview(wakeJoystick)
+        
+        //初始化设置时间
+        sleepTime = (hour: 19, minute: 40)
+        wakeTime = (hour: 7, minute: 30)
+    }
+    
+    //MARK:- 修改圆盘路径起始结束点
+    private func setStroke(){
+        
+        //计算
+        let startValue = (CGFloat(sleepTime.hour) / 24 + CGFloat(sleepTime.minute) / 60 / 24) * CGFloat(M_PI * 2)
+        let endValue = (CGFloat(wakeTime.hour) / 24 + CGFloat(wakeTime.minute) / 60 / 24) * CGFloat(M_PI * 2)
+        print(startValue, endValue)
+        bottomBezier.removeAllPoints()
+        let startAngle = -CGFloat(M_PI_2) + startValue
+        let endAngle = -CGFloat(M_PI_2) + endValue
+        bottomBezier.addArc(withCenter: centerPoint, radius: circleRadius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
+
+        //修改joystick位置
+        sleepJoystick.frame.origin = CGPoint(x: centerPoint.x + cos(startAngle) * circleRadius - sleepJoystick.bounds.width / 2,
+                                             y: centerPoint.y + sin(startAngle) * circleRadius - sleepJoystick.bounds.height / 2)
+        wakeJoystick.frame.origin = CGPoint(x: centerPoint.x + cos(endAngle) * circleRadius - wakeJoystick.bounds.width / 2,
+                                            y: centerPoint.y + sin(endAngle) * circleRadius - wakeJoystick.bounds.height / 2)
+        
+        //修改路径
+        let pathAnim = CABasicAnimation(keyPath: "path")
+        pathAnim.toValue = bottomBezier.cgPath
+        pathAnim.duration = 1
+        pathAnim.isRemovedOnCompletion = false
+        pathAnim.fillMode = kCAFillModeBoth
+        timeLayer.add(pathAnim, forKey: nil)
     }
     
     //MARK:- 取消按钮
@@ -125,15 +208,80 @@ class TargetSettingVC: UIViewController {
     }
     
     //MARK:- 更新时间
-    private func resetSleepLabel(){
-        let sleepTimeMinute = sleepTime.minute < 10 ? "0\(sleepTime.minute)" : "\(sleepTime.minute)"
-        let wakeTimeMinute = wakeTime.minute < 10 ? "0\(wakeTime.minute)" : "\(wakeTime.minute)"
-        sleepLabel.text = "\(sleepTime.hour):\(sleepTimeMinute)~\(wakeTime.hour):\(wakeTimeMinute)"
+    private func setSleepLabel(){
+        
+        let sleepHour = sleepTime.hour, sleepMinute = sleepTime.minute
+        let wakeHour = wakeTime.hour, wakeminute = wakeTime.minute
+        
+        //显示起始时间
+        let sleepTimeMinute = sleepMinute < 10 ? "0\(sleepMinute)" : "\(sleepMinute)"
+        let wakeTimeMinute = wakeminute < 10 ? "0\(wakeminute)" : "\(wakeminute)"
+        sleepDetailLabel.text = "\(sleepHour):\(sleepTimeMinute)~\(wakeHour):\(wakeTimeMinute)"
+        
+        //计算时间差
+        var offsetHour = 0
+        var daltaMinute = wakeminute - sleepMinute
+        while daltaMinute < 0 {
+            daltaMinute += 60
+            offsetHour += 1
+        }
+        
+        var daltaHour = wakeHour - offsetHour - sleepHour
+        while daltaHour < 0 {
+            daltaHour += 24
+        }
+        
+        sleepLabel.text = daltaMinute == 0 ? "\(daltaHour)小时" : "\(daltaHour)小时\(daltaMinute)分钟"
     }
 }
 
 extension TargetSettingVC{
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        touches.forEach(){
+            touch in
+            
+            guard let joystick: UIImageView = touch.view as? UIImageView, joystick.tag == 1 || joystick.tag == 2 else{
+                return
+            }
+            selectTag = joystick.tag
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        
+        touches.forEach(){
+            touch in
+            
+            guard selectTag != 0 else{
+                return
+            }
+            
+            //坐标转换为view坐标
+            let centerSuperPoint = view.convert(centerPoint, from: centerImageView.superview)
+            let location = touch.location(in: view)
+            let deltaPoint = CGPoint(x: location.x - centerSuperPoint.x, y: location.y - centerSuperPoint.y)
+            let angel = atan2(deltaPoint.y, deltaPoint.x) + CGFloat(M_PI)
+            
+            let originHour = angel / CGFloat(M_PI * 2) * 24 - 6
+            let hour = Int16(originHour)
+            let minute = Int16((originHour - CGFloat(hour)) * 60) / 5 * 5
+            let tuple = (hour: hour, minute: minute)
+            
+            if selectTag == 1{
+                let deltaHour = wakeTime.hour - hour
+                while deltaHour < 0{
+                    deltaHour += 24
+                }
+//                if deltaHour 
+                sleepTime = tuple
+            }else if selectTag == 2{
+                wakeTime = tuple
+            }
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        selectTag = 0
     }
 }
