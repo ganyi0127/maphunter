@@ -177,7 +177,7 @@ class TargetSettingVC: UIViewController {
         //修改路径
         let pathAnim = CABasicAnimation(keyPath: "path")
         pathAnim.toValue = bottomBezier.cgPath
-        pathAnim.duration = 1
+        pathAnim.duration = 0.4
         pathAnim.isRemovedOnCompletion = false
         pathAnim.fillMode = kCAFillModeBoth
         timeLayer.add(pathAnim, forKey: nil)
@@ -263,13 +263,16 @@ extension TargetSettingVC{
             let deltaPoint = CGPoint(x: location.x - centerSuperPoint.x, y: location.y - centerSuperPoint.y)
             let angel = atan2(deltaPoint.y, deltaPoint.x) + CGFloat(M_PI)
             
-            let originHour = angel / CGFloat(M_PI * 2) * 24 - 6
+            var originHour = angel / CGFloat(M_PI * 2) * 24 - 6
+            while originHour < 0{
+                originHour += 24
+            }
             let hour = Int16(originHour)
             let minute = Int16((originHour - CGFloat(hour)) * 60) / 5 * 5
             let tuple = (hour: hour, minute: minute)
             
             if selectTag == 1{
-                let deltaHour = wakeTime.hour - hour
+                var deltaHour = wakeTime.hour - hour
                 while deltaHour < 0{
                     deltaHour += 24
                 }
