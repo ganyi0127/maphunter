@@ -320,8 +320,8 @@ class DetailTop: UIView {
         gradient.colors = [modelStartColors[type]!.cgColor, modelEndColors[type]!.cgColor]
         gradient.cornerRadius = radius
         gradient.shadowColor = UIColor.black.cgColor
-        gradient.shadowOffset = CGSize(width: 0, height: 2)
-        gradient.shadowRadius = 2
+        gradient.shadowOffset = CGSize(width: 0, height: 1)
+        gradient.shadowRadius = 1
         gradient.shadowOpacity = 0.5
         gradient.masksToBounds = false
         layer.addSublayer(gradient)

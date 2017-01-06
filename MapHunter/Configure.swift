@@ -46,13 +46,13 @@ let subWordColor = UIColor(red: 100 / 255, green: 100 / 255, blue: 100 / 255, al
 let wordColor = UIColor(red: 50 / 255, green: 50 / 255, blue: 50 / 255, alpha: 1)       //文字颜色
 
 let modelStartColors: [DataCubeType: UIColor] = [
-    .sport: UIColor(red: 245 / 255, green: 102 / 255, blue: 46 / 255, alpha: 1),
-    .heartrate: UIColor(red: 33 / 255, green: 199 / 255, blue: 206 / 255, alpha: 1),
-    .sleep: UIColor(red: 80 / 255, green: 32 / 255, blue: 142 / 255, alpha: 1),
-    .weight: UIColor(red: 45 / 255, green: 196 / 255, blue: 148 / 255, alpha: 1)]
+    .sport: UIColor(red: 245 / 255, green: 113 / 255, blue: 41 / 255, alpha: 1),
+    .heartrate: UIColor(red: 54 / 255, green: 172 / 255, blue: 205 / 255, alpha: 1),
+    .sleep: UIColor(red: 90 / 255, green: 40 / 255, blue: 142 / 255, alpha: 1),
+    .weight: UIColor(red: 63 / 255, green: 205 / 255, blue: 139 / 255, alpha: 1)]
 
 let modelEndColors: [DataCubeType: UIColor] = [
-    .sport: UIColor(red: 241 / 255, green: 68 / 255, blue: 51 / 255, alpha: 1),
-    .heartrate: UIColor(red: 21 / 255, green: 136 / 255, blue: 200 / 255, alpha: 1),
-    .sleep: UIColor(red: 43 / 255, green: 0 / 255, blue: 95 / 255, alpha: 1),
-    .weight: UIColor(red: 55 / 255, green: 183 / 255, blue: 128 / 255, alpha: 1)]
+    .sport: UIColor(red: 241 / 255, green: 68 / 255, blue: 52 / 255, alpha: 1),
+    .heartrate: UIColor(red: 46 / 255, green: 143 / 255, blue: 188 / 255, alpha: 1),
+    .sleep: UIColor(red: 57 / 255, green: 16 / 255, blue: 122 / 255, alpha: 1),
+    .weight: UIColor(red: 50 / 255, green: 183 / 255, blue: 153 / 255, alpha: 1)]

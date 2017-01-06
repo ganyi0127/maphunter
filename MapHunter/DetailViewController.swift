@@ -75,7 +75,8 @@ class DetailViewController: UIViewController {
         }
         detailScrollView.detailBack.closure = {
             //点击数据view回调
-            let introduceVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "introduce")
+            let introduceVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "introduce") as! IntroduceVC
+            introduceVC.type = self.type
             self.navigationController?.show(introduceVC, sender: nil)
         }
         view.addSubview(detailScrollView)

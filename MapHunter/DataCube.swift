@@ -27,7 +27,7 @@ class DataCube: UIView {
     
     //显示curLable
     private lazy var mainLabel: UILabel = {
-        let frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height * 0.24)
+        let frame = CGRect(x: self.frame.width * 0.05, y: self.frame.height * 0.1, width: self.frame.width, height: self.frame.height * 0.25)
         let curLabel: UILabel = UILabel(frame: frame)
         curLabel.textAlignment = .left
         curLabel.textColor = .white
@@ -37,7 +37,7 @@ class DataCube: UIView {
     
     //显示subLable
     private lazy var subLabel: UILabel = {
-        let frame = CGRect(x: 0, y: 0 + self.frame.height * 0.24, width: self.frame.width, height: self.frame.height * 0.2)
+        let frame = CGRect(x: self.mainLabel.frame.origin.x, y: self.mainLabel.frame.origin.y + self.mainLabel.frame.height, width: self.frame.width, height: self.frame.height * 0.2)
         let targetLabel = UILabel(frame: frame)
         targetLabel.textAlignment = .left
         targetLabel.textColor = .white
@@ -86,6 +86,21 @@ class DataCube: UIView {
                                                                      attributes: [NSFontAttributeName: fontHuge])
                 mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 3, 3))
                 mainLabel.attributedText = mainAttributedString
+                
+                let hour1 = Int16(data.value2) / 60
+                let minute1 = Int16(data.value2) % 60
+                let text1 = hour1 == 0 ? "\(minute1)分钟" : "\(hour1)小时\(minute1)分钟"
+                heartrateLabel1.text = text1
+                
+                let hour2 = Int16(data.value2) / 60
+                let minute2 = Int16(data.value2) % 60
+                let text2 = hour2 == 0 ? "\(minute2)分钟" : "\(hour1)小时\(minute2)分钟"
+                heartrateLabel2.text = text2
+                
+                let hour3 = Int16(data.value4) / 60
+                let minute3 = Int16(data.value4) % 60
+                let text3 = hour3 == 0 ? "\(minute3)分钟" : "\(hour3)小时\(minute3)分钟"
+                heartrateLabel3.text = text3
             case .sleep:
                 
                 let text = "\(Int16(data.value1) / 80)小时\(Int16(data.value2) / 10)分钟"
@@ -109,6 +124,54 @@ class DataCube: UIView {
             }
         }
     }
+    
+    //心率子icon
+    private lazy var heartrateIcon1: UIView = {
+        let radius = self.frame.width * 0.08
+        let frame = CGRect(x: radius, y: self.frame.height - self.frame.height * 0.4, width: radius , height: radius)
+        let icon: UIView = UIView(frame: frame)
+        icon.backgroundColor = UIColor(red: 239 / 255, green: 77 / 255, blue: 44 / 255, alpha: 1)
+        icon.layer.cornerRadius = radius / 2
+        return icon
+    }()
+    private lazy var heartrateIcon2: UIView = {
+        let radius = self.frame.width * 0.08
+        let frame = CGRect(x: radius, y: self.heartrateIcon1.frame.origin.y + self.heartrateIcon1.frame.height * 1.6, width: radius , height: radius)
+        let icon: UIView = UIView(frame: frame)
+        icon.backgroundColor = UIColor(red: 248 / 255, green: 139 / 255, blue: 24 / 255, alpha: 1)
+        icon.layer.cornerRadius = radius / 2
+        return icon
+    }()
+    private lazy var heartrateIcon3: UIView = {
+        let radius = self.frame.width * 0.08
+        let frame = CGRect(x: radius, y: self.heartrateIcon2.frame.origin.y + self.heartrateIcon2.frame.height * 1.6, width: radius , height: radius)
+        let icon: UIView = UIView(frame: frame)
+        icon.backgroundColor = UIColor(red: 250 / 255, green: 204 / 255, blue: 25 / 255, alpha: 1)
+        icon.layer.cornerRadius = radius / 2
+        return icon
+    }()
+    //心率子视图
+    private lazy var heartrateLabel1: UILabel = {
+        let frame = CGRect(x: self.heartrateIcon1.frame.origin.x + self.heartrateIcon1.frame.width * 1.2, y: self.heartrateIcon1.frame.origin.y, width: self.frame.width, height: self.heartrateIcon1.frame.height)
+        let label: UILabel = UILabel(frame: frame)
+        label.font = fontTiny
+        label.textColor = UIColor.white.withAlphaComponent(0.5)
+        return label
+    }()
+    private lazy var heartrateLabel2: UILabel = {
+        let frame = CGRect(x: self.heartrateIcon2.frame.origin.x + self.heartrateIcon2.frame.width * 1.2, y: self.heartrateIcon2.frame.origin.y, width: self.frame.width, height: self.heartrateIcon2.frame.height)
+        let label: UILabel = UILabel(frame: frame)
+        label.font = fontTiny
+        label.textColor = UIColor.white.withAlphaComponent(0.5)
+        return label
+    }()
+    private lazy var heartrateLabel3: UILabel = {
+        let frame = CGRect(x: self.heartrateIcon3.frame.origin.x + self.heartrateIcon3.frame.width * 1.2, y: self.heartrateIcon3.frame.origin.y, width: self.frame.width, height: self.heartrateIcon3.frame.height)
+        let label: UILabel = UILabel(frame: frame)
+        label.font = fontTiny
+        label.textColor = UIColor.white.withAlphaComponent(0.5)
+        return label
+    }()
     
     //MARK:- init
     init(dataCubeType type: DataCubeType){
@@ -144,6 +207,13 @@ class DataCube: UIView {
             imageName = "sport"
         case .heartrate:
             imageName = "heartrate"
+            
+            addSubview(heartrateIcon1)
+            addSubview(heartrateIcon2)
+            addSubview(heartrateIcon3)
+            addSubview(heartrateLabel1)
+            addSubview(heartrateLabel2)
+            addSubview(heartrateLabel3)
         case .sleep:
             imageName = "sleep"
         case .weight:
@@ -158,7 +228,7 @@ class DataCube: UIView {
         gradient.endPoint = CGPoint(x: 1, y: 1)
         gradient.colors = [modelStartColors[type]!.cgColor, modelEndColors[type]!.cgColor]
         gradient.cornerRadius = frame.size.width * 0.05
-        layer.addSublayer(gradient)
+        layer.insertSublayer(gradient, at: 0)
         
         
         let imageView = UIImageView(frame: frame)

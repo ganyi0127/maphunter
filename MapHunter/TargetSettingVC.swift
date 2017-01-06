@@ -27,14 +27,24 @@ class TargetSettingVC: UIViewController {
     //步数
     var stepValue: Int16 = 10000{
         didSet{
-            stepLabel.text = "\(stepValue)步"
+            let text = "\(stepValue)步"
+            let mainAttributedString = NSMutableAttributedString(string: text,
+                                                                 attributes: [NSFontAttributeName: fontBig])
+            let unitLength = 1
+            mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - unitLength, unitLength))
+            stepLabel.attributedText = mainAttributedString
         }
     }
     
     //体重
     var weightValue: Float = 60{
         didSet{
-            weightLabel.text = String(format: "%.1f", weightValue) + "kg"
+            let text = String(format: "%.1f", weightValue) + "kg"
+            let mainAttributedString = NSMutableAttributedString(string: text,
+                                                                 attributes: [NSFontAttributeName: fontBig])
+            let unitLength = 2
+            mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - unitLength, unitLength))
+            weightLabel.attributedText = mainAttributedString
         }
     }
     
@@ -151,7 +161,10 @@ class TargetSettingVC: UIViewController {
         centerImageView.superview?.addSubview(sleepJoystick)
         centerImageView.superview?.addSubview(wakeJoystick)
         
-        //初始化设置时间
+        //初始化设置
+        stepValue = 10000
+        weightValue = 65
+        
         sleepTime = (hour: 19, minute: 40)
         wakeTime = (hour: 7, minute: 30)
     }
@@ -162,7 +175,7 @@ class TargetSettingVC: UIViewController {
         //计算
         let startValue = (CGFloat(sleepTime.hour) / 24 + CGFloat(sleepTime.minute) / 60 / 24) * CGFloat(M_PI * 2)
         let endValue = (CGFloat(wakeTime.hour) / 24 + CGFloat(wakeTime.minute) / 60 / 24) * CGFloat(M_PI * 2)
-        print(startValue, endValue)
+        
         bottomBezier.removeAllPoints()
         let startAngle = -CGFloat(M_PI_2) + startValue
         let endAngle = -CGFloat(M_PI_2) + endValue
@@ -231,7 +244,16 @@ class TargetSettingVC: UIViewController {
             daltaHour += 24
         }
         
-        sleepLabel.text = daltaMinute == 0 ? "\(daltaHour)小时" : "\(daltaHour)小时\(daltaMinute)分钟"
+        //设置间隔时间显示
+        let text = daltaMinute == 0 ? "\(daltaHour)小时" : "\(daltaHour)小时\(daltaMinute)分钟"
+        let mainAttributedString = NSMutableAttributedString(string: text,
+                                                             attributes: [NSFontAttributeName: fontBig])
+        let unitLength = 2
+        mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - unitLength, unitLength))
+        if daltaMinute != 0 {
+            mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - unitLength * 2 - 2, unitLength))
+        }
+        sleepLabel.attributedText = mainAttributedString
     }
 }
 
@@ -263,25 +285,53 @@ extension TargetSettingVC{
             let deltaPoint = CGPoint(x: location.x - centerSuperPoint.x, y: location.y - centerSuperPoint.y)
             let angel = atan2(deltaPoint.y, deltaPoint.x) + CGFloat(M_PI)
             
+            //根据角度计算选择时间
             var originHour = angel / CGFloat(M_PI * 2) * 24 - 6
             while originHour < 0{
                 originHour += 24
             }
             let hour = Int16(originHour)
             let minute = Int16((originHour - CGFloat(hour)) * 60) / 5 * 5
-            let tuple = (hour: hour, minute: minute)
-            
+            var tuple = (hour: hour, minute: minute)
+
+            //设置最小间隔
             if selectTag == 1{
-                var deltaHour = wakeTime.hour - hour
-                while deltaHour < 0{
-                    deltaHour += 24
+                let digitSleeptime = CGFloat(hour) + CGFloat(minute) / 60
+                let digitWaketime = CGFloat(wakeTime.hour) + CGFloat(wakeTime.minute) / 60
+                var deltatime = digitWaketime - digitSleeptime
+                while deltatime < 0{
+                    deltatime += 24
                 }
-//                if deltaHour 
-                sleepTime = tuple
+                
+                if deltatime < 1{
+                    tuple = (hour: wakeTime.hour - 1, minute: wakeTime.minute)
+                    warn()
+                }
+                sleepTime = tuple       //赋值
             }else if selectTag == 2{
-                wakeTime = tuple
+                let digitSleeptime = CGFloat(sleepTime.hour) + CGFloat(sleepTime.minute) / 60
+                let digitWaketime = CGFloat(hour) + CGFloat(minute) / 60
+                var deltatime = digitWaketime - digitSleeptime
+                while deltatime < 0{
+                    deltatime += 24
+                }
+
+                if deltatime < 1{
+                    tuple = (hour: sleepTime.hour + 1, minute: sleepTime.minute)
+                    warn()
+                }
+                wakeTime = tuple        //赋值
             }
         }
+    }
+    
+    //MARK:- 圆盘抖动
+    private func warn(){
+        let scaleAnim = CAKeyframeAnimation(keyPath: "transform.scale")
+        scaleAnim.values = [1, 1.1, 0.95, 1]
+        scaleAnim.keyTimes = [0, 0.3, 0.8, 1]
+        scaleAnim.duration = 0.1
+        centerImageView.layer.add(scaleAnim, forKey: nil)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {

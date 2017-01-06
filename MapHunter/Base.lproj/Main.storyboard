@@ -1021,12 +1021,29 @@
                     <view key="view" contentMode="scaleToFill" id="hX1-2z-HGj">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dvX-jP-zhz">
+                                <rect key="frame" x="20" y="28" width="374" height="680"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="dvX-jP-zhz" firstAttribute="top" secondItem="w5q-9q-5cS" secondAttribute="bottom" constant="8" id="CP7-WA-irc"/>
+                            <constraint firstItem="dvX-jP-zhz" firstAttribute="centerX" secondItem="hX1-2z-HGj" secondAttribute="centerX" id="JpC-Be-SNL"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="dvX-jP-zhz" secondAttribute="leading" id="jeb-vA-gnH"/>
+                            <constraint firstItem="dvX-jP-zhz" firstAttribute="centerY" secondItem="hX1-2z-HGj" secondAttribute="centerY" id="py5-JZ-iM9"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="label" destination="dvX-jP-zhz" id="xZQ-Lf-GCU"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zrw-hE-RWq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2149" y="-745"/>
+            <point key="canvasLocation" x="2147.826086956522" y="-745.10869565217399"/>
         </scene>
         <!--Weight EditVC-->
         <scene sceneID="5vm-Zb-CP6">
