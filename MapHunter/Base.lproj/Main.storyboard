@@ -1333,6 +1333,9 @@
                             <constraint firstAttribute="bottomMargin" secondItem="D9e-7I-9Dp" secondAttribute="bottom" constant="109" id="qBZ-rI-Zd6"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="testButton" destination="D9e-7I-9Dp" id="wIU-vk-4wE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K0P-GM-zWc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

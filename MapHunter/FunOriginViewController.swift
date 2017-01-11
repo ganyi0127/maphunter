@@ -38,18 +38,27 @@ class FunOriginViewController: UIViewController {
         
         view.layer.cornerRadius = 20
         
-//        view.isUserInteractionEnabled = true
-//        tap = UITapGestureRecognizer(target: self, action: #selector(tap(recognizer:)))
-//        tap?.numberOfTouchesRequired = 1
-//        tap?.numberOfTapsRequired = 1
-//        view.addGestureRecognizer(tap!)
+        view.isUserInteractionEnabled = true
+        tap = UITapGestureRecognizer(target: self, action: #selector(tap(recognizer:)))
+        tap?.numberOfTouchesRequired = 1
+        tap?.numberOfTapsRequired = 1
+        view.addGestureRecognizer(tap!)
     }
     
     func createContents(){
         
     }
     
-//    @objc private func tap(recognizer: UITapGestureRecognizer){
-//        closure?()
-//    }
+    //MARK:- 强制点击事件
+    func click(location: CGPoint){
+        
+        //隐藏与显示tarbar
+//        navigationController?.setTabbar(hidden: isScroll)
+        closure?()
+    }
+    
+    //MARK:- 默认点击事件（3d下无法获取）
+    @objc private func tap(recognizer: UITapGestureRecognizer){
+        closure?()
+    }
 }

@@ -89,14 +89,14 @@ class FunVC: UIViewController {
                     
                     animation{
                         self.pathContainerView.layer.transform = CATransform3DIdentity
+//                        self.pathContainerView.frame = CGRect(x: view_size.width * 0, y: 0, width: view_size.width, height: view_size.height)
                     }
                 }else{
                     self.isScroll = true
                     
                     let progress = 1 - (self.scrollView.contentOffset.x - self.pathContainerView.frame.origin.x) / (view_size.width * 2)
-                    animation{
-                        self.pathContainerView.layer.transform = self.menuTransformForPercent(progress, index: 0)
-                    }
+                    self.pathContainerView.layer.transform = self.menuTransformForPercent(progress, index: 0)
+//                    self.pathContainerView.frame = CGRect(x: view_size.width * 0.1 + view_size.width * 0, y: view_size.height * 0.1, width: view_size.width * 0.8, height: view_size.height * 0.8)
                 }
             }
         }else if segue.identifier == "recommendroute"{
@@ -116,9 +116,7 @@ class FunVC: UIViewController {
                     self.isScroll = true
                     
                     let progress = 1 - (self.scrollView.contentOffset.x - self.recommendRouteContainerView.frame.origin.x) / (view_size.width * 2)
-                    animation {
-                        self.recommendRouteContainerView.layer.transform = self.menuTransformForPercent(progress, index: 1)
-                    }
+                    self.recommendRouteContainerView.layer.transform = self.menuTransformForPercent(progress, index: 1)
                 }
             }
         }else if segue.identifier == "myroute"{
@@ -139,9 +137,7 @@ class FunVC: UIViewController {
                     self.isScroll = true
                     
                     let progress = 1 - (self.scrollView.contentOffset.x - self.myRouteContainerView.frame.origin.x) / (view_size.width * 2)
-                    animation {
-                        self.myRouteContainerView.layer.transform = self.menuTransformForPercent(progress, index: 2)
-                    }
+                    self.myRouteContainerView.layer.transform = self.menuTransformForPercent(progress, index: 2)
                 }
             }
         }else if segue.identifier == "sprite"{
@@ -162,9 +158,7 @@ class FunVC: UIViewController {
                     self.isScroll = true
                     
                     let progress = 1 - (self.scrollView.contentOffset.x - self.spriteContainerView.frame.origin.x) / (view_size.width * 2)
-                    animation {                        
-                        self.spriteContainerView.layer.transform = self.menuTransformForPercent(progress, index: 3)
-                    }
+                    self.spriteContainerView.layer.transform = self.menuTransformForPercent(progress, index: 3)
                 }
             }
         }
@@ -176,7 +170,6 @@ class FunVC: UIViewController {
         tap.numberOfTapsRequired = 1
         tap.numberOfTouchesRequired = 1
         scrollView.addGestureRecognizer(tap)
-        
     }
     
     private func createContents(){
@@ -185,7 +178,7 @@ class FunVC: UIViewController {
     
     //MARK:- 点击事件
     @objc private func click(recognizer: UITapGestureRecognizer){
-
+        
         //隐藏与显示tarbar
         navigationController?.setTabbar(hidden: isScroll)
         
@@ -194,13 +187,17 @@ class FunVC: UIViewController {
 
         //根据位置判断点击的模块
         if pathViewController?.view.layer.hitTest(location) != nil {
-            pathViewController?.closure?()
+            print(location)
+            let curLocation = CGPoint(x: -view_size.width * 0.1 + location.x / 0.8, y: -view_size.height * 0.1 + location.y / 0.8 + 64)
+            pathViewController?.click(location: curLocation)
         }else if recommendRouteViewController?.view.layer.hitTest(CGPoint(x: location.x - view_size.width, y: location.y)) != nil {
-            recommendRouteViewController?.closure?()
+            recommendRouteViewController?.click(location: CGPoint(x: location.x - view_size.width, y: location.y))
         }else if myRouteViewController?.view.layer.hitTest(CGPoint(x: location.x - view_size.width * 2, y: location.y)) != nil {
-            myRouteViewController?.closure?()
+//            myRouteViewController?.closure?()
+            myRouteViewController?.click(location: CGPoint(x: location.x - view_size.width * 2, y: location.y))
         }else if spriteViewController?.view.layer.hitTest(CGPoint(x: location.x - view_size.width * 3, y: location.y)) != nil {
-            spriteViewController?.closure?()
+//            spriteViewController?.closure?()
+            spriteViewController?.click(location: CGPoint(x: location.x - view_size.width * 3, y: location.y))
         }
     }
 }
@@ -213,6 +210,7 @@ extension FunVC: UIScrollViewDelegate{
             let progress = 1 - (scrollView.contentOffset.x - containerView.frame.origin.x + view_size.width * 0.1) / (view_size.width * 2)
             
             containerView.layer.transform = menuTransformForPercent(progress, index: index)
+//            containerView.frame = CGRect(x: view_size.width * 0.1 + CGFloat(index) * view_size.width, y: view_size.height * 0.1, width: view_size.width * 0.8, height: view_size.height * 0.8)
             containerView.layer.zPosition = 1 - fabs(scrollView.contentOffset.x / pathContainerView.bounds.width - CGFloat(index))
             containerView.alpha = 1 - fabs(scrollView.contentOffset.x / pathContainerView.bounds.width - CGFloat(index)) * 0.5
         }
@@ -222,7 +220,9 @@ extension FunVC: UIScrollViewDelegate{
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageWidth = pathContainerView.bounds.width
         let page = Int(floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1)
-        selectContainerView = containerList[page]
+        if page < containerList.count{
+            selectContainerView = containerList[page]
+        }
     }
     
     //矩阵变换
