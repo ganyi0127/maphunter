@@ -568,7 +568,7 @@ extension TopScrollView: UIScrollViewDelegate{
             
             let dataTitle = NSString(string: "\(digure.year)年 \(digure.month)月")
             var dataTitleRect = dataTitle.boundingRect(with: frame.size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-            dataTitleRect.origin = CGPoint(x: singleWidth + view_size.width + singleWidth / 2,
+            dataTitleRect.origin = CGPoint(x: view_size.width + (view_size.width - dataTitleRect.width) / 2,
                                            y: view_size.height * 0.0)
             dataTitle.draw(in: dataTitleRect, withAttributes: attributes)
         }

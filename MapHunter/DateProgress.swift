@@ -162,7 +162,7 @@ class DateProgress: UIView {
         self.layer.addSublayer(shapeLayer!)
         
         //设置中央文字
-        label.frame = CGRect(x: bounds.width / 2 - refreshRadius, y: -frame.width * 0.8, width: refreshRadius * 2, height: refreshRadius * 2)
+        label.frame = CGRect(x: bounds.width / 2 - refreshRadius, y: -frame.width * 0.7, width: refreshRadius * 2, height: refreshRadius * 2)
         label.textAlignment = .center
         label.layer.zPosition = 3
         label.textColor = .gray

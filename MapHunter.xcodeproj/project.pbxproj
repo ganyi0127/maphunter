@@ -58,6 +58,13 @@
 		BE54CB1F1E17938F00DDFFC6 /* WeightEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE54CB1E1E17938F00DDFFC6 /* WeightEditVC.swift */; };
 		BE54CB221E17AA9B00DDFFC6 /* AngelFit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE54CB201E17A94F00DDFFC6 /* AngelFit.framework */; };
 		BE54CB231E17AA9B00DDFFC6 /* AngelFit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE54CB201E17A94F00DDFFC6 /* AngelFit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BE576FF11E248CFE006BAD1C /* FunVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE576FF01E248CFE006BAD1C /* FunVC.swift */; };
+		BE576FFB1E25BC85006BAD1C /* FunItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE576FFA1E25BC85006BAD1C /* FunItems.swift */; };
+		BE576FFD1E25DD1B006BAD1C /* PathViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE576FFC1E25DD1A006BAD1C /* PathViewController.swift */; };
+		BE576FFF1E25DD55006BAD1C /* RecommendRouteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE576FFE1E25DD55006BAD1C /* RecommendRouteViewController.swift */; };
+		BE5770011E25DD75006BAD1C /* MyRouteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5770001E25DD75006BAD1C /* MyRouteViewController.swift */; };
+		BE5770031E25DD8B006BAD1C /* SpriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5770021E25DD8B006BAD1C /* SpriteViewController.swift */; };
+		BE5770051E25E3B7006BAD1C /* FunOriginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5770041E25E3B7006BAD1C /* FunOriginViewController.swift */; };
 		BE6ACD851DBC583C006C4471 /* TopScrollDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6ACD841DBC583C006C4471 /* TopScrollDelegate.swift */; };
 		BE71B9E71DBF4CAA00143E1E /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71B9E61DBF4CAA00143E1E /* Net.swift */; };
 		BE7319FD1E0B7D9B002BDF2D /* DetailScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7319FC1E0B7D9B002BDF2D /* DetailScrollView.swift */; };
@@ -178,6 +185,13 @@
 		BE4BFE9F1E15141A00F3FE91 /* MiddlePopController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiddlePopController.swift; sourceTree = "<group>"; };
 		BE54CB1E1E17938F00DDFFC6 /* WeightEditVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightEditVC.swift; sourceTree = "<group>"; };
 		BE54CB201E17A94F00DDFFC6 /* AngelFit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AngelFit.framework; sourceTree = "<group>"; };
+		BE576FF01E248CFE006BAD1C /* FunVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunVC.swift; sourceTree = "<group>"; };
+		BE576FFA1E25BC85006BAD1C /* FunItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunItems.swift; sourceTree = "<group>"; };
+		BE576FFC1E25DD1A006BAD1C /* PathViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathViewController.swift; sourceTree = "<group>"; };
+		BE576FFE1E25DD55006BAD1C /* RecommendRouteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendRouteViewController.swift; sourceTree = "<group>"; };
+		BE5770001E25DD75006BAD1C /* MyRouteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyRouteViewController.swift; sourceTree = "<group>"; };
+		BE5770021E25DD8B006BAD1C /* SpriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteViewController.swift; sourceTree = "<group>"; };
+		BE5770041E25E3B7006BAD1C /* FunOriginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunOriginViewController.swift; sourceTree = "<group>"; };
 		BE6ACD841DBC583C006C4471 /* TopScrollDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopScrollDelegate.swift; sourceTree = "<group>"; };
 		BE71B9E61DBF4CAA00143E1E /* Net.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		BE7319FC1E0B7D9B002BDF2D /* DetailScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailScrollView.swift; sourceTree = "<group>"; };
@@ -427,6 +441,26 @@
 			name = "目标设置\\介绍页面\\编辑页面";
 			sourceTree = "<group>";
 		};
+		BE576FF91E25BC6B006BAD1C /* Contents */ = {
+			isa = PBXGroup;
+			children = (
+				BE576FFA1E25BC85006BAD1C /* FunItems.swift */,
+				BE5770041E25E3B7006BAD1C /* FunOriginViewController.swift */,
+				BE576FFC1E25DD1A006BAD1C /* PathViewController.swift */,
+				BE576FFE1E25DD55006BAD1C /* RecommendRouteViewController.swift */,
+				BE5770001E25DD75006BAD1C /* MyRouteViewController.swift */,
+				BE5770021E25DD8B006BAD1C /* SpriteViewController.swift */,
+			);
+			name = Contents;
+			sourceTree = "<group>";
+		};
+		BE5770061E261DE0006BAD1C /* subVC */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = subVC;
+			sourceTree = "<group>";
+		};
 		BE6ACD761DBC5475006C4471 /* include */ = {
 			isa = PBXGroup;
 			children = (
@@ -493,6 +527,9 @@
 		BEDF4F361D93937C00E98D63 /* 地图 */ = {
 			isa = PBXGroup;
 			children = (
+				BE576FF01E248CFE006BAD1C /* FunVC.swift */,
+				BE576FF91E25BC6B006BAD1C /* Contents */,
+				BE5770061E261DE0006BAD1C /* subVC */,
 				BE2DC9EA1D9210A300978C97 /* MapVC.swift */,
 				BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */,
 				BEDF4F681D98BBD700E98D63 /* CustomAnnotationView.swift */,
@@ -728,6 +765,7 @@
 				BEB2490B1D9E46BD00C9F9ED /* CellCube.swift in Sources */,
 				32CCE7131E02321E008AAB8C /* ViewExtension.swift in Sources */,
 				BE4BFEA01E15141A00F3FE91 /* MiddlePopController.swift in Sources */,
+				BE576FFF1E25DD55006BAD1C /* RecommendRouteViewController.swift in Sources */,
 				BE7319FF1E0B7F00002BDF2D /* DetailTop.swift in Sources */,
 				BE1C36731D93763900AB4370 /* ItemButton.swift in Sources */,
 				BE1C366D1D93725000AB4370 /* RootTBC.swift in Sources */,
@@ -741,12 +779,14 @@
 				BEB248EC1D9BD91A00C9F9ED /* IconView.swift in Sources */,
 				32C3E62B1E09121800D34A74 /* MePopController.swift in Sources */,
 				32E238AB1DFA996E001969AE /* OCVariable.swift in Sources */,
+				BE576FFB1E25BC85006BAD1C /* FunItems.swift in Sources */,
 				32C5726A1DD9C2E700CEC5EB /* GradientPolylineOverlay.m in Sources */,
 				BE54CB1F1E17938F00DDFFC6 /* WeightEditVC.swift in Sources */,
 				32C3E6291E090B4C00D34A74 /* MePushController.swift in Sources */,
 				320535391DFE7AFC0087068E /* CalendarCell.swift in Sources */,
 				32C3E6271E0904B900D34A74 /* MeDetails.swift in Sources */,
 				32C3E63A1E0A86A000D34A74 /* MeWeekbegin.swift in Sources */,
+				BE5770031E25DD8B006BAD1C /* SpriteViewController.swift in Sources */,
 				BEB248E71D9B4E2600C9F9ED /* ThirdCell.swift in Sources */,
 				32D411E81DEBCEC2008EE637 /* DataBall.swift in Sources */,
 				32C3E6361E0A7D8D00D34A74 /* MeSetting.swift in Sources */,
@@ -757,12 +797,16 @@
 				BE4BFE9E1E15140400F3FE91 /* MiddlePushController.swift in Sources */,
 				BEDF4F351D93910E00E98D63 /* Configure.swift in Sources */,
 				32D4129E1DEEC4C0008EE637 /* DetailViewController.swift in Sources */,
+				BE576FF11E248CFE006BAD1C /* FunVC.swift in Sources */,
+				BE5770051E25E3B7006BAD1C /* FunOriginViewController.swift in Sources */,
 				BE1F53491DC2FE7900EAD9BA /* Time.swift in Sources */,
 				BEDF4F3D1D9393F800E98D63 /* HealthVC.swift in Sources */,
 				BE7319FD1E0B7D9B002BDF2D /* DetailScrollView.swift in Sources */,
 				32C3E6221E07E5CF00D34A74 /* MeCell2.swift in Sources */,
 				BE2DC9F11D9210A300978C97 /* MapHunter.xcdatamodeld in Sources */,
+				BE576FFD1E25DD1B006BAD1C /* PathViewController.swift in Sources */,
 				320535361DFE59C80087068E /* ImageExtension.swift in Sources */,
+				BE5770011E25DD75006BAD1C /* MyRouteViewController.swift in Sources */,
 				BE1C36701D93745500AB4370 /* NavigationExtension.swift in Sources */,
 				BEDF4F771D9909ED00E98D63 /* TopScrollView.swift in Sources */,
 				BE6ACD851DBC583C006C4471 /* TopScrollDelegate.swift in Sources */,

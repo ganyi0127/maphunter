@@ -136,11 +136,13 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view_size.width, height: 50))
         headerView.backgroundColor = timeColor
         
+        //icon
         let imageViewFrame = CGRect(x: view_size.width * 0.1, y: 15, width: 20, height: 20)
         let imageView = UIImageView(frame: imageViewFrame)
         imageView.image = UIImage(named: "resource/mystory")?.transfromImage(size: CGSize(width: 20, height: 20))
         headerView.addSubview(imageView)
         
+        //我的一天
         let label = UILabel(frame: CGRect(x: imageView.frame.origin.x + imageView.frame.width * 1.5,
                                           y: 25 - 9,
                                           width: view_size.width,
@@ -148,8 +150,14 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
         label.textColor = wordColor
         label.font = UIFont(name: font_name, size: 18)
         label.text = "我的一天"
+        label.textColor = subWordColor
         label.textAlignment = .left
         headerView.addSubview(label)
+        
+        //分割线
+        let view = UIView(frame: CGRect(x: 0, y: 50 - 1, width: view_size.width, height: 1))
+        view.backgroundColor = lightWordColor
+        headerView.addSubview(view)
         
         return headerView
     }
@@ -159,7 +167,7 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             return 2
         }
         
-        return 2
+        return 34
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -243,12 +251,29 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
         }
         
         //今日故事 cell3
+        let row = indexPath.row
+        let testList: [SportType] = [.walking, .running, .badminton, .basketball, .riding, .swimming, .climbing, .badminton, .physical, .bicycle, .ellipsoidBall, .treadmill, .boating, .situp, .pushup, .dumbbell, .lifting, .gymnastics, .yoga, .sleep, .calorie, .weight]
+
         cell = tableView.dequeueReusableCell(withIdentifier: "cell")
         
+        guard row < testList.count else{
+            var value = StoryData()
+            value.type = .other
+            value.date = Date()
+            value.hour = 7
+            value.minute = 9
+            value.calorie = 123
+            value.heartRate = 101
+            value.fat = 202
+            
+            (cell as! ThirdCell).value = value
+            return cell!
+        }
         var value = StoryData()
-        value.type = SportType.run
-        value.date = (456, 1)
-        value.sportTime = 789
+        value.type = testList[row]
+        value.date = Date()
+        value.hour = 7
+        value.minute = 9
         value.calorie = 123
         value.heartRate = 101
         value.fat = 202

@@ -67,7 +67,7 @@ extension UINavigationController: UINavigationControllerDelegate{
             }
             
             //设置显示navigation
-            if viewController.isKind(of: MapVC.self) || viewController.isKind(of: MeVC.self){
+            if viewController.isKind(of: FunVC.self) || viewController.isKind(of: MeVC.self){
                 //地图页面置透明
                 setNavigation(hidden: true)
                 

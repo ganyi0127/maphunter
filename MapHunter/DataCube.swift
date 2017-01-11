@@ -81,26 +81,20 @@ class DataCube: UIView {
                 subLabel.attributedText = subAttributedString
             case .heartrate:
                 
-                let text = "\(Int16(data.value1))Bmp"
+                var text = "\(Int16(data.value1))Bmp"
                 let mainAttributedString = NSMutableAttributedString(string: text,
                                                                      attributes: [NSFontAttributeName: fontHuge])
                 mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 3, 3))
                 mainLabel.attributedText = mainAttributedString
                 
-                let hour1 = Int16(data.value2) / 60
-                let minute1 = Int16(data.value2) % 60
-                let text1 = hour1 == 0 ? "\(minute1)分钟" : "\(hour1)小时\(minute1)分钟"
-                heartrateLabel1.text = text1
+                text = "\(Int16(data.value2))分钟"
+                heartrateLabel1.text = text
                 
-                let hour2 = Int16(data.value2) / 60
-                let minute2 = Int16(data.value2) % 60
-                let text2 = hour2 == 0 ? "\(minute2)分钟" : "\(hour1)小时\(minute2)分钟"
-                heartrateLabel2.text = text2
+                text = "\(Int16(data.value3))分钟"
+                heartrateLabel2.text = text
                 
-                let hour3 = Int16(data.value4) / 60
-                let minute3 = Int16(data.value4) % 60
-                let text3 = hour3 == 0 ? "\(minute3)分钟" : "\(hour3)小时\(minute3)分钟"
-                heartrateLabel3.text = text3
+                text = "\(Int16(data.value4))分钟"
+                heartrateLabel3.text = text
             case .sleep:
                 
                 let text = "\(Int16(data.value1) / 80)小时\(Int16(data.value2) / 10)分钟"
