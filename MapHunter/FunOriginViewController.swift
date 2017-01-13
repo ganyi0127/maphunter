@@ -10,22 +10,25 @@ import Foundation
 class FunOriginViewController: UIViewController {
     
     var customTitle: String?    //名字
-    var isOpen = false          //判断是否点开
+    open var isOpen = false          //判断是否点开
+    private let lightImageView = UIImageView()      //光效
     
     //点击事件
     private var tap: UITapGestureRecognizer?
     
     //回调
-    var closure: (()->())?
+    var closure: ((_ open: Bool)->())?
     
     //MARK:- init
     override func viewDidLoad() {
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidLoad()
         
         config()
         createContents()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     deinit {
@@ -36,8 +39,15 @@ class FunOriginViewController: UIViewController {
     
     func config(){
         
-        view.layer.cornerRadius = 20
+        //设置圆角mask
+//        view.layer.cornerRadius = 20
+        let bezier = UIBezierPath(roundedRect: CGRect(origin: .zero, size: view_size), cornerRadius: 20)
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = bezier.cgPath
+        maskLayer.fillColor = UIColor.white.cgColor
+        view.layer.mask = maskLayer
         
+        //设置点击事件
         view.isUserInteractionEnabled = true
         tap = UITapGestureRecognizer(target: self, action: #selector(tap(recognizer:)))
         tap?.numberOfTouchesRequired = 1
@@ -47,18 +57,44 @@ class FunOriginViewController: UIViewController {
     
     func createContents(){
         
+        //光效
+        lightImageView.frame = view.frame
+        var images = [UIImage]()
+        (0..<9).forEach(){
+            i in
+            let name = "resource/map/light/\(i)"
+            if let img = UIImage(named: name){
+                images.append(img)
+            }
+        }
+        lightImageView.animationImages = images
+        lightImageView.animationDuration = 0.1
+        lightImageView.animationRepeatCount = 1
+        lightImageView.startAnimating()
+        view.addSubview(lightImageView)
     }
     
     //MARK:- 强制点击事件
-    func click(location: CGPoint){
+    func click(location: CGPoint, open: Bool = true){
+        closure?(open)
         
-        //隐藏与显示tarbar
-//        navigationController?.setTabbar(hidden: isScroll)
-        closure?()
+        //打开与关闭状态
+        isOpen = open
+        if isOpen {
+            lightImageView.stopAnimating()
+        }
     }
     
     //MARK:- 默认点击事件（3d下无法获取）
     @objc private func tap(recognizer: UITapGestureRecognizer){
-        closure?()
+        isOpen = false
+        closure?(isOpen)
+        
+        //延迟调用光效动画
+        _ = delay(2){
+            if !self.isOpen{                
+                self.lightImageView.startAnimating()
+            }
+        }
     }
 }

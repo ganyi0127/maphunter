@@ -14,4 +14,15 @@ class RecommendRouteViewController: FunOriginViewController {
         
         customTitle = "推荐路线"
     }
+    
+    override func createContents() {
+        //添加背景图片
+        let backgroundImage = UIImage(named: "resource/map/background/recommendroute")?.transfromImage(size: view_size)
+        let backgroundImageView = UIImageView(image: backgroundImage)
+        backgroundImageView.frame = CGRect(origin: .zero, size: view_size)
+        backgroundImageView.layer.cornerRadius = 20
+        view.addSubview(backgroundImageView)
+        
+        super.createContents()
+    }
 }

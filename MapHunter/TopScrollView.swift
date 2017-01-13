@@ -541,7 +541,7 @@ extension TopScrollView: UIScrollViewDelegate{
             let paragraphStyle:NSParagraphStyle = NSParagraphStyle.default.mutableCopy() as! NSParagraphStyle
             var attributes = [
                 NSFontAttributeName: UIFont(name: font_name, size: 12) ?? UIFont.systemFont(ofSize: 12), //文字大小
-                NSForegroundColorAttributeName: UIColor.lightGray,  //文字颜色
+                NSForegroundColorAttributeName: wordColor,  //文字颜色
                 NSParagraphStyleAttributeName: paragraphStyle]
             
             //绘制文字： 星期
@@ -552,7 +552,7 @@ extension TopScrollView: UIScrollViewDelegate{
                 let dataTitle = NSString(string: text)
                 var dataTitleRect = dataTitle.boundingRect(with: frame.size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
                 dataTitleRect.origin = CGPoint(x: CGFloat(index) * singleWidth + view_size.width + singleWidth / 2 - 6,
-                                               y: view_size.height * 0.05)
+                                               y: view_size.height * 0.07)
                 dataTitle.draw(in: dataTitleRect, withAttributes: attributes)
              
             }
@@ -560,7 +560,7 @@ extension TopScrollView: UIScrollViewDelegate{
             //绘制年月: 
             attributes = [
                 NSFontAttributeName: UIFont(name: font_name, size: 24) ?? UIFont.systemFont(ofSize: 24), //文字大小
-                NSForegroundColorAttributeName: UIColor.lightGray,  //文字颜色
+                NSForegroundColorAttributeName: subWordColor,  //文字颜色
                 NSParagraphStyleAttributeName: paragraphStyle]
             
             var components = calendar.dateComponents([.year, .month], from: selectDate)

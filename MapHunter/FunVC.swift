@@ -15,6 +15,9 @@ class FunVC: UIViewController {
     var isScroll = true{
         didSet{
             scrollView.isScrollEnabled = isScroll
+            
+            //隐藏与显示tarbar
+            navigationController?.setTabbar(hidden: !isScroll)
         }
     }
     
@@ -59,7 +62,7 @@ class FunVC: UIViewController {
     fileprivate var spriteViewController: SpriteViewController?
     
     override func viewDidLoad() {
-        
+
         config()
         createContents()
     }
@@ -79,87 +82,79 @@ class FunVC: UIViewController {
         if segue.identifier == "path" {
             pathViewController = segue.destination as? PathViewController
             pathViewController?.closure = {
+                open in
                 //path点击事件
                 guard self.selectContainerView == self.pathContainerView else{
                     return
                 }
                 
                 if self.isScroll{
-                    self.isScroll = false
-                    
                     animation{
                         self.pathContainerView.layer.transform = CATransform3DIdentity
-//                        self.pathContainerView.frame = CGRect(x: view_size.width * 0, y: 0, width: view_size.width, height: view_size.height)
                     }
                 }else{
-                    self.isScroll = true
-                    
                     let progress = 1 - (self.scrollView.contentOffset.x - self.pathContainerView.frame.origin.x) / (view_size.width * 2)
                     self.pathContainerView.layer.transform = self.menuTransformForPercent(progress, index: 0)
-//                    self.pathContainerView.frame = CGRect(x: view_size.width * 0.1 + view_size.width * 0, y: view_size.height * 0.1, width: view_size.width * 0.8, height: view_size.height * 0.8)
                 }
+                self.isScroll = !self.isScroll
             }
         }else if segue.identifier == "recommendroute"{
             recommendRouteViewController = segue.destination as? RecommendRouteViewController
             recommendRouteViewController?.closure = {
+                open in
                 //recommendRoute点击事件
                 guard self.selectContainerView == self.recommendRouteContainerView else{
                     return
                 }
                 
                 if self.isScroll{
-                    self.isScroll = false
                     animation {
                         self.recommendRouteContainerView.layer.transform = CATransform3DIdentity
                     }
                 }else{
-                    self.isScroll = true
-                    
                     let progress = 1 - (self.scrollView.contentOffset.x - self.recommendRouteContainerView.frame.origin.x) / (view_size.width * 2)
                     self.recommendRouteContainerView.layer.transform = self.menuTransformForPercent(progress, index: 1)
                 }
+                self.isScroll = !self.isScroll
             }
         }else if segue.identifier == "myroute"{
             myRouteViewController = segue.destination as? MyRouteViewController
             myRouteViewController?.closure = {
+                open in
                 //myRoute点击事件
                 guard self.selectContainerView == self.myRouteContainerView else{
                     return
                 }
                 
                 if self.isScroll{
-                    self.isScroll = false
                     animation {
-                        
                         self.myRouteContainerView.layer.transform = CATransform3DIdentity
                     }
                 }else{
-                    self.isScroll = true
-                    
                     let progress = 1 - (self.scrollView.contentOffset.x - self.myRouteContainerView.frame.origin.x) / (view_size.width * 2)
                     self.myRouteContainerView.layer.transform = self.menuTransformForPercent(progress, index: 2)
                 }
+                self.isScroll = !self.isScroll
             }
         }else if segue.identifier == "sprite"{
             spriteViewController = segue.destination as? SpriteViewController
             spriteViewController?.closure = {
+                open in
                 //sprite点击事件
                 guard self.selectContainerView == self.spriteContainerView else{
                     return
                 }
                 
                 if self.isScroll{
-                    self.isScroll = false
                     animation {
-                        
                         self.spriteContainerView.layer.transform = CATransform3DIdentity
                     }
                 }else{
-                    self.isScroll = true
-                    
                     let progress = 1 - (self.scrollView.contentOffset.x - self.spriteContainerView.frame.origin.x) / (view_size.width * 2)
                     self.spriteContainerView.layer.transform = self.menuTransformForPercent(progress, index: 3)
                 }
+                
+                self.isScroll = !self.isScroll
             }
         }
     }
@@ -170,6 +165,8 @@ class FunVC: UIViewController {
         tap.numberOfTapsRequired = 1
         tap.numberOfTouchesRequired = 1
         scrollView.addGestureRecognizer(tap)
+        
+        view.backgroundColor = timeColor
     }
     
     private func createContents(){
@@ -179,25 +176,23 @@ class FunVC: UIViewController {
     //MARK:- 点击事件
     @objc private func click(recognizer: UITapGestureRecognizer){
         
-        //隐藏与显示tarbar
-        navigationController?.setTabbar(hidden: isScroll)
-        
         //获取点击位置
         let location = recognizer.location(in: scrollView)
 
         //根据位置判断点击的模块
-        if pathViewController?.view.layer.hitTest(location) != nil {
-            print(location)
-            let curLocation = CGPoint(x: -view_size.width * 0.1 + location.x / 0.8, y: -view_size.height * 0.1 + location.y / 0.8 + 64)
-            pathViewController?.click(location: curLocation)
-        }else if recommendRouteViewController?.view.layer.hitTest(CGPoint(x: location.x - view_size.width, y: location.y)) != nil {
-            recommendRouteViewController?.click(location: CGPoint(x: location.x - view_size.width, y: location.y))
-        }else if myRouteViewController?.view.layer.hitTest(CGPoint(x: location.x - view_size.width * 2, y: location.y)) != nil {
-//            myRouteViewController?.closure?()
-            myRouteViewController?.click(location: CGPoint(x: location.x - view_size.width * 2, y: location.y))
-        }else if spriteViewController?.view.layer.hitTest(CGPoint(x: location.x - view_size.width * 3, y: location.y)) != nil {
-//            spriteViewController?.closure?()
-            spriteViewController?.click(location: CGPoint(x: location.x - view_size.width * 3, y: location.y))
+        var curLocation: CGPoint
+        if pathViewController?.view.hitTest(location, with: nil) != nil {
+            curLocation = CGPoint(x: -view_size.width * 0.1 + location.x / 0.8, y: -view_size.height * 0.1 + location.y / 0.8 + 64)
+            pathViewController?.click(location: curLocation, open: true)
+        }else if recommendRouteViewController?.view.hitTest(CGPoint(x: location.x - view_size.width, y: location.y), with: nil) != nil {
+            curLocation = CGPoint(x: -view_size.width * 0.1 + (location.x - view_size.width) / 0.8, y: -view_size.height * 0.1 + location.y / 0.8 + 64)
+            recommendRouteViewController?.click(location: CGPoint(x: location.x - view_size.width, y: location.y), open: true)
+        }else if myRouteViewController?.view.hitTest(CGPoint(x: location.x - view_size.width * 2, y: location.y), with: nil) != nil {
+            curLocation = CGPoint(x: -view_size.width * 0.1 + (location.x - view_size.width * 2) / 0.8, y: -view_size.height * 0.1 + location.y / 0.8 + 64)
+            myRouteViewController?.click(location: CGPoint(x: location.x - view_size.width * 2, y: location.y), open: true)
+        }else if spriteViewController?.view.hitTest(CGPoint(x: location.x - view_size.width * 3, y: location.y), with: nil) != nil {
+            curLocation = CGPoint(x: -view_size.width * 0.1 + (location.x - view_size.width * 3) / 0.8, y: -view_size.height * 0.1 + location.y / 0.8 + 64)
+            spriteViewController?.click(location: CGPoint(x: location.x - view_size.width * 3, y: location.y), open: true)
         }
     }
 }
@@ -210,7 +205,7 @@ extension FunVC: UIScrollViewDelegate{
             let progress = 1 - (scrollView.contentOffset.x - containerView.frame.origin.x + view_size.width * 0.1) / (view_size.width * 2)
             
             containerView.layer.transform = menuTransformForPercent(progress, index: index)
-//            containerView.frame = CGRect(x: view_size.width * 0.1 + CGFloat(index) * view_size.width, y: view_size.height * 0.1, width: view_size.width * 0.8, height: view_size.height * 0.8)
+
             containerView.layer.zPosition = 1 - fabs(scrollView.contentOffset.x / pathContainerView.bounds.width - CGFloat(index))
             containerView.alpha = 1 - fabs(scrollView.contentOffset.x / pathContainerView.bounds.width - CGFloat(index)) * 0.5
         }
@@ -230,10 +225,11 @@ extension FunVC: UIScrollViewDelegate{
         var identity = CATransform3DIdentity
         identity.m34 = -1 / 1000   //1 / [camera distance]
         let remainingPercent = 1 - percent
+        let indexDelta = scrollView.contentOffset.x / pathContainerView.bounds.width - CGFloat(index)           //计算偏移量 index
         let angle = remainingPercent * CGFloat(-M_PI_2)
         let rotationTransform = CATransform3DRotate(identity, angle, 0, 1, 0)
-        let translationTransform = CATransform3DMakeTranslation(pathContainerView.bounds.width * 0.4 * (scrollView.contentOffset.x / pathContainerView.bounds.width - CGFloat(index)), 0, 0)
-        let scaleTransform = CATransform3DMakeScale(0.8, 0.8, 0)
+        let translationTransform = CATransform3DMakeTranslation(pathContainerView.bounds.width * 0.4 * indexDelta, 0, 0)
+        let scaleTransform = CATransform3DMakeScale(0.8, 0.8 * (1 - fabs(indexDelta) * 0.75), 0)
         let concat = CATransform3DConcat(rotationTransform, translationTransform)
         return CATransform3DConcat(concat, scaleTransform)
     }

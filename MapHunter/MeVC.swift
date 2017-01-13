@@ -22,6 +22,8 @@ class MeVC: UIViewController {
         
         //清除顶部空白区域
         automaticallyAdjustsScrollViewInsets = false
+        
+        navigationController?.navigationBar.topItem?.title = ""
     }
     
     private func createContents(){
@@ -103,12 +105,17 @@ extension MeVC: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.setSelected(false, animated: true)
         
         if indexPath.section == 0 {
             
         }else{
-            let cell: MeCell3 = tableView.cellForRow(at: indexPath) as! MeCell3
-            let type = cell.type
+            //进入详情页面
+            guard let cell3: MeCell3 = cell as? MeCell3 else{
+                return
+            }
+            let type = cell3.type
             let detailViewController = MeDetails(type: type!)
             navigationController?.pushViewController(detailViewController, animated: true)
         }

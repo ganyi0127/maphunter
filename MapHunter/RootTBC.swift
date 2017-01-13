@@ -79,7 +79,7 @@ class RootTBC: UITabBarController {
                 var tabbarFrame = self.tabBar.frame
                 tabbarFrame.origin.y = view_size.height - tabbarFrame.height
                 var buttonFrame = menuButton.frame
-                buttonFrame.origin.y = -buttonFrame.width * 0.3
+                buttonFrame.origin.y = tabbarFrame.height / 2 - buttonFrame.height / 2
                 let duration: TimeInterval = 0.1
                 UIView.animate(withDuration: duration, delay: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {
                     self.tabBar.frame = tabbarFrame
@@ -94,13 +94,16 @@ class RootTBC: UITabBarController {
     
     //按钮
     private lazy var menuButton: UIButton! = { () -> UIButton in
-        let menuButtonWidth = self.tabBar.frame.height * 1.2 //view_size.width * 0.2
+        let menuButtonWidth = self.tabBar.frame.height * 1.2
+        //按钮位置(在set方法中修改)
         let menuButtonFrame = CGRect(x: view_size.width / 2 - menuButtonWidth / 2,
-                                     y: -menuButtonWidth * 0.3,
+                                     y: -menuButtonWidth * 0.3 * 0,
                                      width: menuButtonWidth,
                                      height: menuButtonWidth)
         let menuButton = UIButton(frame: menuButtonFrame)
-        let image = UIImage(named: "resource/tabbar/main")
+        let height = self.tabBar.backgroundImage!.size.height / 2
+        let itemSize = CGSize(width: height, height: height)
+        let image = UIImage(named: "resource/tabbar/main")?.transfromImage(size: itemSize)?.withRenderingMode(.alwaysOriginal)
         menuButton.setImage(image, for: .normal)
         menuButton.addTarget(self, action: #selector(clickMenuButton(sender:)), for: .touchUpInside)
         return menuButton
