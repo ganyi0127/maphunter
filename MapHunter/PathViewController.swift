@@ -38,7 +38,7 @@ class PathViewController: FunOriginViewController {
                 self.typeView.frame.origin.y = y
                 self.settingButton.frame.origin.y = y
                 self.settingView.frame.origin.y = y + self.originTypeviewFrame.height
-                
+                self.defaultView.frame.origin.y = y + self.originTypeviewFrame.height
             }, completion: {
                 complete in
             })
@@ -98,8 +98,12 @@ class PathViewController: FunOriginViewController {
                 //所有按钮复原
                 setTypeStatus(flag: false)
                 setSettingStatus(flag: false)
+                defaultView.isHidden = false
                 return
             }
+            
+            defaultView.isHidden = true
+            
             switch st {
             case .type:
                 //展开类型按钮

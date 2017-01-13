@@ -686,7 +686,7 @@
 				TargetAttributes = {
 					BE2DC9E41D9210A300978C97 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = T65EE75V48;
+						DevelopmentTeam = NWGF84NL9Q;
 						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -1004,7 +1004,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: an he (A4R4XM8NL6)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = T65EE75V48;
+				DEVELOPMENT_TEAM = NWGF84NL9Q;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MapHunter",
@@ -1032,7 +1032,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: an he (A4R4XM8NL6)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = T65EE75V48;
+				DEVELOPMENT_TEAM = NWGF84NL9Q;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MapHunter",
