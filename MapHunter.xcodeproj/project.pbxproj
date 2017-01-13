@@ -65,6 +65,7 @@
 		BE5770011E25DD75006BAD1C /* MyRouteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5770001E25DD75006BAD1C /* MyRouteViewController.swift */; };
 		BE5770031E25DD8B006BAD1C /* SpriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5770021E25DD8B006BAD1C /* SpriteViewController.swift */; };
 		BE5770051E25E3B7006BAD1C /* FunOriginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5770041E25E3B7006BAD1C /* FunOriginViewController.swift */; };
+		BE5770091E28D6DB006BAD1C /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5770081E28D6DA006BAD1C /* Setting.swift */; };
 		BE6ACD851DBC583C006C4471 /* TopScrollDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6ACD841DBC583C006C4471 /* TopScrollDelegate.swift */; };
 		BE71B9E71DBF4CAA00143E1E /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71B9E61DBF4CAA00143E1E /* Net.swift */; };
 		BE7319FD1E0B7D9B002BDF2D /* DetailScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7319FC1E0B7D9B002BDF2D /* DetailScrollView.swift */; };
@@ -72,6 +73,7 @@
 		BE731A011E0B8958002BDF2D /* DetailBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE731A001E0B8958002BDF2D /* DetailBack.swift */; };
 		BE731A031E0B8CD1002BDF2D /* DetailDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE731A021E0B8CD1002BDF2D /* DetailDataView.swift */; };
 		BE743BE01DAA1D25002AC282 /* CellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE743BDF1DAA1D25002AC282 /* CellExtension.swift */; };
+		BE8685401E28DFF100EBEBED /* DefaultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE86853F1E28DFF100EBEBED /* DefaultVC.swift */; };
 		BE9DA8961DB0698500C4574B /* CoordinateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */; };
 		BEB248E71D9B4E2600C9F9ED /* ThirdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */; };
 		BEB248EA1D9BBC8D00C9F9ED /* StepProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248E91D9BBC8D00C9F9ED /* StepProgress.swift */; };
@@ -192,6 +194,7 @@
 		BE5770001E25DD75006BAD1C /* MyRouteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyRouteViewController.swift; sourceTree = "<group>"; };
 		BE5770021E25DD8B006BAD1C /* SpriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteViewController.swift; sourceTree = "<group>"; };
 		BE5770041E25E3B7006BAD1C /* FunOriginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunOriginViewController.swift; sourceTree = "<group>"; };
+		BE5770081E28D6DA006BAD1C /* Setting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		BE6ACD841DBC583C006C4471 /* TopScrollDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopScrollDelegate.swift; sourceTree = "<group>"; };
 		BE71B9E61DBF4CAA00143E1E /* Net.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		BE7319FC1E0B7D9B002BDF2D /* DetailScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailScrollView.swift; sourceTree = "<group>"; };
@@ -199,6 +202,7 @@
 		BE731A001E0B8958002BDF2D /* DetailBack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailBack.swift; sourceTree = "<group>"; };
 		BE731A021E0B8CD1002BDF2D /* DetailDataView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailDataView.swift; sourceTree = "<group>"; };
 		BE743BDF1DAA1D25002AC282 /* CellExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellExtension.swift; sourceTree = "<group>"; };
+		BE86853F1E28DFF100EBEBED /* DefaultVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultVC.swift; sourceTree = "<group>"; };
 		BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateTransform.swift; sourceTree = "<group>"; };
 		BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdCell.swift; sourceTree = "<group>"; };
 		BEB248E91D9BBC8D00C9F9ED /* StepProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepProgress.swift; sourceTree = "<group>"; };
@@ -446,7 +450,7 @@
 			children = (
 				BE576FFA1E25BC85006BAD1C /* FunItems.swift */,
 				BE5770041E25E3B7006BAD1C /* FunOriginViewController.swift */,
-				BE576FFC1E25DD1A006BAD1C /* PathViewController.swift */,
+				BE5770071E28D6C7006BAD1C /* path */,
 				BE576FFE1E25DD55006BAD1C /* RecommendRouteViewController.swift */,
 				BE5770001E25DD75006BAD1C /* MyRouteViewController.swift */,
 				BE5770021E25DD8B006BAD1C /* SpriteViewController.swift */,
@@ -459,6 +463,16 @@
 			children = (
 			);
 			name = subVC;
+			sourceTree = "<group>";
+		};
+		BE5770071E28D6C7006BAD1C /* path */ = {
+			isa = PBXGroup;
+			children = (
+				BE576FFC1E25DD1A006BAD1C /* PathViewController.swift */,
+				BE5770081E28D6DA006BAD1C /* Setting.swift */,
+				BE86853F1E28DFF100EBEBED /* DefaultVC.swift */,
+			);
+			name = path;
 			sourceTree = "<group>";
 		};
 		BE6ACD761DBC5475006C4471 /* include */ = {
@@ -754,6 +768,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE8685401E28DFF100EBEBED /* DefaultVC.swift in Sources */,
 				BEDF4F6B1D98FB3800E98D63 /* TopView.swift in Sources */,
 				32D4129B1DEEB6EF008EE637 /* DetailView.swift in Sources */,
 				32C3E6201E07E3CA00D34A74 /* MeCell1.swift in Sources */,
@@ -820,6 +835,7 @@
 				BE4BFE961E14F89B00F3FE91 /* TargetSettingVC.swift in Sources */,
 				BE9DA8961DB0698500C4574B /* CoordinateTransform.swift in Sources */,
 				BE4BFE9A1E15031C00F3FE91 /* BottomPopController.swift in Sources */,
+				BE5770091E28D6DB006BAD1C /* Setting.swift in Sources */,
 				BEDF4F6E1D98FCA900E98D63 /* FirstCell.swift in Sources */,
 				BEDF4F701D98FD1200E98D63 /* SecondCell.swift in Sources */,
 				BEDF4F741D99040300E98D63 /* ButtonExtension.swift in Sources */,

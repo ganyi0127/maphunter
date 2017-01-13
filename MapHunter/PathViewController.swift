@@ -17,17 +17,23 @@ class PathViewController: FunOriginViewController {
     private lazy var originTypeviewFrame: CGRect = {
        return self.typeView.frame
     }()
+    private lazy var originStartFrame: CGRect = {
+       return self.startButton.frame
+    }()
+    
     @IBOutlet weak var settingView: UIView!
+    @IBOutlet weak var defaultView: UIView!
     
     override var isOpen: Bool{
         didSet{
-            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-                
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
                 var y: CGFloat
                 if self.isOpen {
                     y = self.originTypeviewFrame.origin.y + 64
+                    self.startButton.frame.origin.y = self.originStartFrame.origin.y + 1
                 }else{
                     y = self.originTypeviewFrame.origin.y
+                    self.startButton.frame.origin.y = self.originStartFrame.origin.y
                 }
                 self.typeView.frame.origin.y = y
                 self.settingButton.frame.origin.y = y
@@ -46,6 +52,7 @@ class PathViewController: FunOriginViewController {
         button.setTitleColor(.gray, for: .normal)
         button.isHidden = true
         button.setTitle("步行", for: .normal)
+        button.tag = 0
         return button
     }()
     private lazy var hikingTypebutton: UIButton = {
@@ -54,6 +61,7 @@ class PathViewController: FunOriginViewController {
         button.setTitleColor(.gray, for: .normal)
         button.isHidden = true
         button.setTitle("徒步", for: .normal)
+        button.tag = 1
         return button
     }()
     private lazy var runningTypebutton: UIButton = {
@@ -62,6 +70,7 @@ class PathViewController: FunOriginViewController {
         button.setTitleColor(.gray, for: .normal)
         button.isHidden = true
         button.setTitle("跑步", for: .normal)
+        button.tag = 2
         return button
     }()
     private lazy var ridingTypebutton: UIButton = {
@@ -70,6 +79,7 @@ class PathViewController: FunOriginViewController {
         button.setTitleColor(.gray, for: .normal)
         button.isHidden = true
         button.setTitle("骑行", for: .normal)
+        button.tag = 3
         return button
     }()
     //存储所有标签
@@ -77,6 +87,7 @@ class PathViewController: FunOriginViewController {
        return [self.walkingTypebutton, self.hikingTypebutton, self.runningTypebutton, self.ridingTypebutton]
     }()
     
+    //按钮类型
     private enum ShowType{
         case type
         case setting
@@ -129,18 +140,26 @@ class PathViewController: FunOriginViewController {
     
     //设置按钮状态
     private func setSettingStatus(flag: Bool){
+        //设置图片
+//        let oldFrame = self.settingButton.frame
+//        var img: UIImage?
+//        if flag{
+//            img = UIImage(named: "resource/map/setting_1")
+//        }else{
+//            img = UIImage(named: "resource/map/setting_0")
+//        }
+//        self.settingButton.setImage(img, for: .normal)
+//        self.settingButton.frame = oldFrame
+        
+        //设置效果
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
-            var img: UIImage?
             if flag{
                 //展开
-                img = UIImage(named: "resource/map/setting_1")
                 self.settingView.isHidden = false
             }else{
                 //关闭
-                img = UIImage(named: "resource/map/setting_0")
                 self.settingView.isHidden = true
             }
-            self.settingButton.setImage(img, for: .normal)
         }, completion: {
             complete in
         })
@@ -154,12 +173,15 @@ class PathViewController: FunOriginViewController {
         super.config()
         
         customTitle = "轨迹"
+        typeLabel.text = "步行"
+        settingView.isHidden = true
+        
         
         //添加点击事件
-        let typeTap = UITapGestureRecognizer(target: typeLabel, action: #selector(typeClicked))
-        typeTap.numberOfTapsRequired = 1
-        typeTap.numberOfTouchesRequired = 1
-        typeLabel.addGestureRecognizer(typeTap)
+//        let typeTap = UITapGestureRecognizer(target: self, action: #selector(typeClicked))
+//        typeTap.numberOfTapsRequired = 1
+//        typeTap.numberOfTouchesRequired = 1
+//        typeView.addGestureRecognizer(typeTap)
     }
     
     override func createContents() {
@@ -179,10 +201,12 @@ class PathViewController: FunOriginViewController {
         typeView.layer.cornerRadius = originTypeviewFrame.height / 2
         
         //添加类型按钮
-        typeView.insertSubview(walkingTypebutton, belowSubview: typeLabel)
-        typeView.insertSubview(hikingTypebutton, belowSubview: typeLabel)
-        typeView.insertSubview(runningTypebutton, belowSubview: typeLabel)
-        typeView.insertSubview(ridingTypebutton, belowSubview: typeLabel)
+        if typeView.subviews.count < 4{
+            typeView.insertSubview(walkingTypebutton, belowSubview: typeLabel)
+            typeView.insertSubview(hikingTypebutton, belowSubview: typeLabel)
+            typeView.insertSubview(runningTypebutton, belowSubview: typeLabel)
+            typeView.insertSubview(ridingTypebutton, belowSubview: typeLabel)
+        }
     }
     
     deinit {
@@ -198,13 +222,12 @@ class PathViewController: FunOriginViewController {
             start(startButton)      //点击开始
         }else if node == settingButton{
             settingClicked()        //点击设置
-            super.click(location: .zero, open: true)
         }else if node == typeView || node == typeLabel{
             typeClicked()           //点击类型切换
         }else{
             //点击内容判断
             if node == walkingTypebutton {
-                typeLabel.text = "走路"
+                typeLabel.text = "步行"
                 typeClicked()
             }else if node == hikingTypebutton{
                 typeLabel.text = "徒步"
@@ -217,9 +240,11 @@ class PathViewController: FunOriginViewController {
                 typeClicked()
             }else{
                 //其他点击
+                if showType == .type{
+                    showType = nil
+                }
                 super.click(location: location, open: open)
             }
-            
         }
     }
     
@@ -230,14 +255,17 @@ class PathViewController: FunOriginViewController {
     
     //MARK:- 设置按钮点击
     @IBAction func settingClicked() {
-        
         if showType == nil{
             showType = .setting
+            if !isOpen{
+                super.click(location: .zero, open: true)
+            }
         }else if showType == .setting{
             showType = nil
         }else{
             showType = nil
             showType = .setting
+            super.click(location: .zero, open: true)
         }
     }
     
@@ -250,6 +278,21 @@ class PathViewController: FunOriginViewController {
         }else{
             showType = nil
             showType = .type
+        }
+    }
+    
+    @objc private func selectType(_ sender: UIButton){
+        switch sender.tag {
+        case 0:
+            typeLabel.text = "步行"
+        case 1:
+            typeLabel.text = "徒步"
+        case 2:
+            typeLabel.text = "跑步"
+        case 3:
+            typeLabel.text = "骑行"
+        default:
+            typeLabel.text = ""
         }
     }
     
