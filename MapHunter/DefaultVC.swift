@@ -10,4 +10,9 @@ import Foundation
 class DefaultVC: UIViewController {
     
     @IBOutlet weak var totalDistanceLabel: UILabel!
+    @IBOutlet weak var countLabel: UILabel!
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
 }

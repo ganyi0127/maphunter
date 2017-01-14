@@ -170,6 +170,8 @@ class MapVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         debugPrint("mapvc view will appear")
+//        navigationController?.setTabbar(hidden: true)
+//        navigationController?.setNavigation(hidden: true)
         if CLLocationManager.locationServicesEnabled(){
             globalLocationManager.startUpdatingLocation()   //开始定位
         }
@@ -229,22 +231,6 @@ class MapVC: UIViewController {
         
     }
     
-    @IBAction func selectSport(_ sender: UISegmentedControl) {
-        let index = sender.selectedSegmentIndex
-        if index == 0{
-            //步行
-            OCVariable.share().v_max = 7.5
-            OCVariable.share().v_min = 6
-        }else if index == 1{
-            //跑步
-            OCVariable.share().v_max = 10
-            OCVariable.share().v_min = 7.5
-        }else if index == 2{
-            //骑行
-            OCVariable.share().v_max = 25
-            OCVariable.share().v_min = 20
-        }
-    }
     //MARK:测试添加大头针
     private func addAnnotation(_ id: Int, longtitude: Double, latitude: Double) -> MKPointAnnotation{
         

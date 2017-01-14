@@ -74,6 +74,7 @@
 		BE731A031E0B8CD1002BDF2D /* DetailDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE731A021E0B8CD1002BDF2D /* DetailDataView.swift */; };
 		BE743BE01DAA1D25002AC282 /* CellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE743BDF1DAA1D25002AC282 /* CellExtension.swift */; };
 		BE8685401E28DFF100EBEBED /* DefaultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE86853F1E28DFF100EBEBED /* DefaultVC.swift */; };
+		BE8685421E29C74200EBEBED /* PremapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8685411E29C74200EBEBED /* PremapVC.swift */; };
 		BE9DA8961DB0698500C4574B /* CoordinateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */; };
 		BEB248E71D9B4E2600C9F9ED /* ThirdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */; };
 		BEB248EA1D9BBC8D00C9F9ED /* StepProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248E91D9BBC8D00C9F9ED /* StepProgress.swift */; };
@@ -203,6 +204,7 @@
 		BE731A021E0B8CD1002BDF2D /* DetailDataView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailDataView.swift; sourceTree = "<group>"; };
 		BE743BDF1DAA1D25002AC282 /* CellExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellExtension.swift; sourceTree = "<group>"; };
 		BE86853F1E28DFF100EBEBED /* DefaultVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultVC.swift; sourceTree = "<group>"; };
+		BE8685411E29C74200EBEBED /* PremapVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PremapVC.swift; sourceTree = "<group>"; };
 		BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateTransform.swift; sourceTree = "<group>"; };
 		BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdCell.swift; sourceTree = "<group>"; };
 		BEB248E91D9BBC8D00C9F9ED /* StepProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepProgress.swift; sourceTree = "<group>"; };
@@ -471,6 +473,7 @@
 				BE576FFC1E25DD1A006BAD1C /* PathViewController.swift */,
 				BE5770081E28D6DA006BAD1C /* Setting.swift */,
 				BE86853F1E28DFF100EBEBED /* DefaultVC.swift */,
+				BE8685411E29C74200EBEBED /* PremapVC.swift */,
 			);
 			name = path;
 			sourceTree = "<group>";
@@ -686,7 +689,7 @@
 				TargetAttributes = {
 					BE2DC9E41D9210A300978C97 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = NWGF84NL9Q;
+						DevelopmentTeam = T65EE75V48;
 						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -791,6 +794,7 @@
 				BE4BFE931E14F5EB00F3FE91 /* DetailInfoVC.swift in Sources */,
 				BEDF4F3B1D9393BC00E98D63 /* StateVC.swift in Sources */,
 				32D412461DEE8793008EE637 /* TarbarExtension.swift in Sources */,
+				BE8685421E29C74200EBEBED /* PremapVC.swift in Sources */,
 				BEB248EC1D9BD91A00C9F9ED /* IconView.swift in Sources */,
 				32C3E62B1E09121800D34A74 /* MePopController.swift in Sources */,
 				32E238AB1DFA996E001969AE /* OCVariable.swift in Sources */,
@@ -1004,7 +1008,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: an he (A4R4XM8NL6)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = NWGF84NL9Q;
+				DEVELOPMENT_TEAM = T65EE75V48;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MapHunter",
@@ -1032,7 +1036,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: an he (A4R4XM8NL6)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = NWGF84NL9Q;
+				DEVELOPMENT_TEAM = T65EE75V48;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MapHunter",

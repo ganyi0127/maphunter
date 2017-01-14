@@ -11,11 +11,12 @@ class PathViewController: FunOriginViewController {
 
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var settingButton: UIButton!
-    @IBOutlet weak var typeView: UIView!
-    @IBOutlet weak var typeLabel: UILabel!
+//    @IBOutlet weak var typeView: UIView!
+//    @IBOutlet weak var typeLabel: UILabel!
+    @IBOutlet weak var typeButton: UIButton!
     
     private lazy var originTypeviewFrame: CGRect = {
-       return self.typeView.frame
+       return self.typeButton.frame
     }()
     private lazy var originStartFrame: CGRect = {
        return self.startButton.frame
@@ -35,10 +36,11 @@ class PathViewController: FunOriginViewController {
                     y = self.originTypeviewFrame.origin.y
                     self.startButton.frame.origin.y = self.originStartFrame.origin.y
                 }
-                self.typeView.frame.origin.y = y
+                self.typeButton.frame.origin.y = y
                 self.settingButton.frame.origin.y = y
                 self.settingView.frame.origin.y = y + self.originTypeviewFrame.height
                 self.defaultView.frame.origin.y = y + self.originTypeviewFrame.height
+                self.startButton.frame.origin.y = self.defaultView.frame.origin.y + self.defaultView.frame.height
             }, completion: {
                 complete in
             })
@@ -46,45 +48,66 @@ class PathViewController: FunOriginViewController {
     }
     
     //类型子按钮
-    private lazy var walkingTypebutton: UIButton = {
-        let button: UIButton = UIButton(frame: self.typeLabel.frame)
-        button.titleLabel?.font = fontSmall
-        button.setTitleColor(.gray, for: .normal)
+    private enum SportType{
+        case walking
+        case hiking
+        case running
+        case riding
+    }
+    private var sporttype: SportType?{
+        didSet{
+            guard let st = sporttype else {
+                return
+            }
+            typeButton.setImage(sportTypeImgMap[st]!, for: .normal)
+        }
+    }
+    private lazy var sportTypeImgMap: [SportType: UIImage?] = [.walking: UIImage(named: "resource/map/type/walking"),
+                                                               .hiking: UIImage(named: "resource/map/type/hiking"),
+                                                               .running: UIImage(named: "resource/map/type/running"),
+                                                               .riding: UIImage(named: "resource/map/type/riding")]
+    private lazy var typeButtonDoubleFrame: CGRect = {
+        return CGRect(x: self.typeButton.frame.origin.x - self.typeButton.bounds.width / 2, y: self.typeButton.frame.origin.y - self.typeButton.bounds.height / 2, width: self.typeButton.bounds.width * 2, height: self.typeButton.bounds.height * 2)
+    }()
+    private lazy var closeTypeButton: UIButton = {
+        let button: UIButton = UIButton(frame: self.typeButtonDoubleFrame)
+        let img = UIImage(named: "resource/map/type/close")
+        button.setImage(img, for: .normal)
         button.isHidden = true
-        button.setTitle("步行", for: .normal)
         button.tag = 0
         return button
     }()
-    private lazy var hikingTypebutton: UIButton = {
-        let button: UIButton = UIButton(frame: self.typeLabel.frame)
-        button.titleLabel?.font = fontSmall
-        button.setTitleColor(.gray, for: .normal)
+    private lazy var walkingTypebutton: UIButton = {
+        let button: UIButton = UIButton(frame: self.typeButtonDoubleFrame)
+        button.setImage(self.sportTypeImgMap[.walking]!, for: .normal)
         button.isHidden = true
-        button.setTitle("徒步", for: .normal)
         button.tag = 1
         return button
     }()
-    private lazy var runningTypebutton: UIButton = {
-        let button: UIButton = UIButton(frame: self.typeLabel.frame)
-        button.titleLabel?.font = fontSmall
-        button.setTitleColor(.gray, for: .normal)
+    private lazy var hikingTypebutton: UIButton = {
+        let button: UIButton = UIButton(frame: self.typeButtonDoubleFrame)
+        button.setImage(self.sportTypeImgMap[.hiking]!, for: .normal)
         button.isHidden = true
-        button.setTitle("跑步", for: .normal)
         button.tag = 2
         return button
     }()
-    private lazy var ridingTypebutton: UIButton = {
-        let button: UIButton = UIButton(frame: self.typeLabel.frame)
-        button.titleLabel?.font = fontSmall
-        button.setTitleColor(.gray, for: .normal)
+    private lazy var runningTypebutton: UIButton = {
+        let button: UIButton = UIButton(frame: self.typeButtonDoubleFrame)
+        button.setImage(self.sportTypeImgMap[.running]!, for: .normal)
         button.isHidden = true
-        button.setTitle("骑行", for: .normal)
         button.tag = 3
+        return button
+    }()
+    private lazy var ridingTypebutton: UIButton = {
+        let button: UIButton = UIButton(frame: self.typeButtonDoubleFrame)
+        button.setImage(self.sportTypeImgMap[.riding]!, for: .normal)
+        button.isHidden = true
+        button.tag = 4
         return button
     }()
     //存储所有标签
     private lazy var typebuttonList: [UIButton] = {
-       return [self.walkingTypebutton, self.hikingTypebutton, self.runningTypebutton, self.ridingTypebutton]
+       return [self.closeTypeButton, self.walkingTypebutton, self.hikingTypebutton, self.runningTypebutton, self.ridingTypebutton]
     }()
     
     //按钮类型
@@ -122,15 +145,15 @@ class PathViewController: FunOriginViewController {
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
             if flag{
                 //展开
-                self.typeView.frame = CGRect(x: self.typeView.frame.origin.x, y: self.typeView.frame.origin.y, width: self.typeView.frame.width, height: self.originTypeviewFrame.height * 5)
+//                self.typeView.frame = CGRect(x: self.typeView.frame.origin.x, y: self.typeView.frame.origin.y, width: self.typeView.frame.width, height: self.originTypeviewFrame.height * 5)
                 self.typebuttonList.enumerated().forEach(){
                     index, button in
                     button.isHidden = false
-                    button.frame.origin.y = self.originTypeviewFrame.height * CGFloat(index + 1)
+                    button.frame.origin.y = self.originTypeviewFrame.height * CGFloat(index) * 2.2 + self.originTypeviewFrame.height / 2
                 }
             }else{
                 //关闭
-                self.typeView.frame = CGRect(x: self.typeView.frame.origin.x, y: self.typeView.frame.origin.y, width: self.typeView.frame.width, height: self.originTypeviewFrame.height)
+//                self.typeView.frame = CGRect(x: self.typeView.frame.origin.x, y: self.typeView.frame.origin.y, width: self.typeView.frame.width, height: self.originTypeviewFrame.height)
                 self.typebuttonList.forEach(){
                     button in
                     button.isHidden = true
@@ -144,16 +167,6 @@ class PathViewController: FunOriginViewController {
     
     //设置按钮状态
     private func setSettingStatus(flag: Bool){
-        //设置图片
-//        let oldFrame = self.settingButton.frame
-//        var img: UIImage?
-//        if flag{
-//            img = UIImage(named: "resource/map/setting_1")
-//        }else{
-//            img = UIImage(named: "resource/map/setting_0")
-//        }
-//        self.settingButton.setImage(img, for: .normal)
-//        self.settingButton.frame = oldFrame
         
         //设置效果
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
@@ -177,16 +190,46 @@ class PathViewController: FunOriginViewController {
         super.config()
         
         customTitle = "轨迹"
-        typeLabel.text = "步行"
+        sporttype = .walking
         settingView.isHidden = true
         
-        
-        //添加点击事件
-//        let typeTap = UITapGestureRecognizer(target: self, action: #selector(typeClicked))
-//        typeTap.numberOfTapsRequired = 1
-//        typeTap.numberOfTouchesRequired = 1
-//        typeView.addGestureRecognizer(typeTap)
     }
+    
+    //圆环
+    private lazy var circle0: CAShapeLayer = {
+        let shape: CAShapeLayer = CAShapeLayer()
+        shape.path = UIBezierPath(ovalIn: self.startButton.bounds).cgPath
+        shape.lineWidth = 1
+        shape.strokeColor = UIColor.white.cgColor
+        shape.fillColor = nil
+        return shape
+    }()
+    private lazy var circle1: CAShapeLayer = {
+        let shape: CAShapeLayer = CAShapeLayer()
+        shape.path = UIBezierPath(ovalIn: self.startButton.bounds).cgPath
+        shape.lineWidth = 1
+        shape.strokeColor = UIColor.white.cgColor
+        shape.fillColor = nil
+        return shape
+    }()
+    private lazy var circleAnim0: CAAnimation = {
+        let anim = CAKeyframeAnimation(keyPath: "position")
+        anim.path = UIBezierPath(ovalIn: CGRect(x:  -5, y: -5, width: 5, height: 5)).cgPath
+        anim.repeatCount = HUGE
+        anim.duration = 7.9
+        anim.isRemovedOnCompletion = false
+        anim.fillMode = kCAFillModeBoth
+        return anim
+    }()
+    private lazy var circleAnim1: CAAnimation = {
+        let anim = CAKeyframeAnimation(keyPath: "position")
+        anim.path = UIBezierPath(ovalIn: CGRect(x:  -5, y: 0, width: 5, height: 5)).cgPath
+        anim.repeatCount = HUGE
+        anim.duration = 4.3
+        anim.isRemovedOnCompletion = false
+        anim.fillMode = kCAFillModeBoth
+        return anim
+    }()
     
     override func createContents() {
         //添加背景图片
@@ -197,20 +240,29 @@ class PathViewController: FunOriginViewController {
         view.insertSubview(backgroundImageView, at: 0)
         
         super.createContents()
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        typeView.layer.cornerRadius = originTypeviewFrame.height / 2
+//        typeView.layer.cornerRadius = originTypeviewFrame.height / 2
         
-        //添加类型按钮
-        if typeView.subviews.count < 4{
-            typeView.insertSubview(walkingTypebutton, belowSubview: typeLabel)
-            typeView.insertSubview(hikingTypebutton, belowSubview: typeLabel)
-            typeView.insertSubview(runningTypebutton, belowSubview: typeLabel)
-            typeView.insertSubview(ridingTypebutton, belowSubview: typeLabel)
+        //添加类型按钮，使用view添加以获取点击
+        if typeButton.subviews.count < 4{
+            view.addSubview(closeTypeButton)
+            view.addSubview(walkingTypebutton)
+            view.addSubview(hikingTypebutton)
+            view.addSubview(runningTypebutton)
+            view.addSubview(ridingTypebutton)
         }
+        
+        //设置startButton圆环动画
+        startButton.layer.addSublayer(circle0)
+        circle0.add(circleAnim0, forKey: nil)
+        startButton.layer.addSublayer(circle1)
+        circle1.add(circleAnim1, forKey: nil)
     }
     
     deinit {
@@ -226,22 +278,32 @@ class PathViewController: FunOriginViewController {
             start(startButton)      //点击开始
         }else if node == settingButton{
             settingClicked()        //点击设置
-        }else if node == typeView || node == typeLabel{
+        }else if node == typeButton{
             typeClicked()           //点击类型切换
         }else{
             //点击内容判断
-            if node == walkingTypebutton {
-                typeLabel.text = "步行"
+            if node == closeTypeButton {
                 typeClicked()
+            }else if node == walkingTypebutton {
+                sporttype = .walking
+                typeClicked()
+                OCVariable.share().v_max = 7.5
+                OCVariable.share().v_min = 6
             }else if node == hikingTypebutton{
-                typeLabel.text = "徒步"
+                sporttype = .hiking
                 typeClicked()
+                OCVariable.share().v_max = 7.5
+                OCVariable.share().v_min = 6
             }else if node == runningTypebutton{
-                typeLabel.text = "跑步"
+                sporttype = .running
                 typeClicked()
+                OCVariable.share().v_max = 10
+                OCVariable.share().v_min = 7.5
             }else if node == ridingTypebutton{
-                typeLabel.text = "骑行"
+                sporttype = .riding
                 typeClicked()
+                OCVariable.share().v_max = 25
+                OCVariable.share().v_min = 20
             }else{
                 //其他点击
                 if showType == .type{
@@ -285,26 +347,30 @@ class PathViewController: FunOriginViewController {
         }
     }
     
+    @IBAction func clickTypeButton(_ sender: UIButton) {
+        super.click(location: .zero, open: false)
+    }
+    
     @objc private func selectType(_ sender: UIButton){
         switch sender.tag {
-        case 0:
-            typeLabel.text = "步行"
         case 1:
-            typeLabel.text = "徒步"
+            sporttype = .walking
         case 2:
-            typeLabel.text = "跑步"
+            sporttype = .hiking
         case 3:
-            typeLabel.text = "骑行"
+            sporttype = .running
+        case 4:
+            sporttype = .riding
         default:
-            typeLabel.text = ""
+            break
         }
     }
     
     //MARK:- 切换到地图页面
     private func pushMap(){
         
-        let mapVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "map") as! MapVC
-        navigationController?.pushViewController(mapVC, animated: true)
+        let premapVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "premap") as! PremapVC
+        navigationController?.pushViewController(premapVC, animated: true)
     }
     
     

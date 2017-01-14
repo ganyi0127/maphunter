@@ -68,7 +68,7 @@ class FunOriginViewController: UIViewController {
             }
         }
         lightImageView.animationImages = images
-        lightImageView.animationDuration = 0.1
+        lightImageView.animationDuration = 0.5
         lightImageView.animationRepeatCount = 1
         lightImageView.startAnimating()
         view.addSubview(lightImageView)
@@ -81,7 +81,12 @@ class FunOriginViewController: UIViewController {
         //打开与关闭状态
         isOpen = open
         if isOpen {
-            lightImageView.stopAnimating()
+            //延迟调用光效动画
+            _ = delay(0.5){
+                if self.isOpen{
+                    self.lightImageView.startAnimating()
+                }
+            }
         }
     }
     
@@ -90,11 +95,6 @@ class FunOriginViewController: UIViewController {
         isOpen = false
         closure?(isOpen)
         
-        //延迟调用光效动画
-        _ = delay(2){
-            if !self.isOpen{                
-                self.lightImageView.startAnimating()
-            }
-        }
+        lightImageView.stopAnimating()
     }
 }

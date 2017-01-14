@@ -203,7 +203,7 @@ extension FunVC: UIScrollViewDelegate{
             index, containerView in
             
             let progress = 1 - (scrollView.contentOffset.x - containerView.frame.origin.x + view_size.width * 0.1) / (view_size.width * 2)
-            
+
             containerView.layer.transform = menuTransformForPercent(progress, index: index)
 
             containerView.layer.zPosition = 1 - fabs(scrollView.contentOffset.x / pathContainerView.bounds.width - CGFloat(index))

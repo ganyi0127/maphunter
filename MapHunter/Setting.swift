@@ -37,7 +37,6 @@ class SettingVC: UIViewController {
         }
         
         sender.backgroundColor = UIColor.white.withAlphaComponent(0.5)
-//        sender.setTitleColor(UIColor(red: 241 / 255, green: 155 / 255, blue: 80 / 255, alpha: 1), for: .normal)
         sender.layer.cornerRadius = sender.bounds.height / 2
         
         let tag = sender.tag
