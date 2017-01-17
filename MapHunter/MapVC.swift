@@ -12,6 +12,11 @@ import CoreLocation
 import AudioToolbox
 import MediaPlayer
 
+protocol MapDelegate {
+    func map(totalDistance distance: Double, addedDistance subDistance: Double)
+    func map(pastTime time: TimeInterval)
+}
+
 //位置管理器
 var globalLocationManager: CLLocationManager = { () -> CLLocationManager in
     
@@ -34,6 +39,8 @@ var globalLocationManager: CLLocationManager = { () -> CLLocationManager in
 
 class MapVC: UIViewController {
     
+    var delegate: MapDelegate?
+    
     //test 仅创建一次判断
     var centerOverlay: GradientPolylineOverlay?
     
@@ -43,21 +50,9 @@ class MapVC: UIViewController {
     fileprivate var preDate = Date()
 
     @IBOutlet weak var statusLabel: UILabel!
-    @IBOutlet weak var totalDistanceLabel: UILabel!
     
     //移动总距离
-    fileprivate var totalDistance:Double?{
-        didSet{
-            guard let distance = self.totalDistance else {
-                totalDistanceLabel.text = "..."
-                return
-            }
-            totalDistanceLabel.text = "移动距离:\(distance)"
-        }
-    }
-    
-    //获取定位管理类
-//    private let locationManager = globaLocationManager
+    fileprivate var totalDistance:Double?
     
     //保存最新添加的overlay,用于修正删除
     fileprivate var newOverlay:MKOverlay?
@@ -104,9 +99,10 @@ class MapVC: UIViewController {
     
     //MARK:保存实时位置
     fileprivate var locationList = [(latitude: Double, longitude: Double)]()
+    var isPause = false
     
     //是否开始录制路径
-    fileprivate var isRecording = false{
+    var isRecording = false{
         didSet{
             
             let recordButton = editButtons[0]
@@ -129,7 +125,7 @@ class MapVC: UIViewController {
         }
     }
     //是否开启精灵图层
-    fileprivate var isSpriteDisplay = false{
+    var isSpriteDisplay = false{
         didSet{
             
             let spriteDisplayButton = editButtons[1]
@@ -222,9 +218,7 @@ class MapVC: UIViewController {
             view.addSubview(button)
         }
         
-        relocationButton.layer.cornerRadius = button_rect.height / 4
-        relocationButton.backgroundColor = .red
-        relocationButton.setTitleColor(.white, for: .normal)
+        relocationButton.layer.cornerRadius = button_rect.height / 2
     }
     
     private func createContents(){
@@ -343,7 +337,7 @@ class MapVC: UIViewController {
     
     //MARK:编辑按钮
     @IBAction func edit(_ sender: UIBarButtonItem) {
-        
+        return
         isEdit = !isEdit
 
         editButtons.enumerated().forEach(){
@@ -705,19 +699,31 @@ extension MapVC:CLLocationManagerDelegate{
                 locationList.append((latitude: coordinate.latitude, longitude: coordinate.longitude))
                 
                 //计算速度
-                let deltaSecond = deltaTime(from: preDate, to: Date())
-                print("deltaSecond:", deltaSecond)
+                let deltaSec = deltaTime(from: preDate, to: Date())
+                print("deltaSecond:", deltaSec)
 //                if deltaSecond < 2 {
 //                    return
 //                }
                 preDate = Date()
                 
+                //计算开始与结束速度
                 let startVelcity = preVelcity
-                let endVelcity = Float(distance / deltaSecond) * 3.6
+                var endVelcity: Float
+                if isPause {
+                    //暂停状态
+                    endVelcity = 0
+                }else{
+                    //记录状态
+                    endVelcity = Float(distance / deltaSec) * 3.6
+                    delegate?.map(pastTime: deltaSec)
+                }
+                
+                //临时存储结束速度
                 preVelcity = endVelcity
                 
                 print("velcity:\n start-\(startVelcity)\n end---\(endVelcity)")
                 print(currentLocationList)
+                
                 //绘制路径
                 if centerOverlay == nil{
                     centerOverlay = GradientPolylineOverlay(start: currentLocationList[0],
@@ -734,6 +740,7 @@ extension MapVC:CLLocationManagerDelegate{
                 //记录总距离
                 if let currentDistance = totalDistance{
                     totalDistance = currentDistance + distance
+                    delegate?.map(totalDistance: totalDistance!, addedDistance: distance)
                 }
             }
         }
