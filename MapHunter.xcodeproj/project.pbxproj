@@ -75,6 +75,12 @@
 		BE743BE01DAA1D25002AC282 /* CellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE743BDF1DAA1D25002AC282 /* CellExtension.swift */; };
 		BE8685401E28DFF100EBEBED /* DefaultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE86853F1E28DFF100EBEBED /* DefaultVC.swift */; };
 		BE8685421E29C74200EBEBED /* PremapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8685411E29C74200EBEBED /* PremapVC.swift */; };
+		BE8685441E2F4D9C00EBEBED /* SettingPathVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8685431E2F4D9C00EBEBED /* SettingPathVC.swift */; };
+		BE8685471E2F5C4300EBEBED /* PathCell0.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8685461E2F5C4300EBEBED /* PathCell0.swift */; };
+		BE8685491E2F5C6400EBEBED /* PathCell1.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8685481E2F5C6400EBEBED /* PathCell1.swift */; };
+		BE86854B1E2F624B00EBEBED /* PathTargetSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE86854A1E2F624B00EBEBED /* PathTargetSettingVC.swift */; };
+		BE86854D1E2F6CED00EBEBED /* PathRemindSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE86854C1E2F6CED00EBEBED /* PathRemindSettingVC.swift */; };
+		BE86854F1E2F6EF200EBEBED /* PathMaptypeSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE86854E1E2F6EF200EBEBED /* PathMaptypeSettingVC.swift */; };
 		BE9DA8961DB0698500C4574B /* CoordinateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */; };
 		BEB248E71D9B4E2600C9F9ED /* ThirdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */; };
 		BEB248EA1D9BBC8D00C9F9ED /* StepProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248E91D9BBC8D00C9F9ED /* StepProgress.swift */; };
@@ -205,6 +211,12 @@
 		BE743BDF1DAA1D25002AC282 /* CellExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellExtension.swift; sourceTree = "<group>"; };
 		BE86853F1E28DFF100EBEBED /* DefaultVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultVC.swift; sourceTree = "<group>"; };
 		BE8685411E29C74200EBEBED /* PremapVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PremapVC.swift; sourceTree = "<group>"; };
+		BE8685431E2F4D9C00EBEBED /* SettingPathVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingPathVC.swift; sourceTree = "<group>"; };
+		BE8685461E2F5C4300EBEBED /* PathCell0.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathCell0.swift; sourceTree = "<group>"; };
+		BE8685481E2F5C6400EBEBED /* PathCell1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathCell1.swift; sourceTree = "<group>"; };
+		BE86854A1E2F624B00EBEBED /* PathTargetSettingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathTargetSettingVC.swift; sourceTree = "<group>"; };
+		BE86854C1E2F6CED00EBEBED /* PathRemindSettingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathRemindSettingVC.swift; sourceTree = "<group>"; };
+		BE86854E1E2F6EF200EBEBED /* PathMaptypeSettingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathMaptypeSettingVC.swift; sourceTree = "<group>"; };
 		BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateTransform.swift; sourceTree = "<group>"; };
 		BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdCell.swift; sourceTree = "<group>"; };
 		BEB248E91D9BBC8D00C9F9ED /* StepProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepProgress.swift; sourceTree = "<group>"; };
@@ -472,6 +484,7 @@
 			children = (
 				BE576FFC1E25DD1A006BAD1C /* PathViewController.swift */,
 				BE5770081E28D6DA006BAD1C /* Setting.swift */,
+				BE8685451E2F5C2700EBEBED /* Setting */,
 				BE86853F1E28DFF100EBEBED /* DefaultVC.swift */,
 				BE8685411E29C74200EBEBED /* PremapVC.swift */,
 			);
@@ -508,6 +521,19 @@
 				BE4BFE921E14F5EB00F3FE91 /* DetailInfoVC.swift */,
 			);
 			name = "详情模块";
+			sourceTree = "<group>";
+		};
+		BE8685451E2F5C2700EBEBED /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				BE8685431E2F4D9C00EBEBED /* SettingPathVC.swift */,
+				BE8685461E2F5C4300EBEBED /* PathCell0.swift */,
+				BE8685481E2F5C6400EBEBED /* PathCell1.swift */,
+				BE86854C1E2F6CED00EBEBED /* PathRemindSettingVC.swift */,
+				BE86854E1E2F6EF200EBEBED /* PathMaptypeSettingVC.swift */,
+				BE86854A1E2F624B00EBEBED /* PathTargetSettingVC.swift */,
+			);
+			name = Setting;
 			sourceTree = "<group>";
 		};
 		BEB248E81D9BBC7800C9F9ED /* Cell1 */ = {
@@ -778,6 +804,7 @@
 				327383721E00F4A000767708 /* StatePopController.swift in Sources */,
 				32C3E6241E07E5F400D34A74 /* MeCell3.swift in Sources */,
 				BEDF4F3F1D93942E00E98D63 /* MeVC.swift in Sources */,
+				BE86854D1E2F6CED00EBEBED /* PathRemindSettingVC.swift in Sources */,
 				32C5726E1DDAA7C500CEC5EB /* GradientPolylineRenderer.m in Sources */,
 				BE731A011E0B8958002BDF2D /* DetailBack.swift in Sources */,
 				BEB2490B1D9E46BD00C9F9ED /* CellCube.swift in Sources */,
@@ -788,6 +815,7 @@
 				BE1C36731D93763900AB4370 /* ItemButton.swift in Sources */,
 				BE1C366D1D93725000AB4370 /* RootTBC.swift in Sources */,
 				BE71B9E71DBF4CAA00143E1E /* Net.swift in Sources */,
+				BE8685441E2F4D9C00EBEBED /* SettingPathVC.swift in Sources */,
 				32C3E6321E0A385E00D34A74 /* HeadViewController.swift in Sources */,
 				32C3E6381E0A837900D34A74 /* MeUnit.swift in Sources */,
 				32C3E63C1E0A86F600D34A74 /* MeVersion.swift in Sources */,
@@ -813,6 +841,7 @@
 				BEB248F71D9CB6DC00C9F9ED /* SubCell.swift in Sources */,
 				32C3E62D1E091F2200D34A74 /* MeInfo.swift in Sources */,
 				BEDF4F791D990EF800E98D63 /* DateProgress.swift in Sources */,
+				BE8685471E2F5C4300EBEBED /* PathCell0.swift in Sources */,
 				BE4BFE9E1E15140400F3FE91 /* MiddlePushController.swift in Sources */,
 				BEDF4F351D93910E00E98D63 /* Configure.swift in Sources */,
 				32D4129E1DEEC4C0008EE637 /* DetailViewController.swift in Sources */,
@@ -820,13 +849,16 @@
 				BE5770051E25E3B7006BAD1C /* FunOriginViewController.swift in Sources */,
 				BE1F53491DC2FE7900EAD9BA /* Time.swift in Sources */,
 				BEDF4F3D1D9393F800E98D63 /* HealthVC.swift in Sources */,
+				BE86854F1E2F6EF200EBEBED /* PathMaptypeSettingVC.swift in Sources */,
 				BE7319FD1E0B7D9B002BDF2D /* DetailScrollView.swift in Sources */,
 				32C3E6221E07E5CF00D34A74 /* MeCell2.swift in Sources */,
 				BE2DC9F11D9210A300978C97 /* MapHunter.xcdatamodeld in Sources */,
 				BE576FFD1E25DD1B006BAD1C /* PathViewController.swift in Sources */,
 				320535361DFE59C80087068E /* ImageExtension.swift in Sources */,
+				BE86854B1E2F624B00EBEBED /* PathTargetSettingVC.swift in Sources */,
 				BE5770011E25DD75006BAD1C /* MyRouteViewController.swift in Sources */,
 				BE1C36701D93745500AB4370 /* NavigationExtension.swift in Sources */,
+				BE8685491E2F5C6400EBEBED /* PathCell1.swift in Sources */,
 				BEDF4F771D9909ED00E98D63 /* TopScrollView.swift in Sources */,
 				BE6ACD851DBC583C006C4471 /* TopScrollDelegate.swift in Sources */,
 				BE4BFE981E1502F300F3FE91 /* BottomPushController.swift in Sources */,

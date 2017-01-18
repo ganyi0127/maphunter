@@ -76,24 +76,24 @@ class FunOriginViewController: UIViewController {
     
     //MARK:- 强制点击事件
     func click(location: CGPoint, open: Bool = true){
-        closure?(open)
-        
-        //打开与关闭状态
-        isOpen = open
-        if isOpen {
-            //延迟调用光效动画
-            _ = delay(0.5){
-                if self.isOpen{
-                    self.lightImageView.startAnimating()
-                }
-            }
-        }
+//        closure?(open)
+//        
+//        //打开与关闭状态
+//        isOpen = open
+//        if isOpen {
+//            //延迟调用光效动画
+//            _ = delay(0.5){
+//                if self.isOpen{
+//                    self.lightImageView.startAnimating()
+//                }
+//            }
+//        }
     }
     
     //MARK:- 默认点击事件（3d下无法获取）
     @objc private func tap(recognizer: UITapGestureRecognizer){
-        isOpen = false
-        closure?(isOpen)
+//        isOpen = false
+//        closure?(isOpen)
         
         lightImageView.stopAnimating()
     }

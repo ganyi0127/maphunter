@@ -321,18 +321,22 @@ class PathViewController: FunOriginViewController {
     
     //MARK:- 设置按钮点击
     @IBAction func settingClicked() {
-        if showType == nil{
-            showType = .setting
-            if !isOpen{
-                super.click(location: .zero, open: true)
-            }
-        }else if showType == .setting{
-            showType = nil
-        }else{
-            showType = nil
-            showType = .setting
-            super.click(location: .zero, open: true)
-        }
+//        if showType == nil{
+//            showType = .setting
+//            if !isOpen{
+//                super.click(location: .zero, open: true)
+//            }
+//        }else if showType == .setting{
+//            showType = nil
+//        }else{
+//            showType = nil
+//            showType = .setting
+//            super.click(location: .zero, open: true)
+//        }
+        
+        //push新页面
+        let settingPathVC = storyboard?.instantiateViewController(withIdentifier: "settingpath") as! SettingPathVC
+        navigationController?.pushViewController(settingPathVC, animated: true)
     }
     
     //MARK:- 类型按钮点击

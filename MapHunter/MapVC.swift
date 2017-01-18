@@ -11,10 +11,17 @@ import MapKit
 import CoreLocation
 import AudioToolbox
 import MediaPlayer
-
+enum MapGPSStatus{
+    case close
+    case disConnect
+    case low
+    case middle
+    case high
+}
 protocol MapDelegate {
     func map(totalDistance distance: Double, addedDistance subDistance: Double)
     func map(pastTime time: TimeInterval)
+    func map(gps status: MapGPSStatus)
 }
 
 //位置管理器
@@ -48,8 +55,6 @@ class MapVC: UIViewController {
     fileprivate var preVelcity: Float = 0
     //存储上一节点时间 Date
     fileprivate var preDate = Date()
-
-    @IBOutlet weak var statusLabel: UILabel!
     
     //移动总距离
     fileprivate var totalDistance:Double?
@@ -615,8 +620,18 @@ extension MapVC:CLLocationManagerDelegate{
         //精度
         debugPrint("水平精度", location.horizontalAccuracy)
         debugPrint("垂直精度", location.verticalAccuracy)
-        guard fabs(location.horizontalAccuracy) < 70, fabs(location.verticalAccuracy) < 15 else {
+        guard location.horizontalAccuracy <= 65 && location.horizontalAccuracy > 0, location.verticalAccuracy <= 25 && location.verticalAccuracy > 0 else {
+            delegate?.map(gps: .disConnect)
             return
+        }
+        
+        //展示信号强度
+        if fabs(location.horizontalAccuracy) <= 5 {
+            delegate?.map(gps: .high)
+        }else if fabs(location.horizontalAccuracy) <= 15{
+            delegate?.map(gps: .middle)
+        }else{
+            delegate?.map(gps: .low)
         }
         
         //转化为中国坐标
@@ -830,9 +845,10 @@ extension MapVC:CLLocationManagerDelegate{
         
         switch status {
         case .notDetermined:
-            statusLabel.text = "定位未授权"
+            //"定位未授权"
+            delegate?.map(gps: .close)
         case .denied:
-            statusLabel.text = "定位禁止"
+            //"定位禁止"
             if CLLocationManager.locationServicesEnabled(){
                 //打开设置页面
                 guard let url = URL(string: UIApplicationOpenSettingsURLString) else{
@@ -850,11 +866,14 @@ extension MapVC:CLLocationManagerDelegate{
                 
             }
         case .restricted:
-            statusLabel.text = "定位受限"
+            //定位受限"
+            delegate?.map(gps: .close)
         case .authorizedAlways:
-            statusLabel.text = "已开启定位服务(前台后台)"
+            //"已开启定位服务(前台后台)"
+            break
         case .authorizedWhenInUse:
-            statusLabel.text = "已开启定位服务(前台)"
+            //"已开启定位服务(前台)"
+            break
         }
     }
 }

@@ -12,7 +12,8 @@ class PremapVC: UIViewController {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var pauseButton: UIButton!
     @IBOutlet weak var mapView: UIView!
-    private var mapVC: MapVC?
+    private var mapVC: MapVC?               //地图
+    @IBOutlet weak var gpsImageView: UIImageView!
     
     //lock按钮
     @IBOutlet weak var lockButton: UIButton!
@@ -66,6 +67,12 @@ class PremapVC: UIViewController {
         effectView.frame = CGRect(x: 0, y: 0, width: view_size.width, height: view_size.height)
         return effectView
     }()
+    private lazy var initEffectView = { () -> UIVisualEffectView in 
+        let blur: UIBlurEffect = UIBlurEffect(style: .dark)
+        let effectView: UIVisualEffectView = UIVisualEffectView(effect: blur)
+        effectView.frame = CGRect(origin: .zero, size: view_size)
+        return effectView
+    }()
     
     //数据
     @IBOutlet weak var distanceLabel: UILabel!
@@ -81,8 +88,8 @@ class PremapVC: UIViewController {
             //计算配速
             let pace = CGFloat(totalTime) / CGFloat(distance / 1000)
             print(totalTime, distance, pace)
-            let minute = Int16(pace) / 60
-            let sec = Int16(pace) - minute * 60
+            let minute = Int(pace) / 60
+            let sec = Int(pace) - minute * 60
             let minuteStr = "\(minute)\""
             let secStr = sec < 10 ? "0\(sec)\'" : "\(sec)\'"
             speedLabel.text = minuteStr + secStr
@@ -335,5 +342,23 @@ extension PremapVC: MapDelegate{
     }
     
     func map(pastTime time: TimeInterval) {
+    }
+    
+    func map(gps status: MapGPSStatus) {
+        var imgName: String
+        switch status {
+        case .high:
+            imgName = "resource/map/gps/high"
+        case .middle:
+            imgName = "resource/map/gps/middle"
+        case .low:
+            imgName = "resource/map/gps/low"
+        case .disConnect:
+            imgName = "resource/map/gps/disconnect"
+        case .close:
+            imgName = "resource/map/gps/disconnect"
+        }
+        let image = UIImage(named: imgName)
+        gpsImageView.image = image
     }
 }
