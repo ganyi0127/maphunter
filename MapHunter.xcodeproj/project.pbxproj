@@ -81,6 +81,8 @@
 		BE86854B1E2F624B00EBEBED /* PathTargetSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE86854A1E2F624B00EBEBED /* PathTargetSettingVC.swift */; };
 		BE86854D1E2F6CED00EBEBED /* PathRemindSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE86854C1E2F6CED00EBEBED /* PathRemindSettingVC.swift */; };
 		BE86854F1E2F6EF200EBEBED /* PathMaptypeSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE86854E1E2F6EF200EBEBED /* PathMaptypeSettingVC.swift */; };
+		BE8685511E309B6F00EBEBED /* PathShareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8685501E309B6F00EBEBED /* PathShareVC.swift */; };
+		BE8685551E30C7CD00EBEBED /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8685541E30C7CD00EBEBED /* ViewControllerExtension.swift */; };
 		BE9DA8961DB0698500C4574B /* CoordinateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */; };
 		BEB248E71D9B4E2600C9F9ED /* ThirdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */; };
 		BEB248EA1D9BBC8D00C9F9ED /* StepProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248E91D9BBC8D00C9F9ED /* StepProgress.swift */; };
@@ -217,6 +219,8 @@
 		BE86854A1E2F624B00EBEBED /* PathTargetSettingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathTargetSettingVC.swift; sourceTree = "<group>"; };
 		BE86854C1E2F6CED00EBEBED /* PathRemindSettingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathRemindSettingVC.swift; sourceTree = "<group>"; };
 		BE86854E1E2F6EF200EBEBED /* PathMaptypeSettingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathMaptypeSettingVC.swift; sourceTree = "<group>"; };
+		BE8685501E309B6F00EBEBED /* PathShareVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathShareVC.swift; sourceTree = "<group>"; };
+		BE8685541E30C7CD00EBEBED /* ViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
 		BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateTransform.swift; sourceTree = "<group>"; };
 		BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdCell.swift; sourceTree = "<group>"; };
 		BEB248E91D9BBC8D00C9F9ED /* StepProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepProgress.swift; sourceTree = "<group>"; };
@@ -343,6 +347,7 @@
 			children = (
 				BE1C366F1D93745500AB4370 /* NavigationExtension.swift */,
 				32D412451DEE8793008EE637 /* TarbarExtension.swift */,
+				BE8685541E30C7CD00EBEBED /* ViewControllerExtension.swift */,
 				BEDF4F711D99033000E98D63 /* LabelExtension.swift */,
 				BEDF4F731D99040300E98D63 /* ButtonExtension.swift */,
 				BE743BDF1DAA1D25002AC282 /* CellExtension.swift */,
@@ -487,6 +492,7 @@
 				BE8685451E2F5C2700EBEBED /* Setting */,
 				BE86853F1E28DFF100EBEBED /* DefaultVC.swift */,
 				BE8685411E29C74200EBEBED /* PremapVC.swift */,
+				BE8685501E309B6F00EBEBED /* PathShareVC.swift */,
 			);
 			name = path;
 			sourceTree = "<group>";
@@ -811,6 +817,7 @@
 				32CCE7131E02321E008AAB8C /* ViewExtension.swift in Sources */,
 				BE4BFEA01E15141A00F3FE91 /* MiddlePopController.swift in Sources */,
 				BE576FFF1E25DD55006BAD1C /* RecommendRouteViewController.swift in Sources */,
+				BE8685551E30C7CD00EBEBED /* ViewControllerExtension.swift in Sources */,
 				BE7319FF1E0B7F00002BDF2D /* DetailTop.swift in Sources */,
 				BE1C36731D93763900AB4370 /* ItemButton.swift in Sources */,
 				BE1C366D1D93725000AB4370 /* RootTBC.swift in Sources */,
@@ -876,6 +883,7 @@
 				BEDF4F701D98FD1200E98D63 /* SecondCell.swift in Sources */,
 				BEDF4F741D99040300E98D63 /* ButtonExtension.swift in Sources */,
 				BE731A031E0B8CD1002BDF2D /* DetailDataView.swift in Sources */,
+				BE8685511E309B6F00EBEBED /* PathShareVC.swift in Sources */,
 				BEB248EA1D9BBC8D00C9F9ED /* StepProgress.swift in Sources */,
 				BEB249091D9E202000C9F9ED /* Cell6Content.swift in Sources */,
 				BE4BFE9C1E150FD200F3FE91 /* IntroduceVC.swift in Sources */,

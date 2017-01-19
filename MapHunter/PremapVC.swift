@@ -12,7 +12,7 @@ class PremapVC: UIViewController {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var pauseButton: UIButton!
     @IBOutlet weak var mapView: UIView!
-    private var mapVC: MapVC?               //地图
+    fileprivate weak var mapVC: MapVC?                   //地图
     @IBOutlet weak var gpsImageView: UIImageView!
     
     //lock按钮
@@ -25,7 +25,10 @@ class PremapVC: UIViewController {
                 let img = UIImage(named: "resource/map/lock/locked")
                 lockButton.setImage(img, for: .normal)
                 
+                effectView.alpha = 0
                 UIView.animate(withDuration: 0.4){
+                    self.effectView.alpha = 1
+                    self.mapView.alpha = 0
                     if let f = self.originPausebuttonFrame {
                         self.lockButton.frame.origin.y = f.origin.y
                     }
@@ -43,13 +46,16 @@ class PremapVC: UIViewController {
                 let img = UIImage(named: "resource/map/lock/unlock")
                 lockButton.setImage(img, for: .normal)
                 
-                UIView.animate(withDuration: 0.4){
+                UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseInOut, animations: {
+                    self.effectView.alpha = 0
+                    self.mapView.alpha = 1
                     if let f = self.originLockbuttonFrame {
                         self.lockButton.frame.origin.y = f.origin.y
                     }
-                    
+                }, completion: {
+                    _ in
                     self.effectView.removeFromSuperview()
-                }
+                })
                 
                 //移除手势事件
                 if let s = swip {
@@ -87,7 +93,6 @@ class PremapVC: UIViewController {
             
             //计算配速
             let pace = CGFloat(totalTime) / CGFloat(distance / 1000)
-            print(totalTime, distance, pace)
             let minute = Int(pace) / 60
             let sec = Int(pace) - minute * 60
             let minuteStr = "\(minute)\""
@@ -95,7 +100,7 @@ class PremapVC: UIViewController {
             speedLabel.text = minuteStr + secStr
         }
     }
-    private var timeTask: Task?
+    fileprivate var timeTask: Task?
     var totalTime: Int16 = 0{
         didSet{
             let hour = totalTime / 3600
@@ -116,6 +121,7 @@ class PremapVC: UIViewController {
     //按钮
     @IBOutlet weak var continueButton: UIButton!
     @IBOutlet weak var finishButton: UIButton!
+    fileprivate var finishShape: CAShapeLayer?
     
 //    private lazy var continueButton: UIButton = {
 //        let frame = CGRect(x: view_size.width / 2 - self.pauseButton.bounds.width * 1.1 * 2, y: self.pauseButton.frame.origin.y, width: self.pauseButton.bounds.width / 2, height: self.pauseButton.bounds.height / 2)
@@ -240,7 +246,74 @@ class PremapVC: UIViewController {
         
         //自动开始地图轨迹记录
         mapVC?.isRecording = true
-        countSec()
+        
+        //开始计时
+        
+        //321倒计时
+        startCountDown{
+            self.countSec()
+        }
+    }
+    
+    //MARK:- 添加倒计时页面
+    private func startCountDown(closure: @escaping ()->()){
+        
+        view.addSubview(effectView)
+        
+        let imgSize = CGSize(width: view_size.width / 2, height: view_size.width / 2)
+        let imgOrigin = CGPoint(x: view_size.width / 2 - imgSize.width / 2, y: view_size.height / 2 - imgSize.height / 2)
+        let imgInitFrame = CGRect(x: view_size.width / 2, y: view_size.height / 2, width: 0, height: 0)
+        let imgFinalFrame = CGRect(origin: imgOrigin, size: imgSize)
+        let img3 = UIImage(named: "resource/map/3")?.transfromImage(size: imgSize)
+        let img2 = UIImage(named: "resource/map/2")?.transfromImage(size: imgSize)
+        let img1 = UIImage(named: "resource/map/1")?.transfromImage(size: imgSize)
+        let imgView3 = UIImageView(image: img3)
+        imgView3.frame = imgInitFrame
+        let imgView2 = UIImageView(image: img2)
+        imgView2.frame = imgInitFrame
+        let imgView1 = UIImageView(image: img1)
+        imgView1.frame = imgInitFrame
+        
+        view.addSubview(imgView3)
+        view.addSubview(imgView2)
+        view.addSubview(imgView1)
+        
+        UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseInOut, animations: {
+            imgView3.frame = imgFinalFrame
+        }, completion: {
+            complete in
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+                imgView3.frame = imgInitFrame
+            }, completion: {
+                complete in
+                UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseInOut, animations: {
+                    imgView3.removeFromSuperview()
+                    imgView2.frame = imgFinalFrame
+                }, completion: {
+                    complete in
+                    UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+                        imgView2.frame = imgInitFrame
+                    }, completion: {
+                        complete in
+                        UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseInOut, animations: {
+                            imgView2.removeFromSuperview()
+                            imgView1.frame = imgFinalFrame
+                        }, completion: {
+                            complete in
+                            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+                                imgView1.frame = imgInitFrame
+                                self.effectView.alpha = 0
+                            }, completion: {
+                                complete in
+                                imgView1.removeFromSuperview()
+                                self.effectView.removeFromSuperview()
+                                closure()
+                            })
+                        })
+                    })
+                })
+            })
+        })
     }
     
     //MARK:- 绘制背景
@@ -278,9 +351,9 @@ class PremapVC: UIViewController {
         mapVC?.isPause = true
         
         UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
-            self.continueButton.isHidden = false
-            self.finishButton.isHidden = false
-            self.pauseButton.isHidden = true
+            self.continueButton.alpha = 1
+            self.finishButton.alpha = 1
+            self.pauseButton.alpha = 0
         }, completion: {
             complete in
         })
@@ -293,19 +366,60 @@ class PremapVC: UIViewController {
         mapVC?.isPause = false
         
         UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
-            self.continueButton.isHidden = true
-            self.finishButton.isHidden = true
-            self.pauseButton.isHidden = false
+            self.continueButton.alpha = 0
+            self.finishButton.alpha = 0
+            self.pauseButton.alpha = 1
         }, completion: {
             complete in
         })
     }
     
-    //MARK:- 结束
+    //MARK:- 结束inside
     @IBAction func pressFinish(_ sender: UIButton) {
-        mapVC?.isRecording = false
-        cancel(timeTask)
-        _ = navigationController?.popViewController(animated: true)
+        removeAnimationFromFinishShape()
+    }
+    
+    //MARK:- 结束outside
+    @IBAction func pressFinishOutside(_ sender: UIButton) {
+        removeAnimationFromFinishShape()
+    }
+    
+    //MARK:- 移动动效 loading
+    fileprivate func removeAnimationFromFinishShape(){
+        
+        finishShape?.removeAllAnimations()
+        finishShape?.removeFromSuperlayer()
+        finishShape = nil
+    }
+    
+    //MARK:- 结束 按下
+    @IBAction func touchDownFinish(_ sender: UIButton) {
+        
+        guard finishShape == nil else {
+            return
+        }
+        
+        let bezier = UIBezierPath(arcCenter: CGPoint(x: finishButton.bounds.width / 2, y: finishButton.bounds.height / 2),
+                                  radius: finishButton.bounds.width / 2 + 2,
+                                  startAngle: -CGFloat(M_PI_2),
+                                  endAngle: CGFloat(M_PI_2 * 3),
+                                  clockwise: true)
+        finishShape = CAShapeLayer()
+        finishShape?.path = bezier.cgPath
+        finishShape?.fillColor = nil
+        finishShape?.lineWidth = 4
+        finishShape?.strokeColor = UIColor.white.cgColor
+        finishButton.layer.addSublayer(finishShape!)
+        
+        //动画
+        let strokeEndAnimation = CABasicAnimation(keyPath: "strokeEnd")
+        strokeEndAnimation.fromValue = 0
+        strokeEndAnimation.toValue = 1
+        strokeEndAnimation.duration = 1.5
+        strokeEndAnimation.fillMode = kCAFillModeBoth
+        strokeEndAnimation.isRemovedOnCompletion = false
+        strokeEndAnimation.delegate = self
+        finishShape?.add(strokeEndAnimation, forKey: nil)
     }
     
     //MARK:- 计时器
@@ -331,6 +445,38 @@ class PremapVC: UIViewController {
     @objc private func unlock(recognizer: UISwipeGestureRecognizer){
         if isLocked {
             isLocked = false
+        }
+    }
+}
+
+//MARK:- 结束动画代理
+extension PremapVC: CAAnimationDelegate{
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        
+        //判断是否合法结束
+        if flag {
+            if distance < 1 {
+                let alert = UIAlertController(title: "结束运动", message: "距离不足1KM,无法保存运动路径", preferredStyle: .alert)
+                let cancelAction = UIAlertAction(title: "结束运动", style: .cancel){
+                    _ in
+                    self.mapVC?.isRecording = false
+                    cancel(self.timeTask)
+                    _ = self.navigationController?.popViewController(animated: true)
+                }
+                let continueAction = UIAlertAction(title: "继续运动", style: .default){
+                    _ in
+                    self.removeAnimationFromFinishShape()
+                }
+                alert.addAction(cancelAction)
+                alert.addAction(continueAction)
+                alert.setBlackTextColor()
+                present(alert, animated: true, completion: nil)
+            }else{
+                //分享路径
+                let pathShareVC = storyboard?.instantiateViewController(withIdentifier: "pathshare") as! PathShareVC
+                pathShareVC.distance = distance
+                navigationController?.pushViewController(pathShareVC, animated: true)
+            }
         }
     }
 }

@@ -1230,7 +1230,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kL7-dh-qE0">
+                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kL7-dh-qE0">
                                 <rect key="frame" x="68" y="346" width="92" height="92"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="kL7-dh-qE0" secondAttribute="height" multiplier="1:1" id="dbe-qe-onw"/>
@@ -1242,7 +1242,7 @@
                                     <action selector="pressContinue:" destination="lcZ-VV-bYG" eventType="touchUpInside" id="r1v-5f-jPm"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="krl-iT-dbI">
+                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="krl-iT-dbI">
                                 <rect key="frame" x="254" y="346" width="92" height="92"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="krl-iT-dbI" secondAttribute="height" multiplier="1:1" id="Vcf-GL-yXO"/>
@@ -1252,6 +1252,8 @@
                                 </state>
                                 <connections>
                                     <action selector="pressFinish:" destination="lcZ-VV-bYG" eventType="touchUpInside" id="TUg-LV-aew"/>
+                                    <action selector="pressFinishOutside:" destination="lcZ-VV-bYG" eventType="touchUpOutside" id="uUr-F2-Ils"/>
+                                    <action selector="touchDownFinish:" destination="lcZ-VV-bYG" eventType="touchDown" id="mPF-hC-3at"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wvg-1V-R3W">
@@ -1455,13 +1457,7 @@
                             <constraint firstItem="LNO-D0-cuc" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="yph-aL-v5h"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="haI-jC-3wz">
-                        <barButtonItem key="rightBarButtonItem" title="菜单" id="kZA-hM-CkV">
-                            <connections>
-                                <action selector="edit:" destination="BYZ-38-t0r" id="ROL-2Y-exq"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="haI-jC-3wz"/>
                     <connections>
                         <outlet property="mapView" destination="LNO-D0-cuc" id="96j-Ga-lPj"/>
                         <outlet property="relocationButton" destination="2od-Sd-JTv" id="VzL-m6-Ip7"/>
@@ -1470,6 +1466,49 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3171" y="41"/>
+        </scene>
+        <!--Path ShareVC-->
+        <scene sceneID="LAh-NZ-YcG">
+            <objects>
+                <viewController storyboardIdentifier="pathshare" id="8Um-og-dMW" customClass="PathShareVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="smI-FT-ehd"/>
+                        <viewControllerLayoutGuide type="bottom" id="BMs-6x-pWn"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Z5M-ez-gTA">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gMR-GD-dox">
+                                <rect key="frame" x="188" y="581" width="38" height="30"/>
+                                <state key="normal" title="share"/>
+                                <connections>
+                                    <action selector="share:" destination="8Um-og-dMW" eventType="touchUpInside" id="l3x-1z-4Ss"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nqW-it-Icp">
+                                <rect key="frame" x="0.0" y="146" width="414" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.96821206810000005" green="0.4010783732" blue="0.00068032217680000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="BMs-6x-pWn" firstAttribute="top" secondItem="gMR-GD-dox" secondAttribute="bottom" constant="125" id="8UM-Vd-edo"/>
+                            <constraint firstItem="gMR-GD-dox" firstAttribute="centerX" secondItem="Z5M-ez-gTA" secondAttribute="centerX" id="92A-af-8tq"/>
+                            <constraint firstItem="nqW-it-Icp" firstAttribute="width" secondItem="Z5M-ez-gTA" secondAttribute="width" id="MHL-hj-6ME"/>
+                            <constraint firstItem="nqW-it-Icp" firstAttribute="centerX" secondItem="Z5M-ez-gTA" secondAttribute="centerX" id="gPo-uq-SX6"/>
+                            <constraint firstItem="nqW-it-Icp" firstAttribute="top" secondItem="smI-FT-ehd" secondAttribute="bottom" constant="126" id="p2x-fI-QVG"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="distanceLabel" destination="nqW-it-Icp" id="VDs-Ib-El2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GRC-Lo-TBF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4007" y="41"/>
         </scene>
         <!--Path View Controller-->
         <scene sceneID="y77-Xn-n8d">

@@ -340,35 +340,6 @@ class MapVC: UIViewController {
         mapView.setRegion(region, animated: true)
     }
     
-    //MARK:编辑按钮
-    @IBAction func edit(_ sender: UIBarButtonItem) {
-        return
-        isEdit = !isEdit
-
-        editButtons.enumerated().forEach(){
-            index, button in
-            
-            let sortAnim = CABasicAnimation(keyPath: "position.y")
-            sortAnim.fromValue = isEdit ? 0 : navigation_height! * 2 + CGFloat(index) * button.frame.height + UIApplication.shared.statusBarFrame.height
-            sortAnim.toValue = isEdit ? navigation_height! * 2 + CGFloat(index) * button.frame.height * 1.1 + UIApplication.shared.statusBarFrame.height : 0
-            
-            let fadeAnim = CABasicAnimation(keyPath: "opacity")
-            fadeAnim.fromValue = isEdit ? 0 : 1
-            fadeAnim.toValue = isEdit ? 1 : 0
-            
-            let groupAnim = CAAnimationGroup()
-            groupAnim.duration = 0.5
-            groupAnim.isRemovedOnCompletion = true
-            groupAnim.fillMode = kCAFillModeBoth
-            groupAnim.animations = [sortAnim, fadeAnim]
-            
-            button.layer.add(groupAnim, forKey: nil)
-            
-            button.frame.origin.y = isEdit ? navigation_height! * 2 + CGFloat(index) * button.frame.height * 1.1 : 0
-            button.layer.opacity = isEdit ? 1 : 0
-        }
-    }
-    
     @objc private func onEdit(sender: UIButton){
         
         switch sender.tag {
