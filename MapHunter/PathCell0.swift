@@ -10,7 +10,14 @@ import Foundation
 class PathCell0: UITableViewCell {
     
     @IBOutlet weak var remindSwitch: UISwitch!
+    @IBOutlet weak var titleLabel: UILabel!
     
     @IBAction func switchRemind(_ sender: UISwitch) {
+    }
+    
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        
+        titleLabel.font = fontSmall
     }
 }

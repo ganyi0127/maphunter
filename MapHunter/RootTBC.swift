@@ -146,6 +146,14 @@ class RootTBC: UITabBarController {
 
     }
     
+    //MARK:- 切换状态时 取消menubutton选中
+//    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+//        super.tabBar(tabBar, didSelect: item)
+//        if menuButtonFlag {
+//            menuButtonFlag = false
+//        }
+//    }
+    
     //MARK:- 点击展开按钮
     @objc private func clickMenuButton(sender: UIButton){
 

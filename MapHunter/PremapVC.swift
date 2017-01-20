@@ -455,7 +455,7 @@ extension PremapVC: CAAnimationDelegate{
         
         //判断是否合法结束
         if flag {
-            if distance < 1 {
+            if distance < 1000 {
                 let alert = UIAlertController(title: "结束运动", message: "距离不足1KM,无法保存运动路径", preferredStyle: .alert)
                 let cancelAction = UIAlertAction(title: "结束运动", style: .cancel){
                     _ in

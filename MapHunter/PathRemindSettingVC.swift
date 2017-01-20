@@ -16,6 +16,9 @@ class PathRemindSettingVC: UIViewController {
         super.viewDidLoad()
         
         automaticallyAdjustsScrollViewInsets = false
+        navigationItem.hidesBackButton = true
+
+        navigationItem.title = "提示频率"
     }
 }
 
@@ -47,7 +50,7 @@ extension PathRemindSettingVC: UITableViewDelegate, UITableViewDataSource{
         
         let cell = reusableCell!
         cell.textLabel?.text = titleLists[section][row]
-        
+        cell.textLabel?.font = fontSmall
         return cell
     }
     

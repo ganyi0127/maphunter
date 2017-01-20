@@ -20,6 +20,9 @@ class PathTargetSettingVC: UIViewController {
         super.viewDidLoad()
         
         selectedTypeList = typeLists[0]
+        
+        navigationItem.hidesBackButton = true
+        navigationItem.title = "目标设置"
     }
     
     //MARK:- 选择目标类型
@@ -57,7 +60,7 @@ extension PathTargetSettingVC: UITableViewDelegate, UITableViewDataSource{
         
         let cell = reusableCell!
         cell.textLabel?.text = selectedTypeList?[row]
-        
+        cell.textLabel?.font = fontSmall
         return cell
     }
     

@@ -9,6 +9,14 @@
 import Foundation
 class PathCell1: UITableViewCell {
     
+    @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
+    
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        
+        titleLabel.font = fontSmall
+        valueLabel.font = fontSmall
+    }
 }

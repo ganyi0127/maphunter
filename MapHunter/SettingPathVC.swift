@@ -14,6 +14,7 @@ class SettingPathVC: UIViewController {
     
     //默认数据
     fileprivate let titleList = ["提示频率", "地图设置", "目标设置"]
+    fileprivate let iconImageNameList = ["maptype", "remindrate", "target"]
     
     //MARK:- init
     override func viewDidLoad() {
@@ -29,7 +30,7 @@ class SettingPathVC: UIViewController {
     
     private func createContents(){
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(save))
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(save))
     }
     
     //MARK:- 保存
@@ -72,11 +73,19 @@ extension SettingPathVC: UITableViewDelegate, UITableViewDataSource{
             let pathCell1: PathCell1 = cell as! PathCell1
             pathCell1.titleLabel.text = titleList[row - 1]
             pathCell1.valueLabel.text = ""
+            
+            //修改icon
+            let imageName = "resource/map/setting/" + iconImageNameList[row - 1]
+            let image = UIImage(named: imageName)
+            pathCell1.iconImageView.image = image
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.setSelected(false, animated: true)
+        
         let row = indexPath.row
         
         switch row {

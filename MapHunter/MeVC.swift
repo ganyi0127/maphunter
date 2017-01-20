@@ -94,8 +94,7 @@ extension MeVC: UITableViewDelegate, UITableViewDataSource{
         cell = tableView.dequeueReusableCell(withIdentifier: identifier)
         if cell == nil {
             if indexPath.section == 0 {
-                cell = MeCell2(reuseIdentifier: identifier)
-                
+                cell = MeCell2(reuseIdentifier: identifier)                
             }else{
                 cell = MeCell3(type: MeCell3Type(rawValue: indexPath.row)!, reuseIdentifier: identifier)
             }

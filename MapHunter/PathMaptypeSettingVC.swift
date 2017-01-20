@@ -15,6 +15,8 @@ class PathMaptypeSettingVC: UIViewController {
         super.viewDidLoad()
         
         automaticallyAdjustsScrollViewInsets = false
+        navigationItem.hidesBackButton = true
+        navigationItem.title = "地图类型"
     }
 }
 
@@ -41,7 +43,7 @@ extension PathMaptypeSettingVC: UITableViewDelegate, UITableViewDataSource{
         
         let cell = reusableCell!
         cell.textLabel?.text = maptypeList[row]
-        
+        cell.textLabel?.font = fontSmall
         return cell
     }
     

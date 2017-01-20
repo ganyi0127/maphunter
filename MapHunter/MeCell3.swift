@@ -62,7 +62,7 @@ class MeCell3: UITableViewCell {
         let label = UILabel(frame: labelFrame)
         label.text = titleString
         label.textColor = wordColor
-        label.font = UIFont(name: font_name, size: 12)
+        label.font = fontSmall
         label.textAlignment = .left
         contentView.addSubview(label)
     }
