@@ -1339,7 +1339,7 @@
                                     <segue destination="BYZ-38-t0r" kind="embed" identifier="map" id="fxe-eN-3XU"/>
                                 </connections>
                             </containerView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="high.png" translatesAutoresizingMaskIntoConstraints="NO" id="jhx-g7-LdZ">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="resource/map/gps/high.png" translatesAutoresizingMaskIntoConstraints="NO" id="jhx-g7-LdZ">
                                 <rect key="frame" x="28" y="-16" width="69" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="jhx-g7-LdZ" secondAttribute="height" multiplier="11:4" id="iD0-ON-Jcj"/>
@@ -1565,7 +1565,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="dTt-1e-q7H" secondAttribute="height" multiplier="1:1" id="Gsc-4Z-CxE"/>
                                 </constraints>
-                                <state key="normal" image="close.png">
+                                <state key="normal" image="resource/map/type/close.png">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -2160,15 +2160,15 @@
         </scene>
     </scenes>
     <resources>
-        <image name="close.png" width="148" height="148"/>
-        <image name="high.png" width="220" height="80"/>
         <image name="resource/map/continue.png" width="16" height="16"/>
         <image name="resource/map/finish.png" width="16" height="16"/>
+        <image name="resource/map/gps/high.png" width="16" height="16"/>
         <image name="resource/map/lock/unlock.png" width="16" height="16"/>
         <image name="resource/map/pause.png" width="16" height="16"/>
         <image name="resource/map/relocation" width="16" height="16"/>
         <image name="resource/map/setting_0.png" width="16" height="16"/>
         <image name="resource/map/start.png" width="16" height="16"/>
+        <image name="resource/map/type/close.png" width="16" height="16"/>
         <image name="resource/me/me_head_boy.png" width="16" height="16"/>
         <image name="resource/target/target_sleep_icon.png" width="16" height="16"/>
         <image name="resource/target/target_step_icon.png" width="16" height="16"/>
