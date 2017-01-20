@@ -19,6 +19,6 @@ extension UIViewController{
     
     func didReceiveCurrentWarning(){
         debugPrint("memory warning: \(self)")
-        view = nil
+//        view = nil
     }
 }

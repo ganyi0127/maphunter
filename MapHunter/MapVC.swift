@@ -184,10 +184,6 @@ class MapVC: UIViewController {
         globalLocationManager.stopUpdatingLocation()    //停止定位
         super.viewWillDisappear(animated)
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
 
     private func config(){
         

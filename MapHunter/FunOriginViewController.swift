@@ -57,7 +57,7 @@ class FunOriginViewController: UIViewController {
     
     func createContents(){
         
-        //光效
+        //光效 动画
         lightImageView.frame = view.frame
         var images = [UIImage]()
         (0..<9).forEach(){
