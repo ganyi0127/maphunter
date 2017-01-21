@@ -34,6 +34,8 @@ class MeWeekbegin: UITableViewController {
         let identifier = "\(indexPath.section)_\(indexPath.row)"
         let cell = UITableViewCell(style: .default, reuseIdentifier: identifier)
         
+        cell.textLabel?.font = fontSmall
+        
         switch indexPath.row {
         case 0:
             cell.textLabel?.text = "星期六"

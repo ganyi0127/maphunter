@@ -15,6 +15,14 @@ class PremapVC: UIViewController {
     fileprivate weak var mapVC: MapVC?                   //地图
     @IBOutlet weak var gpsImageView: UIImageView!
     
+    //常亮按钮
+    @IBOutlet weak var lightButton: UIButton!
+    private var isLight = false{
+        didSet{
+            setScreenDisplay(isLight)
+        }
+    }
+    
     //lock按钮
     @IBOutlet weak var lockButton: UIButton!
     private var originLockbuttonFrame: CGRect?
@@ -81,6 +89,7 @@ class PremapVC: UIViewController {
     }()
     
     //数据
+    
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var speedLabel: UILabel!
     @IBOutlet weak var calorieLabel: UILabel!
@@ -93,11 +102,13 @@ class PremapVC: UIViewController {
             
             //计算配速
             let pace = CGFloat(totalTime) / CGFloat(distance / 1000)
-            let minute = Int(pace) / 60
-            let sec = Int(pace) - minute * 60
-            let minuteStr = "\(minute)\""
-            let secStr = sec < 10 ? "0\(sec)\'" : "\(sec)\'"
-            speedLabel.text = minuteStr + secStr
+            let hour = Int(pace) / 3600
+            let minute = (Int(pace) - hour * 3600) / 60
+            let sec = Int(pace) - hour * 3600 - minute * 60
+            let hourStr = hour <= 0 ? "" : "\(hour):"
+            let minuteStr = "\(minute)\'"
+            let secStr = sec < 10 ? "0\(sec)\"" : "\(sec)\""
+            speedLabel.text = hourStr + minuteStr + secStr
         }
     }
     fileprivate var timeTask: Task?
@@ -446,6 +457,15 @@ class PremapVC: UIViewController {
         if isLocked {
             isLocked = false
         }
+    }
+    
+    @IBAction func setLightDisplay(_ sender: UIButton) {
+        isLight = !isLight
+    }
+    //MARK:- 设置屏幕常亮
+    private func setScreenDisplay(_ flag: Bool){
+        UIApplication.shared.isIdleTimerDisabled = flag     //设置屏幕常亮
+        //UIScreen.main.brightness = flag ? 0.1 : 1.0         //修改屏幕亮度
     }
 }
 

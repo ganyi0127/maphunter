@@ -13,8 +13,8 @@ class SettingPathVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     //默认数据
-    fileprivate let titleList = ["提示频率", "地图设置", "目标设置"]
-    fileprivate let iconImageNameList = ["maptype", "remindrate", "target"]
+    fileprivate let titleList = ["提示频率", "地图设置", "目标设置", "屏幕常亮"]
+    fileprivate let iconImageNameList = ["maptype", "remindrate", "target", "lightdisplay"]
     
     //MARK:- init
     override func viewDidLoad() {
@@ -54,7 +54,7 @@ extension SettingPathVC: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 5
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -78,6 +78,11 @@ extension SettingPathVC: UITableViewDelegate, UITableViewDataSource{
             let imageName = "resource/map/setting/" + iconImageNameList[row - 1]
             let image = UIImage(named: imageName)
             pathCell1.iconImageView.image = image
+            
+            //设置屏幕常亮类型
+            if row == 4 {
+                cell.accessoryType = .none
+            }
         }
         return cell
     }
@@ -100,6 +105,8 @@ extension SettingPathVC: UITableViewDelegate, UITableViewDataSource{
         case 3:
             let pathTargetVC = storyboard?.instantiateViewController(withIdentifier: "pathtargetsetting") as! PathTargetSettingVC
             navigationController?.pushViewController(pathTargetVC, animated: true)
+        case 4:
+            break
         default:
             break
         }

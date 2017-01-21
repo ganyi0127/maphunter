@@ -12,6 +12,11 @@ class DefaultVC: UIViewController {
     @IBOutlet weak var totalDistanceLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.backgroundColor = .clear
+    }
     override func viewDidAppear(_ animated: Bool) {
         
     }

@@ -71,18 +71,7 @@ class FunVC: UIViewController {
         isScroll = true
         
         selectContainerView = pathContainerView
-        
-//        let shadowColor = UIColor.black.cgColor
-//        let shadowOffset = CGSize(width: 0, height: 2)
-//        let shadowRadius: CGFloat = 2
-//        let shadowOpacity: Float = 0.5
-//        containerList.forEach(){
-//            containerView in
-//            containerView.layer.shadowColor = shadowColor
-//            containerView.layer.shadowOffset = shadowOffset
-//            containerView.layer.shadowRadius = shadowRadius
-//            containerView.layer.shadowOpacity = shadowOpacity
-//        }
+
     }
     
     //MARK:- 初始化获取view

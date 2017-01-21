@@ -83,6 +83,7 @@
 		BE86854F1E2F6EF200EBEBED /* PathMaptypeSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE86854E1E2F6EF200EBEBED /* PathMaptypeSettingVC.swift */; };
 		BE8685511E309B6F00EBEBED /* PathShareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8685501E309B6F00EBEBED /* PathShareVC.swift */; };
 		BE8685551E30C7CD00EBEBED /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8685541E30C7CD00EBEBED /* ViewControllerExtension.swift */; };
+		BE8685961E334F7700EBEBED /* CustomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8685951E334F7700EBEBED /* CustomSheet.swift */; };
 		BE9DA8961DB0698500C4574B /* CoordinateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */; };
 		BEB248E71D9B4E2600C9F9ED /* ThirdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */; };
 		BEB248EA1D9BBC8D00C9F9ED /* StepProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248E91D9BBC8D00C9F9ED /* StepProgress.swift */; };
@@ -221,6 +222,7 @@
 		BE86854E1E2F6EF200EBEBED /* PathMaptypeSettingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathMaptypeSettingVC.swift; sourceTree = "<group>"; };
 		BE8685501E309B6F00EBEBED /* PathShareVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathShareVC.swift; sourceTree = "<group>"; };
 		BE8685541E30C7CD00EBEBED /* ViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
+		BE8685951E334F7700EBEBED /* CustomSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSheet.swift; sourceTree = "<group>"; };
 		BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateTransform.swift; sourceTree = "<group>"; };
 		BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdCell.swift; sourceTree = "<group>"; };
 		BEB248E91D9BBC8D00C9F9ED /* StepProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepProgress.swift; sourceTree = "<group>"; };
@@ -354,6 +356,7 @@
 				320535351DFE59C80087068E /* ImageExtension.swift */,
 				32CCE7121E02321E008AAB8C /* ViewExtension.swift */,
 				32C3E6331E0A694E00D34A74 /* AlertExtension.swift */,
+				BE8685951E334F7700EBEBED /* CustomSheet.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -803,6 +806,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE8685961E334F7700EBEBED /* CustomSheet.swift in Sources */,
 				BE8685401E28DFF100EBEBED /* DefaultVC.swift in Sources */,
 				BEDF4F6B1D98FB3800E98D63 /* TopView.swift in Sources */,
 				32D4129B1DEEB6EF008EE637 /* DetailView.swift in Sources */,
