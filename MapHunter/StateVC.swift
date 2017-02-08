@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AngelFit
 class StateVC: UIViewController {
     
     @IBOutlet weak var topView: TopView!            //日历
@@ -31,6 +32,11 @@ class StateVC: UIViewController {
     //上拉下拉
     fileprivate var newY: CGFloat = 0
     fileprivate var oldY: CGFloat = 0
+
+    //sdk
+    private lazy var angelManager: AngelManager? = {
+        return AngelManager.share()
+    }()
     
     //MARK:- init
     override func viewDidLoad() {
@@ -108,15 +114,56 @@ class StateVC: UIViewController {
         refreshStateChange(control)
     }
     
+    //MARK:- 刷新调用
+    private var initFresh = true
     @objc private func refreshStateChange(_ control: UIRefreshControl){
 
-        DispatchQueue.main.async {
+        guard !initFresh else {
+            initFresh = false
+            control.endRefreshing()
+            return
+        }
+        
+        //判断是否有绑定设备
+        guard PeripheralManager.share().currentPeripheral != nil else {
+            DispatchQueue.main.async {
+                _ = delay(1){
+                    control.endRefreshing()
+                }
+            }
+            return
+        }
+        
+//        //获取实时数据
+//        angelManager?.getLiveDataFromBand{
+//            errorCode, liveData in
+//            
+//            control.endRefreshing()
+//            guard errorCode == ErrorCode.success else{
+//                return
+//            }
+//            
+//            debugPrint("live data:", liveData)
+//        }
+        
+        //同步数据
+        angelManager?.setSynchronizationHealthData{
+            complete, progress in
             
-            _ = delay(1){
+            if complete{
+                debugPrint("同步完成")
+                control.attributedTitle = NSAttributedString(string: "同步完成")
                 control.endRefreshing()
-                
+            }else{
+                debugPrint("正在同步:\(progress)")
+                control.attributedTitle = NSAttributedString(string: "已同步\(progress)%")
             }
         }
+        
+//        AngelManager.share()?.getSportData{
+//            sportDataList in
+//            debugPrint(sportDataList)
+//        }
     }
 }
 

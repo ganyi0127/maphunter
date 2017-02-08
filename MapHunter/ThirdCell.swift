@@ -159,6 +159,10 @@ class ThirdCell: UITableViewCell {
                 label.text = "体重\(val.fat)公斤"
             case .basketball:
                 label.text = "打篮球\(val.hour)小时\(val.minute)分钟"
+            case .badminton:
+                label.text = "打羽毛球\(val.hour)小时\(val.minute)分钟"
+            case .climbing:
+                label.text = "登山\(val.hour)小时\(val.minute)分钟"
             default:
                 label.text = ""
             }
