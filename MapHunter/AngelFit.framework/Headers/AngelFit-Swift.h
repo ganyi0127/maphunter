@@ -403,6 +403,7 @@ SWIFT_CLASS("_TtC8AngelFit10GodManager")
 - (void)startScan;
 - (void)stopScan;
 - (void)connect:(CBPeripheral * _Nonnull)peripheral;
+- (void)disconnect:(CBPeripheral * _Nonnull)peripheral closure:(void (^ _Nonnull)(BOOL))closure;
 @end
 
 @class CBCharacteristic;

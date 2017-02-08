@@ -26,6 +26,7 @@ class SettingVC: UIViewController {
     @IBAction func click(_ sender: UIButton) {
         
     }
+    
     @IBAction func `switch`(_ sender: UISwitch) {
         
     }

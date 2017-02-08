@@ -8,6 +8,8 @@
 
 import UIKit
 import MediaPlayer
+import AngelFit
+import CoreBluetooth
 class RootTBC: UITabBarController {
     
     //展开按钮
@@ -144,6 +146,11 @@ class RootTBC: UITabBarController {
         tabBar.addSubview(menuButton)
         menuButtonFlag = false
 
+        
+        //设置自动重连
+        if !PeripheralManager.share().selectUUIDStringList().isEmpty{
+            GodManager.share().startScan()
+        }
     }
     
     //MARK:- 切换状态时 取消menubutton选中

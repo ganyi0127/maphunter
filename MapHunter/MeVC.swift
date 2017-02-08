@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AngelFit
+import CoreBluetooth
 class MeVC: UIViewController {
     
     @IBOutlet weak var tableview: UITableView!
@@ -114,9 +116,24 @@ extension MeVC: UITableViewDelegate, UITableViewDataSource{
             guard let cell3: MeCell3 = cell as? MeCell3 else{
                 return
             }
-            let type = cell3.type
-            let detailViewController = MeDetails(type: type!)
-            navigationController?.pushViewController(detailViewController, animated: true)
+            guard let type = cell3.type else{
+                return
+            }
+            
+            switch type {
+            case .device:
+                if PeripheralManager.share().selectUUIDStringList().first != nil{
+                    
+                    let bindingVC = storyboard?.instantiateViewController(withIdentifier: "binding") as! BindingVC
+                    navigationController?.pushViewController(bindingVC, animated: true)
+                }else{
+                    let scanVC = storyboard?.instantiateViewController(withIdentifier: "scan") as! ScanVC
+                    navigationController?.pushViewController(scanVC, animated: true)
+                }
+            default:
+                let detailViewController = MeDetails(type: type)
+                navigationController?.pushViewController(detailViewController, animated: true)
+            }
         }
     }
 }

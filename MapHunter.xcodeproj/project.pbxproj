@@ -84,6 +84,9 @@
 		BE8685511E309B6F00EBEBED /* PathShareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8685501E309B6F00EBEBED /* PathShareVC.swift */; };
 		BE8685551E30C7CD00EBEBED /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8685541E30C7CD00EBEBED /* ViewControllerExtension.swift */; };
 		BE8685961E334F7700EBEBED /* CustomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8685951E334F7700EBEBED /* CustomSheet.swift */; };
+		BE94BABD1E4858B7005DD8E4 /* ScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE94BABC1E4858B7005DD8E4 /* ScanVC.swift */; };
+		BE94BABF1E487866005DD8E4 /* BindingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE94BABE1E487866005DD8E4 /* BindingVC.swift */; };
+		BE94BAC11E49CE7D005DD8E4 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE94BAC01E49CE7D005DD8E4 /* ColorExtension.swift */; };
 		BE9DA8961DB0698500C4574B /* CoordinateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */; };
 		BEB248E71D9B4E2600C9F9ED /* ThirdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */; };
 		BEB248EA1D9BBC8D00C9F9ED /* StepProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248E91D9BBC8D00C9F9ED /* StepProgress.swift */; };
@@ -223,6 +226,9 @@
 		BE8685501E309B6F00EBEBED /* PathShareVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathShareVC.swift; sourceTree = "<group>"; };
 		BE8685541E30C7CD00EBEBED /* ViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
 		BE8685951E334F7700EBEBED /* CustomSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSheet.swift; sourceTree = "<group>"; };
+		BE94BABC1E4858B7005DD8E4 /* ScanVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanVC.swift; sourceTree = "<group>"; };
+		BE94BABE1E487866005DD8E4 /* BindingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BindingVC.swift; sourceTree = "<group>"; };
+		BE94BAC01E49CE7D005DD8E4 /* ColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateTransform.swift; sourceTree = "<group>"; };
 		BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdCell.swift; sourceTree = "<group>"; };
 		BEB248E91D9BBC8D00C9F9ED /* StepProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepProgress.swift; sourceTree = "<group>"; };
@@ -284,6 +290,8 @@
 			isa = PBXGroup;
 			children = (
 				32C3E6261E0904B900D34A74 /* MeDetails.swift */,
+				BE94BABC1E4858B7005DD8E4 /* ScanVC.swift */,
+				BE94BABE1E487866005DD8E4 /* BindingVC.swift */,
 			);
 			name = "健康详情";
 			sourceTree = "<group>";
@@ -357,6 +365,7 @@
 				32CCE7121E02321E008AAB8C /* ViewExtension.swift */,
 				32C3E6331E0A694E00D34A74 /* AlertExtension.swift */,
 				BE8685951E334F7700EBEBED /* CustomSheet.swift */,
+				BE94BAC01E49CE7D005DD8E4 /* ColorExtension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -473,7 +482,7 @@
 				BE576FFA1E25BC85006BAD1C /* FunItems.swift */,
 				BE5770041E25E3B7006BAD1C /* FunOriginViewController.swift */,
 				BE5770071E28D6C7006BAD1C /* path */,
-				BE576FFE1E25DD55006BAD1C /* RecommendRouteViewController.swift */,
+				BE94BABB1E484C71005DD8E4 /* recommendRoute */,
 				BE5770001E25DD75006BAD1C /* MyRouteViewController.swift */,
 				BE5770021E25DD8B006BAD1C /* SpriteViewController.swift */,
 			);
@@ -543,6 +552,14 @@
 				BE86854A1E2F624B00EBEBED /* PathTargetSettingVC.swift */,
 			);
 			name = Setting;
+			sourceTree = "<group>";
+		};
+		BE94BABB1E484C71005DD8E4 /* recommendRoute */ = {
+			isa = PBXGroup;
+			children = (
+				BE576FFE1E25DD55006BAD1C /* RecommendRouteViewController.swift */,
+			);
+			name = recommendRoute;
 			sourceTree = "<group>";
 		};
 		BEB248E81D9BBC7800C9F9ED /* Cell1 */ = {
@@ -818,6 +835,7 @@
 				32C5726E1DDAA7C500CEC5EB /* GradientPolylineRenderer.m in Sources */,
 				BE731A011E0B8958002BDF2D /* DetailBack.swift in Sources */,
 				BEB2490B1D9E46BD00C9F9ED /* CellCube.swift in Sources */,
+				BE94BAC11E49CE7D005DD8E4 /* ColorExtension.swift in Sources */,
 				32CCE7131E02321E008AAB8C /* ViewExtension.swift in Sources */,
 				BE4BFEA01E15141A00F3FE91 /* MiddlePopController.swift in Sources */,
 				BE576FFF1E25DD55006BAD1C /* RecommendRouteViewController.swift in Sources */,
@@ -877,6 +895,7 @@
 				BE743BE01DAA1D25002AC282 /* CellExtension.swift in Sources */,
 				BE2DC9EB1D9210A300978C97 /* MapVC.swift in Sources */,
 				BEDF4F561D96217A00E98D63 /* SpriteData.swift in Sources */,
+				BE94BABD1E4858B7005DD8E4 /* ScanVC.swift in Sources */,
 				BEDF4F691D98BBD700E98D63 /* CustomAnnotationView.swift in Sources */,
 				BEDF4F721D99033000E98D63 /* LabelExtension.swift in Sources */,
 				BE4BFE961E14F89B00F3FE91 /* TargetSettingVC.swift in Sources */,
@@ -893,6 +912,7 @@
 				BE4BFE9C1E150FD200F3FE91 /* IntroduceVC.swift in Sources */,
 				32C3E6341E0A694E00D34A74 /* AlertExtension.swift in Sources */,
 				BE2DC9E91D9210A300978C97 /* AppDelegate.swift in Sources */,
+				BE94BABF1E487866005DD8E4 /* BindingVC.swift in Sources */,
 				3205353B1DFFD1F00087068E /* StatePushController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

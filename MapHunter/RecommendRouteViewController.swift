@@ -25,4 +25,16 @@ class RecommendRouteViewController: FunOriginViewController {
         
         super.createContents()
     }
+    
+    override func click(location: CGPoint, open: Bool) {
+        if let node = view.hitTest(location, with: nil){
+            debugPrint(node)
+        }
+    }
+    
+    //MARK:- 切换到主页面
+    private func pushMaplist(){
+        let premapVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "premap") as! PremapVC
+        navigationController?.pushViewController(premapVC, animated: true)
+    }
 }
