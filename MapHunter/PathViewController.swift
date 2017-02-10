@@ -271,15 +271,22 @@ class PathViewController: FunOriginViewController {
         }
     }
     
+    //MARK:- 自定义点击事件
     override func click(location: CGPoint, open: Bool) {
         
-        let node = view.hitTest(location, with: nil)
+        //获取点击view
+        guard let node = view.hitTest(location, with: nil) else{
+            return
+        }
+        print("node:", node)
         if node == startButton {
             start(startButton)      //点击开始
         }else if node == settingButton{
             settingClicked()        //点击设置
         }else if node == typeButton{
             typeClicked()           //点击类型切换
+        }else if node.viewController().isKind(of: DefaultVC.self){
+            pushHistory()           //点击历史轨迹
         }else{
             //点击内容判断
             if node == closeTypeButton {
@@ -321,20 +328,6 @@ class PathViewController: FunOriginViewController {
     
     //MARK:- 设置按钮点击
     @IBAction func settingClicked() {
-//        if showType == nil{
-//            showType = .setting
-//            if !isOpen{
-//                super.click(location: .zero, open: true)
-//            }
-//        }else if showType == .setting{
-//            showType = nil
-//        }else{
-//            showType = nil
-//            showType = .setting
-//            super.click(location: .zero, open: true)
-//        }
-        
-        //push新页面
         let settingPathVC = storyboard?.instantiateViewController(withIdentifier: "settingpath") as! SettingPathVC
         navigationController?.pushViewController(settingPathVC, animated: true)
     }
@@ -368,6 +361,12 @@ class PathViewController: FunOriginViewController {
         default:
             break
         }
+    }
+    
+    //MARK:- 切换到历史轨迹
+    private func pushHistory(){
+        let historyVC = storyboard?.instantiateViewController(withIdentifier: "history") as! HistoryVC
+        navigationController?.pushViewController(historyVC, animated: true)
     }
     
     //MARK:- 切换到地图页面

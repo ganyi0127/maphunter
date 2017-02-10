@@ -1893,10 +1893,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ldX-N6-mGY">
-                                <rect key="frame" x="20" y="105.99999999999999" width="298" height="74.666666666666643"/>
+                                <rect key="frame" x="20" y="106" width="298" height="75"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bz7-aC-G7S">
-                                        <rect key="frame" x="0.0" y="0.0" width="74.666666666666671" height="74.666666666666657"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="bz7-aC-G7S" secondAttribute="height" multiplier="1:1" id="4tC-Tl-exJ"/>
                                         </constraints>
@@ -1908,7 +1908,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gBj-Lm-MZx">
-                                        <rect key="frame" x="74.666666666666686" y="0.0" width="74.333333333333314" height="74.666666666666657"/>
+                                        <rect key="frame" x="75" y="0.0" width="74" height="75"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="gBj-Lm-MZx" secondAttribute="height" multiplier="1:1" id="iJw-Mf-3HQ"/>
                                         </constraints>
@@ -1920,7 +1920,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o31-Hd-Rep">
-                                        <rect key="frame" x="149" y="0.0" width="74.666666666666657" height="74.666666666666657"/>
+                                        <rect key="frame" x="149" y="0.0" width="75" height="75"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="o31-Hd-Rep" secondAttribute="height" multiplier="1:1" id="0Ap-hB-BA4"/>
                                         </constraints>
@@ -1932,7 +1932,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HrT-VB-Fcc">
-                                        <rect key="frame" x="223.66666666666663" y="0.0" width="74.333333333333371" height="74.666666666666657"/>
+                                        <rect key="frame" x="224" y="0.0" width="74" height="75"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="HrT-VB-Fcc" secondAttribute="height" multiplier="1:1" id="r5e-xJ-Crk"/>
                                         </constraints>
@@ -1953,10 +1953,10 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lky-nD-h4J">
-                                <rect key="frame" x="20" y="188.66666666666663" width="298" height="74.333333333333371"/>
+                                <rect key="frame" x="20" y="189" width="298" height="74"/>
                                 <subviews>
                                     <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zVP-XC-Eay">
-                                        <rect key="frame" x="0.0" y="0.0" width="74.666666666666671" height="74.333333333333343"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="75" height="74"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="zVP-XC-Eay" secondAttribute="height" multiplier="1:1" id="zAA-ms-LCt"/>
                                         </constraints>
@@ -1968,7 +1968,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r8i-4W-tnA">
-                                        <rect key="frame" x="74.666666666666686" y="0.0" width="74.333333333333314" height="74.333333333333343"/>
+                                        <rect key="frame" x="75" y="0.0" width="74" height="74"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="r8i-4W-tnA" secondAttribute="height" multiplier="1:1" id="C8v-Cq-6vH"/>
                                         </constraints>
@@ -1980,7 +1980,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KbL-Xy-5bZ">
-                                        <rect key="frame" x="149" y="0.0" width="74.666666666666657" height="74.333333333333343"/>
+                                        <rect key="frame" x="149" y="0.0" width="75" height="74"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="KbL-Xy-5bZ" secondAttribute="height" multiplier="1:1" id="7h6-bs-Waf"/>
                                         </constraints>
@@ -1992,7 +1992,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kaL-hl-qYt">
-                                        <rect key="frame" x="223.66666666666663" y="0.0" width="74.333333333333371" height="74.333333333333343"/>
+                                        <rect key="frame" x="224" y="0.0" width="74" height="74"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="kaL-hl-qYt" secondAttribute="height" multiplier="1:1" id="pxc-T0-NjO"/>
                                         </constraints>
@@ -2193,6 +2193,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bfg-jV-Otf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="376.81159420289856" y="1605.163043478261"/>
+        </scene>
+        <!--HistoryVC-->
+        <scene sceneID="55g-hI-Pix">
+            <objects>
+                <viewController storyboardIdentifier="history" id="Ljm-1j-nxu" customClass="HistoryVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3vX-vf-o4B"/>
+                        <viewControllerLayoutGuide type="bottom" id="8Qz-RL-lPm"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="k5D-g9-9qa">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8dK-TE-Xvz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="378" y="2419"/>
         </scene>
         <!--Path Target SettingVC-->
         <scene sceneID="5Rp-kZ-2Ub">

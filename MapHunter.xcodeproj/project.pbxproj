@@ -87,6 +87,7 @@
 		BE94BABD1E4858B7005DD8E4 /* ScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE94BABC1E4858B7005DD8E4 /* ScanVC.swift */; };
 		BE94BABF1E487866005DD8E4 /* BindingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE94BABE1E487866005DD8E4 /* BindingVC.swift */; };
 		BE94BAC11E49CE7D005DD8E4 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE94BAC01E49CE7D005DD8E4 /* ColorExtension.swift */; };
+		BE94BAC31E4C027C005DD8E4 /* HistoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE94BAC21E4C027C005DD8E4 /* HistoryVC.swift */; };
 		BE9DA8961DB0698500C4574B /* CoordinateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */; };
 		BEB248E71D9B4E2600C9F9ED /* ThirdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */; };
 		BEB248EA1D9BBC8D00C9F9ED /* StepProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248E91D9BBC8D00C9F9ED /* StepProgress.swift */; };
@@ -229,6 +230,7 @@
 		BE94BABC1E4858B7005DD8E4 /* ScanVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanVC.swift; sourceTree = "<group>"; };
 		BE94BABE1E487866005DD8E4 /* BindingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BindingVC.swift; sourceTree = "<group>"; };
 		BE94BAC01E49CE7D005DD8E4 /* ColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		BE94BAC21E4C027C005DD8E4 /* HistoryVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryVC.swift; sourceTree = "<group>"; };
 		BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateTransform.swift; sourceTree = "<group>"; };
 		BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdCell.swift; sourceTree = "<group>"; };
 		BEB248E91D9BBC8D00C9F9ED /* StepProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepProgress.swift; sourceTree = "<group>"; };
@@ -501,6 +503,7 @@
 			children = (
 				BE576FFC1E25DD1A006BAD1C /* PathViewController.swift */,
 				BE5770081E28D6DA006BAD1C /* Setting.swift */,
+				BE94BAC41E4C0281005DD8E4 /* History */,
 				BE8685451E2F5C2700EBEBED /* Setting */,
 				BE86853F1E28DFF100EBEBED /* DefaultVC.swift */,
 				BE8685411E29C74200EBEBED /* PremapVC.swift */,
@@ -560,6 +563,14 @@
 				BE576FFE1E25DD55006BAD1C /* RecommendRouteViewController.swift */,
 			);
 			name = recommendRoute;
+			sourceTree = "<group>";
+		};
+		BE94BAC41E4C0281005DD8E4 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				BE94BAC21E4C027C005DD8E4 /* HistoryVC.swift */,
+			);
+			name = History;
 			sourceTree = "<group>";
 		};
 		BEB248E81D9BBC7800C9F9ED /* Cell1 */ = {
@@ -832,6 +843,7 @@
 				32C3E6241E07E5F400D34A74 /* MeCell3.swift in Sources */,
 				BEDF4F3F1D93942E00E98D63 /* MeVC.swift in Sources */,
 				BE86854D1E2F6CED00EBEBED /* PathRemindSettingVC.swift in Sources */,
+				BE94BAC31E4C027C005DD8E4 /* HistoryVC.swift in Sources */,
 				32C5726E1DDAA7C500CEC5EB /* GradientPolylineRenderer.m in Sources */,
 				BE731A011E0B8958002BDF2D /* DetailBack.swift in Sources */,
 				BEB2490B1D9E46BD00C9F9ED /* CellCube.swift in Sources */,
