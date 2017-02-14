@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import AngelFit
+import CoreData
 let edgeWidth = view_size.width * 0.025 //边宽
 class DetailBack: UIView {
     fileprivate var type: DataCubeType!         //类型
@@ -96,42 +98,71 @@ class DetailBack: UIView {
 
 //MARK:- 数据代理
 extension DetailBack: DetailTopDelegate{
-    func detailTopData() -> [CGFloat] {
+    func detailTopData(closure: @escaping ([CGFloat])->()) {
         switch type as DataCubeType  {
         case .sport:
             //运动数据
             var result = [CGFloat]()
-            let headCount = Int(arc4random_uniform(40))
-            let tailCount = Int(arc4random_uniform(40)) + 56
-            (0..<96).forEach(){
-                i in
-                if i < headCount{
-                    result.append(0)
-                }else if i > tailCount{
-                    result.append(0)
-                }else{
-                    let data = CGFloat(arc4random_uniform(300))
-                    result.append(data)
+            
+            let angelManager = AngelManager.share()
+            angelManager?.getMacAddressFromBand{
+                errorCode, macaddress in
+                guard errorCode == ErrorCode.success else{
+                    return
+                }
+                angelManager?.getSportData{
+                    sportDataList in
+                    guard let sportData = sportDataList.last else{
+                        return
+                    }
+                    
+                    let sportItems = sportData.sportItem
+                    print("sportItems count:", sportItems?.count)
+                    var sportList = [SportItem]()
+                    sportItems?.forEach{
+                        item in
+                        sportList.append(item as! SportItem)
+                    }
+                    sportList = sportList.sorted{$0.id < $1.id}
+                    result = sportList.map{CGFloat($0.sportCount)}
+                    print(sportData.totalStep, "total")
+                    print("result", result)
+                    
+                    DispatchQueue.main.async {
+                        closure(result)
+                    }
                 }
             }
-            return result
         case .heartrate:
             //心率数据
             var result = [CGFloat]()
-            let headCount = Int(arc4random_uniform(12 * 1))
-            let tailCount = Int(arc4random_uniform(12 * 1)) + 12 * 23
-            (0..<(24*12)).forEach(){
-                i in
-                if i < headCount{
-                    result.append(0)
-                }else if i > tailCount{
-                    result.append(0)
-                }else{
-                    let data = CGFloat(arc4random_uniform(120)) + 50
-                    result.append(data)
+            let angelManager = AngelManager.share()
+            angelManager?.getMacAddressFromBand{
+                errorCode, macaddress in
+                guard errorCode == ErrorCode.success else{
+                    return
+                }
+                angelManager?.getHeartRateData{
+                    heartRateDataList in
+                    guard let heartRateData = heartRateDataList.last else{
+                        return
+                    }
+                    
+                    let heartRateItems = heartRateData.heartRateItem
+                    var heartRateList = [HeartRateItem]()
+                    heartRateItems?.forEach{
+                        item in
+                        heartRateList.append(item as! HeartRateItem)
+                    }
+                    heartRateList = heartRateList.sorted{$0.id < $1.id}
+                    result = heartRateList.map{CGFloat($0.data)}
+                    print("result", result)
+                    
+                    DispatchQueue.main.async {
+                        closure(result)
+                    }
                 }
             }
-            return result
         case .sleep:
             //睡眠数据
             var result = [CGFloat]()
@@ -151,7 +182,7 @@ extension DetailBack: DetailTopDelegate{
                 data += CGFloat(sleepType * sleepTypeBit)
                 result.append(data)
             }
-            return result
+            closure(result)
         case .weight:
             //体重数据
             var result = [CGFloat]()
@@ -160,7 +191,7 @@ extension DetailBack: DetailTopDelegate{
                 let data = CGFloat(arc4random_uniform(40)) + 50
                 result.append(data)
             }
-            return result
+            closure(result)
         }
     }
     

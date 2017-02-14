@@ -13,7 +13,7 @@ let sleepTypeBit: Int16 = 1000
 
 //模块数据代理
 protocol DetailTopDelegate {
-    func detailTopData() -> [CGFloat]
+    func detailTopData(closure: @escaping ([CGFloat])->())
     func detailSleepBeginTime() -> Date
     func detailWeightDates() -> [Date]
 }
@@ -261,7 +261,7 @@ class DetailTop: UIView {
     fileprivate var deltaMinute: Int = 0
     fileprivate let radius: CGFloat = 8
     fileprivate var headCount: Int!
-    var dataList: [CGFloat]!
+    var dataList = [CGFloat]()
     
     //睡眠
     fileprivate var startSleepHour: Int = 0
@@ -402,525 +402,529 @@ class DetailTop: UIView {
         }
         
         //获取数据
-        var dataList = del.detailTopData()
-        
-        //获取常量
-        let cornerRadius: CGFloat = 1                                               //圆角半径
-        
-        //获取最大数值
-        guard var maxData = dataList.max(), maxData > 0 else {
-            return
-        }
-        
-        //移除开始与结束为0的数据
-        var headCount = 0, tailCount = 0
-        while dataList.first! <= 0 {
-            dataList.removeFirst()
-            headCount += 1
-        }
-        while dataList.last! <= 0 {
-            dataList.removeLast()
-            tailCount += 1
-        }
-        
-        //获取最小数值
-        guard var minData = dataList.min() else {
-            return
-        }
-        
-        self.dataList = dataList                                                    //存储有效数据
-        self.headCount = headCount                                                  //存储有效head offset
-        
-        let dataListCount = dataList.count                                          //数据数量
-        var rectWidth = (bounds.size.width - radius * 2) / CGFloat(dataListCount)   //柱状图宽度
-        let detailBackOriginY = self.superview!.frame.origin.y                      //柱状图高度
-        
-        //数据起始结束文字
-        var beginText = ""
-        var endText = ""
-        
-        //数据
-        switch type as DataCubeType {
-        case .sport:
-            deltaMinute = 15
+        del.detailTopData{
+            result in
             
-            //默认最大值
-            if maxData < 100{
-                maxData = 100
+            var dataList = result
+            
+            //获取常量
+            let cornerRadius: CGFloat = 1                                               //圆角半径
+            
+            //获取最大数值
+            guard var maxData = dataList.max(), maxData > 0 else {
+                return
             }
             
-            let rectHeight = detailBackOriginY * 0.6
-            //绘制柱状图
-            dataList.enumerated().forEach(){
-                index, data in
-                
-                let bezier = UIBezierPath(roundedRect: CGRect(x: CGFloat(index) * rectWidth + radius + rectWidth * 0.1,
-                                                              y: -rectHeight + cornerRadius,
-                                                              width: rectWidth * 0.8,
-                                                              height: rectHeight),
-                                          cornerRadius: cornerRadius)
-                
-                let shapeLayer = CAShapeLayer()
-                shapeLayer.path = bezier.cgPath
-                shapeLayer.fillColor = UIColor.white.cgColor
-                shapeLayer.lineWidth = 0
-                layer.insertSublayer(shapeLayer, at: 0)
-                
-                //动画
-                let anim = CABasicAnimation(keyPath: "transform.scale.y")
-                anim.fromValue = 0
-                anim.toValue = data / maxData
-                anim.duration = 0.2
-                let time = layer.convertTime(CACurrentMediaTime(), from: nil)       //马赫时间
-                anim.beginTime = time + TimeInterval(index) * 0.01
-                anim.fillMode = kCAFillModeBoth
-                anim.isRemovedOnCompletion = false
-                anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-                shapeLayer.add(anim, forKey: nil)
+            //移除开始与结束为0的数据
+            var headCount = 0, tailCount = 0
+            while dataList.first! <= 0 {
+                dataList.removeFirst()
+                headCount += 1
+            }
+            while dataList.last! <= 0 {
+                dataList.removeLast()
+                tailCount += 1
             }
             
-            //起始文字
-            beginText = "\(headCount / (60 / deltaMinute)):\(headCount % (60 / deltaMinute) * deltaMinute)"
-            endText = "\(23 - tailCount / (60 / deltaMinute)):\(59 - tailCount % (60 / deltaMinute) * deltaMinute)"
+            //获取最小数值
+            guard var minData = dataList.min() else {
+                return
+            }
             
-        case .heartrate:
-            deltaMinute = 5
+            self.dataList = dataList                                                    //存储有效数据
+            self.headCount = headCount                                                  //存储有效head offset
             
-            let screenCount = 80           //每屏数据量
+            let dataListCount = dataList.count                                          //数据数量
+            var rectWidth = (self.bounds.size.width - self.radius * 2) / CGFloat(dataListCount)   //柱状图宽度
+            let detailBackOriginY = self.superview!.frame.origin.y                      //柱状图高度
             
-            let rectHeight = detailBackOriginY * 0.6
+            //数据起始结束文字
+            var beginText = ""
+            var endText = ""
             
-            //创建滑动视图
-            heartrateDataScroll = UIScrollView(frame: CGRect(x: radius,
-                                                             y: -rectHeight,
-                                                             width: bounds.size.width - radius * 2,
-                                                             height: rectHeight))
-            heartrateDataScroll.contentSize = CGSize(width: (bounds.size.width - radius * 2) * CGFloat(dataListCount) / CGFloat(screenCount) + radius,
-                                                     height: rectHeight)
-            heartrateDataScroll.contentOffset.x = heartrateDataScroll.contentSize.width - (bounds.size.width - radius * 2) / 2
-            addSubview(heartrateDataScroll)
-            
-            rectWidth = (bounds.size.width - radius * 2) / CGFloat(screenCount)         //修改数据宽度
-            
-            //绘制数据线
-            let upLineBezier = UIBezierPath()
-            upLineBezier.move(to: CGPoint(x: 0, y: rectHeight * 0.2))
-            upLineBezier.addLine(to: CGPoint(x: heartrateDataScroll.contentSize.width, y: rectHeight * 0.2))
-            let upLineLayer = CAShapeLayer()
-            upLineLayer.path = upLineBezier.cgPath
-            upLineLayer.strokeColor = UIColor.red.withAlphaComponent(0.5).cgColor
-            upLineLayer.lineWidth = 1
-            upLineLayer.lineCap = kCALineCapRound
-            heartrateDataScroll.layer.addSublayer(upLineLayer)
-            
-            let upLabel = UILabel()
-            upLabel.frame = CGRect(x: heartrateDataScroll.contentSize.width, y:  rectHeight * 0.2 - 0.5, width: 25, height: 17)
-            upLabel.text = "120"
-            upLabel.font = fontSmall
-            upLabel.textColor = .white
-            upLabel.backgroundColor = UIColor.red.withAlphaComponent(0.5)
-            heartrateDataScroll.addSubview(upLabel)
-            
-            //曲线上下偏移量
-            let lineOffset = rectWidth * 3
-            
-            //绘制曲线
-            let bezier = UIBezierPath()
-            dataList.enumerated().forEach(){
-                index, data in
-                if index == 0{
-                    let startPoint = CGPoint(x: rectWidth / 2 + radius,
-                                             y: (rectHeight - lineOffset) - (rectHeight - lineOffset) * (data - minData) / (maxData - minData) + lineOffset / 2)
-                    bezier.move(to: startPoint)
-                    
-                    //添加小圆圈
-                    let markCircle = UIBezierPath(ovalIn: CGRect(x: startPoint.x - rectWidth / 2, y: startPoint.y - rectWidth / 2, width: rectWidth, height: rectWidth))
-                    let markLayer = CAShapeLayer()
-                    markLayer.path = markCircle.cgPath
-                    markLayer.fillColor = UIColor.white.withAlphaComponent(0.5).cgColor
-                    markLayer.strokeColor = UIColor.white.withAlphaComponent(0.5).cgColor
-                    markLayer.lineWidth = 2
-                    heartrateDataScroll.layer.addSublayer(markLayer)
-                    markCircleList.append(markLayer)
-                    
-                }else{
-                    let currentPoint = bezier.currentPoint
-                    let nextPoint = CGPoint(x: CGFloat(index) * rectWidth + rectWidth / 2 + radius,
-                                            y: (rectHeight - lineOffset) - (rectHeight - lineOffset) * (data - minData) / (maxData - minData) + lineOffset / 2)
-                    let controlPoint1 = CGPoint(x: currentPoint.x + rectWidth * 0.8, y: currentPoint.y)
-                    let controlPoint2 = CGPoint(x: nextPoint.x - rectWidth * 0.8, y: nextPoint.y)
-                    bezier.addCurve(to: nextPoint, controlPoint1: controlPoint1, controlPoint2: controlPoint2)
-                    
-                    //添加小圆圈
-                    let markCircle = UIBezierPath(ovalIn: CGRect(x: nextPoint.x - rectWidth / 2, y: nextPoint.y - rectWidth / 2, width: rectWidth, height: rectWidth))
-                    let markLayer = CAShapeLayer()
-                    markLayer.path = markCircle.cgPath
-                    markLayer.fillColor = UIColor.white.withAlphaComponent(0.5).cgColor
-                    markLayer.strokeColor = UIColor.white.withAlphaComponent(0.5).cgColor
-                    markLayer.lineWidth = 2
-                    heartrateDataScroll.layer.addSublayer(markLayer)
-                    markCircleList.append(markLayer)
+            //数据
+            switch self.type as DataCubeType {
+            case .sport:
+                self.deltaMinute = 15
+                
+                //默认最大值
+                if maxData < 100{
+                    maxData = 100
                 }
-            }
-            
-            //设置标记最后一个layer
-            if let lastMarkCircle = markCircleList.last{
-                lastMarkCircle.lineWidth = 4
-                lastMarkCircle.fillColor = UIColor.white.cgColor
-                lastMarkCircle.strokeColor = UIColor.white.cgColor
-            }
-            
-            let shapeLayer = CAShapeLayer()
-            shapeLayer.path = bezier.cgPath
-            shapeLayer.fillColor = nil
-            shapeLayer.lineCap = kCALineCapRound
-            shapeLayer.strokeColor = modelEndColors[type]!.withAlphaComponent(0.5).cgColor
-            shapeLayer.lineWidth = rectWidth * 0.7
-            heartrateDataScroll.layer.insertSublayer(shapeLayer, at: 0)
-            
-            let anim = CABasicAnimation(keyPath: "strokeEnd")
-            anim.fromValue = 0
-            anim.toValue = 1
-            anim.duration = 0.5
-            anim.fillMode = kCAFillModeBoth
-            anim.isRemovedOnCompletion = false
-            shapeLayer.add(anim, forKey: nil)
-            
-            //设置选择view显示
-            selectedView.isHidden = false
-            let selectedViewX = bounds.size.width / 2
-            selectedView.frame.origin.x = selectedViewX
-            
-            //显示文字
-            if let data = dataList.last{
-                let hour = "\((headCount + dataListCount) / (60 / deltaMinute))"
-                let minute: String = (headCount + dataListCount) % (60 / deltaMinute) == 0 ? "00" : "\((headCount + dataListCount) % (60 / deltaMinute) * deltaMinute)"
-                let time = hour + ":" + minute
-                selectedLabel.text = "\(Int16(data))" + "Bmp" + "\n\(time)"
-            }
-        case .sleep:
-            
-            //时间
-            let sleepBeginTime = delegate?.detailSleepBeginTime()                   //获取开始时间
-            let calendar = Calendar.current
-            let components = calendar.dateComponents([.hour, .minute], from: sleepBeginTime!)
-            startSleepHour = components.hour!
-            startSleepMinute = components.minute!
-            
-            
-            //获取数据总和
-            deltaMinute = 0
-            dataList.forEach(){
-                data in
-                deltaMinute += Int(Int16(data) % sleepTypeBit)
-            }
-            
-            var offsetX: CGFloat = radius                                                //计算数据x坐标值
-            let rectHeight = detailBackOriginY * 0.5 / 4
-            //绘制柱状图
-            dataList.enumerated().forEach(){
-                index, data in
                 
-                let sleepType = Int16(data) / sleepTypeBit                          //获取睡眠类型
-                var sleepColor: CGColor                                             //获取睡眠颜色
-                
-                var height = rectHeight
-                switch sleepType{
-                case 0:
-                    //深睡
-                    sleepColor = UIColor(red: 29 / 255, green: 57 / 255, blue: 181 / 255, alpha: 1).cgColor
-                case 1:
-                    //浅睡
-                    sleepColor = UIColor(red: 14 / 255, green: 128 / 255, blue: 245 / 255, alpha: 1).cgColor
-                case 2:
-                    //快速眼动
-                    sleepColor = UIColor(red: 85 / 255, green: 187 / 255, blue: 252 / 255, alpha: 1).cgColor
-                case 3:
-                    //清醒
-                    sleepColor = UIColor(red: 255 / 255, green: 205 / 255, blue: 52 / 255, alpha: 1).cgColor
-                    height *= 0.5
-                default:
-                    sleepColor = UIColor.clear.cgColor
-                    break
+                let rectHeight = detailBackOriginY * 0.6
+                //绘制柱状图
+                dataList.enumerated().forEach(){
+                    index, data in
+                    
+                    let bezier = UIBezierPath(roundedRect: CGRect(x: CGFloat(index) * rectWidth + self.radius + rectWidth * 0.1,
+                                                                  y: -rectHeight + cornerRadius,
+                                                                  width: rectWidth * 0.8,
+                                                                  height: rectHeight),
+                                              cornerRadius: cornerRadius)
+                    
+                    let shapeLayer = CAShapeLayer()
+                    shapeLayer.path = bezier.cgPath
+                    shapeLayer.fillColor = UIColor.white.cgColor
+                    shapeLayer.lineWidth = 0
+                    self.layer.insertSublayer(shapeLayer, at: 0)
+                    
+                    //动画
+                    let anim = CABasicAnimation(keyPath: "transform.scale.y")
+                    anim.fromValue = 0
+                    anim.toValue = data / maxData
+                    anim.duration = 0.2
+                    let time = self.layer.convertTime(CACurrentMediaTime(), from: nil)       //马赫时间
+                    anim.beginTime = time + TimeInterval(index) * 0.01
+                    anim.fillMode = kCAFillModeBoth
+                    anim.isRemovedOnCompletion = false
+                    anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+                    shapeLayer.add(anim, forKey: nil)
                 }
-                let sleepData = CGFloat(Int16(data) % sleepTypeBit)                           //获取数据
-                rectWidth = (bounds.size.width - radius * 2) * sleepData / CGFloat(deltaMinute)
                 
-                let bezier = UIBezierPath(rect: CGRect(x: offsetX,
-                                                       y: -rectHeight * CGFloat(sleepType + 1) + (rectHeight - height),
-                                                       width: rectWidth,
-                                                       height: height))
-
-                offsetX += rectWidth
+                //起始文字
+                beginText = "\(headCount / (60 / self.deltaMinute)):\(headCount % (60 / self.deltaMinute) * self.deltaMinute)"
+                endText = "\(23 - tailCount / (60 / self.deltaMinute)):\(59 - tailCount % (60 / self.deltaMinute) * self.deltaMinute)"
                 
-                let shapeLayer = CAShapeLayer()
-                shapeLayer.path = bezier.cgPath
-                shapeLayer.fillColor = sleepColor
-                shapeLayer.lineWidth = 0
-                layer.addSublayer(shapeLayer)
+            case .heartrate:
+                self.deltaMinute = 5
                 
-                //动画
-                let alphaAnim = CABasicAnimation(keyPath: "opacity")
-                alphaAnim.fromValue = 0
-                alphaAnim.toValue = 0.8
+                let screenCount = 80           //每屏数据量
                 
-                let scaleAnim = CABasicAnimation(keyPath: "transform.scale.x")
-                scaleAnim.fromValue = 0
-                scaleAnim.toValue = 1
+                let rectHeight = detailBackOriginY * 0.6
                 
-                let group = CAAnimationGroup()
-                let duration = 0.1
-                group.animations = [alphaAnim, scaleAnim]
-                group.duration = duration
-                let time = layer.convertTime(CACurrentMediaTime(), from: nil)       //马赫时间
-                group.beginTime = time + TimeInterval(index) * duration * 0.5
-                group.fillMode = kCAFillModeBoth
-                group.isRemovedOnCompletion = false
-                group.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-                shapeLayer.add(group, forKey: nil)
-            }
-            
-            //设置显示值 selected view
-            let timeResult = getNewHourAndMinute(hour: startSleepHour, minute: startSleepMinute, deltaMinute: deltaMinute)
-            let hour = "\(timeResult.hour)"
-            let minute = timeResult.minute < 10 ? "0\(timeResult.minute)" : "\(timeResult.minute)"
-            
-            beginText = "\(startSleepHour):\(startSleepMinute)"
-            endText = hour + ":" + minute
-            
-            //绘制类型文字
-            let label0 = UILabel(frame: CGRect(x: 0, y: -rectHeight * 1 , width: bounds.size.width / 2, height: rectHeight))
-            label0.font = fontTiny
-            label0.textAlignment = .left
-            label0.textColor = UIColor.white.withAlphaComponent(0.5)
-            label0.text = "深睡"
-            insertSubview(label0, at: 0)
-            
-            //绘制类型文字
-            let label1 = UILabel(frame: CGRect(x: 0, y: -rectHeight * 2 , width: bounds.size.width / 2, height: rectHeight))
-            label1.font = fontTiny
-            label1.textAlignment = .left
-            label1.textColor = UIColor.white.withAlphaComponent(0.5)
-            label1.text = "浅睡"
-            insertSubview(label1, at: 0)
-            
-            //绘制类型文字
-            let label2 = UILabel(frame: CGRect(x: 0, y: -rectHeight * 3 , width: bounds.size.width / 2, height: rectHeight))
-            label2.font = fontTiny
-            label2.textAlignment = .left
-            label2.textColor = UIColor.white.withAlphaComponent(0.5)
-            label2.text = "快速眼动"
-            insertSubview(label2, at: 0)
-            
-            //绘制类型文字
-            let label3 = UILabel(frame: CGRect(x: 0, y: -rectHeight * 4 , width: bounds.size.width / 2, height: rectHeight))
-            label3.font = fontTiny
-            label3.textAlignment = .left
-            label3.textColor = UIColor.white.withAlphaComponent(0.5)
-            label3.text = "清醒"
-            insertSubview(label3, at: 0)
-            
-            //绘制数据线
-            (0..<3).forEach(){
-                i in
+                //创建滑动视图
+                self.heartrateDataScroll = UIScrollView(frame: CGRect(x: self.radius,
+                                                                      y: -rectHeight,
+                                                                      width: self.bounds.size.width - self.radius * 2,
+                                                                      height: rectHeight))
+                self.heartrateDataScroll.contentSize = CGSize(width: (self.bounds.size.width - self.radius * 2) * CGFloat(dataListCount) / CGFloat(screenCount) + self.radius,
+                                                              height: rectHeight)
+                self.heartrateDataScroll.contentOffset.x = self.heartrateDataScroll.contentSize.width - (self.bounds.size.width - self.radius * 2) / 2
+                self.addSubview(self.heartrateDataScroll)
+                
+                rectWidth = (self.bounds.size.width - self.radius * 2) / CGFloat(screenCount)         //修改数据宽度
+                
+                //绘制数据线
                 let upLineBezier = UIBezierPath()
-                upLineBezier.move(to: CGPoint(x: 0, y: -rectHeight * CGFloat(i + 1)))
-                upLineBezier.addLine(to: CGPoint(x: bounds.width, y: -rectHeight * CGFloat(i + 1)))
+                upLineBezier.move(to: CGPoint(x: 0, y: rectHeight * 0.2))
+                upLineBezier.addLine(to: CGPoint(x: self.heartrateDataScroll.contentSize.width, y: rectHeight * 0.2))
                 let upLineLayer = CAShapeLayer()
                 upLineLayer.path = upLineBezier.cgPath
-                upLineLayer.strokeColor = UIColor.white.withAlphaComponent(0.3).cgColor
-                upLineLayer.lineWidth = 0.5
+                upLineLayer.strokeColor = UIColor.red.withAlphaComponent(0.5).cgColor
+                upLineLayer.lineWidth = 1
                 upLineLayer.lineCap = kCALineCapRound
-                layer.addSublayer(upLineLayer)
-            }
-        case .weight:
-            deltaMinute = 1
-            
-            //获取日期列表
-            dateList = delegate?.detailWeightDates()
-            guard dateList != nil, dateList?.count == dataList.count else{
-                break
-            }
-            
-            //调整最大值与最小值
-            let targetData: CGFloat = 65                                        //获取目标值
-            if targetData > maxData{
-                maxData = targetData
-            }else if targetData < minData{
-                minData = targetData
-            }
-            
-            //定义常量
-            let totalHeight = detailBackOriginY * 0.6                           //获取绘图区域总高度
-            let bottomHeight: CGFloat = 20                                      //获取底部高度
-            let circleRadius: CGFloat = 8                                       //小圆圈半径
-            
-            //绘制数据线
-            let upLineBezier = UIBezierPath()
-            upLineBezier.move(to: CGPoint(x: 25, y: -totalHeight - bottomHeight))
-            upLineBezier.addLine(to: CGPoint(x: bounds.width, y: -totalHeight - bottomHeight))
-            let upLineLayer = CAShapeLayer()
-            upLineLayer.path = upLineBezier.cgPath
-            upLineLayer.strokeColor = modelStartColors[type]!.cgColor
-            upLineLayer.lineWidth = 1
-            upLineLayer.lineCap = kCALineCapRound
-            layer.addSublayer(upLineLayer)
-            
-            let upLabel = UILabel()
-            upLabel.frame = CGRect(x: 0, y:  -totalHeight - bottomHeight - 17 / 2, width: 25, height: 17)
-            upLabel.text = "\(maxData)"
-            upLabel.font = fontSmall
-            upLabel.textColor = modelStartColors[type]!
-            upLabel.layer.backgroundColor = UIColor.white.withAlphaComponent(0.5).cgColor
-            upLabel.layer.cornerRadius = 2
-            addSubview(upLabel)
-            
-            let downLineBezier = UIBezierPath()
-            downLineBezier.move(to: CGPoint(x: 25, y: -bottomHeight))
-            downLineBezier.addLine(to: CGPoint(x: bounds.width, y: -bottomHeight))
-            let downLineLayer = CAShapeLayer()
-            downLineLayer.path = downLineBezier.cgPath
-            downLineLayer.strokeColor = modelStartColors[type]!.cgColor
-            downLineLayer.lineWidth = 1
-            downLineLayer.lineCap = kCALineCapRound
-            layer.addSublayer(downLineLayer)
-            
-            let downLabel = UILabel()
-            downLabel.frame = CGRect(x: 0, y: -bottomHeight - 17 / 2, width: 25, height: 17)
-            downLabel.text = "\(minData)"
-            downLabel.font = fontSmall
-            downLabel.textColor = modelStartColors[type]!
-            downLabel.layer.backgroundColor = UIColor.white.withAlphaComponent(0.5).cgColor
-            downLabel.layer.cornerRadius = 2
-            addSubview(downLabel)
-            
-            if targetData != maxData && targetData != minData{
+                self.heartrateDataScroll.layer.addSublayer(upLineLayer)
                 
-                let targetY = (targetData - minData) / (maxData - minData) * -totalHeight - bottomHeight
-                let targetLineBezier = UIBezierPath()
-                targetLineBezier.move(to: CGPoint(x: 25, y: targetY))
-                targetLineBezier.addLine(to: CGPoint(x: bounds.width, y: targetY))
-                let targetLineLayer = CAShapeLayer()
-                targetLineLayer.path = targetLineBezier.cgPath
-                targetLineLayer.lineDashPattern = [1, 2]
-                targetLineLayer.strokeColor = modelEndColors[type]!.cgColor
-                targetLineLayer.lineWidth = 1
-                targetLineLayer.lineCap = kCALineCapRound
-                layer.addSublayer(targetLineLayer)
+                let upLabel = UILabel()
+                upLabel.frame = CGRect(x: self.heartrateDataScroll.contentSize.width, y:  rectHeight * 0.2 - 0.5, width: 25, height: 17)
+                upLabel.text = "120"
+                upLabel.font = fontSmall
+                upLabel.textColor = .white
+                upLabel.backgroundColor = UIColor.red.withAlphaComponent(0.5)
+                self.heartrateDataScroll.addSubview(upLabel)
                 
-                let targetLabel = UILabel()
-                targetLabel.frame = CGRect(x: 0, y: targetY - 17 / 2, width: 25, height: 17)
-                targetLabel.text = "\(targetData)"
-                targetLabel.font = fontSmall
-                targetLabel.textColor = modelEndColors[type]!
-                addSubview(targetLabel)
-            }
-            
-            //绘制柱状图
-            let bezier = UIBezierPath()
-            dataList.enumerated().forEach(){
-                index, data in
+                //曲线上下偏移量
+                let lineOffset = rectWidth * 3
                 
-                if index == 0{
-                    let startPoint = CGPoint(x: rectWidth + radius,
-                                             y: (data - minData) / (maxData - minData) * -totalHeight - bottomHeight)
-                    bezier.move(to: startPoint)
-                    
-                    //添加小圆圈
-                    let markCircle = UIBezierPath(ovalIn: CGRect(x: startPoint.x - circleRadius / 2, y: startPoint.y - circleRadius / 2, width: circleRadius, height: circleRadius))
-                    let markLayer = CAShapeLayer()
-                    markLayer.path = markCircle.cgPath
-                    markLayer.fillColor = UIColor.white.withAlphaComponent(1).cgColor
-                    markLayer.strokeColor = UIColor.white.withAlphaComponent(1).cgColor
-                    markLayer.lineWidth = 2
-                    layer.addSublayer(markLayer)
-                    markCircleList.append(markLayer)
-                    
-                    //动画
-                    let anim = CABasicAnimation(keyPath: "opacity")
-                    anim.fromValue = 0
-                    anim.toValue = 1
-                    anim.duration = 0.6
-                    anim.fillMode = kCAFillModeBoth
-                    anim.isRemovedOnCompletion = true
-                    anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
-                    markLayer.add(anim, forKey: nil)
-                }else{
-                    let nextPoint = CGPoint(x: CGFloat(index + 1) * rectWidth + radius,
-                                            y: (data - minData) / (maxData - minData) * -totalHeight - bottomHeight)
-                    bezier.addLine(to: nextPoint)
-                    
-                    //添加小圆圈
-                    let markCircle = UIBezierPath(ovalIn: CGRect(x: nextPoint.x - circleRadius / 2, y: nextPoint.y - circleRadius / 2, width: circleRadius, height: circleRadius))
-                    let markLayer = CAShapeLayer()
-                    markLayer.path = markCircle.cgPath
-                    markLayer.fillColor = UIColor.white.withAlphaComponent(1).cgColor
-                    markLayer.strokeColor = UIColor.white.withAlphaComponent(1).cgColor
-                    markLayer.lineWidth = 2
-                    layer.addSublayer(markLayer)
-                    markCircleList.append(markLayer)
-                    
-                    //动画
-                    let anim = CABasicAnimation(keyPath: "opacity")
-                    anim.fromValue = 0
-                    anim.toValue = 1
-                    anim.duration = 0.3
-                    let time = layer.convertTime(CACurrentMediaTime(), from: nil)       //马赫时间
-                    anim.beginTime = time + 1
-                    anim.fillMode = kCAFillModeBoth
-                    anim.isRemovedOnCompletion = true
-                    anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
-                    markLayer.add(anim, forKey: nil)
+                //绘制曲线
+                let bezier = UIBezierPath()
+                dataList.enumerated().forEach(){
+                    index, data in
+                    if index == 0{
+                        let startPoint = CGPoint(x: rectWidth / 2 + self.radius,
+                                                 y: (rectHeight - lineOffset) - (rectHeight - lineOffset) * (data - minData) / (maxData - minData) + lineOffset / 2)
+                        bezier.move(to: startPoint)
+                        
+                        //添加小圆圈
+                        let markCircle = UIBezierPath(ovalIn: CGRect(x: startPoint.x - rectWidth / 2, y: startPoint.y - rectWidth / 2, width: rectWidth, height: rectWidth))
+                        let markLayer = CAShapeLayer()
+                        markLayer.path = markCircle.cgPath
+                        markLayer.fillColor = UIColor.white.withAlphaComponent(0.5).cgColor
+                        markLayer.strokeColor = UIColor.white.withAlphaComponent(0.5).cgColor
+                        markLayer.lineWidth = 2
+                        self.heartrateDataScroll.layer.addSublayer(markLayer)
+                        self.markCircleList.append(markLayer)
+                        
+                    }else{
+                        let currentPoint = bezier.currentPoint
+                        let nextPoint = CGPoint(x: CGFloat(index) * rectWidth + rectWidth / 2 + self.radius,
+                                                y: (rectHeight - lineOffset) - (rectHeight - lineOffset) * (data - minData) / (maxData - minData) + lineOffset / 2)
+                        let controlPoint1 = CGPoint(x: currentPoint.x + rectWidth * 0.8, y: currentPoint.y)
+                        let controlPoint2 = CGPoint(x: nextPoint.x - rectWidth * 0.8, y: nextPoint.y)
+                        bezier.addCurve(to: nextPoint, controlPoint1: controlPoint1, controlPoint2: controlPoint2)
+                        
+                        //添加小圆圈
+                        let markCircle = UIBezierPath(ovalIn: CGRect(x: nextPoint.x - rectWidth / 2, y: nextPoint.y - rectWidth / 2, width: rectWidth, height: rectWidth))
+                        let markLayer = CAShapeLayer()
+                        markLayer.path = markCircle.cgPath
+                        markLayer.fillColor = UIColor.white.withAlphaComponent(0.5).cgColor
+                        markLayer.strokeColor = UIColor.white.withAlphaComponent(0.5).cgColor
+                        markLayer.lineWidth = 2
+                        self.heartrateDataScroll.layer.addSublayer(markLayer)
+                        self.markCircleList.append(markLayer)
+                    }
                 }
                 
+                //设置标记最后一个layer
+                if let lastMarkCircle = self.markCircleList.last{
+                    lastMarkCircle.lineWidth = 4
+                    lastMarkCircle.fillColor = UIColor.white.cgColor
+                    lastMarkCircle.strokeColor = UIColor.white.cgColor
+                }
+                
+                let shapeLayer = CAShapeLayer()
+                shapeLayer.path = bezier.cgPath
+                shapeLayer.fillColor = nil
+                shapeLayer.lineCap = kCALineCapRound
+                shapeLayer.strokeColor = modelEndColors[self.type]!.withAlphaComponent(0.5).cgColor
+                shapeLayer.lineWidth = rectWidth * 0.7
+                self.heartrateDataScroll.layer.insertSublayer(shapeLayer, at: 0)
+                
+                let anim = CABasicAnimation(keyPath: "strokeEnd")
+                anim.fromValue = 0
+                anim.toValue = 1
+                anim.duration = 0.5
+                anim.fillMode = kCAFillModeBoth
+                anim.isRemovedOnCompletion = false
+                shapeLayer.add(anim, forKey: nil)
+                
+                //设置选择view显示
+                self.selectedView.isHidden = false
+                let selectedViewX = self.bounds.size.width / 2
+                self.selectedView.frame.origin.x = selectedViewX
+                
+                //显示文字
+                if let data = dataList.last{
+                    let hour = "\((headCount + dataListCount) / (60 / self.deltaMinute))"
+                    let minute: String = (headCount + dataListCount) % (60 / self.deltaMinute) == 0 ? "00" : "\((headCount + dataListCount) % (60 / self.deltaMinute) * self.deltaMinute)"
+                    let time = hour + ":" + minute
+                    self.selectedLabel.text = "\(Int16(data))" + "Bmp" + "\n\(time)"
+                }
+            case .sleep:
+                
+                //时间
+                let sleepBeginTime = self.delegate?.detailSleepBeginTime()                   //获取开始时间
+                let calendar = Calendar.current
+                let components = calendar.dateComponents([.hour, .minute], from: sleepBeginTime!)
+                self.startSleepHour = components.hour!
+                self.startSleepMinute = components.minute!
+                
+                
+                //获取数据总和
+                self.deltaMinute = 0
+                dataList.forEach(){
+                    data in
+                    self.deltaMinute += Int(Int16(data) % sleepTypeBit)
+                }
+                
+                var offsetX: CGFloat = self.radius                                                //计算数据x坐标值
+                let rectHeight = detailBackOriginY * 0.5 / 4
+                //绘制柱状图
+                dataList.enumerated().forEach(){
+                    index, data in
+                    
+                    let sleepType = Int16(data) / sleepTypeBit                          //获取睡眠类型
+                    var sleepColor: CGColor                                             //获取睡眠颜色
+                    
+                    var height = rectHeight
+                    switch sleepType{
+                    case 0:
+                        //深睡
+                        sleepColor = UIColor(red: 29 / 255, green: 57 / 255, blue: 181 / 255, alpha: 1).cgColor
+                    case 1:
+                        //浅睡
+                        sleepColor = UIColor(red: 14 / 255, green: 128 / 255, blue: 245 / 255, alpha: 1).cgColor
+                    case 2:
+                        //快速眼动
+                        sleepColor = UIColor(red: 85 / 255, green: 187 / 255, blue: 252 / 255, alpha: 1).cgColor
+                    case 3:
+                        //清醒
+                        sleepColor = UIColor(red: 255 / 255, green: 205 / 255, blue: 52 / 255, alpha: 1).cgColor
+                        height *= 0.5
+                    default:
+                        sleepColor = UIColor.clear.cgColor
+                        break
+                    }
+                    let sleepData = CGFloat(Int16(data) % sleepTypeBit)                           //获取数据
+                    rectWidth = (self.bounds.size.width - self.radius * 2) * sleepData / CGFloat(self.deltaMinute)
+                    
+                    let bezier = UIBezierPath(rect: CGRect(x: offsetX,
+                                                           y: -rectHeight * CGFloat(sleepType + 1) + (rectHeight - height),
+                                                           width: rectWidth,
+                                                           height: height))
+                    
+                    offsetX += rectWidth
+                    
+                    let shapeLayer = CAShapeLayer()
+                    shapeLayer.path = bezier.cgPath
+                    shapeLayer.fillColor = sleepColor
+                    shapeLayer.lineWidth = 0
+                    self.layer.addSublayer(shapeLayer)
+                    
+                    //动画
+                    let alphaAnim = CABasicAnimation(keyPath: "opacity")
+                    alphaAnim.fromValue = 0
+                    alphaAnim.toValue = 0.8
+                    
+                    let scaleAnim = CABasicAnimation(keyPath: "transform.scale.x")
+                    scaleAnim.fromValue = 0
+                    scaleAnim.toValue = 1
+                    
+                    let group = CAAnimationGroup()
+                    let duration = 0.1
+                    group.animations = [alphaAnim, scaleAnim]
+                    group.duration = duration
+                    let time = self.layer.convertTime(CACurrentMediaTime(), from: nil)       //马赫时间
+                    group.beginTime = time + TimeInterval(index) * duration * 0.5
+                    group.fillMode = kCAFillModeBoth
+                    group.isRemovedOnCompletion = false
+                    group.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+                    shapeLayer.add(group, forKey: nil)
+                }
+                
+                //设置显示值 selected view
+                let timeResult = self.getNewHourAndMinute(hour: self.startSleepHour, minute: self.startSleepMinute, deltaMinute: self.deltaMinute)
+                let hour = "\(timeResult.hour)"
+                let minute = timeResult.minute < 10 ? "0\(timeResult.minute)" : "\(timeResult.minute)"
+                
+                beginText = "\(self.startSleepHour):\(self.startSleepMinute)"
+                endText = hour + ":" + minute
+                
+                //绘制类型文字
+                let label0 = UILabel(frame: CGRect(x: 0, y: -rectHeight * 1 , width: self.bounds.size.width / 2, height: rectHeight))
+                label0.font = fontTiny
+                label0.textAlignment = .left
+                label0.textColor = UIColor.white.withAlphaComponent(0.5)
+                label0.text = "深睡"
+                self.insertSubview(label0, at: 0)
+                
+                //绘制类型文字
+                let label1 = UILabel(frame: CGRect(x: 0, y: -rectHeight * 2 , width: self.bounds.size.width / 2, height: rectHeight))
+                label1.font = fontTiny
+                label1.textAlignment = .left
+                label1.textColor = UIColor.white.withAlphaComponent(0.5)
+                label1.text = "浅睡"
+                self.insertSubview(label1, at: 0)
+                
+                //绘制类型文字
+                let label2 = UILabel(frame: CGRect(x: 0, y: -rectHeight * 3 , width: self.bounds.size.width / 2, height: rectHeight))
+                label2.font = fontTiny
+                label2.textAlignment = .left
+                label2.textColor = UIColor.white.withAlphaComponent(0.5)
+                label2.text = "快速眼动"
+                self.insertSubview(label2, at: 0)
+                
+                //绘制类型文字
+                let label3 = UILabel(frame: CGRect(x: 0, y: -rectHeight * 4 , width: self.bounds.size.width / 2, height: rectHeight))
+                label3.font = fontTiny
+                label3.textAlignment = .left
+                label3.textColor = UIColor.white.withAlphaComponent(0.5)
+                label3.text = "清醒"
+                self.insertSubview(label3, at: 0)
+                
+                //绘制数据线
+                (0..<3).forEach(){
+                    i in
+                    let upLineBezier = UIBezierPath()
+                    upLineBezier.move(to: CGPoint(x: 0, y: -rectHeight * CGFloat(i + 1)))
+                    upLineBezier.addLine(to: CGPoint(x: self.bounds.width, y: -rectHeight * CGFloat(i + 1)))
+                    let upLineLayer = CAShapeLayer()
+                    upLineLayer.path = upLineBezier.cgPath
+                    upLineLayer.strokeColor = UIColor.white.withAlphaComponent(0.3).cgColor
+                    upLineLayer.lineWidth = 0.5
+                    upLineLayer.lineCap = kCALineCapRound
+                    self.layer.addSublayer(upLineLayer)
+                }
+            case .weight:
+                self.deltaMinute = 1
+                
+                //获取日期列表
+                self.dateList = self.delegate?.detailWeightDates()
+                guard self.dateList != nil, self.dateList?.count == dataList.count else{
+                    break
+                }
+                
+                //调整最大值与最小值
+                let targetData: CGFloat = 65                                        //获取目标值
+                if targetData > maxData{
+                    maxData = targetData
+                }else if targetData < minData{
+                    minData = targetData
+                }
+                
+                //定义常量
+                let totalHeight = detailBackOriginY * 0.6                           //获取绘图区域总高度
+                let bottomHeight: CGFloat = 20                                      //获取底部高度
+                let circleRadius: CGFloat = 8                                       //小圆圈半径
+                
+                //绘制数据线
+                let upLineBezier = UIBezierPath()
+                upLineBezier.move(to: CGPoint(x: 25, y: -totalHeight - bottomHeight))
+                upLineBezier.addLine(to: CGPoint(x: self.bounds.width, y: -totalHeight - bottomHeight))
+                let upLineLayer = CAShapeLayer()
+                upLineLayer.path = upLineBezier.cgPath
+                upLineLayer.strokeColor = modelStartColors[self.type]!.cgColor
+                upLineLayer.lineWidth = 1
+                upLineLayer.lineCap = kCALineCapRound
+                self.layer.addSublayer(upLineLayer)
+                
+                let upLabel = UILabel()
+                upLabel.frame = CGRect(x: 0, y:  -totalHeight - bottomHeight - 17 / 2, width: 25, height: 17)
+                upLabel.text = "\(maxData)"
+                upLabel.font = fontSmall
+                upLabel.textColor = modelStartColors[self.type]!
+                upLabel.layer.backgroundColor = UIColor.white.withAlphaComponent(0.5).cgColor
+                upLabel.layer.cornerRadius = 2
+                self.addSubview(upLabel)
+                
+                let downLineBezier = UIBezierPath()
+                downLineBezier.move(to: CGPoint(x: 25, y: -bottomHeight))
+                downLineBezier.addLine(to: CGPoint(x: self.bounds.width, y: -bottomHeight))
+                let downLineLayer = CAShapeLayer()
+                downLineLayer.path = downLineBezier.cgPath
+                downLineLayer.strokeColor = modelStartColors[self.type]!.cgColor
+                downLineLayer.lineWidth = 1
+                downLineLayer.lineCap = kCALineCapRound
+                self.layer.addSublayer(downLineLayer)
+                
+                let downLabel = UILabel()
+                downLabel.frame = CGRect(x: 0, y: -bottomHeight - 17 / 2, width: 25, height: 17)
+                downLabel.text = "\(minData)"
+                downLabel.font = fontSmall
+                downLabel.textColor = modelStartColors[self.type]!
+                downLabel.layer.backgroundColor = UIColor.white.withAlphaComponent(0.5).cgColor
+                downLabel.layer.cornerRadius = 2
+                self.addSubview(downLabel)
+                
+                if targetData != maxData && targetData != minData{
+                    
+                    let targetY = (targetData - minData) / (maxData - minData) * -totalHeight - bottomHeight
+                    let targetLineBezier = UIBezierPath()
+                    targetLineBezier.move(to: CGPoint(x: 25, y: targetY))
+                    targetLineBezier.addLine(to: CGPoint(x: self.bounds.width, y: targetY))
+                    let targetLineLayer = CAShapeLayer()
+                    targetLineLayer.path = targetLineBezier.cgPath
+                    targetLineLayer.lineDashPattern = [1, 2]
+                    targetLineLayer.strokeColor = modelEndColors[self.type]!.cgColor
+                    targetLineLayer.lineWidth = 1
+                    targetLineLayer.lineCap = kCALineCapRound
+                    self.layer.addSublayer(targetLineLayer)
+                    
+                    let targetLabel = UILabel()
+                    targetLabel.frame = CGRect(x: 0, y: targetY - 17 / 2, width: 25, height: 17)
+                    targetLabel.text = "\(targetData)"
+                    targetLabel.font = fontSmall
+                    targetLabel.textColor = modelEndColors[self.type]!
+                    self.addSubview(targetLabel)
+                }
+                
+                //绘制柱状图
+                let bezier = UIBezierPath()
+                dataList.enumerated().forEach(){
+                    index, data in
+                    
+                    if index == 0{
+                        let startPoint = CGPoint(x: rectWidth + self.radius,
+                                                 y: (data - minData) / (maxData - minData) * -totalHeight - bottomHeight)
+                        bezier.move(to: startPoint)
+                        
+                        //添加小圆圈
+                        let markCircle = UIBezierPath(ovalIn: CGRect(x: startPoint.x - circleRadius / 2, y: startPoint.y - circleRadius / 2, width: circleRadius, height: circleRadius))
+                        let markLayer = CAShapeLayer()
+                        markLayer.path = markCircle.cgPath
+                        markLayer.fillColor = UIColor.white.withAlphaComponent(1).cgColor
+                        markLayer.strokeColor = UIColor.white.withAlphaComponent(1).cgColor
+                        markLayer.lineWidth = 2
+                        self.layer.addSublayer(markLayer)
+                        self.markCircleList.append(markLayer)
+                        
+                        //动画
+                        let anim = CABasicAnimation(keyPath: "opacity")
+                        anim.fromValue = 0
+                        anim.toValue = 1
+                        anim.duration = 0.6
+                        anim.fillMode = kCAFillModeBoth
+                        anim.isRemovedOnCompletion = true
+                        anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+                        markLayer.add(anim, forKey: nil)
+                    }else{
+                        let nextPoint = CGPoint(x: CGFloat(index + 1) * rectWidth + self.radius,
+                                                y: (data - minData) / (maxData - minData) * -totalHeight - bottomHeight)
+                        bezier.addLine(to: nextPoint)
+                        
+                        //添加小圆圈
+                        let markCircle = UIBezierPath(ovalIn: CGRect(x: nextPoint.x - circleRadius / 2, y: nextPoint.y - circleRadius / 2, width: circleRadius, height: circleRadius))
+                        let markLayer = CAShapeLayer()
+                        markLayer.path = markCircle.cgPath
+                        markLayer.fillColor = UIColor.white.withAlphaComponent(1).cgColor
+                        markLayer.strokeColor = UIColor.white.withAlphaComponent(1).cgColor
+                        markLayer.lineWidth = 2
+                        self.layer.addSublayer(markLayer)
+                        self.markCircleList.append(markLayer)
+                        
+                        //动画
+                        let anim = CABasicAnimation(keyPath: "opacity")
+                        anim.fromValue = 0
+                        anim.toValue = 1
+                        anim.duration = 0.3
+                        let time = self.layer.convertTime(CACurrentMediaTime(), from: nil)       //马赫时间
+                        anim.beginTime = time + 1
+                        anim.fillMode = kCAFillModeBoth
+                        anim.isRemovedOnCompletion = true
+                        anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+                        markLayer.add(anim, forKey: nil)
+                    }
+                    
+                }
+                
+                let shapeLayer = CAShapeLayer()
+                shapeLayer.path = bezier.cgPath
+                shapeLayer.strokeColor = UIColor.white.cgColor
+                shapeLayer.fillColor = nil
+                shapeLayer.lineWidth = 2
+                self.layer.addSublayer(shapeLayer)
+                
+                //动画
+                let anim = CABasicAnimation(keyPath: "strokeEnd")
+                anim.fromValue = 0
+                anim.toValue = 1
+                anim.duration = 0.3
+                let time = self.layer.convertTime(CACurrentMediaTime(), from: nil)       //马赫时间
+                anim.beginTime = time + 1
+                anim.fillMode = kCAFillModeBoth
+                anim.isRemovedOnCompletion = true
+                anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+                shapeLayer.add(anim, forKey: nil)
+                
+                //获取日期
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyy年MM月dd日"
+                beginText = formatter.string(from: self.dateList!.first!)
+                endText = formatter.string(from: self.dateList!.last!)
             }
             
-            let shapeLayer = CAShapeLayer()
-            shapeLayer.path = bezier.cgPath
-            shapeLayer.strokeColor = UIColor.white.cgColor
-            shapeLayer.fillColor = nil
-            shapeLayer.lineWidth = 2
-            layer.addSublayer(shapeLayer)
+            //绘制起始文字
+            let startLabel = UILabel()
+            startLabel.frame = CGRect(x: self.radius, y: 8, width: self.bounds.size.width / 2, height: 12)
+            startLabel.textColor = .white
+            startLabel.font = fontSmall
+            startLabel.textAlignment = .left
+            startLabel.text = beginText
+            self.addSubview(startLabel)
             
-            //动画
-            let anim = CABasicAnimation(keyPath: "strokeEnd")
-            anim.fromValue = 0
-            anim.toValue = 1
-            anim.duration = 0.3
-            let time = layer.convertTime(CACurrentMediaTime(), from: nil)       //马赫时间
-            anim.beginTime = time + 1
-            anim.fillMode = kCAFillModeBoth
-            anim.isRemovedOnCompletion = true
-            anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
-            shapeLayer.add(anim, forKey: nil)
+            //绘制结束文字
+            let endLabel = UILabel()
+            endLabel.frame = CGRect(x: self.bounds.size.width / 2 - self.radius, y: 8, width: self.bounds.size.width / 2, height: 12)
+            endLabel.textColor = .white
+            endLabel.font = fontSmall
+            endLabel.textAlignment = .right
+            endLabel.text = endText
+            self.addSubview(endLabel)
             
-            //获取日期
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyy年MM月dd日"
-            beginText = formatter.string(from: dateList!.first!)
-            endText = formatter.string(from: dateList!.last!)
+            //添加选择view
+            self.addSubview(self.selectedView)
         }
-        
-        //绘制起始文字
-        let startLabel = UILabel()
-        startLabel.frame = CGRect(x: radius, y: 8, width: bounds.size.width / 2, height: 12)
-        startLabel.textColor = .white
-        startLabel.font = fontSmall
-        startLabel.textAlignment = .left
-        startLabel.text = beginText
-        addSubview(startLabel)
-        
-        //绘制结束文字
-        let endLabel = UILabel()
-        endLabel.frame = CGRect(x: bounds.size.width / 2 - radius, y: 8, width: bounds.size.width / 2, height: 12)
-        endLabel.textColor = .white
-        endLabel.font = fontSmall
-        endLabel.textAlignment = .right
-        endLabel.text = endText
-        addSubview(endLabel)
-        
-        //添加选择view
-        addSubview(selectedView)
     }
 }
 
@@ -929,6 +933,11 @@ extension DetailTop{
         
         touches.forEach(){
             touch in
+            
+            guard !dataList.isEmpty else{
+                return
+            }
+            
             let location = touch.location(in: self)
             let dataWidth = (bounds.size.width - radius * 2) / CGFloat(dataList.count)
             let dataIndex = Int((location.x - radius) / dataWidth)

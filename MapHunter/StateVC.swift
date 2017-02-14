@@ -34,9 +34,9 @@ class StateVC: UIViewController {
     fileprivate var oldY: CGFloat = 0
 
     //sdk
-    private lazy var angelManager: AngelManager? = {
-        return AngelManager.share()
-    }()
+//    private lazy var angelManager: AngelManager? = {
+//        return AngelManager.share()
+//    }()
     
     //MARK:- init
     override func viewDidLoad() {
@@ -146,17 +146,32 @@ class StateVC: UIViewController {
 //            debugPrint("live data:", liveData)
 //        }
         
+        control.attributedTitle = NSAttributedString(string: "同步健康数据")
+        
         //同步数据
-        angelManager?.setSynchronizationHealthData{
-            complete, progress in
+        let angelManager = AngelManager.share()
+        angelManager?.getMacAddressFromBand{
+            errorCode, macaddress in
             
-            if complete{
-                debugPrint("同步完成")
-                control.attributedTitle = NSAttributedString(string: "同步完成")
+            guard errorCode == ErrorCode.success else{
                 control.endRefreshing()
-            }else{
-                debugPrint("正在同步:\(progress)")
-                control.attributedTitle = NSAttributedString(string: "已同步\(progress)%")
+                return
+            }
+            
+            angelManager?.setSynchronizationHealthData{
+                complete, progress in
+                if complete{
+                    DispatchQueue.main.async {
+                        debugPrint("同步完成")
+                        control.attributedTitle = NSAttributedString(string: "同步完成")
+                        control.endRefreshing()
+                    }
+                }else{
+                    DispatchQueue.main.async {                        
+                        debugPrint("正在同步:\(progress)")
+                        control.attributedTitle = NSAttributedString(string: "已同步\(progress)%")
+                    }
+                }
             }
         }
         
