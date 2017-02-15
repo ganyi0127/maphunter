@@ -274,7 +274,7 @@ class DetailTop: UIView {
     fileprivate var dateList: [Date]?
     
     //MARK:- 心率图
-    fileprivate var heartrateDataScroll: UIScrollView!
+    fileprivate var heartrateDataScroll: UIScrollView?
     
     //点击事件
     private var tap: UITapGestureRecognizer?
@@ -300,10 +300,14 @@ class DetailTop: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private var onceDraw = false
     override func didMoveToSuperview() {
         
         //绘制顶部图等
-        drawGraphic()
+        if !onceDraw{
+            onceDraw = true
+            drawGraphic()
+        }
     }
     
     deinit {
@@ -483,7 +487,9 @@ class DetailTop: UIView {
                 }
                 
                 //起始文字
-                beginText = "\(headCount / (60 / self.deltaMinute)):\(headCount % (60 / self.deltaMinute) * self.deltaMinute)"
+                let minute = headCount % (60 / self.deltaMinute) * self.deltaMinute
+                let minuteStr = minute < 10 ? "0\(minute)" : "\(minute)"
+                beginText = "\(headCount / (60 / self.deltaMinute)):" + minuteStr
                 endText = "\(23 - tailCount / (60 / self.deltaMinute)):\(59 - tailCount % (60 / self.deltaMinute) * self.deltaMinute)"
                 
             case .heartrate:
@@ -498,31 +504,31 @@ class DetailTop: UIView {
                                                                       y: -rectHeight,
                                                                       width: self.bounds.size.width - self.radius * 2,
                                                                       height: rectHeight))
-                self.heartrateDataScroll.contentSize = CGSize(width: (self.bounds.size.width - self.radius * 2) * CGFloat(dataListCount) / CGFloat(screenCount) + self.radius,
+                self.heartrateDataScroll?.contentSize = CGSize(width: (self.bounds.size.width - self.radius * 2) * CGFloat(dataListCount) / CGFloat(screenCount) + self.radius,
                                                               height: rectHeight)
-                self.heartrateDataScroll.contentOffset.x = self.heartrateDataScroll.contentSize.width - (self.bounds.size.width - self.radius * 2) / 2
-                self.addSubview(self.heartrateDataScroll)
+                self.heartrateDataScroll?.contentOffset.x = self.heartrateDataScroll!.contentSize.width - (self.bounds.size.width - self.radius * 2) / 2
+                self.addSubview(self.heartrateDataScroll!)
                 
                 rectWidth = (self.bounds.size.width - self.radius * 2) / CGFloat(screenCount)         //修改数据宽度
                 
                 //绘制数据线
                 let upLineBezier = UIBezierPath()
                 upLineBezier.move(to: CGPoint(x: 0, y: rectHeight * 0.2))
-                upLineBezier.addLine(to: CGPoint(x: self.heartrateDataScroll.contentSize.width, y: rectHeight * 0.2))
+                upLineBezier.addLine(to: CGPoint(x: self.heartrateDataScroll!.contentSize.width, y: rectHeight * 0.2))
                 let upLineLayer = CAShapeLayer()
                 upLineLayer.path = upLineBezier.cgPath
                 upLineLayer.strokeColor = UIColor.red.withAlphaComponent(0.5).cgColor
                 upLineLayer.lineWidth = 1
                 upLineLayer.lineCap = kCALineCapRound
-                self.heartrateDataScroll.layer.addSublayer(upLineLayer)
+                self.heartrateDataScroll?.layer.addSublayer(upLineLayer)
                 
                 let upLabel = UILabel()
-                upLabel.frame = CGRect(x: self.heartrateDataScroll.contentSize.width, y:  rectHeight * 0.2 - 0.5, width: 25, height: 17)
+                upLabel.frame = CGRect(x: self.heartrateDataScroll!.contentSize.width, y:  rectHeight * 0.2 - 0.5, width: 25, height: 17)
                 upLabel.text = "120"
                 upLabel.font = fontSmall
                 upLabel.textColor = .white
                 upLabel.backgroundColor = UIColor.red.withAlphaComponent(0.5)
-                self.heartrateDataScroll.addSubview(upLabel)
+                self.heartrateDataScroll?.addSubview(upLabel)
                 
                 //曲线上下偏移量
                 let lineOffset = rectWidth * 3
@@ -543,7 +549,7 @@ class DetailTop: UIView {
                         markLayer.fillColor = UIColor.white.withAlphaComponent(0.5).cgColor
                         markLayer.strokeColor = UIColor.white.withAlphaComponent(0.5).cgColor
                         markLayer.lineWidth = 2
-                        self.heartrateDataScroll.layer.addSublayer(markLayer)
+                        self.heartrateDataScroll?.layer.addSublayer(markLayer)
                         self.markCircleList.append(markLayer)
                         
                     }else{
@@ -561,7 +567,7 @@ class DetailTop: UIView {
                         markLayer.fillColor = UIColor.white.withAlphaComponent(0.5).cgColor
                         markLayer.strokeColor = UIColor.white.withAlphaComponent(0.5).cgColor
                         markLayer.lineWidth = 2
-                        self.heartrateDataScroll.layer.addSublayer(markLayer)
+                        self.heartrateDataScroll?.layer.addSublayer(markLayer)
                         self.markCircleList.append(markLayer)
                     }
                 }
@@ -579,12 +585,12 @@ class DetailTop: UIView {
                 shapeLayer.lineCap = kCALineCapRound
                 shapeLayer.strokeColor = modelEndColors[self.type]!.withAlphaComponent(0.5).cgColor
                 shapeLayer.lineWidth = rectWidth * 0.7
-                self.heartrateDataScroll.layer.insertSublayer(shapeLayer, at: 0)
+                self.heartrateDataScroll?.layer.insertSublayer(shapeLayer, at: 0)
                 
                 let anim = CABasicAnimation(keyPath: "strokeEnd")
                 anim.fromValue = 0
                 anim.toValue = 1
-                anim.duration = 0.5
+                anim.duration = 1
                 anim.fillMode = kCAFillModeBoth
                 anim.isRemovedOnCompletion = false
                 shapeLayer.add(anim, forKey: nil)
@@ -1010,33 +1016,37 @@ extension DetailTop{
             case .heartrate:
                 unit = "Bmp"
                 
-                //修改scrollview偏移
-                let preLocation = touch.previousLocation(in: self)
-                let deltaX = preLocation.x - location.x
-                heartrateDataScroll.contentOffset.x += deltaX * 2
-                
-                let minOffsetX = -(bounds.size.width - radius * 2) / 2
-                let maxOffsetX = heartrateDataScroll.contentSize.width - (bounds.size.width - radius * 2) / 2
-                if heartrateDataScroll.contentOffset.x < minOffsetX{
-                    heartrateDataScroll.contentOffset.x = minOffsetX
-                }else if heartrateDataScroll.contentOffset.x > maxOffsetX{
-                    heartrateDataScroll.contentOffset.x = maxOffsetX
+                if let scroll = heartrateDataScroll{
+                    
+                    //修改scrollview偏移
+                    let preLocation = touch.previousLocation(in: self)
+                    let deltaX = preLocation.x - location.x
+                    heartrateDataScroll?.contentOffset.x += deltaX * 2
+                    
+                    let minOffsetX = -(bounds.size.width - radius * 2) / 2
+                    let maxOffsetX = scroll.contentSize.width - (bounds.size.width - radius * 2) / 2
+                    if scroll.contentOffset.x < minOffsetX{
+                        heartrateDataScroll?.contentOffset.x = minOffsetX
+                    }else if scroll.contentOffset.x > maxOffsetX{
+                        heartrateDataScroll?.contentOffset.x = maxOffsetX
+                    }
+                    
+                    //获取数据
+                    dataIndex = Int((scroll.contentOffset.x - minOffsetX) / (maxOffsetX - minOffsetX) * CGFloat(dataList.count))
+                    if dataIndex < 0{
+                        dataIndex = 0
+                    }else if dataIndex > dataList.count - 1{
+                        dataIndex = dataList.count - 1
+                    }
+                    
+                    //设置显示值 selected view
+                    let data = dataList[dataIndex]
+                    let hour = "\((headCount + dataIndex) / (60 / deltaMinute))"
+                    let minute: String = (headCount + dataIndex) % (60 / deltaMinute) == 0 ? "00" : "\((headCount + dataIndex) % (60 / deltaMinute) * deltaMinute)"
+                    let time = hour + ":" + minute
+                    selectedLabel.text = "\(Int16(data))" + unit + "\n\(time)"
                 }
                 
-                //获取数据
-                dataIndex = Int((heartrateDataScroll.contentOffset.x - minOffsetX) / (maxOffsetX - minOffsetX) * CGFloat(dataList.count))
-                if dataIndex < 0{
-                    dataIndex = 0
-                }else if dataIndex > dataList.count - 1{
-                    dataIndex = dataList.count - 1
-                }
-                
-                //设置显示值 selected view
-                let data = dataList[dataIndex]
-                let hour = "\((headCount + dataIndex) / (60 / deltaMinute))"
-                let minute: String = (headCount + dataIndex) % (60 / deltaMinute) == 0 ? "00" : "\((headCount + dataIndex) % (60 / deltaMinute) * deltaMinute)"
-                let time = hour + ":" + minute
-                selectedLabel.text = "\(Int16(data))" + unit + "\n\(time)"
             case .sleep:
                 selectedView.isHidden = false
                 unit = "~"
@@ -1230,25 +1240,27 @@ extension DetailTop{
                 markCircle.strokeColor = UIColor.white.withAlphaComponent(0.5).cgColor
             }
             
-            let offsetX = heartrateDataScroll.contentOffset.x + heartrateDataScroll.bounds.size.width / 2
-            let newList = markCircleList.sorted(){
-                circle0, circle1 -> Bool in
-                let distance0 = fabs(circle0.path!.currentPoint.x - offsetX)
-                let distance1 = fabs(circle1.path!.currentPoint.x - offsetX)
-                return distance0 < distance1
-            }
-           
-            if let nearMarkCircle = newList.first{
-                let roundOffsetX = nearMarkCircle.path!.currentPoint.x - heartrateDataScroll.bounds.size.width / 2 - nearMarkCircle.path!.boundingBoxOfPath.size.width / 2
-                let offset = CGPoint(x: roundOffsetX, y: 0)
-                heartrateDataScroll.setContentOffset(offset, animated: true)
+            if let scroll = heartrateDataScroll {
+                let offsetX = scroll.contentOffset.x + scroll.bounds.size.width / 2
+                let newList = markCircleList.sorted(){
+                    circle0, circle1 -> Bool in
+                    let distance0 = fabs(circle0.path!.currentPoint.x - offsetX)
+                    let distance1 = fabs(circle1.path!.currentPoint.x - offsetX)
+                    return distance0 < distance1
+                }
                 
-                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                if let nearMarkCircle = newList.first{
+                    let roundOffsetX = nearMarkCircle.path!.currentPoint.x - scroll.bounds.size.width / 2 - nearMarkCircle.path!.boundingBoxOfPath.size.width / 2
+                    let offset = CGPoint(x: roundOffsetX, y: 0)
+                    heartrateDataScroll?.setContentOffset(offset, animated: true)
                     
-                    nearMarkCircle.lineWidth = 4
-                    nearMarkCircle.fillColor = UIColor.white.cgColor
-                    nearMarkCircle.strokeColor = UIColor.white.cgColor
-                }, completion: nil)
+                    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                        
+                        nearMarkCircle.lineWidth = 4
+                        nearMarkCircle.fillColor = UIColor.white.cgColor
+                        nearMarkCircle.strokeColor = UIColor.white.cgColor
+                    }, completion: nil)
+                }
             }
         default:
             selectedView.isHidden = true

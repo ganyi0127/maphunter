@@ -117,7 +117,7 @@ extension DetailBack: DetailTopDelegate{
                     }
                     
                     let sportItems = sportData.sportItem
-                    print("sportItems count:", sportItems?.count)
+                    debugPrint("sportItems count:", sportItems?.count ?? 0)
                     var sportList = [SportItem]()
                     sportItems?.forEach{
                         item in
