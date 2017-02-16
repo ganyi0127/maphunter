@@ -48,12 +48,12 @@ class BindingVC: UIViewController {
         let angelManager = AngelManager.share()
         print("angelManger:", angelManager ?? "nil")
         
-        angelManager?.getMacAddressFromBand{
-            errorCode, macaddress in
-            guard errorCode == ErrorCode.success else{
-                return
-            }
-            
+//        angelManager?.getMacAddressFromBand{
+//            errorCode, macaddress in
+//            guard errorCode == ErrorCode.success else{
+//                return
+//            }
+        
             angelManager?.getDevice{
                 device in
 
@@ -68,7 +68,7 @@ class BindingVC: UIViewController {
                     self.funcTable = existDevice.funcTable
                 }
             }
-        }
+//        }
         
     }
     

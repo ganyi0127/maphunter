@@ -8,6 +8,7 @@
 
 import UIKit
 import AngelFit
+import CoreBluetooth
 class StateVC: UIViewController {
     
     @IBOutlet weak var topView: TopView!            //日历
@@ -125,8 +126,10 @@ class StateVC: UIViewController {
         }
         
         //判断是否有绑定设备
-        guard PeripheralManager.share().currentPeripheral != nil else {
+        let peripheral = PeripheralManager.share().currentPeripheral
+        guard peripheral != nil else {
             DispatchQueue.main.async {
+                control.attributedTitle = NSAttributedString(string: "未绑定")
                 _ = delay(1){
                     control.endRefreshing()
                 }
@@ -134,51 +137,47 @@ class StateVC: UIViewController {
             return
         }
         
-//        //获取实时数据
-//        angelManager?.getLiveDataFromBand{
-//            errorCode, liveData in
-//            
-//            control.endRefreshing()
-//            guard errorCode == ErrorCode.success else{
-//                return
-//            }
-//            
-//            debugPrint("live data:", liveData)
-//        }
+        guard peripheral?.state == CBPeripheralState.connected  else {
+            DispatchQueue.main.async {
+                control.attributedTitle = NSAttributedString(string: "未连接")
+                _ = delay(1){
+                    control.endRefreshing()
+                }
+            }
+            return
+        }
         
         control.attributedTitle = NSAttributedString(string: "同步健康数据")
         
-        //同步数据
+        
+        
         let angelManager = AngelManager.share()
-        angelManager?.getMacAddressFromBand{
-            errorCode, macaddress in
-            
-            guard errorCode == ErrorCode.success else{
-                control.endRefreshing()
-                return
-            }
-            
-            angelManager?.setSynchronizationHealthData{
-                complete, progress in
-                if complete{
-                    DispatchQueue.main.async {
-                        debugPrint("同步完成")
-                        control.attributedTitle = NSAttributedString(string: "同步完成")
-                        control.endRefreshing()
-                    }
-                }else{
-                    DispatchQueue.main.async {                        
-                        debugPrint("正在同步:\(progress)")
-                        control.attributedTitle = NSAttributedString(string: "已同步\(progress)%")
-                    }
+        //初始化设置用户信息
+        let userInfoModel = UserInfoModel()
+        userInfoModel.birthDay = 27
+        userInfoModel.birthMonth = 1
+        userInfoModel.birthYear = 1988
+        userInfoModel.gender = 1
+        userInfoModel.height = 172
+        userInfoModel.weight = 65
+        angelManager?.setUserInfo(userInfoModel){_ in}
+        
+        //同步数据
+        angelManager?.setSynchronizationHealthData{
+            complete, progress in
+            if complete{
+                DispatchQueue.main.async {
+                    debugPrint("同步完成")
+                    control.attributedTitle = NSAttributedString(string: "同步完成")
+                    control.endRefreshing()
+                }
+            }else{
+                DispatchQueue.main.async {
+                    debugPrint("正在同步:\(progress)")
+                    control.attributedTitle = NSAttributedString(string: "已同步\(progress)%")
                 }
             }
         }
-        
-//        AngelManager.share()?.getSportData{
-//            sportDataList in
-//            debugPrint(sportDataList)
-//        }
     }
 }
 

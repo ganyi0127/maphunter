@@ -504,72 +504,73 @@ class DetailTop: UIView {
                                                                       y: -rectHeight,
                                                                       width: self.bounds.size.width - self.radius * 2,
                                                                       height: rectHeight))
-                self.heartrateDataScroll?.contentSize = CGSize(width: (self.bounds.size.width - self.radius * 2) * CGFloat(dataListCount) / CGFloat(screenCount) + self.radius,
+                self.heartrateDataScroll?.contentSize = CGSize(width: (self.bounds.size.width - self.radius * 2) * CGFloat(dataListCount) / CGFloat(screenCount - 1),
                                                               height: rectHeight)
                 self.heartrateDataScroll?.contentOffset.x = self.heartrateDataScroll!.contentSize.width - (self.bounds.size.width - self.radius * 2) / 2
                 self.addSubview(self.heartrateDataScroll!)
                 
-                rectWidth = (self.bounds.size.width - self.radius * 2) / CGFloat(screenCount)         //修改数据宽度
-                
-                //绘制数据线
-                let upLineBezier = UIBezierPath()
-                upLineBezier.move(to: CGPoint(x: 0, y: rectHeight * 0.2))
-                upLineBezier.addLine(to: CGPoint(x: self.heartrateDataScroll!.contentSize.width, y: rectHeight * 0.2))
-                let upLineLayer = CAShapeLayer()
-                upLineLayer.path = upLineBezier.cgPath
-                upLineLayer.strokeColor = UIColor.red.withAlphaComponent(0.5).cgColor
-                upLineLayer.lineWidth = 1
-                upLineLayer.lineCap = kCALineCapRound
-                self.heartrateDataScroll?.layer.addSublayer(upLineLayer)
-                
-                let upLabel = UILabel()
-                upLabel.frame = CGRect(x: self.heartrateDataScroll!.contentSize.width, y:  rectHeight * 0.2 - 0.5, width: 25, height: 17)
-                upLabel.text = "120"
-                upLabel.font = fontSmall
-                upLabel.textColor = .white
-                upLabel.backgroundColor = UIColor.red.withAlphaComponent(0.5)
-                self.heartrateDataScroll?.addSubview(upLabel)
+                rectWidth = (self.bounds.size.width - self.radius * 2) / CGFloat(screenCount - 1)         //修改数据宽度
                 
                 //曲线上下偏移量
                 let lineOffset = rectWidth * 3
                 
+                //绘制数据线
+                let rangeValues: [CGFloat] = [200, 75, 40]
+                rangeValues.enumerated().forEach{
+                    index, value in
+                    let upLineBezier = UIBezierPath()
+                    let y = (rectHeight - lineOffset) - (rectHeight - lineOffset) * (value - minData) / (maxData - minData) + lineOffset / 2
+                    upLineBezier.move(to: CGPoint(x: 0, y: y))
+                    upLineBezier.addLine(to: CGPoint(x: self.heartrateDataScroll!.contentSize.width, y: y))
+                    let upLineLayer = CAShapeLayer()
+                    upLineLayer.path = upLineBezier.cgPath
+                    upLineLayer.strokeColor = UIColor.red.withAlphaComponent(0.5).cgColor
+                    upLineLayer.lineWidth = 1
+                    upLineLayer.lineCap = kCALineCapRound
+                    if index != 1{
+                        upLineLayer.lineDashPattern = [2, 2]
+                    }
+                    self.heartrateDataScroll?.layer.addSublayer(upLineLayer)
+                    
+                    let upLabel = UILabel()
+                    upLabel.frame = CGRect(x: self.heartrateDataScroll!.contentSize.width, y:  y - 0.5, width: 25, height: 12)
+                    upLabel.text = "\(Int(value))"
+                    upLabel.font = fontSmall
+                    upLabel.textColor = .white
+                    upLabel.textAlignment = .center
+                    upLabel.backgroundColor = UIColor.red.withAlphaComponent(0.5)
+                    self.heartrateDataScroll?.addSubview(upLabel)
+                }
+                
                 //绘制曲线
                 let bezier = UIBezierPath()
-                dataList.enumerated().forEach(){
-                    index, data in
-                    if index == 0{
-                        let startPoint = CGPoint(x: rectWidth / 2 + self.radius,
-                                                 y: (rectHeight - lineOffset) - (rectHeight - lineOffset) * (data - minData) / (maxData - minData) + lineOffset / 2)
-                        bezier.move(to: startPoint)
-                        
-                        //添加小圆圈
-                        let markCircle = UIBezierPath(ovalIn: CGRect(x: startPoint.x - rectWidth / 2, y: startPoint.y - rectWidth / 2, width: rectWidth, height: rectWidth))
-                        let markLayer = CAShapeLayer()
-                        markLayer.path = markCircle.cgPath
-                        markLayer.fillColor = UIColor.white.withAlphaComponent(0.5).cgColor
-                        markLayer.strokeColor = UIColor.white.withAlphaComponent(0.5).cgColor
-                        markLayer.lineWidth = 2
-                        self.heartrateDataScroll?.layer.addSublayer(markLayer)
-                        self.markCircleList.append(markLayer)
-                        
-                    }else{
-                        let currentPoint = bezier.currentPoint
-                        let nextPoint = CGPoint(x: CGFloat(index) * rectWidth + rectWidth / 2 + self.radius,
-                                                y: (rectHeight - lineOffset) - (rectHeight - lineOffset) * (data - minData) / (maxData - minData) + lineOffset / 2)
-                        let controlPoint1 = CGPoint(x: currentPoint.x + rectWidth * 0.8, y: currentPoint.y)
-                        let controlPoint2 = CGPoint(x: nextPoint.x - rectWidth * 0.8, y: nextPoint.y)
-                        bezier.addCurve(to: nextPoint, controlPoint1: controlPoint1, controlPoint2: controlPoint2)
-                        
-                        //添加小圆圈
-                        let markCircle = UIBezierPath(ovalIn: CGRect(x: nextPoint.x - rectWidth / 2, y: nextPoint.y - rectWidth / 2, width: rectWidth, height: rectWidth))
-                        let markLayer = CAShapeLayer()
-                        markLayer.path = markCircle.cgPath
-                        markLayer.fillColor = UIColor.white.withAlphaComponent(0.5).cgColor
-                        markLayer.strokeColor = UIColor.white.withAlphaComponent(0.5).cgColor
-                        markLayer.lineWidth = 2
-                        self.heartrateDataScroll?.layer.addSublayer(markLayer)
-                        self.markCircleList.append(markLayer)
+                for (index, data) in dataList.enumerated(){
+                    
+                    if data < rangeValues.last! || data > rangeValues.first!{
+                        continue
                     }
+                    
+                    let currentPoint = bezier.currentPoint
+                    let nextPoint = CGPoint(x: CGFloat(index) * rectWidth + rectWidth / 2,
+                                            y: (rectHeight - lineOffset) - (rectHeight - lineOffset) * (data - minData) / (maxData - minData) + lineOffset / 2)
+                    let controlPoint1 = CGPoint(x: (currentPoint.x + nextPoint.x) / 2, y: currentPoint.y)
+                    let controlPoint2 = CGPoint(x: (currentPoint.x + nextPoint.x) / 2, y: nextPoint.y)
+                    if bezier.currentPoint == .zero{
+                        bezier.move(to: nextPoint)
+                    }else{
+                        bezier.addCurve(to: nextPoint, controlPoint1: controlPoint1, controlPoint2: controlPoint2)
+                    }
+                    
+                    //添加小圆圈
+                    let markCircle = UIBezierPath(ovalIn: CGRect(x: nextPoint.x - rectWidth / 2, y: nextPoint.y - rectWidth / 2, width: rectWidth, height: rectWidth))
+                    let markLayer = CAShapeLayer()
+                    markLayer.path = markCircle.cgPath
+                    markLayer.fillColor = UIColor.white.withAlphaComponent(0.5).cgColor
+                    markLayer.strokeColor = UIColor.white.withAlphaComponent(0.5).cgColor
+                    markLayer.lineWidth = 2
+                    self.heartrateDataScroll?.layer.addSublayer(markLayer)
+                    self.markCircleList.append(markLayer)
+                    
                 }
                 
                 //设置标记最后一个layer
@@ -1250,9 +1251,33 @@ extension DetailTop{
                 }
                 
                 if let nearMarkCircle = newList.first{
-                    let roundOffsetX = nearMarkCircle.path!.currentPoint.x - scroll.bounds.size.width / 2 - nearMarkCircle.path!.boundingBoxOfPath.size.width / 2
+                    let plusWidth = nearMarkCircle.path!.boundingBoxOfPath.size.width / 2 + nearMarkCircle.lineWidth * 0 + 1 - selectedView.bounds.width / 2 * 0
+                    let roundOffsetX = nearMarkCircle.path!.currentPoint.x - scroll.bounds.size.width / 2 - plusWidth
                     let offset = CGPoint(x: roundOffsetX, y: 0)
                     heartrateDataScroll?.setContentOffset(offset, animated: true)
+                    
+                    let minOffsetX = -(bounds.size.width - radius * 2) / 2
+                    let maxOffsetX = scroll.contentSize.width - (bounds.size.width - radius * 2) / 2
+                    if scroll.contentOffset.x < minOffsetX{
+                        heartrateDataScroll?.contentOffset.x = minOffsetX
+                    }else if scroll.contentOffset.x > maxOffsetX{
+                        heartrateDataScroll?.contentOffset.x = maxOffsetX
+                    }
+                    
+                    //获取数据
+                    var dataIndex = Int((offset.x - minOffsetX) / (maxOffsetX - minOffsetX) * CGFloat(dataList.count))
+                    if dataIndex < 0{
+                        dataIndex = 0
+                    }else if dataIndex > dataList.count - 1{
+                        dataIndex = dataList.count - 1
+                    }
+                    
+                    //设置显示值 selected view
+                    let data = dataList[dataIndex]
+                    let hour = "\((headCount + dataIndex) / (60 / deltaMinute))"
+                    let minute: String = (headCount + dataIndex) % (60 / deltaMinute) == 0 ? "00" : "\((headCount + dataIndex) % (60 / deltaMinute) * deltaMinute)"
+                    let time = hour + ":" + minute
+                    selectedLabel.text = "\(Int16(data))" + "Bmp" + "\n\(time)"
                     
                     UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
                         

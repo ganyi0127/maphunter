@@ -138,7 +138,7 @@ class RootTBC: UITabBarController {
     private func config(){
         
         //修改默认界面
-        selectedIndex = 1
+        selectedIndex = 0
     }
     
     private func createContents(){

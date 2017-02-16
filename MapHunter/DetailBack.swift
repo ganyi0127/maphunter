@@ -105,84 +105,78 @@ extension DetailBack: DetailTopDelegate{
             var result = [CGFloat]()
             
             let angelManager = AngelManager.share()
-            angelManager?.getMacAddressFromBand{
-                errorCode, macaddress in
-                guard errorCode == ErrorCode.success else{
+            angelManager?.getSportData{
+                sportDataList in
+                guard let sportData = sportDataList.last else{
                     return
                 }
-                angelManager?.getSportData{
-                    sportDataList in
-                    guard let sportData = sportDataList.last else{
-                        return
-                    }
-                    
-                    let sportItems = sportData.sportItem
-                    debugPrint("sportItems count:", sportItems?.count ?? 0)
-                    var sportList = [SportItem]()
-                    sportItems?.forEach{
-                        item in
-                        sportList.append(item as! SportItem)
-                    }
-                    sportList = sportList.sorted{$0.id < $1.id}
-                    result = sportList.map{CGFloat($0.sportCount)}
-                    print(sportData.totalStep, "total")
-                    print("result", result)
-                    
-                    DispatchQueue.main.async {
-                        closure(result)
-                    }
+                
+                let sportItems = sportData.sportItem
+                debugPrint("sportItems count:", sportItems?.count ?? 0)
+                var sportList = [SportItem]()
+                sportItems?.forEach{
+                    item in
+                    sportList.append(item as! SportItem)
+                }
+                sportList = sportList.sorted{$0.id < $1.id}
+                result = sportList.map{CGFloat($0.sportCount)}
+                print(sportData.totalStep, "total")
+                print("result", result)
+                
+                DispatchQueue.main.async {
+                    closure(result)
                 }
             }
+            
         case .heartrate:
             //心率数据
             var result = [CGFloat]()
-            let angelManager = AngelManager.share()
-            angelManager?.getMacAddressFromBand{
-                errorCode, macaddress in
-                guard errorCode == ErrorCode.success else{
+            let angelManager = AngelManager.share()            
+            angelManager?.getHeartRateData{
+                heartRateDataList in
+                guard let heartRateData = heartRateDataList.last else{
                     return
                 }
-                angelManager?.getHeartRateData{
-                    heartRateDataList in
-                    guard let heartRateData = heartRateDataList.last else{
-                        return
-                    }
-                    
-                    let heartRateItems = heartRateData.heartRateItem
-                    var heartRateList = [HeartRateItem]()
-                    heartRateItems?.forEach{
-                        item in
-                        heartRateList.append(item as! HeartRateItem)
-                    }
-                    heartRateList = heartRateList.sorted{$0.id < $1.id}
-                    result = heartRateList.map{CGFloat($0.data)}
-                    print("result", result)
-                    
-                    DispatchQueue.main.async {
-                        closure(result)
-                    }
+                
+                let heartRateItems = heartRateData.heartRateItem
+                var heartRateList = [HeartRateItem]()
+                heartRateItems?.forEach{
+                    item in
+                    heartRateList.append(item as! HeartRateItem)
+                }
+                heartRateList = heartRateList.sorted{$0.id < $1.id}
+                result = heartRateList.map{CGFloat($0.data)}
+                print("result", result)
+                
+                DispatchQueue.main.async {
+                    closure(result)
                 }
             }
         case .sleep:
             //睡眠数据
             var result = [CGFloat]()
-            let count = Int(arc4random_uniform(20)) + 5
-            (0..<count).forEach(){
-                i in
-                
-                var data = CGFloat(arc4random_uniform(200)) + 10
-                
-                //添加类型 0深睡 1浅睡 2快速眼动 3清醒
-                var sleepType = Int16(arc4random_uniform(4))
-                if let last = result.last{
-                    while sleepType == Int16(last) / sleepTypeBit{
-                        sleepType = Int16(arc4random_uniform(4))
-                    }
+            let angelManager = AngelManager.share()
+            angelManager?.getSleepData{
+                sleepDataList in
+                guard let sleepData = sleepDataList.last else{
+                    closure(result)
+                    return
                 }
-                data += CGFloat(sleepType * sleepTypeBit)
-                result.append(data)
+                
+                let sleepItems = sleepData.sleepItem
+                var sleepItemList = [SleepItem]()
+                sleepItems?.forEach{
+                    item in
+                    sleepItemList.append(item as! SleepItem)
+                }
+                sleepItemList = sleepItemList.sorted{$0.id < $1.id}
+                result = sleepItemList.map{CGFloat($0.sleepStatus) * CGFloat(sleepTypeBit) + CGFloat($0.durations)}
+                print("result", result)
+                
+                DispatchQueue.main.async {
+                    closure(result)
+                }
             }
-            closure(result)
         case .weight:
             //体重数据
             var result = [CGFloat]()

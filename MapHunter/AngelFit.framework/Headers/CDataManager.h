@@ -6,13 +6,9 @@
 //  Copyright © 2016年 aiju_huangjing1. All rights reserved.
 //
 
-#ifndef CDataManager_h
-#define CDataManager_h
 #include "vbus_evt_app.h"
 #include <stdio.h>
 #include <stdbool.h>
-#include "protocol.h"
-
 #pragma mark 获取mac地址
 void manageData(VBUS_EVT_BASE evt_base,VBUS_EVT_TYPE evt_type,void * __nonnull data,uint32_t size,uint32_t * __nonnull error_code);
 
@@ -75,10 +71,35 @@ extern void c_send_set_user_info();
 extern void (^ __nonnull swiftSetUnit)(void);
 extern void c_send_set_unit();
 
+#pragma mark 获取交换数据reply
+extern void (^ __nonnull swiftSwitchStartReply)(void * __nonnull);
+extern void c_switch_start_reply(void * __nonnull);
+
+extern void (^ __nonnull swiftSwitchingReply)(void * __nonnull);
+extern void c_switching_reply(void * __nonnull);
+
+extern void (^ __nonnull swiftSwitchPauseReply)(void * __nonnull);
+extern void c_swich_pause_reply(void * __nonnull);
+
+extern void (^ __nonnull swiftSwitchRestartReply)(void * __nonnull);
+extern void c_swich_restart_reply(void * __nonnull);
+
+extern void (^ __nonnull swiftSwitchEndReply)(void * __nonnull);
+extern void c_swich_end_reply(void * __nonnull);
+
+#pragma mark app发起交换数据，手环控制暂停继续结束
+extern void (^ __nonnull swiftSwitchBlePause)(void * __nonnull);
+extern void c_swich_ble_pause(void * __nonnull);
+
+extern void (^ __nonnull swiftSwitchBleRestart)(void * __nonnull);
+extern void c_swich_ble_restart(void * __nonnull);
+
+extern void (^ __nonnull swiftSwitchBleEnd)(void * __nonnull);
+extern void c_swich_ble_end(void * __nonnull);
 //extern uint32_t sendSyncLongSit();
 //extern uint32_t sendSyncLostFind();
 //extern uint32_t sendSetGoal();
 
 //extern uint32_t sendSetUint();
 
-#endif /* CDataManager_h */
+
