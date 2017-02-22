@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AngelFit
 class PremapVC: UIViewController {
     
     @IBOutlet weak var timeLabel: UILabel!
@@ -218,6 +219,34 @@ class PremapVC: UIViewController {
         
         originLockbuttonFrame = lockButton.frame
         originPausebuttonFrame = pauseButton.frame
+        
+        //开始交换数据
+        let satanManager = SatanManager.share()
+        let switchStart = SwitchStart()
+        switchStart.date = Date()
+        switchStart.forceStart = true
+        switchStart.sportType = 0x01
+        satanManager?.appSwitchStart(withParam: switchStart){
+            errorCode, status in
+            guard errorCode == ErrorCode.success else{
+                return
+            }
+            
+            guard let stu = status else{
+                return
+            }
+            switch stu {
+            case .normal:
+                //正常
+                break
+            case .conflicts:
+                //重复开始
+                break
+            case .batteryLow:
+                //低电量
+                break
+            }
+        }
     }
     
     //MARK:- 获取mapVC

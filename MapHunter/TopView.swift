@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AngelFit
 //周期
 enum CycleType:Int {
     case week = 0
@@ -213,7 +214,27 @@ class TopView: UIView {
 
 extension TopView : TopScrollDelegate{
     func topScrollData(withDay day: Int, withMonth month: Int, withYear year: Int) -> (curValues: [CGFloat], maxValues: [CGFloat]) {
-        return ([80, 89],[96, 100])
+        
+        var step: CGFloat = 0
+        
+        let calendar = Calendar.current
+        var components = calendar.dateComponents([.year, .month, .day], from: Date())
+        components.year = year
+        components.month = month
+        components.day = day
+        if let date = calendar.date(from: components){
+            let angelManager = AngelManager.share()
+            angelManager?.getSportData(nil, userId: nil, date: date, offset: 0){
+                sportDatas in
+                guard let sportData = sportDatas.first else{
+                    return
+                }
+                print("isMain", Thread.isMainThread ? "YES" : "NO")
+                step = CGFloat(sportData.totalStep)
+            }
+        }
+        
+        return ([step, 60], [10000, 100])
     }
     
     func topScrollDidSelected(withData date: Date) {

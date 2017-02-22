@@ -34,10 +34,12 @@ class StateVC: UIViewController {
     fileprivate var newY: CGFloat = 0
     fileprivate var oldY: CGFloat = 0
 
-    //sdk
-//    private lazy var angelManager: AngelManager? = {
-//        return AngelManager.share()
-//    }()
+    //获取时间轴数据
+    fileprivate var trackList: [Track]?{
+        didSet{
+            tableView.reloadData()
+        }
+    }
     
     //MARK:- init
     override func viewDidLoad() {
@@ -147,7 +149,7 @@ class StateVC: UIViewController {
             return
         }
         
-        control.attributedTitle = NSAttributedString(string: "同步健康数据")
+        control.attributedTitle = NSAttributedString(string: "同步数据")
         
         
         
@@ -162,22 +164,62 @@ class StateVC: UIViewController {
         userInfoModel.weight = 65
         angelManager?.setUserInfo(userInfoModel){_ in}
         
+        let satanManager = SatanManager.share()
+        
         //同步数据
         angelManager?.setSynchronizationHealthData{
             complete, progress in
-            if complete{
-                DispatchQueue.main.async {
-                    debugPrint("同步完成")
-                    control.attributedTitle = NSAttributedString(string: "同步完成")
-                    control.endRefreshing()
-                }
-            }else{
-                DispatchQueue.main.async {
-                    debugPrint("正在同步:\(progress)")
-                    control.attributedTitle = NSAttributedString(string: "已同步\(progress)%")
+            DispatchQueue.main.async {
+                var message: String
+                if complete{
+                    message = "健康数据同步完成"
+                    debugPrint(message)
+                    control.attributedTitle = NSAttributedString(string: message)
+                    
+                    self.tableView.reloadData()
+                    
+                    //同步时间轴
+                    satanManager?.setSynchronizationActiveData{
+                        complete, progress, timeout in
+                        DispatchQueue.main.async {
+                            guard !timeout else{
+                                message = "同步运动数据超时"
+                                control.attributedTitle = NSAttributedString(string: message)
+                                
+                                //弹窗
+                                let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+                                let cancel = UIAlertAction(title: "返回", style: .cancel){
+                                    action in
+                                    control.endRefreshing()
+                                }
+                                alertController.addAction(cancel)
+                                self.present(alertController, animated: true, completion: nil)
+                                return
+                            }
+                            
+                            if complete {
+                                message = "同步运动数据完成"
+                                control.attributedTitle = NSAttributedString(string: message)
+                                control.endRefreshing()
+                                
+                                //更新时间轴数据
+                                if let macaddress = angelManager?.macAddress {
+                                    self.trackList = CoreDataHandler().selectTrack(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+                                }
+                            }else{
+                                message = "正在同步运动数据:\(progress / 2 + 50)%"
+                                control.attributedTitle = NSAttributedString(string: message)
+                            }
+                        }
+                    }
+                }else{
+                    message = "正在同步健康数据:\(progress / 2)%"
+                    debugPrint(message)
+                    control.attributedTitle = NSAttributedString(string: message)
                 }
             }
         }
+        
     }
 }
 
@@ -228,7 +270,10 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             return 2
         }
         
-        return 34
+        if let list = trackList {
+            return list.count
+        }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -276,16 +321,7 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
                         let detaiViewController = DetailViewController(detailType: dataCubeType, date: selectDate)
                         self.navigationController?.show(detaiViewController, sender: cell)
                     }
-                    
                 case 1:
-//                    cell = DetailCell(reuseIdentifier: identifier)
-//                    (cell as! DetailCell).closure = {
-//                        detailType in
-//                        //选中回调
-//                        print("selected: \(detailType)")
-//                        let detaiViewController = DetailViewController(detailType: detailType)
-//                        self.navigationController?.show(detaiViewController, sender: cell)
-//                    }
                     cell = CalendarCell(reuseIdentifier: identifier)
                 default:
                     cell = SecondCell(indexPath.row, reuseIdentifier: identifier)
@@ -296,10 +332,6 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             //添加数据
             switch indexPath.row {
             case 0:
-//                (cell as! FirstCell).step = 1367
-//                (cell as! FirstCell).calorie = 144
-//                (cell as! FirstCell).distance = 5
-//                (cell as! FirstCell).time = 123
                 break
             case 1:
                 (cell as! CalendarCell).date = selectDate
@@ -313,33 +345,86 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
         
         //今日故事 cell3
         let row = indexPath.row
-        let testList: [SportType] = [.walking, .running, .badminton, .basketball, .riding, .swimming, .climbing, .badminton, .physical, .bicycle, .ellipsoidBall, .treadmill, .boating, .situp, .pushup, .dumbbell, .lifting, .gymnastics, .yoga, .sleep, .calorie, .weight]
 
         cell = tableView.dequeueReusableCell(withIdentifier: "cell")
-        
-        guard row < testList.count else{
+        //添加数据 .sleep, .calorie, .weight 混合
+        if let track = trackList?[row]{
+            //Type:运动类型(0x00:无， 0x01:走路， 0x02:跑步， 0x03:骑行，0x04:徒步， 0x05: 游泳， 0x06:爬山， 0x07:羽毛球， 0x08:其他， 0x09:健身， 0x0A:动感单车， 0x0B:椭圆机， 0x0C:跑步机， 0x0D:仰卧起坐， 0x0E:俯卧撑， 0x0F:哑铃， 0x10:举重， 0x11:健身操， 0x12:瑜伽， 0x13:跳绳， 0x14:乒乓球， 0x15:篮球， 0x16:足球 ， 0x17:排球， 0x18:网球， 0x19:高尔夫球， 0x1A:棒球， 0x1B:滑雪， 0x1C:轮滑，0x1D:跳舞)
+            var type: SportType
+            switch track.type {
+            case 0x01:
+                type = .walking
+            case 0x02:
+                type = .running
+            case 0x03:
+                type = .riding
+            case 0x04:
+                type = .hiking
+            case 0x05:
+                type = .swimming
+            case 0x06:
+                type = .climbing
+            case 0x07:
+                type = .badminton
+            case 0x08:
+                type = .other
+            case 0x09:
+                type = .physical
+            case 0x0A:
+                type = .bicycle
+            case 0x0B:
+                type = .ellipsoidBall
+            case 0x0C:
+                type = .treadmill
+            case 0x0D:
+                type = .situp
+            case 0x0E:
+                type = .pushup
+            case 0x0F:
+                type = .dumbbell
+            case 0x10:
+                type = .lifting
+            case 0x11:
+                type = .gymnastics
+            case 0x12:
+                type = .yoga
+            case 0x13:
+                type = .skipping
+            case 0x14:
+                type = .pingpong
+            case 0x15:
+                type = .basketball
+            case 0x16:
+                type = .football
+            case 0x17:
+                type = .vollyball
+            case 0x18:
+                type = .tennis
+            case 0x19:
+                type = .golf
+            case 0x1A:
+                type = .baseball
+            case 0x1B:
+                type = .skiing
+            case 0x1C:
+                type = .skating
+            case 0x1D:
+                type = .dancing
+            default:
+                type = .other
+            }
+            
             var value = StoryData()
-            value.type = .other
-            value.date = Date()
-            value.hour = 7
-            value.minute = 9
-            value.calorie = 123
-            value.heartRate = 101
-            value.fat = 202
+            value.type = type
+            value.date = track.date as! Date
+            value.hour = track.durations / (60 * 60)
+            value.minute = (track.durations - track.durations / (60 * 60)) / 60
+            value.calorie = CGFloat(track.calories)
+            value.heartRate = CGFloat(track.avgrageHeartrate)
+            value.fat = CGFloat(track.burnFatMinutes)
             
             (cell as! ThirdCell).value = value
-            return cell!
         }
-        var value = StoryData()
-        value.type = testList[row]
-        value.date = Date()
-        value.hour = 7
-        value.minute = 9
-        value.calorie = 123
-        value.heartRate = 101
-        value.fat = 202
-        
-        (cell as! ThirdCell).value = value
         
         return cell!
     }

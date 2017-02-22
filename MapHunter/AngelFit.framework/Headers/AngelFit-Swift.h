@@ -169,7 +169,7 @@ SWIFT_CLASS("_TtC8AngelFit12AngelManager")
 - (void)getDevice:(NSString * _Nullable)macAddress userId:(int16_t)id closure:(void (^ _Nonnull)(Device * _Nullable))closure;
 - (void)getMacAddressFromBandWithClosure:(void (^ _Nonnull)(int16_t, NSString * _Nonnull))closure;
 - (void)getFuncTable:(NSString * _Nullable)macAddress userId:(int16_t)id closure:(void (^ _Nonnull)(FuncTable * _Nullable))closure;
-- (void)getLiveDataFromBandWithClosure:(void (^ _Nonnull)(int16_t, NSString * _Nonnull))closure;
+- (void)getLiveDataFromBandWithClosure:(void (^ _Nonnull)(int16_t, id _Nullable))closure;
 - (void)setUpdateWithClosure:(void (^ _Nonnull)(BOOL))closure;
 - (void)setBind:(BOOL)bind closure:(void (^ _Nonnull)(BOOL))closure;
 - (void)setDateWithDate:(NSDate * _Nonnull)date closure:(SWIFT_NOESCAPE void (^ _Nonnull)(BOOL))closure;
@@ -230,6 +230,15 @@ SWIFT_CLASS("_TtC8AngelFit6Device")
 - (void)removeHeartRateDatas:(NSSet * _Nonnull)values;
 @end
 
+@class SleepData;
+
+@interface Device (SWIFT_EXTENSION(AngelFit))
+- (void)addSleepDatasObject:(SleepData * _Nonnull)value;
+- (void)removeSleepDatasObject:(SleepData * _Nonnull)value;
+- (void)addSleepDatas:(NSSet * _Nonnull)values;
+- (void)removeSleepDatas:(NSSet * _Nonnull)values;
+@end
+
 @class SportData;
 
 @interface Device (SWIFT_EXTENSION(AngelFit))
@@ -239,13 +248,13 @@ SWIFT_CLASS("_TtC8AngelFit6Device")
 - (void)removeSportDatas:(NSSet * _Nonnull)values;
 @end
 
-@class SleepData;
+@class Track;
 
 @interface Device (SWIFT_EXTENSION(AngelFit))
-- (void)addSleepDatasObject:(SleepData * _Nonnull)value;
-- (void)removeSleepDatasObject:(SleepData * _Nonnull)value;
-- (void)addSleepDatas:(NSSet * _Nonnull)values;
-- (void)removeSleepDatas:(NSSet * _Nonnull)values;
+- (void)addTracksObject:(Track * _Nonnull)value;
+- (void)removeTracksObject:(Track * _Nonnull)value;
+- (void)addTracks:(NSSet * _Nonnull)values;
+- (void)removeTracks:(NSSet * _Nonnull)values;
 @end
 
 @class NSIndexSet;
@@ -297,6 +306,7 @@ SWIFT_CLASS("_TtC8AngelFit6Device")
 @property (nonatomic, strong) NSSet * _Nullable sportDatas;
 @property (nonatomic, strong) Unit * _Nullable unit;
 @property (nonatomic, strong) User * _Nullable user;
+@property (nonatomic, strong) NSSet * _Nullable tracks;
 @end
 
 
@@ -439,6 +449,7 @@ enum GodManagerState : NSInteger;
 
 SWIFT_PROTOCOL("_TtP8AngelFit18GodManagerDelegate_")
 @protocol GodManagerDelegate
+- (void)godManagerWithCurrentConnectPeripheral:(CBPeripheral * _Nonnull)peripheral peripheralName:(NSString * _Nonnull)name;
 - (void)godManagerWithDidDiscoverPeripheral:(CBPeripheral * _Nonnull)peripheral withRSSI:(NSNumber * _Nonnull)RSSI peripheralName:(NSString * _Nonnull)name;
 - (void)godManagerWithDidUpdateCentralState:(enum GodManagerState)state;
 - (void)godManagerWithDidUpdateConnectState:(enum GodManagerConnectState)state withPeripheral:(CBPeripheral * _Nonnull)peripheral withError:(NSError * _Nullable)error;
@@ -597,6 +608,34 @@ SWIFT_CLASS("_TtC8AngelFit17PeripheralManager")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+@protocol SatanManagerDelegate;
+
+SWIFT_CLASS("_TtC8AngelFit12SatanManager")
+@interface SatanManager : NSObject
+@property (nonatomic, strong) id <SatanManagerDelegate> _Nullable delegate;
++ (SatanManager * _Nullable)share;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (void)setSynchronizationActiveData:(NSString * _Nullable)macAddress closure:(void (^ _Nonnull)(BOOL, int16_t, BOOL))closure;
+- (void)getSynchronizationActiveCount:(NSString * _Nullable)macAddress closure:(void (^ _Nonnull)(uint8_t))closure;
+@end
+
+enum SatanManagerState : NSInteger;
+
+SWIFT_PROTOCOL("_TtP8AngelFit20SatanManagerDelegate_")
+@protocol SatanManagerDelegate
+- (void)satanManagerWithDidUpdateState:(enum SatanManagerState)state;
+- (NSInteger)satanManagerDistanceByLocation;
+- (NSInteger)satanManagerDuration;
+- (void)satanManagerWithDidSwitchingReplyCalories:(uint32_t)calories distance:(uint32_t)distance step:(uint32_t)step curHeartrate:(uint8_t)curHeartrate heartrateSerial:(uint8_t)heartrateSerial available:(BOOL)available heartrateValue:(NSArray<NSNumber *> * _Nonnull)heartrateValue;
+@end
+
+typedef SWIFT_ENUM(NSInteger, SatanManagerState) {
+  SatanManagerStateStart = 0,
+  SatanManagerStatePause = 1,
+  SatanManagerStateRestore = 2,
+  SatanManagerStateEnd = 3,
+};
+
 
 SWIFT_CLASS("_TtC8AngelFit14SilentDistrube")
 @interface SilentDistrube : NSManagedObject
@@ -711,6 +750,30 @@ SWIFT_CLASS("_TtC8AngelFit9SportItem")
 @property (nonatomic) int16_t mode;
 @property (nonatomic) int16_t sportCount;
 @property (nonatomic, strong) SportData * _Nullable sportData;
+@end
+
+
+SWIFT_CLASS_NAMED("Track")
+@interface Track : NSManagedObject
+- (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+@interface Track (SWIFT_EXTENSION(AngelFit))
+@property (nonatomic) int16_t aerobicMinutes;
+@property (nonatomic) int16_t avgrageHeartrate;
+@property (nonatomic) int16_t burnFatMinutes;
+@property (nonatomic) int16_t calories;
+@property (nonatomic, strong) NSDate * _Nullable date;
+@property (nonatomic) int16_t distance;
+@property (nonatomic) int16_t durations;
+@property (nonatomic, strong) NSObject * _Nullable heartrateList;
+@property (nonatomic) int16_t limitMinutes;
+@property (nonatomic) int16_t maxHeartrate;
+@property (nonatomic) int16_t serial;
+@property (nonatomic) int16_t step;
+@property (nonatomic) int16_t type;
+@property (nonatomic, strong) Device * _Nullable device;
 @end
 
 

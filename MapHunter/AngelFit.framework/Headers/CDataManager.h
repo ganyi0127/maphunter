@@ -81,8 +81,8 @@ extern void c_switching_reply(void * __nonnull);
 extern void (^ __nonnull swiftSwitchPauseReply)(void * __nonnull);
 extern void c_swich_pause_reply(void * __nonnull);
 
-extern void (^ __nonnull swiftSwitchRestartReply)(void * __nonnull);
-extern void c_swich_restart_reply(void * __nonnull);
+extern void (^ __nonnull swiftSwitchRestoreReply)(void * __nonnull);
+extern void c_swich_restore_reply(void * __nonnull);
 
 extern void (^ __nonnull swiftSwitchEndReply)(void * __nonnull);
 extern void c_swich_end_reply(void * __nonnull);
@@ -91,11 +91,43 @@ extern void c_swich_end_reply(void * __nonnull);
 extern void (^ __nonnull swiftSwitchBlePause)(void * __nonnull);
 extern void c_swich_ble_pause(void * __nonnull);
 
-extern void (^ __nonnull swiftSwitchBleRestart)(void * __nonnull);
-extern void c_swich_ble_restart(void * __nonnull);
+extern void (^ __nonnull swiftSwitchBleRestore)(void * __nonnull);
+extern void c_swich_ble_restore(void * __nonnull);
 
 extern void (^ __nonnull swiftSwitchBleEnd)(void * __nonnull);
 extern void c_swich_ble_end(void * __nonnull);
+
+#pragma mark 手环端发起
+extern void (^ __nonnull swiftBleSwitchStart)(void * __nonnull);
+extern void c_ble_swich_start(void * __nonnull);
+
+extern void (^ __nonnull swiftBleSwitching)(void * __nonnull);
+extern void c_ble_swich_ing(void * __nonnull);
+
+extern void (^ __nonnull swiftBleSwitchPause)(void * __nonnull);
+extern void c_ble_swich_pause(void * __nonnull);
+
+extern void (^ __nonnull swiftBleSwitchRestore)(void * __nonnull);
+extern void c_ble_swich_restore(void * __nonnull);
+
+extern void (^ __nonnull swiftBleSwitchEnd)(void * __nonnull);
+extern void c_ble_swich_end(void * __nonnull);
+
+extern void (^ __nonnull swiftGetActiveCount)(void * __nonnull);
+extern void c_get_active_count(void * __nonnull data);
+
+extern void (^ __nonnull swiftSyncActiveTimeOut)();
+extern void c_sync_active_timeout();
+
+extern void (^ __nonnull swiftSyncActiveProgress)(int);
+extern void c_sync_active_progress(int);
+
+extern void (^ __nonnull swiftSyncActiveComplete)();
+extern void c_sync_active_complete();
+
+extern void (^ __nonnull swiftSyncActiveData)(void * __nonnull);
+extern void c_sync_active_data(void * __nonnull);
+
 //extern uint32_t sendSyncLongSit();
 //extern uint32_t sendSyncLostFind();
 //extern uint32_t sendSetGoal();

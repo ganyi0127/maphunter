@@ -491,13 +491,6 @@
 			name = Contents;
 			sourceTree = "<group>";
 		};
-		BE5770061E261DE0006BAD1C /* subVC */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = subVC;
-			sourceTree = "<group>";
-		};
 		BE5770071E28D6C7006BAD1C /* path */ = {
 			isa = PBXGroup;
 			children = (
@@ -609,7 +602,6 @@
 			children = (
 				BE576FF01E248CFE006BAD1C /* FunVC.swift */,
 				BE576FF91E25BC6B006BAD1C /* Contents */,
-				BE5770061E261DE0006BAD1C /* subVC */,
 				BE2DC9EA1D9210A300978C97 /* MapVC.swift */,
 				BE9DA8951DB0698500C4574B /* CoordinateTransform.swift */,
 				BEDF4F681D98BBD700E98D63 /* CustomAnnotationView.swift */,

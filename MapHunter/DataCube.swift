@@ -97,7 +97,9 @@ class DataCube: UIView {
                 heartrateLabel3.text = text
             case .sleep:
                 
-                let text = "\(Int16(data.value1) / 80)小时\(Int16(data.value2) / 10)分钟"
+                let hourStr = "\(Int16(data.value1) / 60)"
+                let minuteStr = Int16(data.value2) % 60 < 10 ? "0\(Int16(data.value2) % 60)" : "\(Int16(data.value2) % 60)"
+                let text = hourStr + "小时" + minuteStr + "分钟"
                 let mainAttributedString = NSMutableAttributedString(string: text,
                                                                      attributes: [NSFontAttributeName: fontHuge])
                 mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 2, 2))

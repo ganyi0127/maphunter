@@ -5,7 +5,9 @@
 //  Created by ganyi on 16/9/28.
 //  Copyright © 2016年 ganyi. All rights reserved.
 //
-
+/*
+Type:运动类型(0x00:无， 0x01:走路， 0x02:跑步， 0x03:骑行，0x04:徒步， 0x05: 游泳， 0x06:爬山， 0x07:羽毛球， 0x08:其他， 0x09:健身， 0x0A:动感单车， 0x0B:椭圆机， 0x0C:跑步机， 0x0D:仰卧起坐， 0x0E:俯卧撑， 0x0F:哑铃， 0x10:举重， 0x11:健身操， 0x12:瑜伽， 0x13:跳绳， 0x14:乒乓球， 0x15:篮球， 0x16:足球 ， 0x17:排球， 0x18:网球， 0x19:高尔夫球， 0x1A:棒球， 0x1B:滑雪， 0x1C:轮滑，0x1D:跳舞)
+*/
 import UIKit
 enum SportType: String{
     case walking = "walking"
@@ -81,7 +83,7 @@ private let nameMap: [SportType: String] = [
 
 //数据结构
 struct StoryData {
-    var type:SportType = SportType.running
+    var type:SportType = SportType.other
     var date: Date = Date()
     var calorie: CGFloat = 0
     var heartRate: CGFloat = 0

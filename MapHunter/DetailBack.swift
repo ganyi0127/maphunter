@@ -105,7 +105,7 @@ extension DetailBack: DetailTopDelegate{
             var result = [CGFloat]()
             
             let angelManager = AngelManager.share()
-            angelManager?.getSportData{
+            angelManager?.getSportData(nil, userId: nil, date: selectDate, offset: 0){
                 sportDataList in
                 guard let sportData = sportDataList.last else{
                     return
@@ -131,8 +131,8 @@ extension DetailBack: DetailTopDelegate{
         case .heartrate:
             //心率数据
             var result = [CGFloat]()
-            let angelManager = AngelManager.share()            
-            angelManager?.getHeartRateData{
+            let angelManager = AngelManager.share()
+            angelManager?.getHeartRateData(nil, userId: nil, date: selectDate, offset: 0){
                 heartRateDataList in
                 guard let heartRateData = heartRateDataList.last else{
                     return

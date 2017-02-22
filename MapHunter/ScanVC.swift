@@ -48,6 +48,16 @@ class ScanVC: UIViewController {
 
 //MARK:- angelfit
 extension ScanVC: GodManagerDelegate{
+    //获取已连接设备
+    func godManager(currentConnectPeripheral peripheral: CBPeripheral, peripheralName name: String) {
+        //判断UUID重复，避免重复存储
+        let sameList = peripheralList.filter(){$0.peripheral.identifier.uuidString == peripheral.identifier.uuidString}
+        guard sameList.isEmpty else{
+            return
+        }
+        peripheralList.append((name, 0, peripheral))
+        peripheralList = peripheralList.sorted{fabs($0.RSSI.floatValue) < fabs($1.RSSI.floatValue)}
+    }
     //发现设备
     func godManager(didDiscoverPeripheral peripheral: CBPeripheral, withRSSI RSSI: NSNumber, peripheralName name: String) {
         
@@ -111,7 +121,7 @@ extension ScanVC: UITableViewDelegate, UITableViewDataSource{
         cell.textLabel?.font = fontSmall
         cell.detailTextLabel?.font = fontSmall
         cell.textLabel?.text = peripheralModel.name
-        cell.detailTextLabel?.text = "\(peripheralModel.RSSI)"
+        cell.detailTextLabel?.text = peripheralModel.RSSI == 0 ? "已连接" : "\(peripheralModel.RSSI)"
         return cell
     }
     

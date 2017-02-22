@@ -12,14 +12,6 @@ import CoreBluetooth
 
 public final class AngelManager: NSObject {
     
-//    var actionMap:[ActionType:[UInt8]]?{
-//        let map:[ActionType:[UInt8]] = [.binding:[0x04, 0x01, 0x01, 0x83, 0x55, 0xaa],
-//                                        .unbinding:[0x04, 0x02, 0x55, 0xaa, 0x55, 0xaa],
-//                                        .responceType:[0x07, 0xA1, 0x01],
-//                                        .activated:[0x02, 0xA1]]
-//        return map
-//    }
-    
     private var peripheral: CBPeripheral?       //当前设备
     public var macAddress: String?              //当前设备macAddress
     
@@ -40,6 +32,11 @@ public final class AngelManager: NSObject {
     }
     public class func share() -> AngelManager?{
         _ = AngelManager.__once
+        if singleton.instance == nil {
+            if let peripheral = PeripheralManager.share().currentPeripheral {
+                singleton.instance = AngelManager(currentPeripheral: peripheral)
+            }
+        }
         return singleton.instance
     }
     
@@ -97,17 +94,20 @@ public final class AngelManager: NSObject {
     }
     
     //获取设备信息
-    private func getDeviceInfoFromBand(closure : @escaping (_ errorCode:Int16 ,_ value: String)->()){
+    private func getDeviceInfoFromBand(closure : @escaping (_ errorCode:Int16 ,_ value: Any?)->()){
         getLiveDataFromBring(withActionType: .deviceInfo, closure: closure)
     }
     
     //获取mac地址
     public func getMacAddressFromBand( closure: @escaping (_ errorCode:Int16 ,_ value: String)->()){
-        getLiveDataFromBring(withActionType: .macAddress, closure: closure)
+        getLiveDataFromBring(withActionType: .macAddress){
+            errorCode, aValue in
+            closure(errorCode, aValue as! String)
+        }
     }
     
     //获取功能列表
-    private func getFuncTableFromBand(_ macAddress: String? = nil, closure : @escaping (_ errorCode:Int16 ,_ value: String)->()){
+    private func getFuncTableFromBand(_ macAddress: String? = nil, closure : @escaping (_ errorCode:Int16 ,_ value: Any?)->()){
         getLiveDataFromBring(withActionType: .funcTable, macAddress: macAddress, closure: closure)
     }
     
@@ -141,12 +141,12 @@ public final class AngelManager: NSObject {
     }
     
     //获取实时数据
-    public func getLiveDataFromBand(closure : @escaping (_ errorCode:Int16 ,_ value: String)->()){
+    public func getLiveDataFromBand(closure : @escaping (_ errorCode:Int16 ,_ value: Any?)->()){
         getLiveDataFromBring(withActionType: .liveData, closure: closure)
     }
     
     //MARK:- 从手环端获取数据
-    private func getLiveDataFromBring(withActionType actionType:ActionType, macAddress: String? = nil, closure: @escaping (_ errorCode:Int16 ,_ value: String) ->()){
+    private func getLiveDataFromBring(withActionType actionType:ActionType, macAddress: String? = nil, closure: @escaping (_ errorCode:Int16 ,_ value: Any?) ->()){
         
         switch actionType {
         case .macAddress:
@@ -208,7 +208,7 @@ public final class AngelManager: NSObject {
                     return
                 }
                 
-                closure(ErrorCode.success, "\(deviceInfo)")
+                closure(ErrorCode.success, deviceInfo)
             }
             
             var ret_code:UInt32 = 0
@@ -223,7 +223,7 @@ public final class AngelManager: NSObject {
             }else if let md = self.macAddress{
                 realMacAddress = md
             }else{
-                closure(ErrorCode.failure, "macAddress is empty")
+                closure(ErrorCode.failure, nil)
                 break
             }
             
@@ -336,10 +336,10 @@ public final class AngelManager: NSObject {
                 
                 debug("coreData functable: \(funcTable)")
                 guard self.coredataHandler.commit() else {
-                    closure(ErrorCode.failure, "saving failure")
+                    closure(ErrorCode.failure, nil)
                     return
                 }
-                closure(ErrorCode.success, "\(funcTable)")
+                closure(ErrorCode.success, funcTable)
             }
             debug("--------------\n开始获取funcTable")
             var ret_code:UInt32 = 0
@@ -353,8 +353,7 @@ public final class AngelManager: NSObject {
                 let liveDataStruct:protocol_start_live_data = data.assumingMemoryBound(to: protocol_start_live_data.self).pointee
                 
                 let liveData = liveDataStruct
-                
-                closure(ErrorCode.success, "\(liveData)")
+                closure(ErrorCode.success, liveData)
             }
             var ret_code:UInt32 = 0
             vbus_tx_evt(VBUS_EVT_BASE_APP_GET, VBUS_EVT_APP_GET_LIVE_DATA, &ret_code)
@@ -1258,77 +1257,76 @@ public final class AngelManager: NSObject {
         
         //获取到运动数据回调
         swiftReadSportData = { data in
-//            DispatchQueue.main.async {
-                let sportData = data.assumingMemoryBound(to: protocol_health_resolve_sport_data_s.self).pointee
-                
-                
-                //处理sportData
-                let year = sportData.head1.date.year
-                let month = sportData.head1.date.month
-                let day = sportData.head1.date.day
-                guard day != 0, month != 0, year != 0 else {
-                    return
-                }
-                var component = DateComponents()
-                component.day = Int(day)
-                component.month = Int(month)
-                component.year = Int(year)
-                let optionDate = Calendar.current.date(from: component)       //日期
-                let id = 0
-                let itemCount = sportData.items_count
-                let minuteDuration = sportData.head1.per_minute
-                let minuteOffset = sportData.head1.minute_offset
-                let totalActiveTime = sportData.head2.total_active_time
-                let totalCal = sportData.head2.total_cal
-                let totalDistance = sportData.head2.total_distances
-                let totalStep = sportData.head2.total_step
-                let perMinute = sportData.head1.per_minute
-                let packetCount = sportData.head1.packet_count
-                
-                guard let date = optionDate  else {
-                    return
-                }
-                
-                guard let sport = self.coredataHandler.insertSportData(withMacAddress: realMacAddress) else {
-                    return
-                }
-                sport.date = date as NSDate
-                sport.id = Int16(id)
-                sport.itemCount = Int16(itemCount)
-                sport.minuteDuration = Int16(minuteDuration)
-                sport.minuteOffset = Int16(minuteOffset)
-                sport.totalActiveTime = Int16(totalActiveTime)
-                sport.totalCal = Int16(totalCal)
-                sport.totalDistance = Int16(totalDistance)
-                sport.perMinute = Int16(perMinute)
-                sport.packetCount = Int16(packetCount)
-                sport.totalStep = Int16(totalStep)
-                guard self.coredataHandler.commit() else {
-                    return
-                }
-                
-                
-                let items = sportData.items
-                print("items:", items)
-                let length = MemoryLayout<ble_sync_sport_item>.size
-                
-                (0..<96).forEach(){
-                    i in
-                    if let item = items?[i]{
-                        print("item 步数 :" , item.sport_count, Thread.isMainThread);
-                        
-                        if let sportItem = self.coredataHandler.createSportItem(withMacAddress: realMacAddress, withDate: date, withItemId: Int16(i)){
-                            sportItem.activeTime = Int16(item.active_time)
-                            sportItem.calories = Int16(item.calories)
-                            sportItem.distance = Int16(item.distance)
-                            sportItem.id = Int16(i)
-                            sportItem.mode = Int16(item.mode)
-                            sportItem.sportCount = Int16(item.sport_count)
-                        }
+
+            let sportData = data.assumingMemoryBound(to: protocol_health_resolve_sport_data_s.self).pointee
+            
+            
+            //处理sportData
+            let year = sportData.head1.date.year
+            let month = sportData.head1.date.month
+            let day = sportData.head1.date.day
+            guard day != 0, month != 0, year != 0 else {
+                return
+            }
+            var component = DateComponents()
+            component.day = Int(day)
+            component.month = Int(month)
+            component.year = Int(year)
+            let optionDate = Calendar.current.date(from: component)       //日期
+            let id = 0
+            let itemCount = sportData.items_count
+            let minuteDuration = sportData.head1.per_minute
+            let minuteOffset = sportData.head1.minute_offset
+            let totalActiveTime = sportData.head2.total_active_time
+            let totalCal = sportData.head2.total_cal
+            let totalDistance = sportData.head2.total_distances
+            let totalStep = sportData.head2.total_step
+            let perMinute = sportData.head1.per_minute
+            let packetCount = sportData.head1.packet_count
+            
+            guard let date = optionDate  else {
+                return
+            }
+            
+            guard let sport = self.coredataHandler.insertSportData(withMacAddress: realMacAddress) else {
+                return
+            }
+            sport.date = date as NSDate
+            sport.id = Int16(id)
+            sport.itemCount = Int16(itemCount)
+            sport.minuteDuration = Int16(minuteDuration)
+            sport.minuteOffset = Int16(minuteOffset)
+            sport.totalActiveTime = Int16(totalActiveTime)
+            sport.totalCal = Int16(totalCal)
+            sport.totalDistance = Int16(totalDistance)
+            sport.perMinute = Int16(perMinute)
+            sport.packetCount = Int16(packetCount)
+            sport.totalStep = Int16(totalStep)
+            guard self.coredataHandler.commit() else {
+                return
+            }
+            
+            
+            let items = sportData.items
+            //let length = MemoryLayout<ble_sync_sport_item>.size
+            (0..<96).forEach(){
+                i in
+                if let item = items?[i]{
+                    print("item 步数 :" , item.sport_count, Thread.isMainThread);
+                    
+                    if let sportItem = self.coredataHandler.createSportItem(withMacAddress: realMacAddress, withDate: date, withItemId: Int16(i)){
+                        sportItem.activeTime = Int16(item.active_time)
+                        sportItem.calories = Int16(item.calories)
+                        sportItem.distance = Int16(item.distance)
+                        sportItem.id = Int16(i)
+                        sportItem.mode = Int16(item.mode)
+                        sportItem.sportCount = Int16(item.sport_count)
                     }
                 }
+            }
+            DispatchQueue.main.async {
                 _ = self.coredataHandler.commit()
-//            }
+            }
         }
         
         //获取睡眠数据回调
@@ -1402,18 +1400,18 @@ public final class AngelManager: NSObject {
             }
             
             let items = sleepData.itmes
-            let length = MemoryLayout<ble_sync_sleep_item>.size
-            DispatchQueue.main.async {
-                (0..<96).forEach(){
-                    i in
-                    if let item = items?[i]{
-                        if let sleepItem = self.coredataHandler.createSleepItem(withMacAddress: realMacAddress, withDate: date, withItemId: Int16(i)){
-                            sleepItem.durations = Int16(item.durations)
-                            sleepItem.id = Int16(i)
-                            sleepItem.sleepStatus = Int16(item.sleep_status)
-                        }
+            //let length = MemoryLayout<ble_sync_sleep_item>.size
+            (0..<96).forEach(){
+                i in
+                if let item = items?[i]{
+                    if let sleepItem = self.coredataHandler.createSleepItem(withMacAddress: realMacAddress, withDate: date, withItemId: Int16(i)){
+                        sleepItem.durations = Int16(item.durations)
+                        sleepItem.id = Int16(i)
+                        sleepItem.sleepStatus = Int16(item.sleep_status)
                     }
                 }
+            }
+            DispatchQueue.main.async {
                 _ = self.coredataHandler.commit()
             }
         }
@@ -1471,19 +1469,19 @@ public final class AngelManager: NSObject {
             }
             
             let items = heartRateData.items
-            let length = MemoryLayout<ble_sync_heart_rate_item>.size
-            DispatchQueue.main.async {
-                (0..<96).forEach(){
-                    i in
-                    if let item = items?[i]{
-                        
-                        if let heartRateItem = self.coredataHandler.createHeartRateItem(withMacAddress: realMacAddress, withDate: date, withItemId: Int16(i)){
-                            heartRateItem.data = Int16(item.data)
-                            heartRateItem.id = Int16(i)
-                            heartRateItem.offset = Int16(item.offset)
-                        }
+            //let length = MemoryLayout<ble_sync_heart_rate_item>.size
+            (0..<96).forEach(){
+                i in
+                if let item = items?[i]{
+                    
+                    if let heartRateItem = self.coredataHandler.createHeartRateItem(withMacAddress: realMacAddress, withDate: date, withItemId: Int16(i)){
+                        heartRateItem.data = Int16(item.data)
+                        heartRateItem.id = Int16(i)
+                        heartRateItem.offset = Int16(item.offset)
                     }
                 }
+            }
+            DispatchQueue.main.async {
                 _ = self.coredataHandler.commit()
             }
         }

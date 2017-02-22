@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AngelFit
+import CoreBluetooth
 class FirstCell: UITableViewCell {
     
     //运动
@@ -33,6 +35,8 @@ class FirstCell: UITableViewCell {
         return weightDataCube
     }()
     
+    //定时器
+    private var task: Task?
     
     //MARK:- 点击回调
     var closure: ((DataCubeType)->())?
@@ -101,10 +105,6 @@ class FirstCell: UITableViewCell {
         //添加主页气泡 running walking riding
 
         var data = DataCubeData()
-        data.value1 = 123
-        data.value2 = 456
-        data.value3 = 789
-        data.value4 = 222
         
         sportDataCube.data = data
         addSubview(sportDataCube)
@@ -123,6 +123,79 @@ class FirstCell: UITableViewCell {
         heartRateDataCube.closure = clickedCube
         sleepDataCube.closure = clickedCube
         weightDataCube.closure = clickedCube
+        
+        startTimer()
+    }
+    
+    deinit {
+        cancel(task)
+        task = nil
+    }
+    
+    //MARK:- 定时器
+    private func startTimer(){
+        cancel(task)
+        task = delay(1){
+            self.getLivedata()
+        }
+    }
+    
+    //MARK:- 获取实时数据
+    private func getLivedata(){
+        //判断是否有绑定设备
+        let peripheral = PeripheralManager.share().currentPeripheral
+        guard peripheral != nil else {
+            startTimer()
+            return
+        }
+        
+        guard peripheral?.state == CBPeripheralState.connected  else {
+            startTimer()
+            return
+        }
+        let angelManager = AngelManager.share()
+        
+        //心率相关api 条件:1已连接手环 2.已同步
+        angelManager?.getHeartRateData{
+            heartrateDatas in
+            guard let heartrateData = heartrateDatas.first else{
+                return
+            }
+            var data = DataCubeData()
+            data.value1 = CGFloat(heartrateData.silentHeartRate)
+            data.value2 = CGFloat(heartrateData.burnFatMinutes)
+            data.value3 = CGFloat(heartrateData.aerobicMinutes)
+            data.value4 = CGFloat(heartrateData.limitMinutes)
+            self.heartRateDataCube.data = data
+        }
+        
+        //实时数据api
+        angelManager?.getLiveDataFromBand{
+            errorCode, value in
+            guard errorCode == ErrorCode.success else{
+                return
+            }
+            
+            guard let livedata = value as? protocol_start_live_data else{
+                return
+            }
+            
+            DispatchQueue.main.async {
+                debugPrint("livedata:", livedata)
+                let step = livedata.step
+                let calories = livedata.calories
+                let distances = livedata.distances
+                let activeTime = livedata.active_time
+                let heartRate = livedata.heart_rate
+                
+                var data = DataCubeData()
+                data.value1 = CGFloat(step)
+                data.value2 = CGFloat(10000 - step)
+                self.sportDataCube.data = data
+                
+            }
+        }
+        self.startTimer()
     }
     
     //MARK:- cube点击回调
