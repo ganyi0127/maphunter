@@ -35,7 +35,7 @@ class StateVC: UIViewController {
     fileprivate var oldY: CGFloat = 0
 
     //获取时间轴数据
-    fileprivate var trackList: [Track]?{
+    fileprivate var trackList = [Track](){
         didSet{
             tableView.reloadData()
         }
@@ -61,6 +61,8 @@ class StateVC: UIViewController {
         view.backgroundColor = defaultColor
         tableView.backgroundColor = defaultColor
 
+        //接收消息
+        notiy.addObserver(self, selector: #selector(receiveConnectedMessage(notify:)), name: connected_notiy, object: nil)
     }
     
     private func createContents(){
@@ -131,7 +133,7 @@ class StateVC: UIViewController {
         let peripheral = PeripheralManager.share().currentPeripheral
         guard peripheral != nil else {
             DispatchQueue.main.async {
-                control.attributedTitle = NSAttributedString(string: "未绑定")
+                control.attributedTitle = NSAttributedString(string: "手环未绑定")
                 _ = delay(1){
                     control.endRefreshing()
                 }
@@ -141,7 +143,7 @@ class StateVC: UIViewController {
         
         guard peripheral?.state == CBPeripheralState.connected  else {
             DispatchQueue.main.async {
-                control.attributedTitle = NSAttributedString(string: "未连接")
+                control.attributedTitle = NSAttributedString(string: "手环未连接")
                 _ = delay(1){
                     control.endRefreshing()
                 }
@@ -167,59 +169,93 @@ class StateVC: UIViewController {
         let satanManager = SatanManager.share()
         
         //同步数据
-        angelManager?.setSynchronizationHealthData{
-            complete, progress in
-            DispatchQueue.main.async {
-                var message: String
-                if complete{
-                    message = "健康数据同步完成"
-                    debugPrint(message)
-                    control.attributedTitle = NSAttributedString(string: message)
-                    
-                    self.tableView.reloadData()
-                    
-                    //同步时间轴
-                    satanManager?.setSynchronizationActiveData{
-                        complete, progress, timeout in
-                        DispatchQueue.main.async {
-                            guard !timeout else{
-                                message = "同步运动数据超时"
-                                control.attributedTitle = NSAttributedString(string: message)
-                                
-                                //弹窗
-                                let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-                                let cancel = UIAlertAction(title: "返回", style: .cancel){
-                                    action in
-                                    control.endRefreshing()
+        satanManager?.getSynchronizationActiveCount(angelManager?.macAddress){
+            count in
+            angelManager?.setSynchronizationHealthData{
+                complete, progress in
+                DispatchQueue.main.async {
+                    var message: String
+                    if complete{
+                        message = count > 0 ? "正在同步运动数据..." : "同步完成"
+                        debugPrint(message)
+                        control.attributedTitle = NSAttributedString(string: message)
+                        
+                        self.tableView.reloadData()
+                        
+                        //同步时间轴
+                        if count > 0{
+                            satanManager?.setSynchronizationActiveData{
+                                complete, progress, timeout in
+                                DispatchQueue.main.async {
+                                    guard !timeout else{
+                                        message = "同步运动数据超时"
+                                        control.attributedTitle = NSAttributedString(string: message)
+                                        
+                                        //弹窗
+                                        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+                                        let cancel = UIAlertAction(title: "返回", style: .cancel){
+                                            action in
+                                            control.endRefreshing()
+                                        }
+                                        alertController.addAction(cancel)
+                                        self.present(alertController, animated: true, completion: nil)
+                                        return
+                                    }
+                                    
+                                    if complete {
+                                        message = "同步运动数据完成"
+                                        control.attributedTitle = NSAttributedString(string: message)
+                                        control.endRefreshing()
+                                        
+                                        //更新时间轴数据
+                                        if let macaddress = angelManager?.macAddress {
+                                            self.trackList.removeAll()
+                                            let tracks = CoreDataHandler.share().selectTrack(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0).sorted{
+                                                track1, track2 -> Bool in
+                                                let earlyDate = track1.date?.earlierDate(track2.date as! Date)
+                                                if earlyDate == track1.date as? Date{
+                                                    return false
+                                                }
+                                                return true
+                                            }
+                                            self.trackList.append(contentsOf: tracks)
+                                        }
+                                    }else{
+                                        message = "正在同步运动数据:\(progress / 2 + 50)%"
+                                        control.attributedTitle = NSAttributedString(string: message)
+                                    }
                                 }
-                                alertController.addAction(cancel)
-                                self.present(alertController, animated: true, completion: nil)
-                                return
                             }
-                            
-                            if complete {
-                                message = "同步运动数据完成"
-                                control.attributedTitle = NSAttributedString(string: message)
-                                control.endRefreshing()
-                                
-                                //更新时间轴数据
-                                if let macaddress = angelManager?.macAddress {
-                                    self.trackList = CoreDataHandler().selectTrack(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
-                                }
-                            }else{
-                                message = "正在同步运动数据:\(progress / 2 + 50)%"
-                                control.attributedTitle = NSAttributedString(string: message)
-                            }
+                        }else{
+                            control.endRefreshing()
                         }
+                    }else{
+                        message = "正在同步健康数据:\(count > 0 ? progress / 2 : progress)%"
+                        debugPrint(message)
+                        control.attributedTitle = NSAttributedString(string: message)
                     }
-                }else{
-                    message = "正在同步健康数据:\(progress / 2)%"
-                    debugPrint(message)
-                    control.attributedTitle = NSAttributedString(string: message)
                 }
             }
         }
         
+    }
+    
+    //MARK:- 接收连接状态
+    @objc func receiveConnectedMessage(notify: Notification){
+        if let angelManager = AngelManager.share() {
+            if let macaddress = angelManager.macAddress {
+                trackList.removeAll()
+                let tracks = CoreDataHandler.share().selectTrack(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0).sorted{
+                    track1, track2 -> Bool in
+                    let earlyDate = track1.date?.earlierDate(track2.date as! Date)
+                    if earlyDate == track1.date as? Date{
+                        return false
+                    }
+                    return true
+                }
+                trackList.append(contentsOf: tracks)
+            }
+        }
     }
 }
 
@@ -270,10 +306,7 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             return 2
         }
         
-        if let list = trackList {
-            return list.count
-        }
-        return 0
+        return trackList.count
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -348,7 +381,7 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
 
         cell = tableView.dequeueReusableCell(withIdentifier: "cell")
         //添加数据 .sleep, .calorie, .weight 混合
-        if let track = trackList?[row]{
+        if let track: Track = trackList[row]{
             //Type:运动类型(0x00:无， 0x01:走路， 0x02:跑步， 0x03:骑行，0x04:徒步， 0x05: 游泳， 0x06:爬山， 0x07:羽毛球， 0x08:其他， 0x09:健身， 0x0A:动感单车， 0x0B:椭圆机， 0x0C:跑步机， 0x0D:仰卧起坐， 0x0E:俯卧撑， 0x0F:哑铃， 0x10:举重， 0x11:健身操， 0x12:瑜伽， 0x13:跳绳， 0x14:乒乓球， 0x15:篮球， 0x16:足球 ， 0x17:排球， 0x18:网球， 0x19:高尔夫球， 0x1A:棒球， 0x1B:滑雪， 0x1C:轮滑，0x1D:跳舞)
             var type: SportType
             switch track.type {
@@ -416,7 +449,7 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             
             var value = StoryData()
             value.type = type
-            value.date = track.date as! Date
+            value.date = track.date as? Date ?? Date()
             value.hour = track.durations / (60 * 60)
             value.minute = (track.durations - track.durations / (60 * 60)) / 60
             value.calorie = CGFloat(track.calories)

@@ -220,17 +220,8 @@ SWIFT_CLASS("_TtC8AngelFit6Device")
 - (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class HeartRateData;
-@class NSSet;
-
-@interface Device (SWIFT_EXTENSION(AngelFit))
-- (void)addHeartRateDatasObject:(HeartRateData * _Nonnull)value;
-- (void)removeHeartRateDatasObject:(HeartRateData * _Nonnull)value;
-- (void)addHeartRateDatas:(NSSet * _Nonnull)values;
-- (void)removeHeartRateDatas:(NSSet * _Nonnull)values;
-@end
-
 @class SleepData;
+@class NSSet;
 
 @interface Device (SWIFT_EXTENSION(AngelFit))
 - (void)addSleepDatasObject:(SleepData * _Nonnull)value;
@@ -255,6 +246,15 @@ SWIFT_CLASS("_TtC8AngelFit6Device")
 - (void)removeTracksObject:(Track * _Nonnull)value;
 - (void)addTracks:(NSSet * _Nonnull)values;
 - (void)removeTracks:(NSSet * _Nonnull)values;
+@end
+
+@class HeartRateData;
+
+@interface Device (SWIFT_EXTENSION(AngelFit))
+- (void)addHeartRateDatasObject:(HeartRateData * _Nonnull)value;
+- (void)removeHeartRateDatasObject:(HeartRateData * _Nonnull)value;
+- (void)addHeartRateDatas:(NSSet * _Nonnull)values;
+- (void)removeHeartRateDatas:(NSSet * _Nonnull)values;
 @end
 
 @class NSIndexSet;
@@ -753,7 +753,7 @@ SWIFT_CLASS("_TtC8AngelFit9SportItem")
 @end
 
 
-SWIFT_CLASS_NAMED("Track")
+SWIFT_CLASS("_TtC8AngelFit5Track")
 @interface Track : NSManagedObject
 - (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
 @end

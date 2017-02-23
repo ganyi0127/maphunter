@@ -136,7 +136,9 @@ class FirstCell: UITableViewCell {
     private func startTimer(){
         cancel(task)
         task = delay(1){
-            self.getLivedata()
+//            DispatchQueue.global().async {
+                self.getLivedata()
+//            }
         }
     }
     

@@ -166,13 +166,16 @@ class ThirdCell: UITableViewCell {
             case .climbing:
                 label.text = "登山\(val.hour)小时\(val.minute)分钟"
             default:
-                label.text = ""
+                label.text = "类型：\(val.type)"
             }
             
             //显示时间
             let calender = Calendar.current
             let components = calender.dateComponents([.hour, .minute], from: val.date)
             deltaTimeLabel.text = "\(components.hour!):\(components.minute!)"
+            
+            //显示卡路里
+            detailLabel1.text = "消耗卡路里\(val.calorie)kcal"
         }
     }
     
@@ -197,6 +200,17 @@ class ThirdCell: UITableViewCell {
         label.textColor = subWordColor
         label.font = fontSmall
         label.textAlignment = .right
+        return label
+    }()
+    private lazy var detailLabel1: UILabel = {
+        let label: UILabel = UILabel()
+        label.frame = CGRect(x: 0,
+                             y: self.gradient.frame.height / 3,
+                             width: self.gradient.frame.width,
+                             height: self.gradient.frame.height * 0.5)
+        label.textColor = .white
+        label.font = fontBig
+        label.textAlignment = .center
         return label
     }()
     
@@ -251,6 +265,7 @@ class ThirdCell: UITableViewCell {
         //添加标签
         addSubview(label)
         addSubview(deltaTimeLabel)
+        addSubview(detailLabel1)
     }
 }
 

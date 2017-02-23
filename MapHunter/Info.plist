@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>UIFileSharingEnabled</key>
-	<false/>
+	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>需访问您的相册</string>
 	<key>NSCameraUsageDescription</key>

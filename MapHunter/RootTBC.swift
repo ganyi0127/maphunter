@@ -139,6 +139,10 @@ class RootTBC: UITabBarController {
         
         //修改默认界面
         selectedIndex = 0
+        
+        //初始化sdk
+        _ = SatanManager.share()
+        _ = AngelManager.share()
     }
     
     private func createContents(){
