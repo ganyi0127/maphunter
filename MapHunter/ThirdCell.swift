@@ -172,7 +172,8 @@ class ThirdCell: UITableViewCell {
             //显示时间
             let calender = Calendar.current
             let components = calender.dateComponents([.hour, .minute], from: val.date)
-            deltaTimeLabel.text = "\(components.hour!):\(components.minute!)"
+            let minuteStr = components.minute! < 10 ? "0\(components.minute!)" : "\(components.minute!)"
+            deltaTimeLabel.text = "\(components.hour!):" + minuteStr
             
             //显示卡路里
             detailLabel1.text = "消耗卡路里\(val.calorie)kcal"

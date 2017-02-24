@@ -624,7 +624,7 @@ enum SatanManagerState : NSInteger;
 SWIFT_PROTOCOL("_TtP8AngelFit20SatanManagerDelegate_")
 @protocol SatanManagerDelegate
 - (void)satanManagerWithDidUpdateState:(enum SatanManagerState)state;
-- (NSInteger)satanManagerDistanceByLocation;
+- (uint32_t)satanManagerDistanceByLocationWithBleDistance:(uint32_t)distance;
 - (NSInteger)satanManagerDuration;
 - (void)satanManagerWithDidSwitchingReplyCalories:(uint32_t)calories distance:(uint32_t)distance step:(uint32_t)step curHeartrate:(uint8_t)curHeartrate heartrateSerial:(uint8_t)heartrateSerial available:(BOOL)available heartrateValue:(NSArray<NSNumber *> * _Nonnull)heartrateValue;
 @end

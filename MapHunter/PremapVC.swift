@@ -206,6 +206,32 @@ class PremapVC: UIViewController {
     //手势
     private var swip: UISwipeGestureRecognizer?
     
+    //交换数据相关
+    var activeType: ActiveSportType?
+    //0x01:走路， 0x02:跑步， 0x03:骑行，0x04:徒步
+    fileprivate var activeCode: UInt8{
+        guard let type = activeType else {
+            return 0x00
+        }
+        switch type {
+        case .walking:
+            return 0x01
+        case .running:
+            return 0x02
+        case .riding:
+            return 0x03
+        case .hiking:
+            return 0x04
+        default:
+            return 0x00
+        }
+    }
+    fileprivate var gpsStatus: MapGPSStatus?
+    
+    
+    
+    
+    
     //MARK:- init -
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -219,34 +245,6 @@ class PremapVC: UIViewController {
         
         originLockbuttonFrame = lockButton.frame
         originPausebuttonFrame = pauseButton.frame
-        
-        //开始交换数据
-        let satanManager = SatanManager.share()
-        let switchStart = SwitchStart()
-        switchStart.date = Date()
-        switchStart.forceStart = true
-        switchStart.sportType = 0x01
-        satanManager?.appSwitchStart(withParam: switchStart){
-            errorCode, status in
-            guard errorCode == ErrorCode.success else{
-                return
-            }
-            
-            guard let stu = status else{
-                return
-            }
-            switch stu {
-            case .normal:
-                //正常
-                break
-            case .conflicts:
-                //重复开始
-                break
-            case .batteryLow:
-                //低电量
-                break
-            }
-        }
     }
     
     //MARK:- 获取mapVC
@@ -263,6 +261,11 @@ class PremapVC: UIViewController {
         if let s = swip {
             view.removeGestureRecognizer(s)
         }
+        
+        
+        //当停止使用地图，delegate指向根页面
+        let satanManager = SatanManager.share()
+        satanManager?.delegate = tabBarController as! RootTBC
     }
     
     private func config(){
@@ -292,6 +295,43 @@ class PremapVC: UIViewController {
         //321倒计时
         startCountDown{
             self.countSec()
+            //设置交换数据delegate
+            let satanManager = SatanManager.share()
+            satanManager?.delegate = self
+            let switchStart = SwitchStart()
+            switchStart.date = Date()
+            switchStart.forceStart = true
+            switchStart.sportType = self.activeCode
+            switchStart.targetType = 0x01
+            switchStart.targetValue = 10000
+            satanManager?.appSwitchStart(withParam: switchStart){
+                errorCode, reply in
+                guard errorCode == ErrorCode.success else{
+                    return
+                }
+                
+                guard let startStatus = reply else{
+                    return
+                }
+                
+                var message: String
+                switch startStatus {
+                case .normal:
+                    message = "手环已同步开始运动记录"
+                case .batteryLow:
+                    message = "手环电量过低"
+                case .conflicts:
+                    message = "手环运动记录重复"
+                }
+                
+                DispatchQueue.main.async {
+                    let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+                    let cancelAction = UIAlertAction(title: "返回", style: .cancel, handler: nil)
+                    alertController.addAction(cancelAction)
+                    alertController.setBlackTextColor()
+                    self.present(alertController, animated: true, completion: nil)
+                }
+            }
         }
     }
     
@@ -384,34 +424,64 @@ class PremapVC: UIViewController {
         }
     }
     
+    fileprivate var isPressPauseOrRestoreFromApp = false
     //MARK:- 暂停
     @IBAction func pause(_ sender: UIButton) {
+        isPressPauseOrRestoreFromApp = true
         drawBackground(false)
         
-        mapVC?.isPause = true
-        
-        UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
-            self.continueButton.alpha = 1
-            self.finishButton.alpha = 1
-            self.pauseButton.alpha = 0
-        }, completion: {
-            complete in
-        })
+        if let mVC = mapVC {
+            //交换数据暂停
+            if !mVC.isPause {
+                mVC.isPause = true
+                let satanManager = SatanManager.share()
+                let switchPauseOrContinue = SwitchPauseOrContinue()
+                satanManager?.appSwitchingPause(withParam: switchPauseOrContinue){
+                    errorCode in
+                    guard errorCode == ErrorCode.success else{
+                        return
+                    }
+                    debugPrint("暂停数据成功")
+                }
+                
+                UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
+                    self.continueButton.alpha = 1
+                    self.finishButton.alpha = 1
+                    self.pauseButton.alpha = 0
+                }, completion: {
+                    complete in
+                })
+            }
+        }
     }
     
     //MARK:- 继续
     @IBAction func pressContinue(_ sender: UIButton) {
+        isPressPauseOrRestoreFromApp = true
         drawBackground(true)
         
-        mapVC?.isPause = false
-        
-        UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
-            self.continueButton.alpha = 0
-            self.finishButton.alpha = 0
-            self.pauseButton.alpha = 1
-        }, completion: {
-            complete in
-        })
+        if let mVC = mapVC {
+            //交换数据暂停
+            if mVC.isPause {
+                mVC.isPause = false
+                let satanManager = SatanManager.share()
+                let switchPauseOrContinue = SwitchPauseOrContinue()
+                satanManager?.appSwitchRestore(withParam: switchPauseOrContinue){
+                    errorCode in
+                    guard errorCode == ErrorCode.success else{
+                        return
+                    }
+                    debugPrint("继续数据成功")
+                }
+                UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
+                    self.continueButton.alpha = 0
+                    self.finishButton.alpha = 0
+                    self.pauseButton.alpha = 1
+                }, completion: {
+                    complete in
+                })
+            }
+        }
     }
     
     //MARK:- 结束inside
@@ -508,6 +578,19 @@ extension PremapVC: CAAnimationDelegate{
                 let alert = UIAlertController(title: "结束运动", message: "距离不足1KM,无法保存运动路径", preferredStyle: .alert)
                 let cancelAction = UIAlertAction(title: "结束运动", style: .cancel){
                     _ in
+                    //发送手环结束消息 
+                    let satanManager = SatanManager.share()
+                    let switchEnd = SwitchEnd()
+                    switchEnd.isSave = 0x01
+                    switchEnd.sportType = UInt32(self.activeCode)
+                    switchEnd.distance = UInt32(self.distance)
+                    satanManager?.appSwitchEnd(withParam: switchEnd){
+                        errorCode, switchEndReply in
+                        guard errorCode == ErrorCode.success else{
+                            return
+                        }
+                    }
+                    
                     self.mapVC?.isRecording = false
                     cancel(self.timeTask)
                     _ = self.navigationController?.popViewController(animated: true)
@@ -540,6 +623,7 @@ extension PremapVC: MapDelegate{
     }
     
     func map(gps status: MapGPSStatus) {
+        gpsStatus = status
         var imgName: String
         switch status {
         case .high:
@@ -555,5 +639,52 @@ extension PremapVC: MapDelegate{
         }
         let image = UIImage(named: imgName)
         gpsImageView.image = image
+    }
+}
+
+//MARK:- 数据交换 delegate
+extension PremapVC: SatanManagerDelegate{
+    func satanManagerDistanceByLocation(withBleDistance distance: UInt32) -> UInt32 {
+        if let status = gpsStatus {
+            if status == .close || status == .disConnect || status == .low {
+                return distance
+            }
+        }
+        return UInt32(self.distance)
+    }
+    
+    func satanManagerDuration() -> Int {
+        return Int(totalTime)
+    }
+    
+    func satanManager(didUpdateState state: SatanManagerState) {
+        switch state {
+        case .start:
+            break
+        case .pause:
+            if isPressPauseOrRestoreFromApp {
+                isPressPauseOrRestoreFromApp = false
+                break
+            }
+            pause(pauseButton)
+        case .restore:
+            if isPressPauseOrRestoreFromApp {
+                isPressPauseOrRestoreFromApp = false
+                break
+            }
+            pressContinue(continueButton)
+        case .end:
+            //发送手环结束消息
+            self.mapVC?.isRecording = false
+            cancel(self.timeTask)
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    //MARK:- 数据交换
+    func satanManager(didSwitchingReplyCalories calories: UInt32, distance: UInt32, step: UInt32, curHeartrate: UInt8, heartrateSerial: UInt8, available: Bool, heartrateValue: [UInt8]) {
+        calorieLabel.text = "\(calories)"
+        heartrateLabel.text = "\(curHeartrate)"
+        distanceLabel.text = "\(distance)"
     }
 }

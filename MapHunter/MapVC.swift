@@ -11,6 +11,40 @@ import MapKit
 import CoreLocation
 import AudioToolbox
 import MediaPlayer
+import AngelFit
+
+//MARK:- 间隔时间计算
+func deltaTime(from startDate: Date, to endDate: Date) -> TimeInterval{
+    let calender = Calendar(identifier: .gregorian)
+    let deltaSecond = calender.dateComponents([Calendar.Component.nanosecond], from: startDate, to: endDate)
+    debugPrint("delta second:", deltaSecond)
+    
+    guard let result = deltaSecond.nanosecond else{
+        return 0
+    }
+    let doubleResult = TimeInterval(result) * pow(10, -9)
+    return doubleResult
+}
+
+//MARK:距离计算
+func calculateDistance(start:CLLocationCoordinate2D, end:CLLocationCoordinate2D) -> Double{
+    
+    let startLongitude = start.longitude
+    let startLatitude = start.latitude
+    let endLongitude = end.longitude
+    let endLatitude = end.latitude
+    
+    let radLatitude1 = startLatitude * M_PI / 180
+    let radLatitude2 = endLatitude * M_PI / 180
+    let a = fabs(radLatitude1 - radLatitude2)
+    let b = fabs(startLongitude * M_PI / 180 - endLongitude * M_PI / 180)
+    
+    let earthRadius = 6378.137 //公里
+    let metre = 2 * asin(sqrt(pow(sin(a / 2), 2) + cos(radLatitude1) * cos(radLatitude2) * pow(sin(b / 2), 2))) * earthRadius
+    return round(metre * 1000) //四舍五入--米
+}
+
+
 enum MapGPSStatus{
     case close
     case disConnect
@@ -182,6 +216,8 @@ class MapVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         debugPrint("mapvc view will disappear")
         globalLocationManager.stopUpdatingLocation()    //停止定位
+        
+        
         super.viewWillDisappear(animated)
     }
 
@@ -199,6 +235,8 @@ class MapVC: UIViewController {
         mapView.userTrackingMode = MKUserTrackingMode.followWithHeading    //当前地图跟踪模式
         mapView.mapType = MKMapType.standard //普通地图
         mapView.showsUserLocation = true
+        
+        
         
         //初始化编辑按钮
         buttonTitles.enumerated().forEach(){
@@ -388,24 +426,6 @@ extension MapVC: MKMapViewDelegate{
             userLocation.title = "local" + (placemark.name ?? "")
             userLocation.subtitle = "\(placemark.location!)"
         }
-    }
-    
-    //MARK:距离计算
-    fileprivate func calculateDistance(start:CLLocationCoordinate2D, end:CLLocationCoordinate2D) -> Double{
-        
-        let startLongitude = start.longitude
-        let startLatitude = start.latitude
-        let endLongitude = end.longitude
-        let endLatitude = end.latitude
-        
-        let radLatitude1 = startLatitude * M_PI / 180
-        let radLatitude2 = endLatitude * M_PI / 180
-        let a = fabs(radLatitude1 - radLatitude2)
-        let b = fabs(startLongitude * M_PI / 180 - endLongitude * M_PI / 180)
-        
-        let earthRadius = 6378.137 //公里
-        let metre = 2 * asin(sqrt(pow(sin(a / 2), 2) + cos(radLatitude1) * cos(radLatitude2) * pow(sin(b / 2), 2))) * earthRadius
-        return round(metre * 1000) //四舍五入--米
     }
     
     //MARK:更新显示区域时调用will
@@ -726,18 +746,6 @@ extension MapVC:CLLocationManagerDelegate{
                 }
             }
         }
-    }
-    
-    private func deltaTime(from startDate: Date, to endDate: Date) -> TimeInterval{
-        let calender = Calendar(identifier: .gregorian)
-        let deltaSecond = calender.dateComponents([Calendar.Component.nanosecond], from: startDate, to: endDate)
-        debugPrint("delta second:", deltaSecond)
-
-        guard let result = deltaSecond.nanosecond else{
-            return 0
-        }
-        let doubleResult = TimeInterval(result) * pow(10, -9)
-        return doubleResult
     }
     
     func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {

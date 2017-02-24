@@ -7,6 +7,13 @@
 //
 
 import Foundation
+//类型子按钮
+enum ActiveSportType{
+    case walking
+    case hiking
+    case running
+    case riding
+}
 class PathViewController: FunOriginViewController {
 
     @IBOutlet weak var startButton: UIButton!
@@ -47,14 +54,7 @@ class PathViewController: FunOriginViewController {
         }
     }
     
-    //类型子按钮
-    private enum SportType{
-        case walking
-        case hiking
-        case running
-        case riding
-    }
-    private var sporttype: SportType?{
+    private var sporttype: ActiveSportType?{
         didSet{
             guard let st = sporttype else {
                 return
@@ -62,7 +62,7 @@ class PathViewController: FunOriginViewController {
             typeButton.setImage(sportTypeImgMap[st]!, for: .normal)
         }
     }
-    private lazy var sportTypeImgMap: [SportType: UIImage?] = [.walking: UIImage(named: "resource/map/type/walking"),
+    private lazy var sportTypeImgMap: [ActiveSportType: UIImage?] = [.walking: UIImage(named: "resource/map/type/walking"),
                                                                .hiking: UIImage(named: "resource/map/type/hiking"),
                                                                .running: UIImage(named: "resource/map/type/running"),
                                                                .riding: UIImage(named: "resource/map/type/riding")]
@@ -373,6 +373,7 @@ class PathViewController: FunOriginViewController {
     private func pushMap(){
         
         let premapVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "premap") as! PremapVC
+        premapVC.activeType = sporttype
         navigationController?.pushViewController(premapVC, animated: true)
     }
     

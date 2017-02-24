@@ -71,7 +71,7 @@ class StateVC: UIViewController {
             date in
             
             print("date: \(date)")
-            self.tableView.reloadData()
+            self.receiveConnectedMessage(notify: nil)
         }
         
         setupRefresh()
@@ -208,18 +208,7 @@ class StateVC: UIViewController {
                                         control.endRefreshing()
                                         
                                         //更新时间轴数据
-                                        if let macaddress = angelManager?.macAddress {
-                                            self.trackList.removeAll()
-                                            let tracks = CoreDataHandler.share().selectTrack(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0).sorted{
-                                                track1, track2 -> Bool in
-                                                let earlyDate = track1.date?.earlierDate(track2.date as! Date)
-                                                if earlyDate == track1.date as? Date{
-                                                    return false
-                                                }
-                                                return true
-                                            }
-                                            self.trackList.append(contentsOf: tracks)
-                                        }
+                                        self.receiveConnectedMessage(notify: nil)
                                     }else{
                                         message = "正在同步运动数据:\(progress / 2 + 50)%"
                                         control.attributedTitle = NSAttributedString(string: message)
@@ -241,7 +230,7 @@ class StateVC: UIViewController {
     }
     
     //MARK:- 接收连接状态
-    @objc func receiveConnectedMessage(notify: Notification){
+    @objc func receiveConnectedMessage(notify: Notification?){
         if let angelManager = AngelManager.share() {
             if let macaddress = angelManager.macAddress {
                 trackList.removeAll()

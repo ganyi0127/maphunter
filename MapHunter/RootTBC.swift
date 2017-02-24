@@ -127,6 +127,13 @@ class RootTBC: UITabBarController {
         return effectView
     }()
     
+    //定位相关
+    fileprivate var isLocation = false
+    fileprivate var preCoordinate: CLLocationCoordinate2D?
+    fileprivate var deltaDistance: UInt32 = 0
+    fileprivate var startTime: Date?
+    fileprivate var totalTime: TimeInterval = 0
+    
     //MARK:- init
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -141,7 +148,8 @@ class RootTBC: UITabBarController {
         selectedIndex = 0
         
         //初始化sdk
-        _ = SatanManager.share()
+        let satanManager = SatanManager.share()
+        satanManager?.delegate = self
         _ = AngelManager.share()
     }
     
@@ -175,5 +183,98 @@ class RootTBC: UITabBarController {
     //MARK:- 点击关闭按钮
     @objc private func tap(recognizer: UITapGestureRecognizer){
         clickMenuButton(sender: menuButton)
+    }
+}
+
+//MARK:- 交换数据代理
+extension RootTBC: SatanManagerDelegate{
+    
+    
+    //发送app持续时间
+    func satanManagerDuration() -> Int {
+        if let staTime = startTime{
+            let dltTime = deltaTime(from: staTime, to: Date())
+            startTime = Date()
+            totalTime += dltTime
+        }
+        return Int(totalTime)
+    }
+    
+    //状态 start pause restore end
+    func satanManager(didUpdateState state: SatanManagerState) {
+        switch state {
+        case .start:
+            if CLLocationManager.locationServicesEnabled(){
+                globalLocationManager.startUpdatingLocation()   //开始定位
+                globalLocationManager.delegate = self
+                isLocation = true
+            }
+            
+            startTime = Date()
+        case .pause:
+            isLocation = false
+            startTime = nil
+        case .restore:
+            isLocation = true
+            startTime = Date()
+        case .end:
+            globalLocationManager.stopUpdatingLocation()
+            globalLocationManager.delegate = nil
+            isLocation = false
+            
+            startTime = nil
+            totalTime = 0
+        }
+    }
+    
+    //发送距离
+    func satanManagerDistanceByLocation(withBleDistance distance: UInt32) -> UInt32 {
+        let delta = deltaDistance
+        deltaDistance = 0
+        return distance + delta
+    }
+    
+    //交换数据 间隔2s
+    func satanManager(didSwitchingReplyCalories calories: UInt32, distance: UInt32, step: UInt32, curHeartrate: UInt8, heartrateSerial: UInt8, available: Bool, heartrateValue: [UInt8]) {
+        
+    }
+}
+
+//MARK:- location delegate
+extension RootTBC: CLLocationManagerDelegate{
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if isLocation {
+            //获取最后记录点
+            guard let location = locations.last else {
+                print("location get last error!")
+                return
+            }
+            let coordinate = location.coordinate
+            
+            //精度
+            debugPrint("水平精度", location.horizontalAccuracy)
+            debugPrint("垂直精度", location.verticalAccuracy)
+            guard location.horizontalAccuracy <= 65 && location.horizontalAccuracy > 0, location.verticalAccuracy <= 25 && location.verticalAccuracy > 0 else {
+                //无信号
+                return
+            }
+            
+            //展示信号强度
+//            if fabs(location.horizontalAccuracy) <= 5 {
+//                delegate?.map(gps: .high)
+//            }else if fabs(location.horizontalAccuracy) <= 15{
+//                delegate?.map(gps: .middle)
+//            }else{
+//                delegate?.map(gps: .low)
+//            }
+            
+            //计算距离
+            if let preCoor = preCoordinate{
+                deltaDistance += UInt32(calculateDistance(start: preCoor, end: coordinate))
+            }else{
+                preCoordinate = coordinate
+            }
+            
+        }
     }
 }
