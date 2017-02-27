@@ -758,6 +758,7 @@ SWIFT_CLASS("_TtC8AngelFit5Track")
 - (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
 @end
 
+@class NSMutableArray;
 
 @interface Track (SWIFT_EXTENSION(AngelFit))
 @property (nonatomic) int16_t aerobicMinutes;
@@ -767,12 +768,13 @@ SWIFT_CLASS("_TtC8AngelFit5Track")
 @property (nonatomic, strong) NSDate * _Nullable date;
 @property (nonatomic) int16_t distance;
 @property (nonatomic) int16_t durations;
-@property (nonatomic, strong) NSObject * _Nullable heartrateList;
+@property (nonatomic, strong) NSMutableArray * _Nullable heartrateList;
 @property (nonatomic) int16_t limitMinutes;
 @property (nonatomic) int16_t maxHeartrate;
 @property (nonatomic) int16_t serial;
 @property (nonatomic) int16_t step;
 @property (nonatomic) int16_t type;
+@property (nonatomic, strong) NSMutableArray * _Nullable coordinateList;
 @property (nonatomic, strong) Device * _Nullable device;
 @end
 

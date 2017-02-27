@@ -640,6 +640,11 @@ extension PremapVC: MapDelegate{
         let image = UIImage(named: imgName)
         gpsImageView.image = image
     }
+    
+    //MARK:- 返回整个路径数组
+    func map(locationList: [CLLocationCoordinate2D]) {
+        //存储到数据库
+    }
 }
 
 //MARK:- 数据交换 delegate

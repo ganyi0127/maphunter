@@ -136,9 +136,13 @@ class FirstCell: UITableViewCell {
     private func startTimer(){
         cancel(task)
         task = delay(1){
-//            DispatchQueue.global().async {
-                self.getLivedata()
-//            }
+
+            let vc = self.viewController()
+            if vc.isKind(of: StateVC.self){
+                if !(vc as! StateVC).initFresh{
+                    self.getLivedata()
+                }
+            }
         }
     }
     

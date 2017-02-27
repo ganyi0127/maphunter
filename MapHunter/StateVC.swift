@@ -120,7 +120,7 @@ class StateVC: UIViewController {
     }
     
     //MARK:- 刷新调用
-    private var initFresh = true
+    var initFresh = true
     @objc private func refreshStateChange(_ control: UIRefreshControl){
 
         guard !initFresh else {

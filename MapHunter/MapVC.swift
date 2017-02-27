@@ -56,6 +56,7 @@ protocol MapDelegate {
     func map(totalDistance distance: Double, addedDistance subDistance: Double)
     func map(pastTime time: TimeInterval)
     func map(gps status: MapGPSStatus)
+    func map(locationList: [CLLocationCoordinate2D])
 }
 
 //位置管理器
@@ -699,6 +700,10 @@ extension MapVC:CLLocationManagerDelegate{
 //                }
                 
                 locationList.append((latitude: coordinate.latitude, longitude: coordinate.longitude))
+                
+                //回调路径数组
+                
+                delegate?.map(locationList: locationList.map({CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)}))
                 
                 //计算速度
                 let deltaSec = deltaTime(from: preDate, to: Date())
