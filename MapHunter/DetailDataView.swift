@@ -42,15 +42,23 @@ class DetailDataView: UIView {
             case .totalTime, .activityTime, .restTime, .deepSleep, .lightSleep, .sleepTime, .quiteSleep, .wakeTime, .weightStartTime:
                 unit = "分钟"
                 
-                let hour = Int16(value!) / 60
-                let minute = Int16(value!) % 60
-                let minuteStr = "\(minute)"
-                text = "\(hour)小时" + minuteStr + "分钟"
+                let hour = Int16(value!) / 3600
+                let minute = (Int16(value!) - hour * 3600) / 60
+                let second = Int16(value!) % 60
+                
+                let minuteStr = minute < 10 ? "0" : "" + "\(minute)"
+                let secondStr = "\(second)"
+                text = hour > 0 ? "\(hour)小时" + minuteStr + "分钟" : minuteStr + "分钟" + secondStr + "秒"
                 let mainAttributedString = NSMutableAttributedString(string: text,
                                                                      attributes: [NSFontAttributeName: fontBig])
                 let unitLength = unit.characters.count
-                mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - unitLength, unitLength))
-                mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - unitLength * 2 - minuteStr.characters.count, unitLength))
+                if hour > 0{
+                    mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - unitLength, unitLength))
+                    mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - unitLength * 2 - secondStr.characters.count, unitLength))
+                }else{
+                    mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 1, 1))
+                    mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - unitLength - 1 - minuteStr.characters.count, unitLength))
+                }
                 secondLabel?.attributedText = mainAttributedString
                 return
             case .wakeCount:

@@ -262,7 +262,7 @@
                   moduleName = "MapHunter"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ganyi/Documents/git/MapHunter/MapHunter/RootTBC.swift"
-                  timestampString = "509623865.012007"
+                  timestampString = "509882336.572102"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "195"
@@ -277,7 +277,7 @@
                   moduleName = "MapHunter"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ganyi/Documents/git/MapHunter/MapHunter/RootTBC.swift"
-                  timestampString = "509623865.013291"
+                  timestampString = "509882336.573388"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "195"
@@ -332,6 +332,22 @@
             startingLineNumber = "239"
             endingLineNumber = "239"
             landmarkName = "satanManager(didSwitchingReplyCalories:distance:step:curHeartrate:heartrateSerial:available:heartrateValue:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MapHunter/DetailTop.swift"
+            timestampString = "509877172.092579"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "533"
+            endingLineNumber = "533"
+            landmarkName = "drawGraphic()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -32,7 +32,42 @@ class DetailBack: UIView {
                 let detailDataView = DetailDataView(detailDataViewType: dataViewType)
                 detailDataView.frame.origin = CGPoint(x: CGFloat(index % 2) * self.frame.width / 2,
                                                       y: detailTop!.frame.height + CGFloat(index / 2) * detailDataView.frame.height)
-                detailDataView.value = 123
+                //获取数据
+                //运动
+//                case totalTime
+//                case activityTime
+//                case restTime
+//                case totalCalorie
+//                case activityCalorie
+//                case restCalorie
+//                
+//                //睡眠
+//                case deepSleep
+//                case lightSleep
+//                case sleepTime
+//                case quiteSleep
+//                case wakeTime
+//                case wakeCount
+//                
+//                //体重
+//                case weightStartTime
+//                case weightDelta
+                let coredataHandler = CoreDataHandler.share()
+                if let macaddress = AngelManager.share()?.macAddress{
+                    let sportdataList = coredataHandler.selectSportData(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+                    if let sportdata = sportdataList.first{
+                        switch dataViewType {
+                        case .activityCalorie:
+                            detailDataView.value = CGFloat(sportdata.totalCal)
+                        case .activityTime:
+                            detailDataView.value = CGFloat(sportdata.totalActiveTime)
+                        case .restTime:
+                            detailDataView.value = 123
+                        default:
+                            detailDataView.value = 0
+                        }
+                    }
+                }
                 detailDataView.closure = {
                     self.closure?()
                 }
@@ -121,7 +156,7 @@ extension DetailBack: DetailTopDelegate{
                 sportList = sportList.sorted{$0.id < $1.id}
                 result = sportList.map{CGFloat($0.sportCount)}
                 print(sportData.totalStep, "total")
-                print("result", result)
+                debugPrint("sport result list:", result)
                 
                 DispatchQueue.main.async {
                     closure(result)
@@ -146,7 +181,7 @@ extension DetailBack: DetailTopDelegate{
                 }
                 heartRateList = heartRateList.sorted{$0.id < $1.id}
                 result = heartRateList.map{CGFloat($0.data)}
-                print("result", result)
+                debugPrint("heartrate result list:", result)
                 
                 DispatchQueue.main.async {
                     closure(result)
@@ -171,7 +206,7 @@ extension DetailBack: DetailTopDelegate{
                 }
                 sleepItemList = sleepItemList.sorted{$0.id < $1.id}
                 result = sleepItemList.map{CGFloat($0.sleepStatus) * CGFloat(sleepTypeBit) + CGFloat($0.durations)}
-                print("result", result)
+                debugPrint("sleep result list:", result)
                 
                 DispatchQueue.main.async {
                     closure(result)
@@ -189,15 +224,50 @@ extension DetailBack: DetailTopDelegate{
         }
     }
     
+    func detailHeartrateOffset(closure: @escaping ([CGFloat]) -> ()) {
+        //心率数据
+        var result = [CGFloat]()
+        let angelManager = AngelManager.share()
+        angelManager?.getHeartRateData(nil, userId: nil, date: selectDate, offset: 0){
+            heartRateDataList in
+            guard let heartRateData = heartRateDataList.last else{
+                return
+            }
+            
+            let heartRateItems = heartRateData.heartRateItem
+            var heartRateList = [HeartRateItem]()
+            heartRateItems?.forEach{
+                item in
+                heartRateList.append(item as! HeartRateItem)
+            }
+            heartRateList = heartRateList.sorted{$0.id < $1.id}
+            result = heartRateList.map{CGFloat($0.offset)}
+            debugPrint("heartrate offset list:", result)
+            DispatchQueue.main.async {
+                closure(result)
+            }
+        }
+    }
+    
     //获取睡眠开始时间
     func detailSleepBeginTime() -> Date {
-        let yesterday = Date(timeIntervalSinceNow: -60 * 60 * 24)
-        let calendar = Calendar.current
-        var components = calendar.dateComponents([.hour, .minute], from: yesterday)
-        components.hour = 22
-        components.minute = 30
-        let date = calendar.date(from: components)
-        return date!
+
+        let angelManager = AngelManager.share()
+        guard let macaddress = angelManager?.macAddress else {
+            return Date()
+        }
+        let coredataHandle = CoreDataHandler.share()
+        let sleepDataList = coredataHandle.selectSleepData(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+        if let sleepData = sleepDataList.first{
+            let calendar = Calendar.current
+            var components = calendar.dateComponents([.hour, .minute], from: selectDate)
+            components.hour = Int(sleepData.startTimeHour)
+            components.minute = Int(sleepData.startTimeMinute)
+            if let date = calendar.date(from: components){
+                return date
+            }
+        }
+        return Date()
     }
     
     //获取日期数组
@@ -213,5 +283,75 @@ extension DetailBack: DetailTopDelegate{
             result.append(newDate)
         }
         return result.reversed()
+    }
+    
+    //总览数据
+    func detailTotalValue() -> CGFloat {
+        let angelManager = AngelManager.share()
+        guard let macaddress = angelManager?.macAddress else {
+            return 0
+        }
+        let coredataHandle = CoreDataHandler.share()
+        switch type as DataCubeType {
+        case .sport:
+            let sportDataList = coredataHandle.selectSportData(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+            if let sportData = sportDataList.first{
+                return CGFloat(sportData.totalStep)
+            }
+        case .heartrate:
+            let heartrateDataList = coredataHandle.selectHeartRateData(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+            if let heartrateData = heartrateDataList.first{
+                return CGFloat(heartrateData.silentHeartRate)
+            }
+        case .sleep:
+            let sleepDataList = coredataHandle.selectSleepData(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+            if let sleepData = sleepDataList.first{
+                return CGFloat(sleepData.deepSleepMinute)
+            }
+        case .weight:
+            return 0
+        }
+        return 0
+    }
+    
+    func detailLeftValue() -> CGFloat {
+        let angelManager = AngelManager.share()
+        guard let macaddress = angelManager?.macAddress else {
+            return 0
+        }
+        let coredataHandle = CoreDataHandler.share()
+        switch type as DataCubeType {
+        case .sport:
+            let sportDataList = coredataHandle.selectSportData(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+            if let sportData = sportDataList.first{
+                return CGFloat(sportData.totalStep)
+            }
+        case .sleep:
+            let sleepDataList = coredataHandle.selectSleepData(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+            if let sleepData = sleepDataList.first{
+                return CGFloat(sleepData.deepSleepMinute)
+            }
+        default:
+            return 0
+        }
+        return 0
+    }
+    
+    func detailRightValue() -> CGFloat {
+        let angelManager = AngelManager.share()
+        guard let macaddress = angelManager?.macAddress else {
+            return 0
+        }
+        let coredataHandle = CoreDataHandler.share()
+        switch type as DataCubeType {
+        case .sport:
+            let sportDataList = coredataHandle.selectSportData(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+            if let sportData = sportDataList.first{
+                return CGFloat(sportData.totalDistance)
+            }
+        default:
+            return 0
+        }
+        return 0
     }
 }

@@ -129,6 +129,8 @@ class StateVC: UIViewController {
             return
         }
         
+        initFresh = true
+        
         //判断是否有绑定设备
         let peripheral = PeripheralManager.share().currentPeripheral
         guard peripheral != nil else {
@@ -191,6 +193,8 @@ class StateVC: UIViewController {
                                         message = "同步运动数据超时"
                                         control.attributedTitle = NSAttributedString(string: message)
                                         
+                                        self.initFresh = false
+                                        
                                         //弹窗
                                         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
                                         let cancel = UIAlertAction(title: "返回", style: .cancel){
@@ -206,6 +210,8 @@ class StateVC: UIViewController {
                                         message = "同步运动数据完成"
                                         control.attributedTitle = NSAttributedString(string: message)
                                         control.endRefreshing()
+                                        
+                                        self.initFresh = false
                                         
                                         //更新时间轴数据
                                         self.receiveConnectedMessage(notify: nil)
