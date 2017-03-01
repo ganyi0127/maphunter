@@ -233,7 +233,7 @@ class PathViewController: FunOriginViewController {
     
     override func createContents() {
         //添加背景图片
-        let backgroundImage = UIImage(named: "resource/map/background/path")?.transfromImage(size: view_size)
+        let backgroundImage = UIImage(named: "resource/map/background/path")!//?.transfromImage(size: view_size)
         let backgroundImageView = UIImageView(image: backgroundImage)
         backgroundImageView.frame = CGRect(origin: .zero, size: view_size)
         backgroundImageView.layer.cornerRadius = 20
@@ -242,6 +242,10 @@ class PathViewController: FunOriginViewController {
         super.createContents()
         
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -577,7 +577,8 @@ class DetailTop: UIView {
                             }
                             
                             //添加小圆圈
-                            let markCircle = UIBezierPath(ovalIn: CGRect(x: nextPoint.x - rectWidth / 2, y: nextPoint.y - rectWidth / 2, width: rectWidth, height: rectWidth))
+                            let circleDiameter = rectWidth * 0.7
+                            let markCircle = UIBezierPath(ovalIn: CGRect(x: nextPoint.x - circleDiameter / 2, y: nextPoint.y - circleDiameter / 2, width: circleDiameter, height: circleDiameter))
                             let markLayer = CAShapeLayer()
                             markLayer.path = markCircle.cgPath
                             markLayer.fillColor = UIColor.white.withAlphaComponent(0.5).cgColor

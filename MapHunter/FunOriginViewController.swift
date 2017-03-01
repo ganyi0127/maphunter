@@ -40,7 +40,6 @@ class FunOriginViewController: UIViewController {
     func config(){
         
         //设置圆角mask
-//        view.layer.cornerRadius = 20
         let bezier = UIBezierPath(roundedRect: CGRect(origin: .zero, size: view_size), cornerRadius: 20)
         let maskLayer = CAShapeLayer()
         maskLayer.path = bezier.cgPath

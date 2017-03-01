@@ -299,7 +299,8 @@ class PremapVC: UIViewController {
             let satanManager = SatanManager.share()
             satanManager?.delegate = self
             let switchStart = SwitchStart()
-            switchStart.date = Date()
+            let date = Date() 
+            switchStart.date = date as Date
             switchStart.forceStart = true
             switchStart.sportType = self.activeCode
             switchStart.targetType = 0x01
@@ -330,6 +331,18 @@ class PremapVC: UIViewController {
                     alertController.addAction(cancelAction)
                     alertController.setBlackTextColor()
                     self.present(alertController, animated: true, completion: nil)
+                }
+                
+                //保存路径
+                if let macaddress = AngelManager.share()?.macAddress{
+                    let coredataHandler = CoreDataHandler.share()
+                    if let track = coredataHandler.insertTrack(userId: 1, withMacAddress: macaddress, withDate: date, withItems: nil){
+                        track.date = date as NSDate?
+                        track.coordinateList = NSMutableArray()
+                        if coredataHandler.commit(){
+                            
+                        }
+                    }
                 }
             }
         }

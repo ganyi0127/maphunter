@@ -78,7 +78,8 @@ class FirstCell: UITableViewCell {
         
         weightDataCube.frame.origin = CGPoint(x: frame.width / 2 + frame.width * 0.015,
                                               y: heartRateDataCube.frame.height + frame.height * 0.06)
-
+        
+        startTimer()
     }
     
     private func config(){
@@ -124,7 +125,7 @@ class FirstCell: UITableViewCell {
         sleepDataCube.closure = clickedCube
         weightDataCube.closure = clickedCube
         
-        startTimer()
+        
     }
     
     deinit {
