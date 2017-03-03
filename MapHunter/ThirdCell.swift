@@ -261,6 +261,7 @@ class ThirdCell: UITableViewCell {
         gradient.colors = [startColor ?? UIColor.lightGray.cgColor, endColor ?? UIColor.gray.cgColor]
         gradient.cornerRadius =  view_size.width * 0.02
         gradient.shadowColor = UIColor.black.cgColor
+        layer.shouldRasterize = true        //光栅化
         layer.addSublayer(gradient)
         
         //添加标签

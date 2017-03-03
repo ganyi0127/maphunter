@@ -292,11 +292,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/DetailTop.swift"
-            timestampString = "509877172.092579"
+            timestampString = "510114898.909333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "533"
-            endingLineNumber = "533"
+            startingLineNumber = "554"
+            endingLineNumber = "554"
             landmarkName = "drawGraphic()"
             landmarkType = "7">
          </BreakpointContent>

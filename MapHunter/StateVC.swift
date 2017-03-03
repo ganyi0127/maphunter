@@ -349,6 +349,7 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
                         let detaiViewController = DetailViewController(detailType: dataCubeType, date: selectDate)
                         self.navigationController?.show(detaiViewController, sender: cell)
                     }
+                    (cell as! FirstCell).startTimer()
                 case 1:
                     cell = CalendarCell(reuseIdentifier: identifier)
                 default:

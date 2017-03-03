@@ -19,6 +19,7 @@
 }
 
 -(id) initWithStartCoordinate:(CLLocationCoordinate2D)startCoord endCoordinate: (CLLocationCoordinate2D)endCoord startVelcity: (float)startVelcity endVelcity: (float)endVelcity;
+-(id) initWithPoints:(CLLocationCoordinate2D*)_points velocity:(float*)_velocity count:(NSUInteger)_count;
 
 -(MKMapRect)addCoordinate:(CLLocationCoordinate2D)coord velcity:(float)newVelcity;
 

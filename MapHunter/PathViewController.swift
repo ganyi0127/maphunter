@@ -54,6 +54,7 @@ class PathViewController: FunOriginViewController {
         }
     }
     
+    //存储当前运动类型
     private var sporttype: ActiveSportType?{
         didSet{
             guard let st = sporttype else {
@@ -233,7 +234,7 @@ class PathViewController: FunOriginViewController {
     
     override func createContents() {
         //添加背景图片
-        let backgroundImage = UIImage(named: "resource/map/background/path")!//?.transfromImage(size: view_size)
+        let backgroundImage = pathImg
         let backgroundImageView = UIImageView(image: backgroundImage)
         backgroundImageView.frame = CGRect(origin: .zero, size: view_size)
         backgroundImageView.layer.cornerRadius = 20

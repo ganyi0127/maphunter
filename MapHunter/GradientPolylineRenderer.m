@@ -9,11 +9,10 @@
 #import "GradientPolylineRenderer.h"
 #import <pthread.h>
 #import "GradientPolylineOverlay.h"
-#import "MapHunter-Swift.h"
 //#import "Constant.h"
 
-#define V_MAX 20.0
-#define V_MIN 5.0
+#define V_MAX self.maxSpeed
+#define V_MIN self.minSpeed
 #define H_MAX 0.33
 #define H_MIN 0.03
 
@@ -23,15 +22,21 @@
     GradientPolylineOverlay* polyline;
 }
 
-- (id) initWithOverlay:(id<MKOverlay>)overlay{
+
+
+- (id) initWithOverlay:(id<MKOverlay>)overlay andMaxSpeed:(CGFloat)maxSpeed andMinSpeed:(CGFloat)minSpeed{
     self = [super initWithOverlay:overlay];
     if (self){
+        self.maxSpeed = maxSpeed;
+        self.minSpeed = minSpeed;
         pthread_rwlock_init(&rwLock,NULL);
         polyline = ((GradientPolylineOverlay*)self.overlay);
         float *velocity = polyline.velocity;
         int count = (int)polyline.pointCount;
         [self velocity:velocity ToHue:&hues count:count];
         [self createPath];
+        
+        
     }
     return self;
 }
@@ -42,9 +47,8 @@
         float curVelo = velocity[i];
         
         if(curVelo>0.){
-            
-            curVelo = ((curVelo < [OCVariable share].v_min) ? [OCVariable share].v_min : (curVelo  > [OCVariable share].v_max) ? [OCVariable share].v_max : curVelo);
-            (*_hue)[i] = H_MIN + ((curVelo-[OCVariable share].v_min)*(H_MAX-H_MIN))/([OCVariable share].v_max-[OCVariable share].v_min);
+            curVelo = ((curVelo < V_MIN) ? V_MIN : (curVelo  > V_MAX) ? V_MAX : curVelo);
+            (*_hue)[i] = H_MIN + ((curVelo-V_MIN)*(H_MAX-H_MIN))/(V_MAX-V_MIN);
         }else{
             //暂停颜色
             (*_hue)[i] = 0.;
@@ -109,7 +113,6 @@
             //跑步渐变
             ccolor = [UIColor colorWithHue:hues[i] saturation:1.0f brightness:1.0f alpha:1.0f];
             if (i==0){
-//                pcolor = [UIColor colorWithHue:hues[i] saturation:1.0f brightness:1.0f alpha:1.0f];
                 CGPathMoveToPoint(path, nil, point.x, point.y);
             } else {
                 CGPoint prevPoint = [self pointForMapPoint:polyline.points[i-1]];

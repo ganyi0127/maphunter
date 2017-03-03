@@ -9,7 +9,7 @@
 #import "GradientPolylineOverlay.h"
 #import <pthread.h>
 
-#define INITIAL_POINT_SPACE 2
+#define INITIAL_POINT_SPACE 1000
 #define MINIMUM_DELTA_METERS 10.0
 
 @implementation GradientPolylineOverlay{
@@ -17,6 +17,37 @@
 }
 
 @synthesize points, pointCount, velocity;
+-(id) initWithPoints:(CLLocationCoordinate2D*)_points velocity:(float *)_velocity count:(NSUInteger)_count{
+    self = [super init];
+    if (self){
+        pointCount = _count;
+        self.points = malloc(sizeof(MKMapPoint)*pointCount);
+        for (int i=0; i<_count; i++){
+            self.points[i] = MKMapPointForCoordinate(_points[i]);
+        }
+        
+        self.velocity = malloc(sizeof(float)*pointCount);
+        for (int i=0; i<_count;i++){
+            self.velocity[i] = _velocity[i];
+        }
+        
+        //bite off up to 1/4 of the world to draw into
+        MKMapPoint origin = points[0];
+        origin.x -= MKMapSizeWorld.width/8.0;
+        origin.y -= MKMapSizeWorld.height/8.0;
+        MKMapSize size = MKMapSizeWorld;
+        size.width /=4.0;
+        size.height /=4.0;
+        boundingMapRect = (MKMapRect) {origin, size};
+        MKMapRect worldRect = MKMapRectMake(0, 0, MKMapSizeWorld.width, MKMapSizeWorld.height);
+        boundingMapRect = MKMapRectIntersection(boundingMapRect, worldRect);
+        
+        // initialize read-write lock for drawing and updates
+        pthread_rwlock_init(&rwLock,NULL);
+    }
+    return self;
+}
+
 
 -(id) initWithStartCoordinate:(CLLocationCoordinate2D)startCoord endCoordinate: (CLLocationCoordinate2D)endCoord startVelcity: (float)startVelcity endVelcity: (float)endVelcity{
     self = [super init];
