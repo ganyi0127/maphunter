@@ -78,6 +78,7 @@ class DetailBack: UIView {
     }
     
     
+    //MARK:- init
     init(detailType: DataCubeType){
         let frame = CGRect(x: edgeWidth,
                            y: view_size.width / 2,
