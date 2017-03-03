@@ -738,12 +738,11 @@ extension MapVC:CLLocationManagerDelegate{
                                                             startVelcity: startVelcity,
                                                             endVelcity: endVelcity)
                 }
-                centerOverlay?.add(currentLocationList[0], velcity: startVelcity)
                 centerOverlay?.add(currentLocationList[1], velcity: endVelcity)
                 
 //                mapView.removeOverlays(mapView.overlays)
                 mapView.add(centerOverlay!, level: .aboveLabels)
-                centerOverlay = nil
+                
                 
                 print("mapViewOverLayCount: \(mapView.overlays.count)")
                 //记录总距离
