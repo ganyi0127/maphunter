@@ -14,6 +14,9 @@ enum ActiveSportType{
     case running
     case riding
 }
+
+private let typeImageLength: CGFloat = 140
+
 class PathViewController: FunOriginViewController {
 
     @IBOutlet weak var startButton: UIButton!
@@ -63,10 +66,12 @@ class PathViewController: FunOriginViewController {
             typeButton.setImage(sportTypeImgMap[st]!, for: .normal)
         }
     }
-    private lazy var sportTypeImgMap: [ActiveSportType: UIImage?] = [.walking: UIImage(named: "resource/map/type/walking"),
-                                                               .hiking: UIImage(named: "resource/map/type/hiking"),
-                                                               .running: UIImage(named: "resource/map/type/running"),
-                                                               .riding: UIImage(named: "resource/map/type/riding")]
+    
+    private let walkingImg = UIImage(named: "resource/map/type/walking")?.transfromImage(size: CGSize(width: typeImageLength, height: typeImageLength))
+    private let hikingImg = UIImage(named: "resource/map/type/hiking")?.transfromImage(size: CGSize(width: typeImageLength, height: typeImageLength))
+    private let runningImg = UIImage(named: "resource/map/type/running")?.transfromImage(size: CGSize(width: typeImageLength, height: typeImageLength))
+    private let ridingImg = UIImage(named: "resource/map/type/riding")?.transfromImage(size: CGSize(width: typeImageLength, height: typeImageLength))
+    private lazy var sportTypeImgMap: [ActiveSportType: UIImage?] = [.walking: self.walkingImg, .hiking: self.hikingImg, .running: self.runningImg, .riding: self.ridingImg]
     private lazy var typeButtonDoubleFrame: CGRect = {
         return CGRect(x: self.typeButton.frame.origin.x - self.typeButton.bounds.width / 2, y: self.typeButton.frame.origin.y - self.typeButton.bounds.height / 2, width: self.typeButton.bounds.width * 2, height: self.typeButton.bounds.height * 2)
     }()
