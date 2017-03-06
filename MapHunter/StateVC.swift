@@ -240,7 +240,8 @@ class StateVC: UIViewController {
         if let angelManager = AngelManager.share() {
             if let macaddress = angelManager.macAddress {
                 trackList.removeAll()
-                let tracks = CoreDataHandler.share().selectTrack(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0).sorted{
+                let userId = UserManager.share().userId
+                let tracks = CoreDataHandler.share().selectTrack(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0).sorted{
                     track1, track2 -> Bool in
                     let earlyDate = track1.date?.earlierDate(track2.date as! Date)
                     if earlyDate == track1.date as? Date{

@@ -54,7 +54,8 @@ class DetailBack: UIView {
 //                case weightDelta
                 let coredataHandler = CoreDataHandler.share()
                 if let macaddress = AngelManager.share()?.macAddress{
-                    let sportdataList = coredataHandler.selectSportData(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+                    let userId = UserManager.share().userId
+                    let sportdataList = coredataHandler.selectSportData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
                     if let sportdata = sportdataList.first{
                         switch dataViewType {
                         case .activityCalorie:
@@ -141,7 +142,7 @@ extension DetailBack: DetailTopDelegate{
             var result = [CGFloat]()
             
             let angelManager = AngelManager.share()
-            angelManager?.getSportData(nil, userId: nil, date: selectDate, offset: 0){
+            angelManager?.getSportData(nil, date: selectDate, offset: 0){
                 sportDataList in
                 guard let sportData = sportDataList.last else{
                     return
@@ -168,7 +169,7 @@ extension DetailBack: DetailTopDelegate{
             //心率数据
             var result = [CGFloat]()
             let angelManager = AngelManager.share()
-            angelManager?.getHeartRateData(nil, userId: nil, date: selectDate, offset: 0){
+            angelManager?.getHeartRateData(nil, date: selectDate, offset: 0){
                 heartRateDataList in
                 guard let heartRateData = heartRateDataList.last else{
                     return
@@ -229,7 +230,7 @@ extension DetailBack: DetailTopDelegate{
         //心率数据
         var result = [CGFloat]()
         let angelManager = AngelManager.share()
-        angelManager?.getHeartRateData(nil, userId: nil, date: selectDate, offset: 0){
+        angelManager?.getHeartRateData(nil, date: selectDate, offset: 0){
             heartRateDataList in
             guard let heartRateData = heartRateDataList.last else{
                 return
@@ -258,7 +259,8 @@ extension DetailBack: DetailTopDelegate{
             return Date()
         }
         let coredataHandle = CoreDataHandler.share()
-        let sleepDataList = coredataHandle.selectSleepData(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+        let userId = UserManager.share().userId
+        let sleepDataList = coredataHandle.selectSleepData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
         if let sleepData = sleepDataList.first{
             let calendar = Calendar.current
             var components = calendar.dateComponents([.hour, .minute], from: selectDate)
@@ -293,19 +295,20 @@ extension DetailBack: DetailTopDelegate{
             return 0
         }
         let coredataHandle = CoreDataHandler.share()
+        let userId = UserManager.share().userId
         switch type as DataCubeType {
         case .sport:
-            let sportDataList = coredataHandle.selectSportData(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+            let sportDataList = coredataHandle.selectSportData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
             if let sportData = sportDataList.first{
                 return CGFloat(sportData.totalStep)
             }
         case .heartrate:
-            let heartrateDataList = coredataHandle.selectHeartRateData(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+            let heartrateDataList = coredataHandle.selectHeartRateData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
             if let heartrateData = heartrateDataList.first{
                 return CGFloat(heartrateData.silentHeartRate)
             }
         case .sleep:
-            let sleepDataList = coredataHandle.selectSleepData(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+            let sleepDataList = coredataHandle.selectSleepData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
             if let sleepData = sleepDataList.first{
                 return CGFloat(sleepData.deepSleepMinute)
             }
@@ -321,14 +324,15 @@ extension DetailBack: DetailTopDelegate{
             return 0
         }
         let coredataHandle = CoreDataHandler.share()
+        let userId = UserManager.share().userId
         switch type as DataCubeType {
         case .sport:
-            let sportDataList = coredataHandle.selectSportData(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+            let sportDataList = coredataHandle.selectSportData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
             if let sportData = sportDataList.first{
                 return CGFloat(sportData.totalStep)
             }
         case .sleep:
-            let sleepDataList = coredataHandle.selectSleepData(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+            let sleepDataList = coredataHandle.selectSleepData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
             if let sleepData = sleepDataList.first{
                 return CGFloat(sleepData.deepSleepMinute)
             }
@@ -344,9 +348,10 @@ extension DetailBack: DetailTopDelegate{
             return 0
         }
         let coredataHandle = CoreDataHandler.share()
+        let userId = UserManager.share().userId
         switch type as DataCubeType {
         case .sport:
-            let sportDataList = coredataHandle.selectSportData(userId: 1, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+            let sportDataList = coredataHandle.selectSportData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
             if let sportData = sportDataList.first{
                 return CGFloat(sportData.totalDistance)
             }

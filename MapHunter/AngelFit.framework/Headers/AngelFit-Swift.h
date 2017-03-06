@@ -159,16 +159,19 @@ SWIFT_CLASS("_TtC8AngelFit5Alarm")
 @class HandGesture;
 @class HeartInterval;
 enum HeartRateMode : NSInteger;
+@class SportData;
+@class SleepData;
+@class HeartRateData;
 
 SWIFT_CLASS("_TtC8AngelFit12AngelManager")
 @interface AngelManager : NSObject
 @property (nonatomic, copy) NSString * _Nullable macAddress;
 + (AngelManager * _Nullable)share;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
-- (void)getUserinfoWithUserId:(int16_t)id closure:(SWIFT_NOESCAPE void (^ _Nonnull)(User * _Nullable))closure;
-- (void)getDevice:(NSString * _Nullable)macAddress userId:(int16_t)id closure:(void (^ _Nonnull)(Device * _Nullable))closure;
+- (void)getUserinfoWithClosure:(SWIFT_NOESCAPE void (^ _Nonnull)(User * _Nullable))closure;
+- (void)getDevice:(NSString * _Nullable)macAddress closure:(void (^ _Nonnull)(Device * _Nullable))closure;
 - (void)getMacAddressFromBandWithClosure:(void (^ _Nonnull)(int16_t, NSString * _Nonnull))closure;
-- (void)getFuncTable:(NSString * _Nullable)macAddress userId:(int16_t)id closure:(void (^ _Nonnull)(FuncTable * _Nullable))closure;
+- (void)getFuncTable:(NSString * _Nullable)macAddress closure:(void (^ _Nonnull)(FuncTable * _Nullable))closure;
 - (void)getLiveDataFromBandWithClosure:(void (^ _Nonnull)(int16_t, id _Nullable))closure;
 - (void)setUpdateWithClosure:(void (^ _Nonnull)(BOOL))closure;
 - (void)setBind:(BOOL)bind closure:(void (^ _Nonnull)(BOOL))closure;
@@ -186,6 +189,9 @@ SWIFT_CLASS("_TtC8AngelFit12AngelManager")
 - (void)setHeartRateMode:(enum HeartRateMode)heartRateMode macAddress:(NSString * _Nullable)macAddress closure:(SWIFT_NOESCAPE void (^ _Nonnull)(BOOL))closure;
 - (void)setLandscape:(BOOL)flag macAddress:(NSString * _Nullable)macAddress closure:(SWIFT_NOESCAPE void (^ _Nonnull)(BOOL))closure;
 - (void)setSynchronizationHealthData:(NSString * _Nullable)macAddress closure:(void (^ _Nonnull)(BOOL, int16_t))closure;
+- (void)getSportData:(NSString * _Nullable)macAddress date:(NSDate * _Nonnull)date offset:(NSInteger)offset closure:(SWIFT_NOESCAPE void (^ _Nonnull)(NSArray<SportData *> * _Nonnull))closure;
+- (void)getSleepData:(NSString * _Nullable)macAddress date:(NSDate * _Nonnull)date offset:(NSInteger)offset closure:(SWIFT_NOESCAPE void (^ _Nonnull)(NSArray<SleepData *> * _Nonnull))closure;
+- (void)getHeartRateData:(NSString * _Nullable)macAddress date:(NSDate * _Nonnull)date offset:(NSInteger)offset closure:(SWIFT_NOESCAPE void (^ _Nonnull)(NSArray<HeartRateData *> * _Nonnull))closure;
 - (void)setSynchronizationConfigWithClosure:(void (^ _Nonnull)(BOOL))closure;
 - (void)deleteAlarm:(NSString * _Nullable)macAddress alarmId:(int16_t)alarmId closure:(SWIFT_NOESCAPE void (^ _Nonnull)(BOOL))closure;
 - (void)getAlarm:(NSString * _Nullable)macAddress alarmId:(int16_t)alarmId closure:(SWIFT_NOESCAPE void (^ _Nonnull)(Alarm * _Nullable))closure;
@@ -220,7 +226,6 @@ SWIFT_CLASS("_TtC8AngelFit6Device")
 - (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class SleepData;
 @class NSSet;
 
 @interface Device (SWIFT_EXTENSION(AngelFit))
@@ -230,7 +235,6 @@ SWIFT_CLASS("_TtC8AngelFit6Device")
 - (void)removeSleepDatas:(NSSet * _Nonnull)values;
 @end
 
-@class SportData;
 
 @interface Device (SWIFT_EXTENSION(AngelFit))
 - (void)addSportDatasObject:(SportData * _Nonnull)value;
@@ -248,7 +252,6 @@ SWIFT_CLASS("_TtC8AngelFit6Device")
 - (void)removeTracks:(NSSet * _Nonnull)values;
 @end
 
-@class HeartRateData;
 
 @interface Device (SWIFT_EXTENSION(AngelFit))
 - (void)addHeartRateDatasObject:(HeartRateData * _Nonnull)value;

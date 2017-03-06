@@ -224,7 +224,7 @@ extension TopView : TopScrollDelegate{
         components.day = day
         if let date = calendar.date(from: components){
             let angelManager = AngelManager.share()
-            angelManager?.getSportData(nil, userId: nil, date: date, offset: 0){
+            angelManager?.getSportData(nil, date: date, offset: 0){
                 sportDatas in
                 guard let sportData = sportDatas.first else{
                     return

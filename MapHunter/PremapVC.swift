@@ -336,7 +336,8 @@ class PremapVC: UIViewController {
                 //保存路径
                 if let macaddress = AngelManager.share()?.macAddress{
                     let coredataHandler = CoreDataHandler.share()
-                    if let track = coredataHandler.insertTrack(userId: 1, withMacAddress: macaddress, withDate: date, withItems: nil){
+                    let userId = UserManager.share().userId
+                    if let track = coredataHandler.insertTrack(userId: userId, withMacAddress: macaddress, withDate: date, withItems: nil){
                         track.date = date as NSDate?
                         track.coordinateList = NSMutableArray()
                         if coredataHandler.commit(){
