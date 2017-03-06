@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import AngelFit
 @IBDesignable
 class TargetSettingVC: UIViewController {
     
@@ -27,38 +28,46 @@ class TargetSettingVC: UIViewController {
     //步数
     var stepValue: Int16 = 10000{
         didSet{
-            let text = "\(stepValue)步"
-            let mainAttributedString = NSMutableAttributedString(string: text,
-                                                                 attributes: [NSFontAttributeName: fontBig])
-            let unitLength = 1
-            mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - unitLength, unitLength))
-            stepLabel.attributedText = mainAttributedString
+            DispatchQueue.main.async {
+                let text = "\(self.stepValue)步"
+                let mainAttributedString = NSMutableAttributedString(string: text,
+                                                                     attributes: [NSFontAttributeName: fontBig])
+                let unitLength = 1
+                mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - unitLength, unitLength))
+                self.stepLabel.attributedText = mainAttributedString
+            }
         }
     }
     
     //体重
     var weightValue: Float = 60{
         didSet{
-            let text = String(format: "%.1f", weightValue) + "kg"
-            let mainAttributedString = NSMutableAttributedString(string: text,
-                                                                 attributes: [NSFontAttributeName: fontBig])
-            let unitLength = 2
-            mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - unitLength, unitLength))
-            weightLabel.attributedText = mainAttributedString
+            DispatchQueue.main.async {
+                let text = String(format: "%.1f", self.weightValue) + "kg"
+                let mainAttributedString = NSMutableAttributedString(string: text,
+                                                                     attributes: [NSFontAttributeName: fontBig])
+                let unitLength = 2
+                mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - unitLength, unitLength))
+                self.weightLabel.attributedText = mainAttributedString
+            }
         }
     }
     
     //睡眠
     var sleepTime: (hour: Int16, minute: Int16) = (0, 0){
         didSet{
-            setStroke()
-            setSleepLabel()
+            DispatchQueue.main.async {
+                self.setStroke()
+                self.setSleepLabel()
+            }
         }
     }
     var wakeTime: (hour: Int16, minute: Int16) = (0, 0){
         didSet{
-            setStroke()
-            setSleepLabel()
+            DispatchQueue.main.async {
+                self.setStroke()
+                self.setSleepLabel()
+            }
         }
     }
     
@@ -162,11 +171,16 @@ class TargetSettingVC: UIViewController {
         centerImageView.superview?.addSubview(wakeJoystick)
         
         //初始化设置
-        stepValue = 10000
-        weightValue = 65
-        
-        sleepTime = (hour: 19, minute: 40)
-        wakeTime = (hour: 7, minute: 30)
+        let userId = UserManager.share().userId
+        let coredataHandler = CoreDataHandler.share()
+        if let user = coredataHandler.selectUser(userId: userId){
+            stepValue = user.goalStep
+            stepSlider.setValue(Float(stepValue), animated: true)
+            weightValue = user.goalWeight
+            weightSlider.setValue(weightValue, animated: true)
+            sleepTime = (hour: user.sleepHour, minute: user.sleepMinute)
+            wakeTime = (hour: user.wakeHour, minute: user.wakeMinute)
+        }
     }
     
     //MARK:- 修改圆盘路径起始结束点
@@ -203,6 +217,23 @@ class TargetSettingVC: UIViewController {
     
     //MARK:- 确定按钮
     @IBAction func acceptSetting(_ sender: UIButton) {
+        let coredataHandler = CoreDataHandler.share()
+        let user = coredataHandler.selectUser(userId: UserManager.share().userId)
+        user?.sleepHour = sleepTime.hour
+        user?.sleepMinute = sleepTime.minute
+        user?.wakeHour = wakeTime.hour
+        user?.wakeMinute = wakeTime.minute
+        user?.goalWeight = weightValue
+        user?.goalStep = stepValue
+        guard coredataHandler.commit() else{
+            let alertController = UIAlertController(title: nil, message: "保存目标设置失败", preferredStyle: .alert)
+            let cancel = UIAlertAction(title: "确定", style: .cancel){
+                _ in
+                self.dismiss(animated: true, completion: nil)
+            }
+            alertController.addAction(cancel)
+            return
+        }
         dismiss(animated: true, completion: nil)
     }
     

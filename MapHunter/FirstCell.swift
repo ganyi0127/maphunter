@@ -116,6 +116,10 @@ class FirstCell: UITableViewCell {
         sleepDataCube.data = data
         addSubview(sleepDataCube)
         
+        if let user = CoreDataHandler.share().selectUser(userId: UserManager.share().userId){
+            data.value1 = CGFloat(user.currentWeight)
+            data.value2 = CGFloat(user.goalWeight)
+        }
         weightDataCube.data = data
         addSubview(weightDataCube)
         
@@ -197,11 +201,26 @@ class FirstCell: UITableViewCell {
                 
                 var data = DataCubeData()
                 data.value1 = CGFloat(step)
-                data.value2 = CGFloat(10000 - step)
+                var goalStep: UInt32 = 10000
+                if let user = CoreDataHandler.share().selectUser(userId: UserManager.share().userId){
+                    goalStep = UInt32(user.goalStep)
+                }
+                data.value2 = CGFloat(goalStep - step)
                 self.sportDataCube.data = data
                 
             }
         }
+        
+        //更新体重目标
+        
+        if let user = CoreDataHandler.share().selectUser(userId: UserManager.share().userId){
+            var data = DataCubeData()
+            data.value1 = CGFloat(user.currentWeight)
+            data.value2 = CGFloat(user.goalWeight)
+            weightDataCube.data = data
+        }
+        
+        //循环调用
         self.startTimer()
     }
     

@@ -107,13 +107,13 @@ class DataCube: UIView {
                 mainLabel.attributedText = mainAttributedString
             case .weight:
                 
-                var text = "\(Int16(data.value1))Kg"
+                var text = String(format: "%.1f", data.value1) + "Kg"
                 let mainAttributedString = NSMutableAttributedString(string: text,
                                                                      attributes: [NSFontAttributeName: fontHuge])
                 mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 2, 2))
                 mainLabel.attributedText = mainAttributedString
                 
-                text = "目标体重\(data.value2)Kg"
+                text = "目标体重" + String(format: "%.1f", data.value2) + "Kg"
                 let subAttributedString = NSAttributedString(string: text,
                                                              attributes: [NSFontAttributeName: fontSmall])
                 subLabel.attributedText = subAttributedString

@@ -216,6 +216,10 @@ extension TopView : TopScrollDelegate{
     func topScrollData(withDay day: Int, withMonth month: Int, withYear year: Int) -> (curValues: [CGFloat], maxValues: [CGFloat]) {
         
         var step: CGFloat = 0
+        var goalStep: CGFloat = 10000
+        
+        var weight: CGFloat = 60
+        var goalWeight: CGFloat = 100
         
         let calendar = Calendar.current
         var components = calendar.dateComponents([.year, .month, .day], from: Date())
@@ -229,12 +233,17 @@ extension TopView : TopScrollDelegate{
                 guard let sportData = sportDatas.first else{
                     return
                 }
-                print("isMain", Thread.isMainThread ? "YES" : "NO")
                 step = CGFloat(sportData.totalStep)
             }
         }
         
-        return ([step, 60], [10000, 100])
+        let coredataHandler = CoreDataHandler.share()
+        let userId = UserManager.share().userId
+        if let user = coredataHandler.selectUser(userId: userId){
+            goalStep = CGFloat(user.goalStep)
+        }
+        
+        return ([step, 60], [goalStep, 100])
     }
     
     func topScrollDidSelected(withData date: Date) {

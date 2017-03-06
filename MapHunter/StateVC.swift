@@ -49,6 +49,13 @@ class StateVC: UIViewController {
         createContents()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let indexpath = IndexPath(row: 0, section: 0)
+        tableView.reloadRows(at: [indexpath], with: UITableViewRowAnimation.fade)
+    }
+    
     private func config(){
         
         //初始化当前选择的日期

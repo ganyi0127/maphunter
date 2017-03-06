@@ -226,24 +226,8 @@ SWIFT_CLASS("_TtC8AngelFit6Device")
 - (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class NSSet;
-
-@interface Device (SWIFT_EXTENSION(AngelFit))
-- (void)addSleepDatasObject:(SleepData * _Nonnull)value;
-- (void)removeSleepDatasObject:(SleepData * _Nonnull)value;
-- (void)addSleepDatas:(NSSet * _Nonnull)values;
-- (void)removeSleepDatas:(NSSet * _Nonnull)values;
-@end
-
-
-@interface Device (SWIFT_EXTENSION(AngelFit))
-- (void)addSportDatasObject:(SportData * _Nonnull)value;
-- (void)removeSportDatasObject:(SportData * _Nonnull)value;
-- (void)addSportDatas:(NSSet * _Nonnull)values;
-- (void)removeSportDatas:(NSSet * _Nonnull)values;
-@end
-
 @class Track;
+@class NSSet;
 
 @interface Device (SWIFT_EXTENSION(AngelFit))
 - (void)addTracksObject:(Track * _Nonnull)value;
@@ -254,10 +238,26 @@ SWIFT_CLASS("_TtC8AngelFit6Device")
 
 
 @interface Device (SWIFT_EXTENSION(AngelFit))
+- (void)addSportDatasObject:(SportData * _Nonnull)value;
+- (void)removeSportDatasObject:(SportData * _Nonnull)value;
+- (void)addSportDatas:(NSSet * _Nonnull)values;
+- (void)removeSportDatas:(NSSet * _Nonnull)values;
+@end
+
+
+@interface Device (SWIFT_EXTENSION(AngelFit))
 - (void)addHeartRateDatasObject:(HeartRateData * _Nonnull)value;
 - (void)removeHeartRateDatasObject:(HeartRateData * _Nonnull)value;
 - (void)addHeartRateDatas:(NSSet * _Nonnull)values;
 - (void)removeHeartRateDatas:(NSSet * _Nonnull)values;
+@end
+
+
+@interface Device (SWIFT_EXTENSION(AngelFit))
+- (void)addSleepDatasObject:(SleepData * _Nonnull)value;
+- (void)removeSleepDatasObject:(SleepData * _Nonnull)value;
+- (void)addSleepDatas:(NSSet * _Nonnull)values;
+- (void)removeSleepDatas:(NSSet * _Nonnull)values;
 @end
 
 @class NSIndexSet;
@@ -820,6 +820,15 @@ SWIFT_CLASS("_TtC8AngelFit4User")
 - (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
 @end
 
+@class Weight;
+
+@interface User (SWIFT_EXTENSION(AngelFit))
+- (void)addWeightsObject:(Weight * _Nonnull)value;
+- (void)removeWeightsObject:(Weight * _Nonnull)value;
+- (void)addWeights:(NSSet * _Nonnull)values;
+- (void)removeWeights:(NSSet * _Nonnull)values;
+@end
+
 
 @interface User (SWIFT_EXTENSION(AngelFit))
 - (void)addDevicesObject:(Device * _Nonnull)value;
@@ -834,12 +843,30 @@ SWIFT_CLASS("_TtC8AngelFit4User")
 @property (nonatomic) int16_t gender;
 @property (nonatomic) int16_t goalCal;
 @property (nonatomic) int16_t goalDistance;
-@property (nonatomic) int16_t goalSleep;
 @property (nonatomic) int16_t goalStep;
 @property (nonatomic) int16_t height;
 @property (nonatomic) int16_t userId;
-@property (nonatomic) int16_t weight;
+@property (nonatomic) float goalWeight;
+@property (nonatomic) int16_t sleepHour;
+@property (nonatomic) int16_t sleepMinute;
+@property (nonatomic) int16_t wakeHour;
+@property (nonatomic) int16_t wakeMinute;
+@property (nonatomic) float currentWeight;
 @property (nonatomic, strong) NSSet * _Nullable devices;
+@property (nonatomic, strong) NSSet * _Nullable weights;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit6Weight")
+@interface Weight : NSManagedObject
+- (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+@interface Weight (SWIFT_EXTENSION(AngelFit))
+@property (nonatomic, strong) NSDate * _Nullable date;
+@property (nonatomic) float value;
+@property (nonatomic, strong) User * _Nullable user;
 @end
 
 #pragma clang diagnostic pop
