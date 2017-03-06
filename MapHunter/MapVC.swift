@@ -608,10 +608,10 @@ extension MapVC:CLLocationManagerDelegate{
         //精度
         debugPrint("水平精度", location.horizontalAccuracy)
         debugPrint("垂直精度", location.verticalAccuracy)
-        guard location.horizontalAccuracy <= 65 && location.horizontalAccuracy > 0, location.verticalAccuracy <= 25 && location.verticalAccuracy > 0 else {
-            delegate?.map(gps: .disConnect)
-            return
-        }
+//        guard location.horizontalAccuracy <= 65 && location.horizontalAccuracy > 0, location.verticalAccuracy <= 25 && location.verticalAccuracy > 0 else {
+//            delegate?.map(gps: .disConnect)
+//            return
+//        }
         
         //展示信号强度
         if fabs(location.horizontalAccuracy) <= 5 {
@@ -738,12 +738,9 @@ extension MapVC:CLLocationManagerDelegate{
                                                             startVelcity: startVelcity,
                                                             endVelcity: endVelcity)
                 }
-                centerOverlay?.add(currentLocationList[0], velcity: startVelcity)
                 centerOverlay?.add(currentLocationList[1], velcity: endVelcity)
                 
-//                mapView.removeOverlays(mapView.overlays)
                 mapView.add(centerOverlay!, level: .aboveLabels)
-                centerOverlay = nil
                 
                 print("mapViewOverLayCount: \(mapView.overlays.count)")
                 //记录总距离
