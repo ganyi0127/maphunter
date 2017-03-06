@@ -9,7 +9,5 @@
 #import <MapKit/MapKit.h>
 
 @interface GradientPolylineRenderer : MKOverlayPathRenderer
-@property (nonatomic,assign) CGFloat maxSpeed;
-@property (nonatomic,assign) CGFloat minSpeed;
-- (id) initWithOverlay:(id<MKOverlay>)overlay andMaxSpeed:(CGFloat)maxSpeed andMinSpeed:(CGFloat)minSpeed;
+
 @end
