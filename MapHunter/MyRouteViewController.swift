@@ -17,7 +17,7 @@ class MyRouteViewController: FunOriginViewController {
     
     override func createContents() {
         //添加背景图片
-        let backgroundImage = UIImage(named: "resource/map/background/myroute")?.transfromImage(size: view_size)
+        let backgroundImage = myRouteImg
         let backgroundImageView = UIImageView(image: backgroundImage)
         backgroundImageView.frame = CGRect(origin: .zero, size: view_size)
         backgroundImageView.layer.cornerRadius = 20

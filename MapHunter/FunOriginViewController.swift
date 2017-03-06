@@ -40,12 +40,12 @@ class FunOriginViewController: UIViewController {
     func config(){
         
         //设置圆角mask
-//        view.layer.cornerRadius = 20
         let bezier = UIBezierPath(roundedRect: CGRect(origin: .zero, size: view_size), cornerRadius: 20)
         let maskLayer = CAShapeLayer()
         maskLayer.path = bezier.cgPath
         maskLayer.fillColor = UIColor.white.cgColor
         view.layer.mask = maskLayer
+        view.layer.shouldRasterize = true       //光栅化
         
         //设置点击事件
         view.isUserInteractionEnabled = true

@@ -62,7 +62,7 @@ class FunVC: UIViewController {
     fileprivate var spriteViewController: SpriteViewController?
     
     override func viewDidLoad() {
-
+        
         config()
         createContents()
     }

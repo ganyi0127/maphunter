@@ -166,12 +166,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/PremapVC.swift"
-            timestampString = "509620518.079886"
+            timestampString = "509949129.357745"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "653"
-            endingLineNumber = "653"
-            landmarkName = "satanManagerDistanceByLocation(withBleDistance:)"
+            startingLineNumber = "682"
+            endingLineNumber = "682"
+            landmarkName = "satanManager(didUpdateState:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -214,13 +214,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/PremapVC.swift"
-            timestampString = "509620518.079886"
+            timestampString = "509949129.357745"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "691"
-            endingLineNumber = "691"
-            landmarkName = "satanManager(didSwitchingReplyCalories:distance:step:curHeartrate:heartrateSerial:available:heartrateValue:)"
-            landmarkType = "7">
+            startingLineNumber = "720"
+            endingLineNumber = "720">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -230,61 +228,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/PremapVC.swift"
-            timestampString = "509620518.079886"
+            timestampString = "509949129.357745"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "666"
-            endingLineNumber = "666"
+            startingLineNumber = "695"
+            endingLineNumber = "695"
             landmarkName = "satanManager(didUpdateState:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MapHunter/RootTBC.swift"
-            timestampString = "509616184.621143"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "195"
-            endingLineNumber = "195"
-            landmarkName = "satanManagerDuration()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MapHunter.RootTBC.satanManagerDuration () -&gt; Swift.Int"
-                  moduleName = "MapHunter"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ganyi/Documents/git/MapHunter/MapHunter/RootTBC.swift"
-                  timestampString = "509882336.572102"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "195"
-                  endingLineNumber = "195"
-                  offsetFromSymbolStart = "32">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MapHunter.RootTBC.satanManagerDuration () -&gt; Swift.Int"
-                  moduleName = "MapHunter"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ganyi/Documents/git/MapHunter/MapHunter/RootTBC.swift"
-                  timestampString = "509882336.573388"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "195"
-                  endingLineNumber = "195"
-                  offsetFromSymbolStart = "96">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -342,13 +292,29 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/DetailTop.swift"
-            timestampString = "509877172.092579"
+            timestampString = "510114898.909333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "533"
-            endingLineNumber = "533"
+            startingLineNumber = "554"
+            endingLineNumber = "554"
             landmarkName = "drawGraphic()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MapHunter/DetailDataView.swift"
+            timestampString = "509956339.829101"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "DetailDataView"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

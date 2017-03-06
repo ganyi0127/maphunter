@@ -271,6 +271,27 @@ class DetailTop: UIView {
         return button
     }()
     
+    //MARK:- 无数据label
+    private lazy var emptyLabel: UILabel = {
+        var text: String
+        switch self.type as DataCubeType{
+        case .sport:
+            text = "运动"
+        case .heartrate:
+            text = "心率"
+        case .sleep:
+            text = "睡眠"
+        case .weight:
+            text = "体重"
+        }
+        let label: UILabel = UILabel(frame: CGRect(x: 0, y: -100, width: self.bounds.size.width, height: 20))
+        label.text = "无" + text + "数据"
+        label.font = fontSmall
+        label.textAlignment = .center
+        label.textColor = UIColor.white.withAlphaComponent(0.5)
+        return label
+    }()
+    
     //MARK:- 存储数据
     fileprivate var deltaMinute: Int = 0
     fileprivate let radius: CGFloat = 8
@@ -382,8 +403,8 @@ class DetailTop: UIView {
         //添加圆圈label
         addSubview(valueLabel)
         
-        //添加数据
-//        value = 6000
+        //添加empty label
+        addSubview(emptyLabel)
         
         //添加左右标签与进度
         switch type as DataCubeType {
@@ -392,15 +413,12 @@ class DetailTop: UIView {
             //左右标签
             addSubview(leftLabel)
             addSubview(rightLabel)
-//            leftValue = 123
-//            rightValue = 456
             
             //绘制进度
             layer.addSublayer(progressLayer)
         case .sleep:
             //左右标签
             addSubview(leftLabel)
-//            leftValue = 123
             
             //添加编辑按钮
             addSubview(weightEditButton)
@@ -432,6 +450,9 @@ class DetailTop: UIView {
             guard var maxData = dataList.max(), maxData > 0 else {
                 return
             }
+            
+            //隐藏empty label
+            self.emptyLabel.isHidden = true
             
             //移除开始与结束为0的数据
             var headCount = 0, tailCount = 0
@@ -577,7 +598,8 @@ class DetailTop: UIView {
                             }
                             
                             //添加小圆圈
-                            let markCircle = UIBezierPath(ovalIn: CGRect(x: nextPoint.x - rectWidth / 2, y: nextPoint.y - rectWidth / 2, width: rectWidth, height: rectWidth))
+                            let circleDiameter = rectWidth * 0.7
+                            let markCircle = UIBezierPath(ovalIn: CGRect(x: nextPoint.x - circleDiameter / 2, y: nextPoint.y - circleDiameter / 2, width: circleDiameter, height: circleDiameter))
                             let markLayer = CAShapeLayer()
                             markLayer.path = markCircle.cgPath
                             markLayer.fillColor = UIColor.white.withAlphaComponent(0.5).cgColor

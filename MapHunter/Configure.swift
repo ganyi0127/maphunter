@@ -38,6 +38,12 @@ struct SportColor{
     static let riding = UIColor(red: 251 / 255, green: 196 / 255, blue: 61 / 255, alpha: 1)
 }
 
+//趣玩背景图
+let pathImg = UIImage(named: "resource/map/background/path")?.transfromImage(size: view_size)
+let recommendRouteImg = UIImage(named: "resource/map/background/recommendroute")?.transfromImage(size: view_size)
+let myRouteImg = UIImage(named: "resource/map/background/myroute")?.transfromImage(size: view_size)
+let spriteImg = UIImage(named: "resource/map/background/sprite")?.transfromImage(size: view_size)
+
 //背景颜色
 let defaut_color = UIColor.orange                                                           //主色调
 let defaultColor = UIColor.white                                                            //navigation颜色
