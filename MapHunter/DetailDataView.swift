@@ -55,7 +55,7 @@ class DetailDataView: UIView {
                 }else{
                     text = secondStr + "秒"
                 }
-                debugPrint(text)
+
                 let mainAttributedString = NSMutableAttributedString(string: text,
                                                                      attributes: [NSFontAttributeName: fontBig])
                 let unitLength = unit.characters.count

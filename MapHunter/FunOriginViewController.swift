@@ -45,6 +45,7 @@ class FunOriginViewController: UIViewController {
         maskLayer.path = bezier.cgPath
         maskLayer.fillColor = UIColor.white.cgColor
         view.layer.mask = maskLayer
+        view.layer.shouldRasterize = true       //光栅化
         
         //设置点击事件
         view.isUserInteractionEnabled = true

@@ -738,8 +738,8 @@ extension MapVC:CLLocationManagerDelegate{
                                                             startVelcity: startVelcity,
                                                             endVelcity: endVelcity)
                 }
+
                 centerOverlay?.add(currentLocationList[1], velcity: endVelcity)
-                
                 mapView.add(centerOverlay!, level: .aboveLabels)
                 
                 print("mapViewOverLayCount: \(mapView.overlays.count)")
