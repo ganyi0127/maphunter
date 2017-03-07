@@ -196,7 +196,8 @@ class DetailTop: UIView {
         selectedLabel.tag = 0
         selectedLabel.font = fontSmall
         
-        selectedLabel.frame = CGRect(x: -40, y: -34, width: 80, height: 34)
+        var labelFrame = CGRect(x: -40, y: -34, width: 80, height: 34)
+        selectedLabel.frame = labelFrame
         selectedLabel.layer.backgroundColor = UIColor.white.cgColor
         selectedLabel.textColor = .black
         
@@ -206,7 +207,9 @@ class DetailTop: UIView {
         selectedLabel.layer.shadowColor = UIColor.black.cgColor
         selectedLabel.layer.shadowOpacity = 0.5
         selectedLabel.layer.shadowRadius = 1
-        selectedLabel.layer.shadowOffset = CGSize(width: 0, height: 0)
+//        selectedLabel.layer.shadowOffset = CGSize(width: 0, height: 0)
+        labelFrame.origin = .zero
+        selectedLabel.layer.shadowPath = CGPath(rect: labelFrame, transform: nil)
         selectedLabel.clipsToBounds = false
         return selectedLabel
     }()

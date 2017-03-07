@@ -56,7 +56,7 @@ protocol MapDelegate {
     func map(totalDistance distance: Double, addedDistance subDistance: Double)
     func map(pastTime time: TimeInterval)
     func map(gps status: MapGPSStatus)
-    func map(locationList: [CLLocationCoordinate2D])
+    func map(locationList: [CLLocationCoordinate2D], pastTimeList timeList: [TimeInterval], totalDistance distance: Double, addedDistanceList subDistanceList: [Double])
 }
 
 //位置管理器
@@ -81,10 +81,13 @@ var globalLocationManager: CLLocationManager = { () -> CLLocationManager in
 
 class MapVC: UIViewController {
     
+    //历史记录路径
+    var historyTrackModelList: [(coordinate: CLLocationCoordinate2D, pastTime: TimeInterval, subDistance: Double)]?
+    
     var delegate: MapDelegate?
     
-    //test 仅创建一次判断
-    var centerOverlay: GradientPolylineOverlay?
+    //仅创建一次判断
+    var trackOverlay: GradientPolylineOverlay?
     
     //存储上一节点速度 km/h
     fileprivate var preVelcity: Float = 0
@@ -139,6 +142,8 @@ class MapVC: UIViewController {
     
     //MARK:保存实时位置
     fileprivate var locationList = [(latitude: Double, longitude: Double)]()
+    fileprivate var pasttimeList = [TimeInterval]()
+    fileprivate var subDistanceList = [Double]()
     var isPause = false
     
     //是否开始录制路径
@@ -153,7 +158,7 @@ class MapVC: UIViewController {
                 //清空记录数据
                 totalDistance = 0
                 locationList.removeAll()
-                centerOverlay = nil
+                trackOverlay = nil
                 mapView.removeOverlays(mapView.overlays)
                 
             }else{
@@ -208,10 +213,40 @@ class MapVC: UIViewController {
         debugPrint("mapvc view will appear")
 //        navigationController?.setTabbar(hidden: true)
 //        navigationController?.setNavigation(hidden: true)
-        if CLLocationManager.locationServicesEnabled(){
-            globalLocationManager.startUpdatingLocation()   //开始定位
+        
+        //如果路径不为空 则绘制路径 否则开始定位
+        if let historyTrackModel = historyTrackModelList{
+            var historyOverlay: GradientPolylineOverlay?
+            var preVelcity: Float = 0
+            historyTrackModel.enumerated().forEach{
+                index, tuple in
+                //绘制路径
+                if index == 0{
+                    preVelcity = Float(tuple.subDistance / tuple.pastTime)
+                }else{
+                    let velcity: Float = tuple.pastTime == 0 ? 0 : Float(tuple.subDistance / tuple.pastTime)
+                    if historyOverlay == nil{
+                        historyOverlay = GradientPolylineOverlay(start: historyTrackModel[0].coordinate,
+                                                                 end: tuple.coordinate,
+                                                                 startVelcity: preVelcity,
+                                                                 endVelcity: velcity)
+                    }else{
+                        historyOverlay?.add(tuple.coordinate, velcity: Float(velcity))
+                    }
+                    preVelcity = velcity
+                }
+            }
+            if historyTrackModel.count > 2{
+                mapView.add(historyOverlay!, level: .aboveLabels)
+            }
+        }else{
+            if CLLocationManager.locationServicesEnabled(){
+                globalLocationManager.startUpdatingLocation()   //开始定位
+            }
         }
         super.viewWillAppear(animated)
+        
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -702,8 +737,7 @@ extension MapVC:CLLocationManagerDelegate{
                 locationList.append((latitude: coordinate.latitude, longitude: coordinate.longitude))
                 
                 //回调路径数组
-                
-                delegate?.map(locationList: locationList.map({CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)}))
+//                delegate?.map(locationList: locationList.map({CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)}))
                 
                 //计算速度
                 let deltaSec = deltaTime(from: preDate, to: Date())
@@ -721,8 +755,19 @@ extension MapVC:CLLocationManagerDelegate{
                     endVelcity = 0
                 }else{
                     //记录状态
+                    subDistanceList.append(distance)
+                    pasttimeList.append(deltaSec)
                     endVelcity = Float(distance / deltaSec) * 3.6
-                    delegate?.map(pastTime: deltaSec)
+//                    delegate?.map(pastTime: deltaSec)
+                    //记录总距离
+                    if let currentDistance = totalDistance{
+                        totalDistance = currentDistance + distance
+//                        delegate?.map(totalDistance: totalDistance!, addedDistance: distance)
+                        delegate?.map(locationList: locationList.map({CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)}),
+                                      pastTimeList: pasttimeList,
+                                      totalDistance: totalDistance!,
+                                      addedDistanceList: subDistanceList)
+                    }
                 }
                 
                 //临时存储结束速度
@@ -732,22 +777,17 @@ extension MapVC:CLLocationManagerDelegate{
                 print(currentLocationList)
                 
                 //绘制路径
-                if centerOverlay == nil{
-                    centerOverlay = GradientPolylineOverlay(start: currentLocationList[0],
+                if trackOverlay == nil{
+                    trackOverlay = GradientPolylineOverlay(start: currentLocationList[0],
                                                             end: currentLocationList[1],
                                                             startVelcity: startVelcity,
                                                             endVelcity: endVelcity)
                 }
 
-                centerOverlay?.add(currentLocationList[1], velcity: endVelcity)
-                mapView.add(centerOverlay!, level: .aboveLabels)
+                trackOverlay?.add(currentLocationList[1], velcity: endVelcity)
+                mapView.add(trackOverlay!, level: .aboveLabels)
                 
                 print("mapViewOverLayCount: \(mapView.overlays.count)")
-                //记录总距离
-                if let currentDistance = totalDistance{
-                    totalDistance = currentDistance + distance
-                    delegate?.map(totalDistance: totalDistance!, addedDistance: distance)
-                }
             }
         }
     }

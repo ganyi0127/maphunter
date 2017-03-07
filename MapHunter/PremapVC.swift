@@ -299,7 +299,7 @@ class PremapVC: UIViewController {
             let satanManager = SatanManager.share()
             satanManager?.delegate = self
             let switchStart = SwitchStart()
-            let date = Date() 
+            let date = Date()
             switchStart.date = date as Date
             switchStart.forceStart = true
             switchStart.sportType = self.activeCode
@@ -333,18 +333,21 @@ class PremapVC: UIViewController {
                     self.present(alertController, animated: true, completion: nil)
                 }
                 
-                //保存路径
-                if let macaddress = AngelManager.share()?.macAddress{
-                    let coredataHandler = CoreDataHandler.share()
-                    let userId = UserManager.share().userId
-                    if let track = coredataHandler.insertTrack(userId: userId, withMacAddress: macaddress, withDate: date, withItems: nil){
-                        track.date = date as NSDate?
-                        track.coordinateList = NSMutableArray()
-                        if coredataHandler.commit(){
-                            
-                        }
-                    }
-                }
+                //保存路径(sdk以存储)
+//                if let macaddress = AngelManager.share()?.macAddress{
+//                    self.trackMacaddress = macaddress
+//                    let coredataHandler = CoreDataHandler.share()
+//                    let userId = UserManager.share().userId
+//                    if let track = coredataHandler.insertTrack(userId: userId, withMacAddress: macaddress, withDate: date, withItems: nil){
+//                        track.date = date as NSDate?
+//                        track.coordinateList = NSArray()
+//                        DispatchQueue.main.async {                            
+//                            if coredataHandler.commit(){
+//                                debugPrint("数据库创建路径")
+//                            }
+//                        }
+//                    }
+//                }
             }
         }
     }
@@ -605,6 +608,9 @@ extension PremapVC: CAAnimationDelegate{
                         }
                     }
                     
+                    //移除数据库创建的路径
+                    satanManager?.resetTrack()
+                    
                     self.mapVC?.isRecording = false
                     cancel(self.timeTask)
                     _ = self.navigationController?.popViewController(animated: true)
@@ -657,8 +663,17 @@ extension PremapVC: MapDelegate{
     
     //MARK:- 返回整个路径数组
     func map(locationList: [CLLocationCoordinate2D]) {
-        //存储到数据库
     }
+    
+    func map(locationList: [CLLocationCoordinate2D], pastTimeList timeList: [TimeInterval], totalDistance distance: Double, addedDistanceList subDistanceList: [Double]) {
+        
+        //显示总距离
+        self.distance = distance
+        
+        //存储路径到数据库
+        SatanManager.share()?.addTrack(withCoordinate: locationList, pastTimeList: timeList, totalDistance: distance, addedDistanceList: subDistanceList)
+    }
+    
 }
 
 //MARK:- 数据交换 delegate
@@ -693,6 +708,12 @@ extension PremapVC: SatanManagerDelegate{
             }
             pressContinue(continueButton)
         case .end:
+            //判断距离
+            if distance < 1000 {
+                //移除数据库创建的路径
+                SatanManager.share()?.resetTrack()
+            }
+            
             //发送手环结束消息
             self.mapVC?.isRecording = false
             cancel(self.timeTask)
@@ -705,5 +726,7 @@ extension PremapVC: SatanManagerDelegate{
         calorieLabel.text = "\(calories)"
         heartrateLabel.text = "\(curHeartrate)"
         distanceLabel.text = "\(distance)"
+        
+        //显示与存储心率
     }
 }

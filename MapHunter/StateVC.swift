@@ -501,7 +501,6 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
         
         oldY = newY
     }
-
 }
 
 //MARK:- 手势事件

@@ -119,6 +119,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 @import ObjectiveC;
 @import Foundation;
 @import CoreBluetooth;
+@import CoreLocation;
 @import UIKit;
 #endif
 
@@ -618,6 +619,8 @@ SWIFT_CLASS("_TtC8AngelFit12SatanManager")
 @property (nonatomic, strong) id <SatanManagerDelegate> _Nullable delegate;
 + (SatanManager * _Nullable)share;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (void)addTrackWithCoordinate:(NSArray<NSValue *> * _Nonnull)locationList pastTimeList:(NSArray<NSNumber *> * _Nonnull)timeList totalDistance:(double)distance addedDistanceList:(NSArray<NSNumber *> * _Nonnull)subDistanceList;
+- (void)resetTrack;
 - (void)setSynchronizationActiveData:(NSString * _Nullable)macAddress closure:(void (^ _Nonnull)(BOOL, int16_t, BOOL))closure;
 - (void)getSynchronizationActiveCount:(NSString * _Nullable)macAddress closure:(void (^ _Nonnull)(uint8_t))closure;
 @end
@@ -761,23 +764,23 @@ SWIFT_CLASS("_TtC8AngelFit5Track")
 - (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class NSMutableArray;
+@class NSArray;
 
 @interface Track (SWIFT_EXTENSION(AngelFit))
 @property (nonatomic) int16_t aerobicMinutes;
 @property (nonatomic) int16_t avgrageHeartrate;
 @property (nonatomic) int16_t burnFatMinutes;
 @property (nonatomic) int16_t calories;
+@property (nonatomic, strong) NSArray * _Nullable coordinateList;
 @property (nonatomic, strong) NSDate * _Nullable date;
 @property (nonatomic) int16_t distance;
 @property (nonatomic) int16_t durations;
-@property (nonatomic, strong) NSMutableArray * _Nullable heartrateList;
+@property (nonatomic, strong) NSArray * _Nullable heartrateList;
 @property (nonatomic) int16_t limitMinutes;
 @property (nonatomic) int16_t maxHeartrate;
 @property (nonatomic) int16_t serial;
 @property (nonatomic) int16_t step;
 @property (nonatomic) int16_t type;
-@property (nonatomic, strong) NSMutableArray * _Nullable coordinateList;
 @property (nonatomic, strong) Device * _Nullable device;
 @end
 
