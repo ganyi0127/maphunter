@@ -67,13 +67,18 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource{
         }
         cell?.accessoryType = .disclosureIndicator
         let track = trackList[row]
+        
+        //获取类型
+        let type = track.type
+        
+        //获取时间
         let date = track.date as? Date
         let calendar = Calendar.current
         let components = calendar.dateComponents([.hour, .minute], from: date!)
         let hourStr = "\(components.hour!)"
         let minuteStr = components.minute! < 10 ? "0\(components.minute!)" : "\(components.minute!)"
-        cell?.textLabel?.text = hourStr + ":" + minuteStr
-        cell?.detailTextLabel?.text = track.trackItems?.count == 0 ? "无路径" : "\(track.trackItems!)"
+        cell?.textLabel?.text = hourStr + ":" + minuteStr + "____\(type)"
+        cell?.detailTextLabel?.text = track.trackItems?.count == 0 ? "无路径" : "坐标数:\(track.trackItems!.count) 心率数:\(track.trackHeartrateItems!.count)"
         return cell!
     }
     
