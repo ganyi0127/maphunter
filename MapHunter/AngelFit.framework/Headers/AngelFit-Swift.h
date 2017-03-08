@@ -247,18 +247,18 @@ SWIFT_CLASS("_TtC8AngelFit6Device")
 
 
 @interface Device (SWIFT_EXTENSION(AngelFit))
-- (void)addHeartRateDatasObject:(HeartRateData * _Nonnull)value;
-- (void)removeHeartRateDatasObject:(HeartRateData * _Nonnull)value;
-- (void)addHeartRateDatas:(NSSet * _Nonnull)values;
-- (void)removeHeartRateDatas:(NSSet * _Nonnull)values;
-@end
-
-
-@interface Device (SWIFT_EXTENSION(AngelFit))
 - (void)addSleepDatasObject:(SleepData * _Nonnull)value;
 - (void)removeSleepDatasObject:(SleepData * _Nonnull)value;
 - (void)addSleepDatas:(NSSet * _Nonnull)values;
 - (void)removeSleepDatas:(NSSet * _Nonnull)values;
+@end
+
+
+@interface Device (SWIFT_EXTENSION(AngelFit))
+- (void)addHeartRateDatasObject:(HeartRateData * _Nonnull)value;
+- (void)removeHeartRateDatasObject:(HeartRateData * _Nonnull)value;
+- (void)addHeartRateDatas:(NSSet * _Nonnull)values;
+- (void)removeHeartRateDatas:(NSSet * _Nonnull)values;
 @end
 
 @class NSIndexSet;
@@ -619,7 +619,7 @@ SWIFT_CLASS("_TtC8AngelFit12SatanManager")
 @property (nonatomic, strong) id <SatanManagerDelegate> _Nullable delegate;
 + (SatanManager * _Nullable)share;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
-- (void)addTrackWithCoordinate:(NSArray<NSValue *> * _Nonnull)locationList pastTimeList:(NSArray<NSNumber *> * _Nonnull)timeList totalDistance:(double)distance addedDistanceList:(NSArray<NSNumber *> * _Nonnull)subDistanceList;
+- (void)addTrackWithCoordinate:(CLLocationCoordinate2D)coordinate withInterval:(NSTimeInterval)interval totalDistance:(double)distance childDistance:(double)subDistance;
 - (void)resetTrack;
 - (void)setSynchronizationActiveData:(NSString * _Nullable)macAddress closure:(void (^ _Nonnull)(BOOL, int16_t, BOOL))closure;
 - (void)getSynchronizationActiveCount:(NSString * _Nullable)macAddress closure:(void (^ _Nonnull)(uint8_t))closure;
@@ -764,24 +764,71 @@ SWIFT_CLASS("_TtC8AngelFit5Track")
 - (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class NSArray;
+@class TrackHeartrateItem;
+
+@interface Track (SWIFT_EXTENSION(AngelFit))
+- (void)addTrackHeartrateItemsObject:(TrackHeartrateItem * _Nonnull)value;
+- (void)removeTrackHeartrateItemsObject:(TrackHeartrateItem * _Nonnull)value;
+- (void)addTrackHeartrateItems:(NSSet * _Nonnull)values;
+- (void)removeTrackHeartrateItems:(NSSet * _Nonnull)values;
+@end
+
+@class TrackItem;
+
+@interface Track (SWIFT_EXTENSION(AngelFit))
+- (void)addTrackItemsObject:(TrackItem * _Nonnull)value;
+- (void)removeTrackItemsObject:(TrackItem * _Nonnull)value;
+- (void)addTrackItems:(NSSet * _Nonnull)values;
+- (void)removeTrackItems:(NSSet * _Nonnull)values;
+@end
+
 
 @interface Track (SWIFT_EXTENSION(AngelFit))
 @property (nonatomic) int16_t aerobicMinutes;
 @property (nonatomic) int16_t avgrageHeartrate;
 @property (nonatomic) int16_t burnFatMinutes;
 @property (nonatomic) int16_t calories;
-@property (nonatomic, strong) NSArray * _Nullable coordinateList;
 @property (nonatomic, strong) NSDate * _Nullable date;
-@property (nonatomic) int16_t distance;
+@property (nonatomic) double distance;
 @property (nonatomic) int16_t durations;
-@property (nonatomic, strong) NSArray * _Nullable heartrateList;
 @property (nonatomic) int16_t limitMinutes;
 @property (nonatomic) int16_t maxHeartrate;
 @property (nonatomic) int16_t serial;
 @property (nonatomic) int16_t step;
 @property (nonatomic) int16_t type;
 @property (nonatomic, strong) Device * _Nullable device;
+@property (nonatomic, strong) NSSet * _Nullable trackItems;
+@property (nonatomic, strong) NSSet * _Nullable trackHeartrateItems;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit18TrackHeartrateItem")
+@interface TrackHeartrateItem : NSManagedObject
+- (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+@interface TrackHeartrateItem (SWIFT_EXTENSION(AngelFit))
+@property (nonatomic) int16_t data;
+@property (nonatomic) int16_t offset;
+@property (nonatomic) int16_t id;
+@property (nonatomic, strong) Track * _Nullable track;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit9TrackItem")
+@interface TrackItem : NSManagedObject
+- (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+@interface TrackItem (SWIFT_EXTENSION(AngelFit))
+@property (nonatomic, strong) NSDate * _Nullable date;
+@property (nonatomic) double interval;
+@property (nonatomic) double subDistance;
+@property (nonatomic) double longtitude;
+@property (nonatomic) double latitude;
+@property (nonatomic, strong) Track * _Nullable track;
 @end
 
 
@@ -823,6 +870,14 @@ SWIFT_CLASS("_TtC8AngelFit4User")
 - (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
 @end
 
+
+@interface User (SWIFT_EXTENSION(AngelFit))
+- (void)addDevicesObject:(Device * _Nonnull)value;
+- (void)removeDevicesObject:(Device * _Nonnull)value;
+- (void)addDevices:(NSSet * _Nonnull)values;
+- (void)removeDevices:(NSSet * _Nonnull)values;
+@end
+
 @class Weight;
 
 @interface User (SWIFT_EXTENSION(AngelFit))
@@ -830,14 +885,6 @@ SWIFT_CLASS("_TtC8AngelFit4User")
 - (void)removeWeightsObject:(Weight * _Nonnull)value;
 - (void)addWeights:(NSSet * _Nonnull)values;
 - (void)removeWeights:(NSSet * _Nonnull)values;
-@end
-
-
-@interface User (SWIFT_EXTENSION(AngelFit))
-- (void)addDevicesObject:(Device * _Nonnull)value;
-- (void)removeDevicesObject:(Device * _Nonnull)value;
-- (void)addDevices:(NSSet * _Nonnull)values;
-- (void)removeDevices:(NSSet * _Nonnull)values;
 @end
 
 

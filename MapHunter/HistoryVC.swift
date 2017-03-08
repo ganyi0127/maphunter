@@ -73,7 +73,7 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource{
         let hourStr = "\(components.hour!)"
         let minuteStr = components.minute! < 10 ? "0\(components.minute!)" : "\(components.minute!)"
         cell?.textLabel?.text = hourStr + ":" + minuteStr
-        cell?.detailTextLabel?.text = track.coordinateList == nil ? "无路径" : "\(track.coordinateList)"
+        cell?.detailTextLabel?.text = track.trackItems?.count == 0 ? "无路径" : "\(track.trackItems!)"
         return cell!
     }
     
@@ -83,6 +83,7 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource{
         let track = trackList[row]
         
         let mapVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "map") as! MapVC
+        mapVC.historyTrack = track        
         navigationController?.pushViewController(mapVC, animated: true)
     }
 }

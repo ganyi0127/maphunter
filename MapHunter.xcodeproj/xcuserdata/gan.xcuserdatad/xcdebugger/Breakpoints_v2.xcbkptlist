@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/MapVC.swift"
-            timestampString = "503823734.993508"
+            timestampString = "510636631.99498"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "582"
-            endingLineNumber = "582"
-            landmarkName = "mapView(_:rendererFor:)"
+            startingLineNumber = "606"
+            endingLineNumber = "606"
+            landmarkName = "onAnnotationClick(sender:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/MapVC.swift"
-            timestampString = "503823734.993508"
+            timestampString = "510636631.99498"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63">
+            startingLineNumber = "61"
+            endingLineNumber = "61">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

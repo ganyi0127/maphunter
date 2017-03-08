@@ -53,10 +53,8 @@ enum MapGPSStatus{
     case high
 }
 protocol MapDelegate {
-    func map(totalDistance distance: Double, addedDistance subDistance: Double)
-    func map(pastTime time: TimeInterval)
     func map(gps status: MapGPSStatus)
-    func map(locationList: [CLLocationCoordinate2D], pastTimeList timeList: [TimeInterval], totalDistance distance: Double, addedDistanceList subDistanceList: [Double])
+    func map(coordinate: CLLocationCoordinate2D, withInterval interval: TimeInterval, totalDistance distance: Double, childDistance subDistance: Double)
 }
 
 //位置管理器
@@ -82,7 +80,7 @@ var globalLocationManager: CLLocationManager = { () -> CLLocationManager in
 class MapVC: UIViewController {
     
     //历史记录路径
-    var historyTrackModelList: [(coordinate: CLLocationCoordinate2D, pastTime: TimeInterval, subDistance: Double)]?
+    var historyTrack: Track?
     
     var delegate: MapDelegate?
     
@@ -215,31 +213,57 @@ class MapVC: UIViewController {
 //        navigationController?.setNavigation(hidden: true)
         
         //如果路径不为空 则绘制路径 否则开始定位
-        if let historyTrackModel = historyTrackModelList{
+        if let track = historyTrack{
+            //历史路径
+            let step = track.step
+            let calorie = track.calories
+            let aerobicMinutes = track.aerobicMinutes
+            let avgrageHeartrate = track.avgrageHeartrate
+            let burnFatMinutes = track.burnFatMinutes
+            let date = track.date
+            let distance = track.distance
+            let durations = track.durations
+            let limitMinutes = track.limitMinutes
+            let maxHeartrate = track.maxHeartrate
+            let type = track.type
+            let trackHeartrateItems = track.trackHeartrateItems?.sortedArray(using: [NSSortDescriptor(key: "id", ascending: true)]) as! [TrackHeartrateItem]
+            let trackItems = track.trackItems?.sortedArray(using: [NSSortDescriptor(key: "date", ascending: true)]) as! [TrackItem]
             var historyOverlay: GradientPolylineOverlay?
             var preVelcity: Float = 0
-            historyTrackModel.enumerated().forEach{
-                index, tuple in
+            trackItems.enumerated().forEach{
+                index, trackItem in
+                
+                //获取间隔
+                let interval = trackItem.interval
+                //获取距离
+                let subDistance = trackItem.subDistance
+                
                 //绘制路径
                 if index == 0{
-                    preVelcity = Float(tuple.subDistance / tuple.pastTime)
+                    //前一个速度
+                    preVelcity = interval == 0 ? 0 : Float(subDistance / interval)
+                    preVelcity = 6  //模拟
                 }else{
-                    let velcity: Float = tuple.pastTime == 0 ? 0 : Float(tuple.subDistance / tuple.pastTime)
+                    //当前速度
+                    let velcity: Float = interval == 0 ? 0 : Float(subDistance / interval)
+                    //当前坐标点
+                    let curCoordinate = CLLocationCoordinate2D(latitude: trackItem.latitude, longitude: trackItem.longtitude)
                     if historyOverlay == nil{
-                        historyOverlay = GradientPolylineOverlay(start: historyTrackModel[0].coordinate,
-                                                                 end: tuple.coordinate,
+                        //获取第一个坐标点
+                        let firstCoordinate = CLLocationCoordinate2D(latitude: trackItems[0].latitude, longitude: trackItems[0].longtitude)
+                        historyOverlay = GradientPolylineOverlay(start: firstCoordinate,
+                                                                 end: curCoordinate,
                                                                  startVelcity: preVelcity,
                                                                  endVelcity: velcity)
                     }else{
-                        historyOverlay?.add(tuple.coordinate, velcity: Float(velcity))
+                        historyOverlay?.add(curCoordinate, velcity: velcity)
                     }
                     preVelcity = velcity
+                    mapView.add(historyOverlay!, level: .aboveLabels)
                 }
             }
-            if historyTrackModel.count > 2{
-                mapView.add(historyOverlay!, level: .aboveLabels)
-            }
         }else{
+            //正常定位
             if CLLocationManager.locationServicesEnabled(){
                 globalLocationManager.startUpdatingLocation()   //开始定位
             }
@@ -679,6 +703,12 @@ extension MapVC:CLLocationManagerDelegate{
             //放置起始点
             locationList.append((latitude: coordinate.latitude, longitude: coordinate.longitude))
             
+            //第一次回调
+            delegate?.map(coordinate: coordinate,
+                          withInterval: 0,
+                          totalDistance: 0,
+                          childDistance: 0)
+            
         }else{
             
             //获取上一个位置数据
@@ -734,7 +764,6 @@ extension MapVC:CLLocationManagerDelegate{
 //                    }
 //                }
                 
-                locationList.append((latitude: coordinate.latitude, longitude: coordinate.longitude))
                 
                 //回调路径数组
 //                delegate?.map(locationList: locationList.map({CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)}))
@@ -755,6 +784,7 @@ extension MapVC:CLLocationManagerDelegate{
                     endVelcity = 0
                 }else{
                     //记录状态
+                    locationList.append((latitude: coordinate.latitude, longitude: coordinate.longitude))
                     subDistanceList.append(distance)
                     pasttimeList.append(deltaSec)
                     endVelcity = Float(distance / deltaSec) * 3.6
@@ -762,32 +792,33 @@ extension MapVC:CLLocationManagerDelegate{
                     //记录总距离
                     if let currentDistance = totalDistance{
                         totalDistance = currentDistance + distance
-//                        delegate?.map(totalDistance: totalDistance!, addedDistance: distance)
-                        delegate?.map(locationList: locationList.map({CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)}),
-                                      pastTimeList: pasttimeList,
-                                      totalDistance: totalDistance!,
-                                      addedDistanceList: subDistanceList)
+                        
+                        //回调
+                        delegate?.map(coordinate: coordinate,
+                                      withInterval: deltaSec,
+                                      totalDistance: currentDistance,
+                                      childDistance: distance)
                     }
+                    //临时存储结束速度
+                    preVelcity = endVelcity
+                    
+                    print("velcity:\n start-\(startVelcity)\n end---\(endVelcity)")
+                    print(currentLocationList)
+                    
+                    //绘制路径
+                    if trackOverlay == nil{
+                        trackOverlay = GradientPolylineOverlay(start: currentLocationList[0],
+                                                               end: currentLocationList[1],
+                                                               startVelcity: startVelcity,
+                                                               endVelcity: endVelcity)
+                    }
+                    
+                    trackOverlay?.add(currentLocationList[1], velcity: endVelcity)
+                    mapView.add(trackOverlay!, level: .aboveLabels)
+                    
+                    print("mapViewOverLayCount: \(mapView.overlays.count)")
                 }
                 
-                //临时存储结束速度
-                preVelcity = endVelcity
-                
-                print("velcity:\n start-\(startVelcity)\n end---\(endVelcity)")
-                print(currentLocationList)
-                
-                //绘制路径
-                if trackOverlay == nil{
-                    trackOverlay = GradientPolylineOverlay(start: currentLocationList[0],
-                                                            end: currentLocationList[1],
-                                                            startVelcity: startVelcity,
-                                                            endVelcity: endVelcity)
-                }
-
-                trackOverlay?.add(currentLocationList[1], velcity: endVelcity)
-                mapView.add(trackOverlay!, level: .aboveLabels)
-                
-                print("mapViewOverLayCount: \(mapView.overlays.count)")
             }
         }
     }

@@ -102,7 +102,7 @@ class PremapVC: UIViewController {
             distanceLabel.text = String(format: "%.2f", distance / 1000)
             
             //计算配速
-            let pace = CGFloat(totalTime) / CGFloat(distance / 1000)
+            let pace = distance == 0 ? 0 : CGFloat(totalTime) / CGFloat(distance / 1000)
             let hour = Int(pace) / 3600
             let minute = (Int(pace) - hour * 3600) / 60
             let sec = Int(pace) - hour * 3600 - minute * 60
@@ -609,7 +609,7 @@ extension PremapVC: CAAnimationDelegate{
                     }
                     
                     //移除数据库创建的路径
-                    satanManager?.resetTrack()
+                    //satanManager?.resetTrack()
                     
                     self.mapVC?.isRecording = false
                     cancel(self.timeTask)
@@ -635,12 +635,6 @@ extension PremapVC: CAAnimationDelegate{
 
 //MARK:- 地图代理
 extension PremapVC: MapDelegate{
-    func map(totalDistance distance: Double, addedDistance subDistance: Double) {
-        self.distance = distance
-    }
-    
-    func map(pastTime time: TimeInterval) {
-    }
     
     func map(gps status: MapGPSStatus) {
         gpsStatus = status
@@ -661,17 +655,13 @@ extension PremapVC: MapDelegate{
         gpsImageView.image = image
     }
     
-    //MARK:- 返回整个路径数组
-    func map(locationList: [CLLocationCoordinate2D]) {
-    }
-    
-    func map(locationList: [CLLocationCoordinate2D], pastTimeList timeList: [TimeInterval], totalDistance distance: Double, addedDistanceList subDistanceList: [Double]) {
+    func map(coordinate: CLLocationCoordinate2D, withInterval interval: TimeInterval, totalDistance distance: Double, childDistance subDistance: Double) {
         
         //显示总距离
         self.distance = distance
         
         //存储路径到数据库
-        SatanManager.share()?.addTrack(withCoordinate: locationList, pastTimeList: timeList, totalDistance: distance, addedDistanceList: subDistanceList)
+        SatanManager.share()?.addTrack(withCoordinate: coordinate, withInterval: interval, totalDistance: distance, childDistance: subDistance)
     }
     
 }
