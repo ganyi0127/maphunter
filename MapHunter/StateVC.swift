@@ -357,7 +357,6 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
                         let detaiViewController = DetailViewController(detailType: dataCubeType, date: selectDate)
                         self.navigationController?.show(detaiViewController, sender: cell)
                     }
-                    (cell as! FirstCell).startTimer()
                 case 1:
                     cell = CalendarCell(reuseIdentifier: identifier)
                 default:
@@ -369,7 +368,20 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             //添加数据
             switch indexPath.row {
             case 0:
-                break
+                //获取目标设定
+                if let user = CoreDataHandler.share().selectUser(userId: UserManager.share().userId){
+                    (cell as! FirstCell).goalStep = UInt32(user.goalStep)
+                }
+                
+                if let user = CoreDataHandler.share().selectUser(userId: UserManager.share().userId){
+                    var data = DataCubeData()
+                    data.value1 = CGFloat(user.currentWeight)
+                    data.value2 = CGFloat(user.goalWeight)
+                    (cell as! FirstCell).weightDataCube.data = data
+                }
+                
+                //定时器刷新
+                (cell as! FirstCell).startTimer()
             case 1:
                 (cell as! CalendarCell).date = selectDate
 

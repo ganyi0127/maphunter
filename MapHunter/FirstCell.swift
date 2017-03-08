@@ -16,6 +16,7 @@ class FirstCell: UITableViewCell {
         let sportDataCube = DataCube(dataCubeType: .sport)
         return sportDataCube
     }()
+    var goalStep: UInt32 = 10000
     
     //心率
     fileprivate var heartRateDataCube: DataCube = {
@@ -30,7 +31,7 @@ class FirstCell: UITableViewCell {
     }()
     
     //体重
-    fileprivate var weightDataCube: DataCube = {
+    var weightDataCube: DataCube = {
         let weightDataCube = DataCube(dataCubeType: .weight)
         return weightDataCube
     }()
@@ -140,11 +141,11 @@ class FirstCell: UITableViewCell {
     //MARK:- 定时器
     func startTimer(){
         cancel(task)
-        task = delay(1){
+        task = delay(2){
 
             let vc = self.viewController()
             if vc.isKind(of: StateVC.self){
-                if !(vc as! StateVC).initFresh{
+                if true || !(vc as! StateVC).initFresh{
                     self.getLivedata()
                 }
             }
@@ -201,24 +202,19 @@ class FirstCell: UITableViewCell {
                 
                 var data = DataCubeData()
                 data.value1 = CGFloat(step)
-                var goalStep: UInt32 = 10000
-                if let user = CoreDataHandler.share().selectUser(userId: UserManager.share().userId){
-                    goalStep = UInt32(user.goalStep)
-                }
-                data.value2 = CGFloat(goalStep - step)
+                data.value2 = CGFloat(self.goalStep - step)
                 self.sportDataCube.data = data
                 
             }
         }
         
         //更新体重目标
-        
-        if let user = CoreDataHandler.share().selectUser(userId: UserManager.share().userId){
-            var data = DataCubeData()
-            data.value1 = CGFloat(user.currentWeight)
-            data.value2 = CGFloat(user.goalWeight)
-            weightDataCube.data = data
-        }
+//        if let user = CoreDataHandler.share().selectUser(userId: UserManager.share().userId){
+//            var data = DataCubeData()
+//            data.value1 = CGFloat(user.currentWeight)
+//            data.value2 = CGFloat(user.goalWeight)
+//            weightDataCube.data = data
+//        }
         
         //循环调用
         self.startTimer()

@@ -180,6 +180,9 @@ class TargetSettingVC: UIViewController {
             weightSlider.setValue(weightValue, animated: true)
             sleepTime = (hour: user.sleepHour, minute: user.sleepMinute)
             wakeTime = (hour: user.wakeHour, minute: user.wakeMinute)
+        }else{
+            sleepTime = (hour: 0, minute: 0)
+            wakeTime = (hour: 0, minute: 0)
         }
     }
     

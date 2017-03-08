@@ -169,24 +169,26 @@ extension DetailBack: DetailTopDelegate{
             //心率数据
             var result = [CGFloat]()
             let angelManager = AngelManager.share()
-            angelManager?.getHeartRateData(nil, date: selectDate, offset: 0){
-                heartRateDataList in
-                guard let heartRateData = heartRateDataList.last else{
-                    return
-                }
-                
-                let heartRateItems = heartRateData.heartRateItem
-                var heartRateList = [HeartRateItem]()
-                heartRateItems?.forEach{
-                    item in
-                    heartRateList.append(item as! HeartRateItem)
-                }
-                heartRateList = heartRateList.sorted{$0.id < $1.id}
-                result = heartRateList.map{CGFloat($0.data)}
-                debugPrint("heartrate result list:", result)
-                
-                DispatchQueue.main.async {
-                    closure(result)
+            DispatchQueue.global().async {                
+                angelManager?.getHeartRateData(nil, date: selectDate, offset: 0){
+                    heartRateDataList in
+                    guard let heartRateData = heartRateDataList.last else{
+                        return
+                    }
+                    
+                    let heartRateItems = heartRateData.heartRateItem
+                    var heartRateList = [HeartRateItem]()
+                    heartRateItems?.forEach{
+                        item in
+                        heartRateList.append(item as! HeartRateItem)
+                    }
+                    heartRateList = heartRateList.sorted{$0.id < $1.id}
+                    result = heartRateList.map{CGFloat($0.data)}
+                    debugPrint("heartrate result list:", result)
+                    
+                    DispatchQueue.main.async {
+                        closure(result)
+                    }
                 }
             }
         case .sleep:
