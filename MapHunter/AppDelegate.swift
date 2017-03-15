@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreData
-
+import AngelFit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -29,6 +29,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         //进入后台
         print("__did enter background")
+        
+        //修改时间为当前日期
+        selectDate = Date()
+        notiy.post(name: connected_notiy, object: nil)
 //        globalLocationManager.startUpdatingLocation()
     }
 

@@ -36,8 +36,10 @@ class FirstCell: UITableViewCell {
         return weightDataCube
     }()
     
-    //定时器
+    //MARK:- 定时器
     private var task: Task?
+    fileprivate var timer: DispatchSourceTimer?
+    private var stepTime: DispatchTimeInterval = .seconds(2)
     
     //MARK:- 点击回调
     var closure: ((DataCubeType)->())?
@@ -64,6 +66,14 @@ class FirstCell: UITableViewCell {
         
     }
     
+    deinit {
+        //移除定时器
+        if let t = timer{
+            t.cancel()
+            timer = nil
+        }
+    }
+    
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         print("draw")
@@ -81,6 +91,11 @@ class FirstCell: UITableViewCell {
                                               y: heartRateDataCube.frame.height + frame.height * 0.06)
         
         startTimer()
+        //开始计时
+//        self.timer = DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags.strict, queue: .main)
+//        self.timer?.scheduleRepeating(deadline: .now() + stepTime, interval: stepTime)
+//        self.timer?.setEventHandler{self.startTimer()}
+//        self.timer?.resume()        //启动定时器
     }
     
     private func config(){
@@ -131,11 +146,6 @@ class FirstCell: UITableViewCell {
         weightDataCube.closure = clickedCube
         
         
-    }
-    
-    deinit {
-        cancel(task)
-        task = nil
     }
     
     //MARK:- 定时器

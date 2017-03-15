@@ -258,8 +258,15 @@ class PremapVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        //移除手势
         if let s = swip {
             view.removeGestureRecognizer(s)
+        }
+        
+        //移除定时器
+        if let t = timer{
+            t.cancel()
+            timer = nil
         }
         
         
@@ -282,6 +289,10 @@ class PremapVC: UIViewController {
         mapOpen = false
     }
     
+    //MARK:- 定时器
+    fileprivate var timer: DispatchSourceTimer?
+    private var stepTime: DispatchTimeInterval = .seconds(1)
+    
     private func createContents(){
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "   ", style: .done, target: self, action: #selector(self.clickMap(_:)))
@@ -294,7 +305,13 @@ class PremapVC: UIViewController {
         
         //321倒计时
         startCountDown{
-            self.countSec()
+            
+            //开始计时
+            self.timer = DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags.strict, queue: .main)
+            self.timer?.scheduleRepeating(deadline: .now(), interval: self.stepTime)
+            self.timer?.setEventHandler{self.countSec()}
+            self.timer?.resume()        //启动定时器
+            
             //设置交换数据delegate
             let satanManager = SatanManager.share()
             satanManager?.delegate = self
@@ -550,14 +567,14 @@ class PremapVC: UIViewController {
     }
     
     //MARK:- 计时器
-    private func countSec(){
+    @objc private func countSec(){
         timeTask = delay(1){
             if let map = self.mapVC {
                 if !map.isPause {
                     self.totalTime += 1
                 }
             }
-            self.countSec()
+//            self.countSec()
         }
     }
     
@@ -591,6 +608,7 @@ extension PremapVC: CAAnimationDelegate{
         
         //判断是否合法结束
         if flag {
+            
             if distance < 1000 {
                 let alert = UIAlertController(title: "结束运动", message: "距离不足1KM,无法保存运动路径", preferredStyle: .alert)
                 let cancelAction = UIAlertAction(title: "结束运动", style: .cancel){

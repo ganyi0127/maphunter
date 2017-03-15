@@ -58,11 +58,11 @@
 		<true/>
 	</dict>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>应用在前后与后台访问您的位置</string>
+	<string>应用始终访问您的位置</string>
 	<key>NSLocationUsageDescription</key>
-	<string>应用范围您的位置</string>
+	<string>应用访问您的位置</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>应用在前台访问您的位置</string>
+	<string>应用在使用期间访问您的位置</string>
 	<key>UIApplicationExitsOnSuspend</key>
 	<false/>
 	<key>UIBackgroundModes</key>
