@@ -10,6 +10,7 @@ import UIKit
 import AngelFit
 import CoreBluetooth
 class ScanVC: UIViewController {
+    
     @IBOutlet weak var tableview: UITableView!
     
     //god manager
@@ -22,6 +23,22 @@ class ScanVC: UIViewController {
             tableview.reloadData()
         }
     }
+    
+    //重新扫描按钮
+    fileprivate var rescanButton: UIButton = {
+        let buttonLength = view_size.width *  0.25
+        let buttonFrame = CGRect(x: view_size.width / 2 - buttonLength / 2,
+                                 y: view_size.height,
+                                 width: buttonLength,
+                                 height: buttonLength)
+        let button = UIButton(frame: buttonFrame)
+        if let image = UIImage(named: "resource/scan/rescan"){
+            button.setImage(image, for: .normal)
+        }
+        button.alpha = 0
+        button.addTarget(self, action: #selector(rescan(sender:)), for: .touchUpInside)
+        return button
+    }()
     
     //MARK:- init
     override func viewDidLoad() {
@@ -37,12 +54,54 @@ class ScanVC: UIViewController {
         
         godManager.isAutoReconnect = false
         godManager.delegate = self
+        
+        //tableview参数
+        let customIdentifier = "custom"
+        tableview.register(ScanCell.self, forCellReuseIdentifier: customIdentifier)
+        tableview.separatorStyle = .none
+        tableview.backgroundColor = timeColor
     }
     
     private func createContents(){
+        beginLoading()
         
         //开始扫描
-        godManager.startScan()
+        godManager.startScan{
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+                self.rescanButton.alpha = 1
+                let buttonLength = self.rescanButton.frame.width
+                self.rescanButton.frame.origin.y = view_size.height - buttonLength * 1.2
+            }, completion: {
+                _ in
+                self.endLoading()
+            })
+        }
+        
+        //添加重新扫描按钮
+        view.addSubview(rescanButton)
+    }
+    
+    @objc private func rescan(sender: UIButton){
+        beginLoading()
+        
+        peripheralList.removeAll()
+        
+        UIView.animate(withDuration: 0.3, delay: 0.1, options: .curveEaseIn, animations: {
+            self.rescanButton.alpha = 0
+            self.rescanButton.frame.origin.y = view_size.height
+        }, completion: nil)
+        
+        //开始扫描
+        godManager.startScan{
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+                self.rescanButton.alpha = 1
+                let buttonLength = self.rescanButton.frame.width
+                self.rescanButton.frame.origin.y = view_size.height - buttonLength * 1.2
+            }, completion: {
+                _ in
+                self.endLoading()
+            })
+        }
     }
 }
 
@@ -113,19 +172,34 @@ extension ScanVC: UITableViewDelegate, UITableViewDataSource{
         return peripheralList.count
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return view_size.width / 3
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let identifier = "cell"
+        let identifier = "\(indexPath.section)_\(indexPath.row)"
         let peripheralModel = peripheralList[indexPath.row]
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: identifier)!
-        cell.textLabel?.font = fontSmall
-        cell.detailTextLabel?.font = fontSmall
-        cell.textLabel?.text = peripheralModel.name
-        cell.detailTextLabel?.text = peripheralModel.RSSI == 0 ? "已连接" : "\(peripheralModel.RSSI)"
-        return cell
+//        let cell = tableView.dequeueReusableCell(withIdentifier: identifier)!
+//        cell.textLabel?.font = fontSmall
+//        cell.detailTextLabel?.font = fontSmall
+//        cell.textLabel?.text = peripheralModel.name
+//        cell.detailTextLabel?.text = peripheralModel.RSSI == 0 ? "已连接" : "\(peripheralModel.RSSI)"
+        var cell = tableView.dequeueReusableCell(withIdentifier: identifier)
+        if cell == nil {
+            cell = ScanCell(identifier: identifier)
+        }
+        
+        let scanCell = cell as! ScanCell
+        scanCell.bandName = peripheralModel.name
+        scanCell.bandRSSI = peripheralModel.RSSI.intValue
+        return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.setSelected(false, animated: true)
+        
         let peripheralModel = peripheralList[indexPath.row]
         
         godManager.connect(peripheralModel.peripheral)

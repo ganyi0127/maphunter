@@ -107,6 +107,10 @@ class StateVC: UIViewController {
         //添加刷新控件
         let control = { () -> UIRefreshControl in
             let ctrl = UIRefreshControl()
+            let f = CGRect(x: 0, y: 0, width: view_size.width, height: 58)
+            let v = UIView(frame: f)
+            v.backgroundColor = defaultColor
+            ctrl.addSubview(v)
             ctrl.backgroundColor = nil
             ctrl.tintColor = UIColor(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1)
             ctrl.attributedTitle = NSAttributedString(string: "同步健康数据")
@@ -162,7 +166,7 @@ class StateVC: UIViewController {
         
         control.attributedTitle = NSAttributedString(string: "同步数据")
         
-        
+        beginLoading()
         
         let angelManager = AngelManager.share()
         //初始化设置用户信息
@@ -214,6 +218,8 @@ class StateVC: UIViewController {
                                     }
                                     
                                     if complete {
+                                        self.endLoading()
+                                        
                                         message = "同步运动数据完成"
                                         control.attributedTitle = NSAttributedString(string: message)
                                         control.endRefreshing()
@@ -229,6 +235,8 @@ class StateVC: UIViewController {
                                 }
                             }
                         }else{
+                            self.initFresh = false
+                            self.endLoading()
                             control.endRefreshing()
                         }
                     }else{

@@ -84,15 +84,15 @@ public final class AngelManager: NSObject {
         }
         
         let userId = UserManager.share().userId
+        getDeviceInfoFromBand(){
+            errorCode, value in
+//            if errorCode == ErrorCode.success{
+//                closure(self.coredataHandler.selectDevice(userId: userId, withMacAddress: realMacAddress))
+//            }else{
+//                closure(nil)
+//            }
+        }
         guard let device = coredataHandler.selectDevice(userId: userId, withMacAddress: realMacAddress) else {
-            getDeviceInfoFromBand(){
-                errorCode, value in
-                if errorCode == ErrorCode.success{
-                    closure(self.coredataHandler.selectDevice(userId: userId, withMacAddress: realMacAddress))
-                }else{
-                    closure(nil)
-                }
-            }
             return
         }
         closure(device)
@@ -1259,6 +1259,14 @@ public final class AngelManager: NSObject {
         }
         //同步进度回调
         swiftSynchronizationHealthData = { data in
+            if data.0{
+                //存储最后同步时间
+                let userId = UserManager.share().userId
+                if let device = self.coredataHandler.selectDevice(userId: userId, withMacAddress: realMacAddress){
+                    device.synDate = Date() as NSDate?
+                    _ = self.coredataHandler.commit()
+                }
+            }
             closure(data.0,Int16(data.1))
         }
         

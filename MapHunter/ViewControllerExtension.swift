@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+private var loading: Loading?
 extension UIViewController{
     open override func awakeFromNib() {
         didReceiveMemoryWarning()
@@ -19,6 +20,33 @@ extension UIViewController{
     
     func didReceiveCurrentWarning(){
         debugPrint("memory warning: \(self)")
-//        view = nil
+        view = nil
+        debugPrint("<clear>memory warning: \(self)")
+        //if self.isViewLoaded && view.window != nil
+    }
+    
+    //loading实现
+    func beginLoading(){
+        if loading == nil{
+            loading = Loading()
+        }else if loading?.superview != nil{
+            loading?.removeFromSuperview()
+        }
+        
+        loading?.alpha = 0
+        self.view.addSubview(loading!)
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+            loading?.alpha = 1
+        }, completion: nil)
+    }
+    
+    func endLoading(){
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+            loading?.alpha = 0
+        }, completion: {
+            _ in
+            loading?.alpha = 1
+            loading?.removeFromSuperview()
+        })
     }
 }

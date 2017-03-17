@@ -35,6 +35,7 @@
 		32D4129E1DEEC4C0008EE637 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4129D1DEEC4C0008EE637 /* DetailViewController.swift */; };
 		32E238AB1DFA996E001969AE /* OCVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E238AA1DFA996E001969AE /* OCVariable.swift */; };
 		32E238AF1DFE2C9B001969AE /* DataCube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E238AE1DFE2C9B001969AE /* DataCube.swift */; };
+		BE198C131E793A4200B11A90 /* ScanCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE198C121E793A3F00B11A90 /* ScanCell.swift */; };
 		BE1C366D1D93725000AB4370 /* RootTBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1C366C1D93725000AB4370 /* RootTBC.swift */; };
 		BE1C36701D93745500AB4370 /* NavigationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1C366F1D93745500AB4370 /* NavigationExtension.swift */; };
 		BE1C36731D93763900AB4370 /* ItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1C36721D93763900AB4370 /* ItemButton.swift */; };
@@ -66,6 +67,8 @@
 		BE5770031E25DD8B006BAD1C /* SpriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5770021E25DD8B006BAD1C /* SpriteViewController.swift */; };
 		BE5770051E25E3B7006BAD1C /* FunOriginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5770041E25E3B7006BAD1C /* FunOriginViewController.swift */; };
 		BE5770091E28D6DB006BAD1C /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5770081E28D6DA006BAD1C /* Setting.swift */; };
+		BE6055931E7B81AB00039CA0 /* FunctableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6055921E7B81AB00039CA0 /* FunctableCell.swift */; };
+		BE6055951E7BC5A100039CA0 /* Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6055941E7BC5A100039CA0 /* Loading.swift */; };
 		BE6ACD851DBC583C006C4471 /* TopScrollDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6ACD841DBC583C006C4471 /* TopScrollDelegate.swift */; };
 		BE71B9E71DBF4CAA00143E1E /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71B9E61DBF4CAA00143E1E /* Net.swift */; };
 		BE7319FD1E0B7D9B002BDF2D /* DetailScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7319FC1E0B7D9B002BDF2D /* DetailScrollView.swift */; };
@@ -173,6 +176,7 @@
 		32D4129D1DEEC4C0008EE637 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		32E238AA1DFA996E001969AE /* OCVariable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCVariable.swift; sourceTree = "<group>"; };
 		32E238AE1DFE2C9B001969AE /* DataCube.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCube.swift; sourceTree = "<group>"; };
+		BE198C121E793A3F00B11A90 /* ScanCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanCell.swift; sourceTree = "<group>"; };
 		BE1C366C1D93725000AB4370 /* RootTBC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootTBC.swift; sourceTree = "<group>"; };
 		BE1C366F1D93745500AB4370 /* NavigationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationExtension.swift; sourceTree = "<group>"; };
 		BE1C36721D93763900AB4370 /* ItemButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemButton.swift; sourceTree = "<group>"; };
@@ -209,6 +213,8 @@
 		BE5770021E25DD8B006BAD1C /* SpriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteViewController.swift; sourceTree = "<group>"; };
 		BE5770041E25E3B7006BAD1C /* FunOriginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunOriginViewController.swift; sourceTree = "<group>"; };
 		BE5770081E28D6DA006BAD1C /* Setting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
+		BE6055921E7B81AB00039CA0 /* FunctableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctableCell.swift; sourceTree = "<group>"; };
+		BE6055941E7BC5A100039CA0 /* Loading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loading.swift; sourceTree = "<group>"; };
 		BE6ACD841DBC583C006C4471 /* TopScrollDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopScrollDelegate.swift; sourceTree = "<group>"; };
 		BE71B9E61DBF4CAA00143E1E /* Net.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		BE7319FC1E0B7D9B002BDF2D /* DetailScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailScrollView.swift; sourceTree = "<group>"; };
@@ -292,8 +298,8 @@
 			isa = PBXGroup;
 			children = (
 				32C3E6261E0904B900D34A74 /* MeDetails.swift */,
-				BE94BABC1E4858B7005DD8E4 /* ScanVC.swift */,
-				BE94BABE1E487866005DD8E4 /* BindingVC.swift */,
+				BE198C111E793A1B00B11A90 /* 扫描 */,
+				BE60558D1E7A957000039CA0 /* 设备 */,
 			);
 			name = "健康详情";
 			sourceTree = "<group>";
@@ -354,12 +360,22 @@
 			name = "模块";
 			sourceTree = "<group>";
 		};
+		BE198C111E793A1B00B11A90 /* 扫描 */ = {
+			isa = PBXGroup;
+			children = (
+				BE94BABC1E4858B7005DD8E4 /* ScanVC.swift */,
+				BE198C121E793A3F00B11A90 /* ScanCell.swift */,
+			);
+			name = "扫描";
+			sourceTree = "<group>";
+		};
 		BE1C366E1D93742700AB4370 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
 				BE1C366F1D93745500AB4370 /* NavigationExtension.swift */,
 				32D412451DEE8793008EE637 /* TarbarExtension.swift */,
 				BE8685541E30C7CD00EBEBED /* ViewControllerExtension.swift */,
+				BE6055941E7BC5A100039CA0 /* Loading.swift */,
 				BEDF4F711D99033000E98D63 /* LabelExtension.swift */,
 				BEDF4F731D99040300E98D63 /* ButtonExtension.swift */,
 				BE743BDF1DAA1D25002AC282 /* CellExtension.swift */,
@@ -503,6 +519,15 @@
 				BE8685501E309B6F00EBEBED /* PathShareVC.swift */,
 			);
 			name = path;
+			sourceTree = "<group>";
+		};
+		BE60558D1E7A957000039CA0 /* 设备 */ = {
+			isa = PBXGroup;
+			children = (
+				BE94BABE1E487866005DD8E4 /* BindingVC.swift */,
+				BE6055921E7B81AB00039CA0 /* FunctableCell.swift */,
+			);
+			name = "设备";
 			sourceTree = "<group>";
 		};
 		BE6ACD761DBC5475006C4471 /* include */ = {
@@ -828,10 +853,12 @@
 			files = (
 				BE8685961E334F7700EBEBED /* CustomSheet.swift in Sources */,
 				BE8685401E28DFF100EBEBED /* DefaultVC.swift in Sources */,
+				BE6055951E7BC5A100039CA0 /* Loading.swift in Sources */,
 				BEDF4F6B1D98FB3800E98D63 /* TopView.swift in Sources */,
 				32D4129B1DEEB6EF008EE637 /* DetailView.swift in Sources */,
 				32C3E6201E07E3CA00D34A74 /* MeCell1.swift in Sources */,
 				327383721E00F4A000767708 /* StatePopController.swift in Sources */,
+				BE198C131E793A4200B11A90 /* ScanCell.swift in Sources */,
 				32C3E6241E07E5F400D34A74 /* MeCell3.swift in Sources */,
 				BEDF4F3F1D93942E00E98D63 /* MeVC.swift in Sources */,
 				BE86854D1E2F6CED00EBEBED /* PathRemindSettingVC.swift in Sources */,
@@ -845,6 +872,7 @@
 				BE576FFF1E25DD55006BAD1C /* RecommendRouteViewController.swift in Sources */,
 				BE8685551E30C7CD00EBEBED /* ViewControllerExtension.swift in Sources */,
 				BE7319FF1E0B7F00002BDF2D /* DetailTop.swift in Sources */,
+				BE6055931E7B81AB00039CA0 /* FunctableCell.swift in Sources */,
 				BE1C36731D93763900AB4370 /* ItemButton.swift in Sources */,
 				BE1C366D1D93725000AB4370 /* RootTBC.swift in Sources */,
 				BE71B9E71DBF4CAA00143E1E /* Net.swift in Sources */,

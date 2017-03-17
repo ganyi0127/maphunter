@@ -155,9 +155,10 @@ class FirstCell: UITableViewCell {
 
             let vc = self.viewController()
             if vc.isKind(of: StateVC.self){
-                if true || !(vc as! StateVC).initFresh{
+                if !(vc as! StateVC).initFresh{
                     self.getLivedata()
                 }
+                self.startTimer()
             }
         }
     }
@@ -227,7 +228,7 @@ class FirstCell: UITableViewCell {
 //        }
         
         //循环调用
-        self.startTimer()
+        //self.startTimer()
     }
     
     //MARK:- cube点击回调

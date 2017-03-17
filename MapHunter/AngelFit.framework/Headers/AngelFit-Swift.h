@@ -239,10 +239,10 @@ SWIFT_CLASS("_TtC8AngelFit6Device")
 
 
 @interface Device (SWIFT_EXTENSION(AngelFit))
-- (void)addSportDatasObject:(SportData * _Nonnull)value;
-- (void)removeSportDatasObject:(SportData * _Nonnull)value;
-- (void)addSportDatas:(NSSet * _Nonnull)values;
-- (void)removeSportDatas:(NSSet * _Nonnull)values;
+- (void)addHeartRateDatasObject:(HeartRateData * _Nonnull)value;
+- (void)removeHeartRateDatasObject:(HeartRateData * _Nonnull)value;
+- (void)addHeartRateDatas:(NSSet * _Nonnull)values;
+- (void)removeHeartRateDatas:(NSSet * _Nonnull)values;
 @end
 
 
@@ -255,10 +255,10 @@ SWIFT_CLASS("_TtC8AngelFit6Device")
 
 
 @interface Device (SWIFT_EXTENSION(AngelFit))
-- (void)addHeartRateDatasObject:(HeartRateData * _Nonnull)value;
-- (void)removeHeartRateDatasObject:(HeartRateData * _Nonnull)value;
-- (void)addHeartRateDatas:(NSSet * _Nonnull)values;
-- (void)removeHeartRateDatas:(NSSet * _Nonnull)values;
+- (void)addSportDatasObject:(SportData * _Nonnull)value;
+- (void)removeSportDatasObject:(SportData * _Nonnull)value;
+- (void)addSportDatas:(NSSet * _Nonnull)values;
+- (void)removeSportDatas:(NSSet * _Nonnull)values;
 @end
 
 @class NSIndexSet;
@@ -277,6 +277,7 @@ SWIFT_CLASS("_TtC8AngelFit6Device")
 - (void)removeAlarms:(NSOrderedSet * _Nonnull)values;
 @end
 
+@class NSDate;
 @class LongSit;
 @class LostFind;
 @class Notice;
@@ -297,6 +298,7 @@ SWIFT_CLASS("_TtC8AngelFit6Device")
 @property (nonatomic) BOOL sos;
 @property (nonatomic) int16_t type;
 @property (nonatomic) int16_t version;
+@property (nonatomic, strong) NSDate * _Nullable synDate;
 @property (nonatomic, strong) NSOrderedSet * _Nullable alarms;
 @property (nonatomic, strong) FuncTable * _Nullable funcTable;
 @property (nonatomic, strong) HandGesture * _Nullable handGesture;
@@ -308,9 +310,9 @@ SWIFT_CLASS("_TtC8AngelFit6Device")
 @property (nonatomic, strong) SilentDistrube * _Nullable silentDistrube;
 @property (nonatomic, strong) NSSet * _Nullable sleepDatas;
 @property (nonatomic, strong) NSSet * _Nullable sportDatas;
+@property (nonatomic, strong) NSSet * _Nullable tracks;
 @property (nonatomic, strong) Unit * _Nullable unit;
 @property (nonatomic, strong) User * _Nullable user;
-@property (nonatomic, strong) NSSet * _Nullable tracks;
 @end
 
 
@@ -415,7 +417,7 @@ SWIFT_CLASS("_TtC8AngelFit10GodManager")
 @property (nonatomic) BOOL isAutoReconnect;
 + (GodManager * _Nonnull)share;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-- (void)startScan;
+- (void)startScanWithClosure:(void (^ _Nullable)(void))closure;
 - (void)stopScan;
 - (void)connect:(CBPeripheral * _Nonnull)peripheral;
 - (void)disconnect:(CBPeripheral * _Nonnull)peripheral closure:(void (^ _Nonnull)(BOOL))closure;
@@ -518,7 +520,6 @@ SWIFT_CLASS("_TtC8AngelFit13HeartRateData")
 - (void)removeHeartRateItem:(NSSet * _Nonnull)values;
 @end
 
-@class NSDate;
 
 @interface HeartRateData (SWIFT_EXTENSION(AngelFit))
 @property (nonatomic) int16_t aerobicMinutes;
@@ -764,15 +765,6 @@ SWIFT_CLASS("_TtC8AngelFit5Track")
 - (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class TrackHeartrateItem;
-
-@interface Track (SWIFT_EXTENSION(AngelFit))
-- (void)addTrackHeartrateItemsObject:(TrackHeartrateItem * _Nonnull)value;
-- (void)removeTrackHeartrateItemsObject:(TrackHeartrateItem * _Nonnull)value;
-- (void)addTrackHeartrateItems:(NSSet * _Nonnull)values;
-- (void)removeTrackHeartrateItems:(NSSet * _Nonnull)values;
-@end
-
 @class TrackItem;
 
 @interface Track (SWIFT_EXTENSION(AngelFit))
@@ -780,6 +772,15 @@ SWIFT_CLASS("_TtC8AngelFit5Track")
 - (void)removeTrackItemsObject:(TrackItem * _Nonnull)value;
 - (void)addTrackItems:(NSSet * _Nonnull)values;
 - (void)removeTrackItems:(NSSet * _Nonnull)values;
+@end
+
+@class TrackHeartrateItem;
+
+@interface Track (SWIFT_EXTENSION(AngelFit))
+- (void)addTrackHeartrateItemsObject:(TrackHeartrateItem * _Nonnull)value;
+- (void)removeTrackHeartrateItemsObject:(TrackHeartrateItem * _Nonnull)value;
+- (void)addTrackHeartrateItems:(NSSet * _Nonnull)values;
+- (void)removeTrackHeartrateItems:(NSSet * _Nonnull)values;
 @end
 
 
@@ -870,14 +871,6 @@ SWIFT_CLASS("_TtC8AngelFit4User")
 - (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
 @end
 
-
-@interface User (SWIFT_EXTENSION(AngelFit))
-- (void)addDevicesObject:(Device * _Nonnull)value;
-- (void)removeDevicesObject:(Device * _Nonnull)value;
-- (void)addDevices:(NSSet * _Nonnull)values;
-- (void)removeDevices:(NSSet * _Nonnull)values;
-@end
-
 @class Weight;
 
 @interface User (SWIFT_EXTENSION(AngelFit))
@@ -885,6 +878,14 @@ SWIFT_CLASS("_TtC8AngelFit4User")
 - (void)removeWeightsObject:(Weight * _Nonnull)value;
 - (void)addWeights:(NSSet * _Nonnull)values;
 - (void)removeWeights:(NSSet * _Nonnull)values;
+@end
+
+
+@interface User (SWIFT_EXTENSION(AngelFit))
+- (void)addDevicesObject:(Device * _Nonnull)value;
+- (void)removeDevicesObject:(Device * _Nonnull)value;
+- (void)addDevices:(NSSet * _Nonnull)values;
+- (void)removeDevices:(NSSet * _Nonnull)values;
 @end
 
 
