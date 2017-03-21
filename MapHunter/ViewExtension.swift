@@ -8,15 +8,19 @@
 
 import Foundation
 extension UIView{
-    func viewController() -> UIViewController{
-        var result: AnyObject! = self
+    func viewController() -> UIViewController?{
+        var result: AnyObject? = self
         while result != nil {
             result = (result as! UIResponder).next
-            if result.isKind(of: UIViewController.self) {
-                break
+            if let res = result{
+                if res.isKind(of: UIViewController.self) {
+                    break
+                }
+            }else{
+                return nil
             }
         }
         
-        return result as! UIViewController
+        return result as? UIViewController
     }
 }

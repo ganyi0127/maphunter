@@ -150,13 +150,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/PremapVC.swift"
-            timestampString = "511152397.020026"
+            timestampString = "511675344.971224"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "716"
-            endingLineNumber = "716"
-            landmarkName = "satanManager(didUpdateState:)"
-            landmarkType = "7">
+            startingLineNumber = "719"
+            endingLineNumber = "719">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -198,11 +196,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/PremapVC.swift"
-            timestampString = "511152397.020026"
+            timestampString = "511676305.411479"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "762"
-            endingLineNumber = "762">
+            startingLineNumber = "768"
+            endingLineNumber = "768">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -212,13 +210,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/PremapVC.swift"
-            timestampString = "511152397.020026"
+            timestampString = "511676305.411479"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "735"
-            endingLineNumber = "735"
-            landmarkName = "satanManager(didSwitchingReplyCalories:distance:step:curHeartrate:heartrateSerial:available:heartrateValue:)"
-            landmarkType = "7">
+            startingLineNumber = "741"
+            endingLineNumber = "741">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -308,12 +304,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/PremapVC.swift"
-            timestampString = "511152397.020026"
+            timestampString = "511675344.971224"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "629"
-            endingLineNumber = "629"
-            landmarkName = "animationDidStop(_:finished:)"
+            startingLineNumber = "632"
+            endingLineNumber = "632"
+            landmarkName = "map(gps:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -340,11 +336,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/FirstCell.swift"
-            timestampString = "511438298.335094"
+            timestampString = "511779806.993939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
             landmarkName = "getLivedata()"
             landmarkType = "7">
          </BreakpointContent>

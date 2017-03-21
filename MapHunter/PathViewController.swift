@@ -304,6 +304,11 @@ class PathViewController: FunOriginViewController {
         guard let node = view.hitTest(location, with: nil) else{
             return
         }
+        
+        guard let vc = node.viewController() else {
+            return
+        }
+        
         print("node:", node)
         if node == startButton {
             start(startButton)      //点击开始
@@ -311,7 +316,7 @@ class PathViewController: FunOriginViewController {
             settingClicked()        //点击设置
         }else if node == typeButton{
             typeClicked()           //点击类型切换
-        }else if node.viewController().isKind(of: DefaultVC.self){
+        }else if vc.isKind(of: DefaultVC.self){
             pushHistory()           //点击历史轨迹
         }else{
             //点击内容判断

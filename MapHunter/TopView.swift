@@ -178,13 +178,13 @@ class TopView: UIView {
                 self.topScrollView?.frame = bigFrame
                 
                 //隐藏tabbar
-                self.viewController().navigationController?.setTabbar(hidden: true)
+                self.viewController()?.navigationController?.setTabbar(hidden: true)
             }else{
                 
                 self.topScrollView?.frame = smallFrame
                 
                 //显示tabbar
-                self.viewController().navigationController?.setTabbar(hidden: false)
+                self.viewController()?.navigationController?.setTabbar(hidden: false)
             }
         }, completion: {
             complete in

@@ -153,12 +153,13 @@ class FirstCell: UITableViewCell {
         cancel(task)
         task = delay(2){
 
-            let vc = self.viewController()
-            if vc.isKind(of: StateVC.self){
-                if !(vc as! StateVC).initFresh{
-                    self.getLivedata()
+            if let vc = self.viewController(){                
+                if vc.isKind(of: StateVC.self){
+                    if !(vc as! StateVC).initFresh{
+                        self.getLivedata()
+                    }
+                    self.startTimer()
                 }
-                self.startTimer()
             }
         }
     }

@@ -11,11 +11,24 @@ extension UIImage{
     
     //MARK:- 根据尺寸重新绘制图像
     func transfromImage(size: CGSize) -> UIImage?{
-        let resultSize = CGSize(width: size.width * 2, height: size.height * 2)
+        
+        let hfactor = self.size.width / size.width
+        let vfactor = self.size.height / size.height
+        let factor = fmax(hfactor, vfactor)
+        
+        let scale: CGFloat = 2
+        let newWidth = size.width * scale
+        let newHeight = size.height * scale
+//        let newWidth = self.size.width / factor
+//        let newHeight = self.size.height / factor
+        let resultSize = CGSize(width: newWidth, height: newHeight)
         UIGraphicsBeginImageContext(resultSize)
         self.draw(in: CGRect(origin: .zero, size: resultSize))
         let result = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return UIImage(cgImage: result!.cgImage!, scale: 2, orientation: UIImageOrientation.up)
+       
+//        let data = UIImagePNGRepresentation(result!)
+//        return UIImage(data: data!)
+        return UIImage(cgImage: result!.cgImage!, scale: scale, orientation: UIImageOrientation.up)
     }
 }
