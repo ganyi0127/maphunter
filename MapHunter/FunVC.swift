@@ -56,12 +56,15 @@ class FunVC: UIViewController {
         }
     }
     
-    fileprivate var pathViewController: PathViewController?
-    fileprivate var recommendRouteViewController: RecommendRouteViewController?
-    fileprivate var myRouteViewController: MyRouteViewController?
-    fileprivate var spriteViewController: SpriteViewController?
+    fileprivate weak var pathViewController: PathViewController?
+    fileprivate weak var recommendRouteViewController: RecommendRouteViewController?
+    fileprivate weak var myRouteViewController: MyRouteViewController?
+    fileprivate weak var spriteViewController: SpriteViewController?
+    
+    private var tap: UITapGestureRecognizer?
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         
         config()
         createContents()
@@ -73,6 +76,29 @@ class FunVC: UIViewController {
         selectContainerView = pathContainerView
 
     }
+    
+//    deinit {
+//        debugPrint("<Func>_deinit")
+//    }
+//    
+//    override func viewWillDisappear(_ animated: Bool) {
+//        
+//        pathViewController = nil
+//        recommendRouteViewController = nil
+//        myRouteViewController = nil
+//        spriteViewController = nil
+//        
+//        selectContainerView = nil
+//        
+//        if let t = tap{
+//            view.removeGestureRecognizer(t)
+//            tap = nil
+//        }
+//        
+//        scrollView.delegate = nil
+//        
+//        super.viewWillDisappear(animated)
+//    }
     
     //MARK:- 初始化获取view
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -163,10 +189,10 @@ class FunVC: UIViewController {
     
     private func config(){
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(click(recognizer:)))
-        tap.numberOfTapsRequired = 1
-        tap.numberOfTouchesRequired = 1
-        scrollView.addGestureRecognizer(tap)
+        tap = UITapGestureRecognizer(target: self, action: #selector(click(recognizer:)))
+        tap?.numberOfTapsRequired = 1
+        tap?.numberOfTouchesRequired = 1
+        scrollView.addGestureRecognizer(tap!)
         
         view.backgroundColor = timeColor
     }
@@ -180,7 +206,7 @@ class FunVC: UIViewController {
         
         //获取点击位置
         let location = recognizer.location(in: scrollView)
-
+        
         //根据位置判断点击的模块
         var curLocation: CGPoint
         if pathViewController?.view.hitTest(location, with: nil) != nil {

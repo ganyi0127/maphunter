@@ -275,6 +275,22 @@ class PathViewController: FunOriginViewController {
         circle1.add(circleAnim1, forKey: nil)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        circle0.removeAllAnimations()
+        circle0.removeFromSuperlayer()
+        circle1.removeAllAnimations()
+        circle1.removeFromSuperlayer()
+        
+        closeTypeButton.removeFromSuperview()
+        walkingTypebutton.removeFromSuperview()
+        hikingTypebutton.removeFromSuperview()
+        runningTypebutton.removeFromSuperview()
+        ridingTypebutton.removeFromSuperview()
+        
+        super.viewWillDisappear(animated)
+    }
+    
     deinit {
         if let t = tap {
             view.removeGestureRecognizer(t)

@@ -135,25 +135,6 @@ class PremapVC: UIViewController {
     @IBOutlet weak var finishButton: UIButton!
     fileprivate var finishShape: CAShapeLayer?
     
-//    private lazy var continueButton: UIButton = {
-//        let frame = CGRect(x: view_size.width / 2 - self.pauseButton.bounds.width * 1.1 * 2, y: self.pauseButton.frame.origin.y, width: self.pauseButton.bounds.width / 2, height: self.pauseButton.bounds.height / 2)
-//        let button: UIButton = UIButton(frame: frame)
-//        let img = UIImage(named: "resource/map/continue")
-//        button.setImage(img, for: .normal)
-//        button.isHidden = true
-//        button.addTarget(self, action: #selector(self.pressContinue(_:)), for: .touchUpInside)
-//        return button
-//    }()
-//    private lazy var finishButton: UIButton = {
-//        let frame = CGRect(x: view_size.width / 2 + self.pauseButton.bounds.width * 0.1 * 2, y: self.pauseButton.frame.origin.y, width: self.pauseButton.bounds.width / 2, height: self.pauseButton.bounds.height / 2)
-//        let button: UIButton = UIButton(frame: frame)
-//        let img = UIImage(named: "resource/map/finish")
-//        button.setImage(img, for: .normal)
-//        button.isHidden = true
-//        button.addTarget(self, action: #selector(self.pressFinish(_:)), for: .touchUpInside)
-//        return button
-//    }()
-    
     //设置地图开关
     private let closeImg = UIImage(named: "resource/map/itemclose")?.transfromImage(size: CGSize(width: 20, height: 20))        //叉叉
     private var mapOpen: Bool = false{
@@ -255,16 +236,19 @@ class PremapVC: UIViewController {
         }
     }
     
+    deinit {
+        mapVC?.delegate = nil
+        mapVC = nil
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
         //移除手势
         if let s = swip {
             view.removeGestureRecognizer(s)
         }
         
         //移除定时器
-        if let t = timer{
+        if let t: DispatchSourceTimer = timer{
             t.cancel()
             timer = nil
         }
@@ -273,6 +257,11 @@ class PremapVC: UIViewController {
         //当停止使用地图，delegate指向根页面
         let satanManager = SatanManager.share()
         satanManager?.delegate = tabBarController as! RootTBC
+        
+        mapVC?.delegate = nil
+        mapVC = nil
+        
+        super.viewWillDisappear(animated)
     }
     
     private func config(){
@@ -349,22 +338,6 @@ class PremapVC: UIViewController {
                     alertController.setBlackTextColor()
                     self.present(alertController, animated: true, completion: nil)
                 }
-                
-                //保存路径(sdk以存储)
-//                if let macaddress = AngelManager.share()?.macAddress{
-//                    self.trackMacaddress = macaddress
-//                    let coredataHandler = CoreDataHandler.share()
-//                    let userId = UserManager.share().userId
-//                    if let track = coredataHandler.insertTrack(userId: userId, withMacAddress: macaddress, withDate: date, withItems: nil){
-//                        track.date = date as NSDate?
-//                        track.coordinateList = NSArray()
-//                        DispatchQueue.main.async {                            
-//                            if coredataHandler.commit(){
-//                                debugPrint("数据库创建路径")
-//                            }
-//                        }
-//                    }
-//                }
             }
         }
     }
@@ -400,8 +373,8 @@ class PremapVC: UIViewController {
                 imgView3.frame = imgInitFrame
             }, completion: {
                 complete in
+                imgView3.removeFromSuperview()
                 UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseInOut, animations: {
-                    imgView3.removeFromSuperview()
                     imgView2.frame = imgFinalFrame
                 }, completion: {
                     complete in
@@ -409,8 +382,8 @@ class PremapVC: UIViewController {
                         imgView2.frame = imgInitFrame
                     }, completion: {
                         complete in
+                        imgView2.removeFromSuperview()
                         UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseInOut, animations: {
-                            imgView2.removeFromSuperview()
                             imgView1.frame = imgFinalFrame
                         }, completion: {
                             complete in
@@ -561,7 +534,7 @@ class PremapVC: UIViewController {
         strokeEndAnimation.toValue = 1
         strokeEndAnimation.duration = 1.5
         strokeEndAnimation.fillMode = kCAFillModeBoth
-        strokeEndAnimation.isRemovedOnCompletion = false
+        strokeEndAnimation.isRemovedOnCompletion = true
         strokeEndAnimation.delegate = self
         finishShape?.add(strokeEndAnimation, forKey: nil)
     }
@@ -628,9 +601,7 @@ extension PremapVC: CAAnimationDelegate{
                     
                     //移除数据库创建的路径
                     //satanManager?.resetTrack()
-                    
-                    self.mapVC?.isRecording = false
-                    cancel(self.timeTask)
+                    satanManager?.delegate = nil
                     _ = self.navigationController?.popViewController(animated: true)
                 }
                 let continueAction = UIAlertAction(title: "继续运动", style: .default){
@@ -642,6 +613,10 @@ extension PremapVC: CAAnimationDelegate{
                 alert.setBlackTextColor()
                 present(alert, animated: true, completion: nil)
             }else{
+                
+                mapVC?.delegate = nil
+                mapVC = nil
+                
                 //分享路径
                 let pathShareVC = storyboard?.instantiateViewController(withIdentifier: "pathshare") as! PathShareVC
                 pathShareVC.distance = distance
@@ -723,8 +698,6 @@ extension PremapVC: SatanManagerDelegate{
             }
             
             //发送手环结束消息
-            self.mapVC?.isRecording = false
-            cancel(self.timeTask)
             _ = self.navigationController?.popViewController(animated: true)
         }
     }

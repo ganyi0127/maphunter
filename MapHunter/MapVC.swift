@@ -52,7 +52,7 @@ enum MapGPSStatus{
     case middle
     case high
 }
-protocol MapDelegate {
+protocol MapDelegate: class {
     func map(gps status: MapGPSStatus)
     func map(coordinate: CLLocationCoordinate2D, withInterval interval: TimeInterval, totalDistance distance: Double, childDistance subDistance: Double)
 }
@@ -83,7 +83,7 @@ class MapVC: UIViewController {
     //历史记录路径
     var historyTrack: Track?
     
-    var delegate: MapDelegate?
+    weak var delegate: MapDelegate?
     
     //仅创建一次判断
     var trackOverlay: GradientPolylineOverlay?
@@ -149,9 +149,9 @@ class MapVC: UIViewController {
     var isRecording = false{
         didSet{
             
-            let recordButton = editButtons[0]
-            recordButton.setTitle(isRecording ? "停止记录" : "开始记录", for: .normal)
-            recordButton.backgroundColor = isRecording ? .green : .red
+//            let recordButton = editButtons[0]
+//            recordButton.setTitle(isRecording ? "停止记录" : "开始记录", for: .normal)
+//            recordButton.backgroundColor = isRecording ? .green : .red
             
             if isRecording{
                 //清空记录数据

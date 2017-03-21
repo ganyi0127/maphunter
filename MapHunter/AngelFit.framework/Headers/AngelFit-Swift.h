@@ -617,7 +617,7 @@ SWIFT_CLASS("_TtC8AngelFit17PeripheralManager")
 
 SWIFT_CLASS("_TtC8AngelFit12SatanManager")
 @interface SatanManager : NSObject
-@property (nonatomic, strong) id <SatanManagerDelegate> _Nullable delegate;
+@property (nonatomic, weak) id <SatanManagerDelegate> _Nullable delegate;
 + (SatanManager * _Nullable)share;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 - (void)addTrackWithCoordinate:(CLLocationCoordinate2D)coordinate withInterval:(NSTimeInterval)interval totalDistance:(double)distance childDistance:(double)subDistance;
