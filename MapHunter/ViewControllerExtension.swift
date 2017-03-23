@@ -20,7 +20,9 @@ extension UIViewController{
     
     func didReceiveCurrentWarning(){
         debugPrint("memory warning: \(self)")
-        view = nil
+        if view.window == nil || !isViewLoaded{
+            view = nil
+        }
         debugPrint("<clear>memory warning: \(self)")
         //if self.isViewLoaded && view.window != nil
     }

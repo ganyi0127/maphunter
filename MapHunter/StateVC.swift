@@ -74,13 +74,14 @@ class StateVC: UIViewController {
     
     private func createContents(){
         
-        topView.closure = {
-            date in
-            
-            print("date: \(date)")
-            self.receiveConnectedMessage(notify: nil)
+        if topView.closure == nil {
+            topView.closure = {
+                date in
+                
+                print("date: \(date)")
+                self.receiveConnectedMessage(notify: nil)
+            }
         }
-        
         setupRefresh()
     }
     
@@ -131,7 +132,7 @@ class StateVC: UIViewController {
     }
     
     //MARK:- 刷新调用
-    var initFresh = true
+    var initFresh = false
     @objc private func refreshStateChange(_ control: UIRefreshControl){
 
         guard !initFresh else {

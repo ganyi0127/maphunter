@@ -75,8 +75,8 @@ class TopView: UIView {
     
     //MARK:- init
     override func didMoveToSuperview() {
-        config()
-        createContents()
+//        config()
+//        createContents()
     }
     
     deinit {
@@ -85,8 +85,8 @@ class TopView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-
-//        createContents()
+        config()
+        createContents()
         
 //        let bigFrame = CGRect(x: 0, y: 0, width: view_size.width, height: view_size.height * 0.6)
 //        self.frame.size = bigFrame.size
@@ -191,10 +191,10 @@ class TopView: UIView {
             if self.isCalendarOpened{
                 
                 self.frame.size = bigFrame.size
-                (self.viewController() as! StateVC).setBlur(hidden: false)
+                (self.viewController() as? StateVC)?.setBlur(hidden: false)
             }else{
                 self.frame.size = smallFrame.size
-                (self.viewController() as! StateVC).setBlur(hidden: true)
+                (self.viewController() as? StateVC)?.setBlur(hidden: true)
             }
         })
     }

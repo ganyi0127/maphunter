@@ -237,6 +237,7 @@ class PremapVC: UIViewController {
     }
     
     deinit {
+        
         mapVC?.delegate = nil
         mapVC = nil
     }
@@ -259,7 +260,9 @@ class PremapVC: UIViewController {
         satanManager?.delegate = tabBarController as! RootTBC
         
         mapVC?.delegate = nil
+        mapVC?.removeFromParentViewController()
         mapVC = nil
+        cancel(timeTask)
         
         super.viewWillDisappear(animated)
     }
@@ -615,7 +618,7 @@ extension PremapVC: CAAnimationDelegate{
             }else{
                 
                 mapVC?.delegate = nil
-                mapVC = nil
+                mapVC?.removeFromParentViewController()
                 
                 //分享路径
                 let pathShareVC = storyboard?.instantiateViewController(withIdentifier: "pathshare") as! PathShareVC

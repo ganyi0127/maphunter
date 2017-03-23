@@ -155,7 +155,7 @@ class FirstCell: UITableViewCell {
 
             if let vc = self.viewController(){                
                 if vc.isKind(of: StateVC.self){
-                    if !(vc as! StateVC).initFresh{
+                    if !(vc as! StateVC).initFresh && vc.view.window != nil && vc.isViewLoaded {
                         self.getLivedata()
                     }
                     self.startTimer()
