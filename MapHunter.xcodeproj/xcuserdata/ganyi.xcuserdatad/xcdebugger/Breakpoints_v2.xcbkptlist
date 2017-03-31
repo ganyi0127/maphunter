@@ -102,11 +102,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../angelfit/AngelFit/APIList/AngelManager.swift"
-            timestampString = "510463960.823488"
+            timestampString = "512637043.512041"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1315"
-            endingLineNumber = "1315"
+            startingLineNumber = "1314"
+            endingLineNumber = "1314"
             landmarkName = "setSynchronizationHealthData(_:closure:)"
             landmarkType = "7">
             <Locations>

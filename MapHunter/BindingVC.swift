@@ -155,11 +155,18 @@ class BindingVC: UIViewController {
         
         if let peripheral = PeripheralManager.share().currentPeripheral {
             
-            GodManager.share().disconnect(peripheral){
-                success in
-                if success{
-                    _ = self.navigationController?.popViewController(animated: true)
+            if peripheral.state == .connected{
+                GodManager.share().disconnect(peripheral){
+                    success in
+                    if success{
+                        _ = self.navigationController?.popViewController(animated: true)
+                    }
                 }
+            }else{
+                let uuidstr = peripheral.identifier.uuidString
+                _ = PeripheralManager.share().delete(UUIDString: uuidstr)
+                PeripheralManager.share().UUID = nil
+                _ = self.navigationController?.popViewController(animated: true)
             }
         }
     }

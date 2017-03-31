@@ -709,7 +709,7 @@ extension PremapVC: SatanManagerDelegate{
     func satanManager(didSwitchingReplyCalories calories: UInt32, distance: UInt32, step: UInt32, curHeartrate: UInt8, heartrateSerial: UInt8, available: Bool, heartrateValue: [UInt8]) {
         calorieLabel.text = "\(calories)"
         heartrateLabel.text = "\(curHeartrate)"
-        distanceLabel.text = "\(distance)"
+        distanceLabel.text = "\(distance / 1000)"
         
         //显示与存储心率
     }
