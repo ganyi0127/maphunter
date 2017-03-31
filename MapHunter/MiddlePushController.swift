@@ -38,17 +38,54 @@ class MiddlePushController: NSObject, UIViewControllerAnimatedTransitioning {
         let containerView = transitionContext.containerView
         
         let screenBounds = UIScreen.main.bounds
-        toViewController?.view.frame = CGRect(x: screenBounds.width / 2, y: screenBounds.height / 2, width: 0, height: 0)
+        toViewController?.view.frame = finalFrame.offsetBy(dx: 0, dy: screenBounds.size.height)
         
         let toViewView = toViewController!.view
         containerView.addSubview(toViewView!)
         
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {            
-            self.toViewController?.view.frame = finalFrame
-        }, completion: {
-            _ in
-            
-            transitionContext.completeTransition(true)
-        })
+        //路径动画
+        toViewController?.view.frame = finalFrame
+        
+        let startRadius = view_size.width * 0
+        
+        let initialRect = startRect ?? CGRect(x: view_size.width / 2 - startRadius,
+                                              y: view_size.height / 2 - startRadius,
+                                              width: startRadius * 2,
+                                              height: startRadius * 2)
+        let circlePathInitial = UIBezierPath(ovalIn: initialRect)
+        
+        let finallyRect = startRect == nil ? CGRect(x: view_size.width / 2 - view_size.height / 2,
+                                                    y: 0,
+                                                    width: view_size.height,
+                                                    height: view_size.height) : CGRect(x: startRect!.origin.x - view_size.height,
+                                                                                       y: startRect!.origin.y - view_size.height,
+                                                                                       width: view_size.height * 2,
+                                                                                       height: view_size.height * 2)
+        let circlePathFinally = UIBezierPath(ovalIn: finallyRect)
+        
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = circlePathInitial.cgPath
+        toViewController?.view.layer.mask = shapeLayer
+        
+        let maskAnim = CABasicAnimation(keyPath: "path")
+        maskAnim.fromValue = circlePathInitial.cgPath
+        maskAnim.toValue = circlePathFinally.cgPath
+        maskAnim.duration = transitionDuration(using: transitionContext)
+        maskAnim.isRemovedOnCompletion = false
+        maskAnim.fillMode = kCAFillModeBoth
+        maskAnim.delegate = self
+        maskAnim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        shapeLayer.add(maskAnim, forKey: "path")
+    }
+}
+
+//MARK:- 路径动画代理
+extension MiddlePushController: CAAnimationDelegate{
+    
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        
+        transitionContext?.completeTransition(true)
+        
+        toViewController?.view.layer.mask = nil
     }
 }

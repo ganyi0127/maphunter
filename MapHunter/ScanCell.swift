@@ -82,11 +82,11 @@ class ScanCell: UITableViewCell {
             
             var imageName: String
             let abs_rssi = abs(rssi)
-            if abs_rssi > 113 {
+            if abs_rssi > 98 {
                 imageName = "resource/scan/rssi_0"
-            }else if abs_rssi > 70{
+            }else if abs_rssi > 78{
                 imageName = "resource/scan/rssi_1"
-            }else if abs_rssi > 40{
+            }else if abs_rssi > 56{
                 imageName = "resource/scan/rssi_2"
             }else{
                 imageName = "resource/scan/rssi_3"

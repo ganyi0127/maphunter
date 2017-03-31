@@ -54,7 +54,7 @@ class StatePopController: NSObject, UIViewControllerAnimatedTransitioning {
         toViewController?.view.frame = finalFrame
         fromViewController?.view.layer.zPosition = 1
         
-        let startRadius = view_size.width * 0.1
+        let startRadius = view_size.width * 0
         let initialRect = endRect ?? CGRect(x: view_size.width / 2 - startRadius,
                                             y: view_size.height / 2 - startRadius,
                                             width: startRadius * 2,

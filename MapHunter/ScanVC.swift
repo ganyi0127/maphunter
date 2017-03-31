@@ -32,7 +32,7 @@ class ScanVC: UIViewController {
                                  width: buttonLength,
                                  height: buttonLength)
         let button = UIButton(frame: buttonFrame)
-        if let image = UIImage(named: "resource/scan/rescan"){
+        if let image = UIImage(named: "resource/scan/rescan")?.transfromImage(size: CGSize(width: buttonLength, height: buttonLength)){
             button.setImage(image, for: .normal)
         }
         button.alpha = 0

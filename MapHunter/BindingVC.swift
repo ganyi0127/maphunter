@@ -26,6 +26,23 @@ class BindingVC: UIViewController {
             }
             debugPrint(ft)
             
+            //获取functable成员变量
+            var outCount:UInt32 = 0
+            let propertyList = class_copyPropertyList(FuncTable.self, &outCount)
+            
+            for i in 0..<Int(outCount) {
+                let property = propertyList![i]
+                let propertyName = String(cString: property_getName(property))
+                let propertyValue = ft.value(forKey: propertyName)
+                if let boolValue: Bool = propertyValue as? Bool {
+                    debugPrint(propertyName, ":", boolValue)
+                    if boolValue {
+                        
+                    }else{
+                        
+                    }
+                }
+            }
         }
     }
     
@@ -121,7 +138,15 @@ class BindingVC: UIViewController {
                 self.synchroDateLabel.text = "上次同步时间: " + dateStr
                 self.versionLabel.text = "固件版本: v\(existDevice.version)"
                 self.energyLabel.text = "电池容量: \(existDevice.battLevel)%"
-                self.funcTable = existDevice.funcTable
+//                self.funcTable = existDevice.funcTable
+            }
+        }
+        
+        //单独获取设备列表
+        angelManager?.getFuncTable{
+            functable in
+            DispatchQueue.main.async {
+                self.funcTable = functable
             }
         }
     }

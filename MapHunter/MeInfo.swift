@@ -73,6 +73,27 @@ extension MeInfo{
                 let headViewController = HeadViewController(image: headImageView.image)
                 navigationController?.pushViewController(headViewController, animated: true)
             }
+        }else if section == 1{
+            switch row {
+            case 0:
+                //修改昵称
+                let nameTableViewController = NicknameVC()
+                navigationController?.pushViewController(nameTableViewController, animated: true)
+            case 1:
+                //修改性别
+                let sexVC = SexVC()
+                navigationController?.pushViewController(sexVC, animated: true)
+            case 5:
+                //修改职业
+                let jobVC = JobVC()
+                navigationController?.pushViewController(jobVC, animated: true)
+            case 6:
+                //修改活动强度
+                let activeForcesVC = ActiveForcesVC()
+                navigationController?.pushViewController(activeForcesVC, animated: true)
+            default:
+                break
+            }
         }
     }
 }

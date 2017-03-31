@@ -46,7 +46,7 @@ class StatePushController: NSObject, UIViewControllerAnimatedTransitioning {
         //路径动画
         toViewController?.view.frame = finalFrame
         
-        let startRadius = view_size.width * 0.1
+        let startRadius = view_size.width * 0
         
         let initialRect = startRect ?? CGRect(x: view_size.width / 2 - startRadius,
                                               y: view_size.height / 2 - startRadius,

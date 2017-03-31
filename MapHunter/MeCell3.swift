@@ -7,11 +7,6 @@
 //
 
 import UIKit
-enum MeCell3Type: Int{
-    case device = 0
-    case target
-    case applehealth
-}
 class MeCell3: UITableViewCell {
     
     var type: MeCell3Type!

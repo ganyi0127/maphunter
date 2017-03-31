@@ -40,19 +40,70 @@ class MiddlePopController: NSObject, UIViewControllerAnimatedTransitioning {
         toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
         fromViewController = transitionContext.viewController(forKey: .from)
         
-        var finalFrame = transitionContext.finalFrame(for: toViewController!)
-        finalFrame = CGRect(x: finalFrame.width / 2, y: finalFrame.height / 2, width: 0, height: 0)
+        let finalFrame = transitionContext.finalFrame(for: toViewController!)
         
         let containerView = transitionContext.containerView
-        containerView.addSubview(toViewController!.view)
-        containerView.sendSubview(toBack: toViewController!.view)
         
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-            self.fromViewController!.view.frame = finalFrame
-        }, completion: {
+        let screenBounds = UIScreen.main.bounds
+        toViewController?.view.frame = finalFrame.offsetBy(dx: 0, dy: screenBounds.size.height)
+        
+        let toViewView = toViewController!.view
+        containerView.addSubview(toViewView!)
+        
+        //路径动画
+        toViewController?.view.frame = finalFrame
+        fromViewController?.view.layer.zPosition = 1
+        
+        let startRadius = view_size.width * 0
+        let initialRect = endRect ?? CGRect(x: view_size.width / 2 - startRadius,
+                                            y: view_size.height / 2 - startRadius,
+                                            width: startRadius * 2,
+                                            height: startRadius * 2)
+        let circlePathInitial = UIBezierPath(ovalIn: initialRect)
+        
+        let finallyRect = endRect == nil ? CGRect(x: view_size.width / 2 - view_size.height / 2,
+                                                  y: 0,
+                                                  width: view_size.height,
+                                                  height: view_size.height) : CGRect(x: endRect!.origin.x - view_size.height,
+                                                                                     y: endRect!.origin.y - view_size.height,
+                                                                                     width: view_size.height * 2,
+                                                                                     height: view_size.height * 2)
+        let circlePathFinally = UIBezierPath(ovalIn: finallyRect)
+        
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = circlePathFinally.cgPath
+        fromViewController?.view.layer.mask = shapeLayer
+        
+        let maskAnim = CABasicAnimation(keyPath: "path")
+        maskAnim.fromValue = circlePathFinally.cgPath
+        maskAnim.toValue = circlePathInitial.cgPath
+        maskAnim.duration = transitionDuration(using: transitionContext)
+        maskAnim.isRemovedOnCompletion = false
+        maskAnim.fillMode = kCAFillModeBoth
+        maskAnim.delegate = self
+        maskAnim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        shapeLayer.add(maskAnim, forKey: "path")
+        
+        //模糊动画
+        toViewController?.view.addSubview(effectView)
+        effectView.alpha = 0.5
+        let duration = transitionDuration(using: transitionContext)
+        UIView.animate(withDuration: duration, animations: {
+            self.effectView.alpha = 0
+        }){
             _ in
-            self.fromViewController?.removeFromParentViewController()
-            transitionContext.completeTransition(true)
-        })
+            self.effectView.removeFromSuperview()
+        }
+    }
+}
+
+//MARK:- 路径动画代理
+extension MiddlePopController: CAAnimationDelegate{
+    
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        
+        transitionContext?.completeTransition(true)
+        fromViewController?.view.layer.zPosition = 0
+        fromViewController?.view.layer.mask = nil
     }
 }

@@ -130,7 +130,12 @@ extension MeVC: UITableViewDelegate, UITableViewDataSource{
                     let scanVC = storyboard?.instantiateViewController(withIdentifier: "scan") as! ScanVC
                     navigationController?.pushViewController(scanVC, animated: true)
                 }
+            case .target:
+                //目标设置
+                let targetSettingVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "targetsetting")
+                present(targetSettingVC, animated: true, completion: nil)
             default:
+                //苹果健康
                 let detailViewController = MeDetails(type: type)
                 navigationController?.pushViewController(detailViewController, animated: true)
             }
