@@ -32,6 +32,12 @@ class MeVC: UIViewController {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        tableview.reloadData()
+    }
+    
     //MARK:- 点击设置
     func clickSetting(sender: UIBarButtonItem){
         guard let settingViewController = storyboard?.instantiateViewController(withIdentifier: "mesetting") else {
@@ -89,7 +95,23 @@ extension MeVC: UITableViewDelegate, UITableViewDataSource{
         var cell: UITableViewCell?
         if indexPath.section == 0 && indexPath.row == 0 {
             cell = tableView.dequeueReusableCell(withIdentifier: "cell")
-            return cell!
+            let meCell1 = cell as! MeCell1
+            //获取运动信息_日期为当前选择日
+            if let angelManager = AngelManager.share() {
+                if let macaddress = angelManager.macAddress {
+                    let userId = UserManager.share().userId
+                    let tracks = CoreDataHandler.share().selectTrack(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+                    if !tracks.isEmpty {
+                        //默认获取当天数据，tracks个数>=0
+                        meCell1.calorie = tracks.reduce(0){$0 + $1.calories}
+                        meCell1.count = Int16(tracks.count)
+                        meCell1.distance = tracks.reduce(0){$0 + Int16($1.distance)}
+                        meCell1.minutes = tracks.reduce(0){$0 + $1.aerobicMinutes}
+                        meCell1.introduce = "its introduce string from sqlite"
+                    }
+                }
+            }
+            return meCell1
         }
         
         let identifier = "\(indexPath.section)_\(indexPath.row)"
@@ -110,7 +132,10 @@ extension MeVC: UITableViewDelegate, UITableViewDataSource{
         cell?.setSelected(false, animated: true)
         
         if indexPath.section == 0 {
-            
+            if indexPath.row == 1{
+                //个人总成绩
+                
+            }
         }else{
             //进入详情页面
             guard let cell3: MeCell3 = cell as? MeCell3 else{
