@@ -224,11 +224,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/RootTBC.swift"
-            timestampString = "509616201.557267"
+            timestampString = "513068643.300174"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "205"
-            endingLineNumber = "205"
+            startingLineNumber = "213"
+            endingLineNumber = "213"
             landmarkName = "satanManager(didUpdateState:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -240,11 +240,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/RootTBC.swift"
-            timestampString = "509616188.797369"
+            timestampString = "513068643.300174"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "232"
-            endingLineNumber = "232"
+            startingLineNumber = "240"
+            endingLineNumber = "240"
             landmarkName = "satanManagerDistanceByLocation(withBleDistance:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -256,11 +256,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/RootTBC.swift"
-            timestampString = "509616190.069447"
+            timestampString = "513068643.300174"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
             landmarkName = "satanManager(didSwitchingReplyCalories:distance:step:curHeartrate:heartrateSerial:available:heartrateValue:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -352,11 +352,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/StateVC.swift"
-            timestampString = "512713096.489777"
+            timestampString = "513067768.87437"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "395"
-            endingLineNumber = "395"
+            startingLineNumber = "396"
+            endingLineNumber = "396"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>

@@ -113,6 +113,7 @@ class StateVC: UIViewController {
             v.backgroundColor = defaultColor
             ctrl.addSubview(v)
             ctrl.backgroundColor = nil
+            ctrl.layer.zPosition = -0.1
             ctrl.tintColor = UIColor(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1)
             ctrl.attributedTitle = NSAttributedString(string: "同步健康数据")
             ctrl.addTarget(self, action: #selector(refreshStateChange(_:)), for: .valueChanged)

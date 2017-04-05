@@ -15,7 +15,11 @@ class RootTBC: UITabBarController {
     //展开按钮
     private var menuButtonFlag: Bool = false{
         didSet{
+            let key = "rotation"
             if menuButtonFlag{
+                
+                //移除之前动画
+                menuButton.layer.removeAnimation(forKey: key)
                 
                 let animation = CABasicAnimation(keyPath: "transform.rotation.z")
                 animation.duration = 0.2
@@ -25,7 +29,7 @@ class RootTBC: UITabBarController {
                 animation.isRemovedOnCompletion = false
                 animation.fillMode = kCAFillModeBoth
                 animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-                menuButton.layer.add(animation, forKey: nil)
+                menuButton.layer.add(animation, forKey: key)
                 
                 
                 //添加高斯模糊
@@ -46,14 +50,20 @@ class RootTBC: UITabBarController {
                     self.tabBar.frame = tabbarFrame.offsetBy(dx: 0, dy: offsetY)
                     self.menuButton.frame = buttonFrame.offsetBy(dx: 0, dy: buttonOffsetY)
                 }){
-                    complete in
-                    UIView.animate(withDuration: duration, delay: 0, options: UIViewAnimationOptions.curveEaseIn, animations: {
-                        let buttonOffsetY: CGFloat = tabbarFrame.origin.y > view_size.height ? 0 : -tabbarFrame.height * 2
-                        self.menuButton.frame = buttonFrame.offsetBy(dx: 0, dy: buttonOffsetY)
-                    }, completion: nil)
+                    _ in
+                    if self.menuButtonFlag{
+                        UIView.animate(withDuration: duration, delay: 0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+                            let buttonOffsetY: CGFloat = tabbarFrame.origin.y > view_size.height ? 0 : -tabbarFrame.height * 2
+                            self.menuButton.frame = buttonFrame.offsetBy(dx: 0, dy: buttonOffsetY)
+                        }, completion: nil)
+                    }
                 }
                 
             }else{
+                
+                //移除之前动画
+                menuButton.layer.removeAnimation(forKey: key)
+                
                 let animation = CABasicAnimation(keyPath: "transform.rotation.z")
                 animation.duration = 0.2
                 animation.repeatCount = 1
@@ -62,7 +72,7 @@ class RootTBC: UITabBarController {
                 animation.isRemovedOnCompletion = false
                 animation.fillMode = kCAFillModeBoth
                 animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-                menuButton.layer.add(animation, forKey: nil)
+                menuButton.layer.add(animation, forKey: key)
                 
                 //移除高斯模糊
                 effectView.removeGestureRecognizer(tap)
@@ -166,12 +176,10 @@ class RootTBC: UITabBarController {
     }
     
     //MARK:- 切换状态时 取消menubutton选中
-//    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-//        super.tabBar(tabBar, didSelect: item)
-//        if menuButtonFlag {
-//            menuButtonFlag = false
-//        }
-//    }
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        menuButtonFlag = false
+        
+    }
     
     //MARK:- 点击展开按钮
     @objc private func clickMenuButton(sender: UIButton){

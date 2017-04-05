@@ -207,7 +207,7 @@ class TargetSettingVC: UIViewController {
         //修改路径
         let pathAnim = CABasicAnimation(keyPath: "path")
         pathAnim.toValue = bottomBezier.cgPath
-        pathAnim.duration = 0.4
+        pathAnim.duration = 0.0
         pathAnim.isRemovedOnCompletion = false
         pathAnim.fillMode = kCAFillModeBoth
         timeLayer.add(pathAnim, forKey: nil)
