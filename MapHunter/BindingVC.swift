@@ -151,6 +151,7 @@ class BindingVC: UIViewController {
         }
     }
     
+    //MARK:- 解除绑定
     @IBAction func unbinding(_ sender: UIButton) {
         
         if let peripheral = PeripheralManager.share().currentPeripheral {
@@ -168,6 +169,13 @@ class BindingVC: UIViewController {
                 PeripheralManager.share().UUID = nil
                 _ = self.navigationController?.popViewController(animated: true)
             }
+        }else{
+            let list = PeripheralManager.share().selectUUIDStringList()
+            list.forEach{
+                uuidStr in
+                _ = PeripheralManager.share().delete(UUIDString: uuidStr)
+            }
+            _ = self.navigationController?.popViewController(animated: true)
         }
     }
 }

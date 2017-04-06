@@ -75,7 +75,9 @@ class TopView: UIView {
     
     //MARK:- init
     override func didMoveToSuperview() {
-//        config()
+        super.didMoveToSuperview()
+        
+        config()
 //        createContents()
     }
     
@@ -85,7 +87,6 @@ class TopView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-        config()
         createContents()
         
 //        let bigFrame = CGRect(x: 0, y: 0, width: view_size.width, height: view_size.height * 0.6)

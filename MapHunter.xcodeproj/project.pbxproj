@@ -49,6 +49,12 @@
 		BE2DCA011D9210A300978C97 /* MapHunterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2DCA001D9210A300978C97 /* MapHunterTests.swift */; };
 		BE2DCA0C1D9210A300978C97 /* MapHunterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2DCA0B1D9210A300978C97 /* MapHunterUITests.swift */; };
 		BE2DCA2D1D92257C00978C97 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE2DCA2C1D92257C00978C97 /* MapKit.framework */; };
+		BE3DB3201E961E7A001CA7AF /* Boot.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE3DB31F1E961E7A001CA7AF /* Boot.storyboard */; };
+		BE3DB3221E961F12001CA7AF /* BootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB3211E961F12001CA7AF /* BootVC.swift */; };
+		BE3DB3241E9624A1001CA7AF /* BootCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB3231E9624A1001CA7AF /* BootCell.swift */; };
+		BE3DB3271E963CFA001CA7AF /* BootScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB3261E963CFA001CA7AF /* BootScanVC.swift */; };
+		BE3DB3291E963D4F001CA7AF /* BootScanCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB3281E963D4F001CA7AF /* BootScanCell.swift */; };
+		BE3DB32C1E9644D6001CA7AF /* BootLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB32B1E9644D6001CA7AF /* BootLoginVC.swift */; };
 		BE41E6741E8D016D00387B59 /* NicknameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE41E6731E8D016D00387B59 /* NicknameVC.swift */; };
 		BE41E6761E8D074100387B59 /* SexVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE41E6751E8D074100387B59 /* SexVC.swift */; };
 		BE41E6781E8D089F00387B59 /* JobVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE41E6771E8D089F00387B59 /* JobVC.swift */; };
@@ -201,6 +207,12 @@
 		BE2DCA0B1D9210A300978C97 /* MapHunterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapHunterUITests.swift; sourceTree = "<group>"; };
 		BE2DCA0D1D9210A300978C97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE2DCA2C1D92257C00978C97 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		BE3DB31F1E961E7A001CA7AF /* Boot.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Boot.storyboard; sourceTree = "<group>"; };
+		BE3DB3211E961F12001CA7AF /* BootVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootVC.swift; sourceTree = "<group>"; };
+		BE3DB3231E9624A1001CA7AF /* BootCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootCell.swift; sourceTree = "<group>"; };
+		BE3DB3261E963CFA001CA7AF /* BootScanVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootScanVC.swift; sourceTree = "<group>"; };
+		BE3DB3281E963D4F001CA7AF /* BootScanCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootScanCell.swift; sourceTree = "<group>"; };
+		BE3DB32B1E9644D6001CA7AF /* BootLoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootLoginVC.swift; sourceTree = "<group>"; };
 		BE41E6731E8D016D00387B59 /* NicknameVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NicknameVC.swift; sourceTree = "<group>"; };
 		BE41E6751E8D074100387B59 /* SexVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SexVC.swift; sourceTree = "<group>"; };
 		BE41E6771E8D089F00387B59 /* JobVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JobVC.swift; sourceTree = "<group>"; };
@@ -440,6 +452,7 @@
 				BE54CB201E17A94F00DDFFC6 /* AngelFit.framework */,
 				BE2DC9EC1D9210A300978C97 /* Main.storyboard */,
 				BE1C366C1D93725000AB4370 /* RootTBC.swift */,
+				BE3DB31C1E961DAB001CA7AF /* 引导页 */,
 				BEDF4F371D93938500E98D63 /* 状态 */,
 				BEDF4F361D93937C00E98D63 /* 地图 */,
 				BEDF4F381D93938D00E98D63 /* 健康 */,
@@ -500,6 +513,35 @@
 				BE2DCA2C1D92257C00978C97 /* MapKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BE3DB31C1E961DAB001CA7AF /* 引导页 */ = {
+			isa = PBXGroup;
+			children = (
+				BE3DB31F1E961E7A001CA7AF /* Boot.storyboard */,
+				BE3DB3211E961F12001CA7AF /* BootVC.swift */,
+				BE3DB3231E9624A1001CA7AF /* BootCell.swift */,
+				BE3DB3251E963CC5001CA7AF /* 初始化搜索 */,
+				BE3DB32A1E9644B1001CA7AF /* 初始化登录 */,
+			);
+			name = "引导页";
+			sourceTree = "<group>";
+		};
+		BE3DB3251E963CC5001CA7AF /* 初始化搜索 */ = {
+			isa = PBXGroup;
+			children = (
+				BE3DB3261E963CFA001CA7AF /* BootScanVC.swift */,
+				BE3DB3281E963D4F001CA7AF /* BootScanCell.swift */,
+			);
+			name = "初始化搜索";
+			sourceTree = "<group>";
+		};
+		BE3DB32A1E9644B1001CA7AF /* 初始化登录 */ = {
+			isa = PBXGroup;
+			children = (
+				BE3DB32B1E9644D6001CA7AF /* BootLoginVC.swift */,
+			);
+			name = "初始化登录";
 			sourceTree = "<group>";
 		};
 		BE4BFE941E14F87700F3FE91 /* 目标设置\介绍页面\编辑页面 */ = {
@@ -848,6 +890,7 @@
 				BE2DC9F61D9210A300978C97 /* LaunchScreen.storyboard in Resources */,
 				BE2DC9F31D9210A300978C97 /* Assets.xcassets in Resources */,
 				BE2DC9EE1D9210A300978C97 /* Main.storyboard in Resources */,
+				BE3DB3201E961E7A001CA7AF /* Boot.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -875,6 +918,7 @@
 				BE8685961E334F7700EBEBED /* CustomSheet.swift in Sources */,
 				BE8685401E28DFF100EBEBED /* DefaultVC.swift in Sources */,
 				BE6055951E7BC5A100039CA0 /* Loading.swift in Sources */,
+				BE3DB3241E9624A1001CA7AF /* BootCell.swift in Sources */,
 				BEDF4F6B1D98FB3800E98D63 /* TopView.swift in Sources */,
 				32D4129B1DEEB6EF008EE637 /* DetailView.swift in Sources */,
 				32C3E6201E07E3CA00D34A74 /* MeCell1.swift in Sources */,
@@ -893,9 +937,11 @@
 				BE576FFF1E25DD55006BAD1C /* RecommendRouteViewController.swift in Sources */,
 				BE8685551E30C7CD00EBEBED /* ViewControllerExtension.swift in Sources */,
 				BE7319FF1E0B7F00002BDF2D /* DetailTop.swift in Sources */,
+				BE3DB3291E963D4F001CA7AF /* BootScanCell.swift in Sources */,
 				BE6055931E7B81AB00039CA0 /* FunctableCell.swift in Sources */,
 				BE1C36731D93763900AB4370 /* ItemButton.swift in Sources */,
 				BE1C366D1D93725000AB4370 /* RootTBC.swift in Sources */,
+				BE3DB3221E961F12001CA7AF /* BootVC.swift in Sources */,
 				BE71B9E71DBF4CAA00143E1E /* Net.swift in Sources */,
 				BE8685441E2F4D9C00EBEBED /* SettingPathVC.swift in Sources */,
 				32C3E6321E0A385E00D34A74 /* HeadViewController.swift in Sources */,
@@ -911,6 +957,7 @@
 				32C3E62B1E09121800D34A74 /* MePopController.swift in Sources */,
 				32E238AB1DFA996E001969AE /* OCVariable.swift in Sources */,
 				BE576FFB1E25BC85006BAD1C /* FunItems.swift in Sources */,
+				BE3DB32C1E9644D6001CA7AF /* BootLoginVC.swift in Sources */,
 				32C5726A1DD9C2E700CEC5EB /* GradientPolylineOverlay.m in Sources */,
 				BE54CB1F1E17938F00DDFFC6 /* WeightEditVC.swift in Sources */,
 				32C3E6291E090B4C00D34A74 /* MePushController.swift in Sources */,
@@ -965,6 +1012,7 @@
 				BE8685511E309B6F00EBEBED /* PathShareVC.swift in Sources */,
 				BEB248EA1D9BBC8D00C9F9ED /* StepProgress.swift in Sources */,
 				BEB249091D9E202000C9F9ED /* Cell6Content.swift in Sources */,
+				BE3DB3271E963CFA001CA7AF /* BootScanVC.swift in Sources */,
 				BE4BFE9C1E150FD200F3FE91 /* IntroduceVC.swift in Sources */,
 				32C3E6341E0A694E00D34A74 /* AlertExtension.swift in Sources */,
 				BE41E67A1E8D097400387B59 /* ActiveForcesVC.swift in Sources */,

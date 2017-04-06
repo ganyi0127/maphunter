@@ -113,7 +113,9 @@ extension UINavigationController: UINavigationControllerDelegate{
     //MARK:- 控制tabbar显示与隐藏
     public func setTabbar(hidden flag: Bool){
         
-        var tabbarFrame = tabBarController!.tabBar.frame
+        guard var tabbarFrame = tabBarController?.tabBar.frame else {
+            return
+        }
         
         if flag {
             //隐藏tabbar

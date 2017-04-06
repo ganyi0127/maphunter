@@ -147,13 +147,13 @@ extension MeVC: UITableViewDelegate, UITableViewDataSource{
             
             switch type {
             case .device:
-                if PeripheralManager.share().selectUUIDStringList().first != nil{
+                if PeripheralManager.share().selectUUIDStringList().isEmpty {
                     
-                    let bindingVC = storyboard?.instantiateViewController(withIdentifier: "binding") as! BindingVC
-                    navigationController?.pushViewController(bindingVC, animated: true)
-                }else{
                     let scanVC = storyboard?.instantiateViewController(withIdentifier: "scan") as! ScanVC
                     navigationController?.pushViewController(scanVC, animated: true)
+                }else{
+                    let bindingVC = storyboard?.instantiateViewController(withIdentifier: "binding") as! BindingVC
+                    navigationController?.pushViewController(bindingVC, animated: true)
                 }
             case .target:
                 //目标设置

@@ -180,11 +180,6 @@ extension ScanVC: UITableViewDelegate, UITableViewDataSource{
         let identifier = "\(indexPath.section)_\(indexPath.row)"
         let peripheralModel = peripheralList[indexPath.row]
         
-//        let cell = tableView.dequeueReusableCell(withIdentifier: identifier)!
-//        cell.textLabel?.font = fontSmall
-//        cell.detailTextLabel?.font = fontSmall
-//        cell.textLabel?.text = peripheralModel.name
-//        cell.detailTextLabel?.text = peripheralModel.RSSI == 0 ? "已连接" : "\(peripheralModel.RSSI)"
         var cell = tableView.dequeueReusableCell(withIdentifier: identifier)
         if cell == nil {
             cell = ScanCell(identifier: identifier)
@@ -193,7 +188,7 @@ extension ScanVC: UITableViewDelegate, UITableViewDataSource{
         let scanCell = cell as! ScanCell
         scanCell.bandName = peripheralModel.name
         scanCell.bandRSSI = peripheralModel.RSSI.intValue
-        return cell!
+        return scanCell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

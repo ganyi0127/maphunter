@@ -17,7 +17,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        //后台参数
         application.setMinimumBackgroundFetchInterval(5)
+        
+        //初始化窗口
+        window = UIWindow(frame: UIScreen.main.bounds)
+        
+        //进入
+        let isFirstLogin = true
+        if isFirstLogin{
+            //引导页
+            let navigation = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateInitialViewController()
+            window?.rootViewController = navigation
+        }else{
+            //直接登陆
+            let rootTBC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController() as! RootTBC
+            window?.rootViewController = rootTBC
+        }
+        window?.makeKeyAndVisible()
+        
         return true
     }
 

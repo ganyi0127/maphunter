@@ -254,6 +254,14 @@ class StateVC: UIViewController {
     
     //MARK:- 接收连接状态
     @objc func receiveConnectedMessage(notify: Notification?){
+        
+        //更新日期 获取calendarCell
+        let indexPath = IndexPath(row: 1, section: 0)
+        let calendarCell = tableView.cellForRow(at: indexPath) as! CalendarCell
+        calendarCell.date = selectDate
+        
+        
+        //更新数据
         if let angelManager = AngelManager.share() {
             if let macaddress = angelManager.macAddress {
                 trackList.removeAll()
