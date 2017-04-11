@@ -37,7 +37,15 @@ class Loading: UIView {
     
     private func createContents(){
         
+        let rectOrigin = CGRect(x: -boxLength / 2, y: -boxLength / 2, width: boxLength, height: boxLength)
+        let pathOrigin = UIBezierPath(roundedRect: rectOrigin, cornerRadius: cornerRadius)
         
+        let pos0 = CGPoint(x: boxLength / 2, y: boxLength / 2)
+        let pos1 = CGPoint(x: length - boxLength / 2, y: boxLength / 2)
+        let pos2 = CGPoint(x: length - boxLength / 2, y: length - boxLength / 2)
+        let pos3 = CGPoint(x: boxLength / 2, y: length - boxLength / 2)
+        
+        var poss = [pos0, pos1, pos2, pos3]
         
         let rect0 = CGRect(x: 0, y: 0, width: boxLength, height: boxLength)
         let path0 = UIBezierPath(roundedRect: rect0, cornerRadius: cornerRadius)
@@ -52,13 +60,14 @@ class Loading: UIView {
         let path3 = UIBezierPath(roundedRect: rect3, cornerRadius: cornerRadius)
         
         var paths = [path0, path1, path2, path3]
-        var colors = [modelEndColors[.sport], modelStartColors[.heartrate], modelStartColors[.sleep], modelStartColors[.weight]]
+        var colors = [modelEndColors[.sport], modelEndColors[.heartrate], modelEndColors[.sleep], modelEndColors[.weight]]
         
         var shapeLayers = [CAShapeLayer]()
         (0..<4).forEach{
             i in
             let shapeLayer = CAShapeLayer()
-            shapeLayer.path = paths[i].cgPath
+            shapeLayer.path = pathOrigin.cgPath//paths[i].cgPath
+            shapeLayer.position = poss[i]
             
             shapeLayer.fillColor = colors[i]?.cgColor
             shapeLayer.strokeColor = UIColor.white.cgColor
@@ -71,24 +80,35 @@ class Loading: UIView {
         //animation
         shapeLayers.enumerated().forEach{
             index, sublayer in
+            
+            let positionAnim = CAKeyframeAnimation(keyPath: "position")
+            positionAnim.keyTimes = [0, 0.33, 0.66, 1]
+            positionAnim.values = poss
+            
+            poss.insert(poss.removeLast(), at: 0)
+            
             let pathAnim = CAKeyframeAnimation(keyPath: "path")
-            pathAnim.keyTimes = [0, 0.25, 0.5, 0.75, 1]
-            pathAnim.values = paths.map(){$0.cgPath}
+            pathAnim.keyTimes = [0, 0.33, 0.66, 1]//[0, 0.25, 0.5, 0.75, 1]
+            pathAnim.values = paths.map{$0.cgPath}
             
             paths.insert(paths.removeLast(), at: 0)
             
             let colorAnim = CAKeyframeAnimation(keyPath: "fillColor")
-            pathAnim.keyTimes = [0, 0.25, 0.5, 0.75, 1]
-            colorAnim.values = colors.map(){$0?.cgColor ?? UIColor.white.cgColor}
+            colorAnim.keyTimes = [0, 0.33, 0.66, 1]//[0, 0.25, 0.5, 0.75, 1]
+            colorAnim.values = colors.map{$0?.cgColor ?? UIColor.white.cgColor}
             
             colors.insert(colors.removeLast(), at: 0)
+            
+            let rotaAnim = CAKeyframeAnimation(keyPath: "transform.rotation.z")
+            rotaAnim.keyTimes = [0, 0.33, 0.66, 1]
+            rotaAnim.values = [0, M_PI * 2 / 3, M_PI * 4 / 3, M_PI * 2]
             
             let groupAnim = CAAnimationGroup()
             groupAnim.duration = 2
             groupAnim.repeatCount = HUGE
             groupAnim.isRemovedOnCompletion = false
             groupAnim.fillMode = kCAFillModeBoth
-            groupAnim.animations = [pathAnim, colorAnim]
+            groupAnim.animations = [positionAnim, colorAnim, rotaAnim]
             
             sublayer.add(groupAnim, forKey: nil)
 

@@ -9,6 +9,7 @@
 import UIKit
 import MediaPlayer
 import AngelFit
+import CoreLocation
 import CoreBluetooth
 import HealthKit
 class RootTBC: UITabBarController {
@@ -176,7 +177,7 @@ class RootTBC: UITabBarController {
         tabBar.addSubview(menuButton)
         menuButtonFlag = false
         
-        //设置自动重连
+        //设置自动重连，当引导页出现时，已连接手环，无需再次连接
 //        if !PeripheralManager.share().selectUUIDStringList().isEmpty{
 //            GodManager.share().startScan()
 //        }
@@ -236,7 +237,10 @@ class RootTBC: UITabBarController {
     
     //MARK:- 定位权限设置
     private func permissionLocation(){
-        _ = globalLocationManager
+
+        debugPrint("请求后台定位访问")
+        let locationManager = CLLocationManager()
+        locationManager.requestAlwaysAuthorization()  //请求允许访问
     }
     
     

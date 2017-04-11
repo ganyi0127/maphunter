@@ -118,13 +118,13 @@ class PremapVC: UIViewController {
             let hour = totalTime / 3600
             let minute = (totalTime - hour * 3600) / 60
             let sec = (totalTime - hour * 3600 - minute * 60)
-            let hourStr = hour <= 0 ? "" : hour < 10 ? "0\(hour):" : "\(hour):"
+            let hourStr = hour <= 0 ? "" : "\(hour):"
             let minuteStr = minute < 10 ? "0\(minute):" : "\(minute):"
             let secStr = sec < 10 ? "0\(sec)" : "\(sec)"
             if hour <= 0 {
-                timeLabel.font = UIFont(name: font_name, size: 120)
+                timeLabel.font = UIFont(name: font_name, size: 110)
             }else{
-                timeLabel.font = UIFont(name: font_name, size: 80)
+                timeLabel.font = UIFont(name: font_name, size: 70)
             }
             timeLabel.text = hourStr + minuteStr + secStr
         }
@@ -224,6 +224,9 @@ class PremapVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        //绘制渐变背景
+        drawBackground(true)
+        
         originLockbuttonFrame = lockButton.frame
         originPausebuttonFrame = pauseButton.frame
     }
@@ -243,6 +246,7 @@ class PremapVC: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        
         //移除手势
         if let s = swip {
             view.removeGestureRecognizer(s)
@@ -269,9 +273,6 @@ class PremapVC: UIViewController {
     
     private func config(){
         
-        //绘制渐变背景
-        drawBackground(true)
-        
         //隐藏navigation与tabbar
         navigationController?.setTabbar(hidden: true)
         navigationController?.setNavigation(hidden: true)
@@ -279,6 +280,9 @@ class PremapVC: UIViewController {
         //设置地图遮罩,默认遮蔽
         self.mapView.layer.mask = maskLayer
         mapOpen = false
+        
+        //totalTime 初始化
+        totalTime = 0
     }
     
     //MARK:- 定时器

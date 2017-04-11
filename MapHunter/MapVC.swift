@@ -70,7 +70,6 @@ var globalLocationManager: CLLocationManager = { () -> CLLocationManager in
     //开启定位
 //    if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.notDetermined &&
 //        locationManager.responds(to: #selector(CLLocationManager.requestAlwaysAuthorization)){
-        print("请求允许访问")
         locationManager.requestAlwaysAuthorization()  //请求允许访问
 //    locationManager.requestWhenInUseAuthorization()
 //    }
