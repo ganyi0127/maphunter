@@ -24,7 +24,17 @@ class BootVC: UIViewController {
         super.viewDidAppear(animated)
         
         //隐藏导航栏
-        navigationController?.setNavigation(hidden: true)
+        navigationController?.isNavigationBarHidden = true
+        
+        //添加创建并添加本地通知
+        LocalNotification.addNotification(withMessage: "its a test local notification!!!")
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        //显示导航栏
+        navigationController?.isNavigationBarHidden = false
     }
     
     private func config(){
@@ -38,6 +48,7 @@ class BootVC: UIViewController {
     private func createContents(){
         
     }
+    
     @IBAction func click(_ sender: UIButton) {
         if sender.tag == 0 {
             //快速登陆

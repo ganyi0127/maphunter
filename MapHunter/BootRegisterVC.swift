@@ -1,23 +1,27 @@
 //
-//  BootLoginVC.swift
+//  BootRegisterVC.swift
 //  MapHunter
 //
-//  Created by ganyi on 2017/4/6.
+//  Created by ganyi on 2017/4/7.
 //  Copyright © 2017年 ganyi. All rights reserved.
 //
 
-import Foundation
-
-class BootLoginVC: UIViewController {
+import UIKit
+class BootRegisterVC: UIViewController {
     @IBOutlet weak var accountTextField: UITextField!
+    @IBOutlet weak var verificationTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var registerButton: UIButton!
+    @IBOutlet weak var clause1: UISwitch!
+    @IBOutlet weak var clause2: UISwitch!
     
     fileprivate let passwordMinLength = 6           //密码最小长度
     fileprivate let passwordMaxLength = 20          //密码最大长度
     fileprivate let accountMinLength = 4            //账号最小长度
     fileprivate let accountMaxLength = 32           //账号最大长度
     
+    
+    private var mailAddress: String?                //存储合法邮箱地址
     
     //MARK:- init
     override func viewDidLoad() {
@@ -42,10 +46,10 @@ class BootLoginVC: UIViewController {
         
     }
     
-    //MARK:- 点击登录
-    @IBAction func login(_ sender: UIButton) {
-        
+    //MARK:- 点击获取验证码
+    @IBAction func getVerificationCode(_ sender: UIButton){
         accountTextField.endEditing(true)
+        verificationTextField.endEditing(true)
         passwordTextField.endEditing(true)
         
         //判断账号是否为空
@@ -69,6 +73,52 @@ class BootLoginVC: UIViewController {
             return
         }
         
+        //存储该邮箱
+        mailAddress = account
+    }
+    
+    //MARK:- 点击勾选条款
+    @IBAction func acceptSwitch(_ sender: UISwitch) {
+        let tag = sender.tag
+        
+        //当勾选条款情况下，允许注册
+        if clause1.isOn && clause2.isOn {
+            registerButton.isEnabled = true
+        }else{
+            registerButton.isEnabled = false
+        }
+        
+        if tag == 0 {
+            //FunSport使用条款
+        }else if tag == 1{
+            //FunSport隐私条款
+            
+        }
+    }
+    
+    //MARK:- 点击返回登录
+    @IBAction func backToLogin(_ sender: UIButton) {
+        
+        //返回登录页面
+        dismiss(animated: true, completion: nil)
+    }
+    
+    //MARK:- 点击注册
+    @IBAction func register(_ sender: UIButton) {
+        
+        accountTextField.endEditing(true)
+        verificationTextField.endEditing(true)
+        passwordTextField.endEditing(true)
+        
+        //判断账号是否为空
+        guard let account: String = mailAddress else{
+            let alertController = UIAlertController(title: "账号错误", message: "未获取的邮箱地址", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "确定", style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            present(alertController, animated: true, completion: nil)
+            return
+        }
+        
         //判断密码是否为空
         guard let password: String = passwordTextField.text, !password.characters.isEmpty, password.characters.count >= passwordMinLength else{
             let alertController = UIAlertController(title: "密码格式不正确", message: "密码长度为\(passwordMinLength)~\(passwordMaxLength)之间", preferredStyle: .alert)
@@ -78,15 +128,20 @@ class BootLoginVC: UIViewController {
             return
         }
         
-        //loading视图
-//        beginLoading()
+        //判断是否勾选点击勾选条款
+        guard clause1.isOn, clause2.isOn else {
+            return
+        }
         
-        //账号密码登录
+        //loading视图
+        //        beginLoading()
+        
+        //账号密码注册
         var body = [String:String]()
         body["username"] = account
         body["password"] = password
         
-        //登陆主页
+        //注册成功并载入权限设置页面
         let rootTBC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController() as! RootTBC
         present(rootTBC, animated: true, completion: nil)
     }
@@ -103,13 +158,8 @@ class BootLoginVC: UIViewController {
         }
     }
     
-    //MARK:- 隐藏密码
+    //MARK:- 显示密码
     @IBAction func displayPassword(_ sender: UIButton) {
-        
-    }
-    
-    //MARK:- 忘记密码
-    @IBAction func forgetPassword(_ sender: UIButton) {
         
     }
     
@@ -146,7 +196,7 @@ class BootLoginVC: UIViewController {
 }
 
 //MARK:- textfield delegate
-extension BootLoginVC: UITextFieldDelegate{
+extension BootRegisterVC: UITextFieldDelegate{
     
     //点击return事件
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -154,7 +204,7 @@ extension BootLoginVC: UITextFieldDelegate{
             passwordTextField.becomeFirstResponder()
         }else if textField.tag == 1{
             textField.resignFirstResponder()
-            login(loginButton)
+            register(registerButton)
         }
         return false
     }

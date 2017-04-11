@@ -45,6 +45,10 @@ class StateVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+    }
+    
+    override func awakeFromNib() {
+        
         config()
         createContents()
     }
@@ -54,6 +58,7 @@ class StateVC: UIViewController {
         
         let indexpath = IndexPath(row: 0, section: 0)
         tableView.reloadRows(at: [indexpath], with: UITableViewRowAnimation.fade)
+        
     }
     
     private func config(){
@@ -127,7 +132,7 @@ class StateVC: UIViewController {
         }
         
         //进入刷新状态
-        control.beginRefreshing()
+//        control.beginRefreshing()
         //加载数据
         refreshStateChange(control)
     }
@@ -257,7 +262,9 @@ class StateVC: UIViewController {
         
         //更新日期 获取calendarCell
         let indexPath = IndexPath(row: 1, section: 0)
-        let calendarCell = tableView.cellForRow(at: indexPath) as! CalendarCell
+        guard let calendarCell = tableView.cellForRow(at: indexPath) as? CalendarCell else{
+            return
+        }
         calendarCell.date = selectDate
         
         

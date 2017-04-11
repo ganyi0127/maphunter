@@ -15,19 +15,17 @@ class BootScanCell: UITableViewCell {
     //MARK:- 名称
     var bandName: String?{
         didSet{
-            guard let name = bandName else {
-                return
-            }
+            let name = bandName?.lowercased().replacingOccurrences(of: " ", with: "")
             
-            if name.contains("100") || name.contains("102"){
+            if name == "id100" || name == "id102"{
                 bandIdType = .id100_102
-            }else if name.contains("101"){
+            }else if name == "id101"{
                 bandIdType = .id101
-            }else if name.contains("107"){
+            }else if name == "id107" || name == "id107plus" || name == "id107plushr"{
                 bandIdType = .id107
-            }else if name.contains("115"){
+            }else if name == "id115"{
                 bandIdType = .id115
-            }else if name.contains("119"){
+            }else if name == "id119"{
                 bandIdType = .id119
             }else{
                 bandIdType = .undefined

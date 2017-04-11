@@ -10,6 +10,7 @@ import UIKit
 import MediaPlayer
 import AngelFit
 import CoreBluetooth
+import HealthKit
 class RootTBC: UITabBarController {
     
     //展开按钮
@@ -154,26 +155,91 @@ class RootTBC: UITabBarController {
     
     private func config(){
         
+        _ = AngelManager.share()
+        
         //修改默认界面
         selectedIndex = 0
         
         //初始化sdk
         let satanManager = SatanManager.share()
         satanManager?.delegate = self
-        _ = AngelManager.share()
+        
+        
+        //初始化权限
+        permissionHealthKit()
+        permissionPushNotification()
+        permissionLocation()
     }
     
     private func createContents(){
         
         tabBar.addSubview(menuButton)
         menuButtonFlag = false
-
         
         //设置自动重连
-        if !PeripheralManager.share().selectUUIDStringList().isEmpty{
-            GodManager.share().startScan()
+//        if !PeripheralManager.share().selectUUIDStringList().isEmpty{
+//            GodManager.share().startScan()
+//        }
+    }
+    
+    //MARK:- 苹果健康权限设置
+    private func permissionHealthKit(){
+        //判断当前设备是否支持HeathKit
+        if HKHealthStore.isHealthDataAvailable() {
+            // 1. Set the types you want to read from HK Store
+            let healthKitTypesToRead: Set<HKObjectType> = [
+                HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.dateOfBirth)!,
+                HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.bloodType)!,
+                HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.biologicalSex)!,
+                HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!,
+                HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)!,
+                HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)!,
+                HKObjectType.workoutType()
+            ]
+            
+            // 2. Set the types you want to write to HK Store
+            let healthKitTypesToWrite: Set<HKObjectType> = [
+                HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMassIndex)!,
+                HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!,
+                HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)!,
+                HKQuantityType.workoutType()
+            ]
+            
+            let healthStore = HKHealthStore()
+            
+            //请求
+            healthStore.requestAuthorization(toShare: nil, read: healthKitTypesToWrite) {
+                success, error in
+                guard success else{
+                    if let err = error {
+                        debugPrint("error: \(err)")
+                    }
+                    return
+                }
+                
+                debugPrint("同意获取write数据")
+            }
+        }else{
+            debugPrint("设备不支持HealthKit")
         }
     }
+    
+    //MARK:- 智能推送权限设置
+    private func permissionPushNotification(){
+        //注册push notification
+        let notificationTypes: UIUserNotificationType = [UIUserNotificationType.alert, UIUserNotificationType.badge, UIUserNotificationType.sound]
+        let pushNotificationSettings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
+        
+        UIApplication.shared.registerUserNotificationSettings(pushNotificationSettings)
+        UIApplication.shared.registerForRemoteNotifications()        
+    }
+    
+    //MARK:- 定位权限设置
+    private func permissionLocation(){
+        _ = globalLocationManager
+    }
+    
+    
     
     //MARK:- 切换状态时 取消menubutton选中
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {

@@ -17,6 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        //初始化一次SDK，可能存在配置回调未赋值的问题（逻辑漏洞）
+//        _ = AngelManager.share()?.setSynchronizationConfig(closure: {_ in})
+        
         //后台参数
         application.setMinimumBackgroundFetchInterval(5)
         
@@ -36,7 +39,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         window?.makeKeyAndVisible()
         
+        //当点击通知启动应用后如何获取通知
+        if let options = launchOptions{
+            
+            if let localNotification = options[UIApplicationLaunchOptionsKey.localNotification] as? UILocalNotification {
+                if let dict = localNotification.userInfo {
+                    // 获取通知上绑定的信息后作相应处理...
+                    debugPrint("<nocal notification> dict: \(dict)")
+                }
+            }
+        }
+        
         return true
+    }
+    
+    //MARK:- 通知 注册推送成功后调用
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        debugPrint("<remote notification> deviceToken: \(deviceToken)")
+    }
+    
+    //MARK:- 通知 推送失败调用
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        debugPrint("<remote notification> failure: \(error)")
+    }
+    
+    //MARK:- 通知 接收到推送时调用
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        debugPrint("<remote notification> did receive remote notification with userinfo: \(userInfo)")
+    }
+    
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+        guard let userInfo = notification.userInfo else {
+            return
+        }
+        debugPrint("<local notification> did receive remote notification with userinfo: \(userInfo)")
+        
+        //后台处理...
+        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -56,7 +95,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         //进入前台
-        print("__will enter foreground")
+        debugPrint("__will enter foreground")
+        
+        application.applicationIconBadgeNumber = 0          //设置提示图标数量为0
+        LocalNotification.cancelAllLocalNotifications()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {

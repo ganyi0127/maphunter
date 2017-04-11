@@ -652,7 +652,7 @@ extension MapVC: MKMapViewDelegate{
 }
 
 //MARK: - location delegate
-extension MapVC:CLLocationManagerDelegate{
+extension MapVC: CLLocationManagerDelegate{
     
     //开始定位追踪_返回位置信息数组
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

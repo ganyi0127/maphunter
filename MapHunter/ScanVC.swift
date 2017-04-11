@@ -17,7 +17,7 @@ class ScanVC: UIViewController {
     fileprivate let godManager = GodManager.share()
     
     //存储所有设备
-    fileprivate var peripheralList = [(name: String, RSSI: NSNumber, peripheral: CBPeripheral)](){
+    var peripheralList = [(name: String, RSSI: NSNumber, peripheral: CBPeripheral)](){
         didSet{
             
             tableview.reloadData()
@@ -186,7 +186,8 @@ extension ScanVC: UITableViewDelegate, UITableViewDataSource{
         }
         
         let scanCell = cell as! ScanCell
-        scanCell.bandName = peripheralModel.name
+        let standardName = peripheralModel.name.lowercased().replacingOccurrences(of: " ", with: "")
+        scanCell.bandName = standardName
         scanCell.bandRSSI = peripheralModel.RSSI.intValue
         return scanCell
     }

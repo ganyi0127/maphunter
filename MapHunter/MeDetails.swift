@@ -70,42 +70,42 @@ class MeDetails: UIViewController {
         case .target:
             break
         case .applehealth:
-            //判断当前设备是否支持HeathKit
-            if HKHealthStore.isHealthDataAvailable() {
-                // 1. Set the types you want to read from HK Store
-                let healthKitTypesToRead: Set<HKObjectType> = [
-                    HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.dateOfBirth)!,
-                    HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.bloodType)!,
-                    HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.biologicalSex)!,
-                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!,
-                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)!,
-                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)!,
-                    HKObjectType.workoutType()
-                ]
-                
-                // 2. Set the types you want to write to HK Store
-                let healthKitTypesToWrite: Set<HKObjectType> = [
-                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMassIndex)!,
-                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!,
-                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)!,
-                    HKQuantityType.workoutType()
-                ]
-                
-                //请求
-                healthStore.requestAuthorization(toShare: nil, read: healthKitTypesToWrite) {
-                    success, error in
-                    guard success else{
-                        if let err = error {
-                            debugPrint("error: \(err)")
-                        }
-                        return
-                    }
-                    
-                    debugPrint("同意获取write数据")
-                }
-            }else{
-                debugPrint("设备不支持HealthKit")
-            }
+//            //判断当前设备是否支持HeathKit
+//            if HKHealthStore.isHealthDataAvailable() {
+//                // 1. Set the types you want to read from HK Store
+//                let healthKitTypesToRead: Set<HKObjectType> = [
+//                    HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.dateOfBirth)!,
+//                    HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.bloodType)!,
+//                    HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.biologicalSex)!,
+//                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!,
+//                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)!,
+//                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)!,
+//                    HKObjectType.workoutType()
+//                ]
+//                
+//                // 2. Set the types you want to write to HK Store
+//                let healthKitTypesToWrite: Set<HKObjectType> = [
+//                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMassIndex)!,
+//                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!,
+//                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)!,
+//                    HKQuantityType.workoutType()
+//                ]
+//                
+//                //请求
+//                healthStore.requestAuthorization(toShare: nil, read: healthKitTypesToWrite) {
+//                    success, error in
+//                    guard success else{
+//                        if let err = error {
+//                            debugPrint("error: \(err)")
+//                        }
+//                        return
+//                    }
+//                    
+//                    debugPrint("同意获取write数据")
+//                }
+//            }else{
+//                debugPrint("设备不支持HealthKit")
+//            }
             
             //添加苹果健康图
             if let image = UIImage(named: "resource/me/me_health"){

@@ -55,6 +55,9 @@
 		BE3DB3271E963CFA001CA7AF /* BootScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB3261E963CFA001CA7AF /* BootScanVC.swift */; };
 		BE3DB3291E963D4F001CA7AF /* BootScanCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB3281E963D4F001CA7AF /* BootScanCell.swift */; };
 		BE3DB32C1E9644D6001CA7AF /* BootLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB32B1E9644D6001CA7AF /* BootLoginVC.swift */; };
+		BE3DB32F1E972179001CA7AF /* AppointScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB32E1E972179001CA7AF /* AppointScanVC.swift */; };
+		BE3DB3341E973BDC001CA7AF /* BootRegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB3331E973BDC001CA7AF /* BootRegisterVC.swift */; };
+		BE3DB3361E976D4B001CA7AF /* LocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB3351E976D4B001CA7AF /* LocalNotification.swift */; };
 		BE41E6741E8D016D00387B59 /* NicknameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE41E6731E8D016D00387B59 /* NicknameVC.swift */; };
 		BE41E6761E8D074100387B59 /* SexVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE41E6751E8D074100387B59 /* SexVC.swift */; };
 		BE41E6781E8D089F00387B59 /* JobVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE41E6771E8D089F00387B59 /* JobVC.swift */; };
@@ -213,6 +216,9 @@
 		BE3DB3261E963CFA001CA7AF /* BootScanVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootScanVC.swift; sourceTree = "<group>"; };
 		BE3DB3281E963D4F001CA7AF /* BootScanCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootScanCell.swift; sourceTree = "<group>"; };
 		BE3DB32B1E9644D6001CA7AF /* BootLoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootLoginVC.swift; sourceTree = "<group>"; };
+		BE3DB32E1E972179001CA7AF /* AppointScanVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppointScanVC.swift; sourceTree = "<group>"; };
+		BE3DB3331E973BDC001CA7AF /* BootRegisterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootRegisterVC.swift; sourceTree = "<group>"; };
+		BE3DB3351E976D4B001CA7AF /* LocalNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalNotification.swift; sourceTree = "<group>"; };
 		BE41E6731E8D016D00387B59 /* NicknameVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NicknameVC.swift; sourceTree = "<group>"; };
 		BE41E6751E8D074100387B59 /* SexVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SexVC.swift; sourceTree = "<group>"; };
 		BE41E6771E8D089F00387B59 /* JobVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JobVC.swift; sourceTree = "<group>"; };
@@ -501,6 +507,7 @@
 				BE2DC9F41D9210A300978C97 /* LaunchScreen.storyboard */,
 				BE2DC9F71D9210A300978C97 /* Info.plist */,
 				BEDF4F341D93910E00E98D63 /* Configure.swift */,
+				BE3DB3351E976D4B001CA7AF /* LocalNotification.swift */,
 				BE1F53481DC2FE7900EAD9BA /* Time.swift */,
 			);
 			name = SupportingFiles;
@@ -523,6 +530,7 @@
 				BE3DB3231E9624A1001CA7AF /* BootCell.swift */,
 				BE3DB3251E963CC5001CA7AF /* 初始化搜索 */,
 				BE3DB32A1E9644B1001CA7AF /* 初始化登录 */,
+				BE3DB3301E973B65001CA7AF /* 初始化注册 */,
 			);
 			name = "引导页";
 			sourceTree = "<group>";
@@ -532,6 +540,7 @@
 			children = (
 				BE3DB3261E963CFA001CA7AF /* BootScanVC.swift */,
 				BE3DB3281E963D4F001CA7AF /* BootScanCell.swift */,
+				BE3DB32D1E972109001CA7AF /* 搜索页 */,
 			);
 			name = "初始化搜索";
 			sourceTree = "<group>";
@@ -542,6 +551,22 @@
 				BE3DB32B1E9644D6001CA7AF /* BootLoginVC.swift */,
 			);
 			name = "初始化登录";
+			sourceTree = "<group>";
+		};
+		BE3DB32D1E972109001CA7AF /* 搜索页 */ = {
+			isa = PBXGroup;
+			children = (
+				BE3DB32E1E972179001CA7AF /* AppointScanVC.swift */,
+			);
+			name = "搜索页";
+			sourceTree = "<group>";
+		};
+		BE3DB3301E973B65001CA7AF /* 初始化注册 */ = {
+			isa = PBXGroup;
+			children = (
+				BE3DB3331E973BDC001CA7AF /* BootRegisterVC.swift */,
+			);
+			name = "初始化注册";
 			sourceTree = "<group>";
 		};
 		BE4BFE941E14F87700F3FE91 /* 目标设置\介绍页面\编辑页面 */ = {
@@ -845,6 +870,9 @@
 							com.apple.Maps.iOS = {
 								enabled = 0;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 						};
 					};
 					BE2DC9FB1D9210A300978C97 = {
@@ -924,6 +952,7 @@
 				32C3E6201E07E3CA00D34A74 /* MeCell1.swift in Sources */,
 				327383721E00F4A000767708 /* StatePopController.swift in Sources */,
 				BE198C131E793A4200B11A90 /* ScanCell.swift in Sources */,
+				BE3DB3341E973BDC001CA7AF /* BootRegisterVC.swift in Sources */,
 				32C3E6241E07E5F400D34A74 /* MeCell3.swift in Sources */,
 				BEDF4F3F1D93942E00E98D63 /* MeVC.swift in Sources */,
 				BE86854D1E2F6CED00EBEBED /* PathRemindSettingVC.swift in Sources */,
@@ -962,6 +991,7 @@
 				BE54CB1F1E17938F00DDFFC6 /* WeightEditVC.swift in Sources */,
 				32C3E6291E090B4C00D34A74 /* MePushController.swift in Sources */,
 				320535391DFE7AFC0087068E /* CalendarCell.swift in Sources */,
+				BE3DB32F1E972179001CA7AF /* AppointScanVC.swift in Sources */,
 				32C3E6271E0904B900D34A74 /* MeDetails.swift in Sources */,
 				32C3E63A1E0A86A000D34A74 /* MeWeekbegin.swift in Sources */,
 				BE5770031E25DD8B006BAD1C /* SpriteViewController.swift in Sources */,
@@ -1004,6 +1034,7 @@
 				BE4BFE961E14F89B00F3FE91 /* TargetSettingVC.swift in Sources */,
 				BE9DA8961DB0698500C4574B /* CoordinateTransform.swift in Sources */,
 				BE4BFE9A1E15031C00F3FE91 /* BottomPopController.swift in Sources */,
+				BE3DB3361E976D4B001CA7AF /* LocalNotification.swift in Sources */,
 				BE5770091E28D6DB006BAD1C /* Setting.swift in Sources */,
 				BEDF4F6E1D98FCA900E98D63 /* FirstCell.swift in Sources */,
 				BEDF4F701D98FD1200E98D63 /* SecondCell.swift in Sources */,
@@ -1190,7 +1221,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/MapHunter",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.orangebrush.funsport;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aiju.funsport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MapHunter/MapHunter-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1219,7 +1250,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/MapHunter",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.orangebrush.funsport;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aiju.funsport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MapHunter/MapHunter-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;

@@ -7,11 +7,10 @@
 //
 
 import UIKit
+//存储可筛选设备名
+let nameList = ["id107", "id107plus", "id115", "id107plushr"]
 class BootScanVC: UIViewController {
     @IBOutlet weak var tableview: UITableView!
-    
-    
-    fileprivate let nameList = ["ID107", "ID107Plus", "ID127Plus"]
     
     //MARK:- init
     override func viewDidLoad() {
@@ -30,6 +29,12 @@ class BootScanVC: UIViewController {
     private func config(){
         
         automaticallyAdjustsScrollViewInsets = false
+        
+        //tableview参数
+        let customIdentifier = "custom"
+        tableview.register(BootScanCell.self, forCellReuseIdentifier: customIdentifier)
+        tableview.separatorStyle = .none
+        tableview.backgroundColor = timeColor
     }
     
     private func createContents(){
@@ -40,11 +45,16 @@ class BootScanVC: UIViewController {
     @IBAction func getOtherButton(_ sender: UIButton) {
         
         //跳转到搜索页 无过滤
+        let appointScanVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "scan") as! AppointScanVC
+        navigationController?.show(appointScanVC, sender: nil)
     }
     
     //MARK:- 通过筛选进行搜索
     fileprivate func scan(byName name: String){
         
+        let appointScanVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "scan") as! AppointScanVC
+        appointScanVC.filterName = name
+        navigationController?.show(appointScanVC, sender: nil)
     }
 }
 

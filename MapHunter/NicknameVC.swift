@@ -46,7 +46,32 @@ class NicknameVC: UIViewController {
         nameTextField.text = "gan"
         nameTextField.keyboardType = .default
         nameTextField.returnKeyType = .done
+        nameTextField.addTarget(self, action: #selector(editingChanged(sender:)), for: .valueChanged)
         view.addSubview(nameTextField)
+    }
+    
+    
+    //输入判断
+    @objc func editingChanged(sender: UITextField) {
+        guard let _:String = sender.text else{
+            return
+        }
+        
+        if sender.text == "gan" {
+            saveButton?.tintColor = wordColor
+        }else{
+            saveButton?.tintColor = .gray
+        }
+        
+        //限制字符数
+        if (sender.text?.lengthOfBytes(using: String.Encoding.utf8))! > 32{
+            while sender.text!.lengthOfBytes(using: String.Encoding.utf8) > 32 {
+                
+                let endIndex = sender.text!.index(sender.text!.endIndex, offsetBy: -1)
+                let range = Range(sender.text!.startIndex..<endIndex)
+                sender.text = sender.text!.substring(with: range)
+            }
+        }
     }
     
     //MARK:保存
@@ -73,10 +98,10 @@ class NicknameVC: UIViewController {
 extension NicknameVC:UITextFieldDelegate{
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        save(sender: saveButton!)
         return true
     }
     
+    //复制判断
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         let existedLength = textField.text?.lengthOfBytes(using: String.Encoding.utf8)
@@ -86,27 +111,5 @@ extension NicknameVC:UITextFieldDelegate{
             return false
         }
         return true
-    }
-    
-    @IBAction func editingChanged(sender: UITextField) {
-        guard let _:String = sender.text else{
-            return
-        }
-        
-        if sender.text == "gan" {
-            saveButton?.tintColor = wordColor
-        }else{
-            saveButton?.tintColor = .gray
-        }
-        
-        //限制字符数
-        if (sender.text?.lengthOfBytes(using: String.Encoding.utf8))! > 32{
-            while sender.text!.lengthOfBytes(using: String.Encoding.utf8) > 32 {
-                
-                let endIndex = sender.text!.index(sender.text!.endIndex, offsetBy: -1)
-                let range = Range(sender.text!.startIndex..<endIndex)
-                sender.text = sender.text!.substring(with: range)
-            }
-        }
     }
 }
