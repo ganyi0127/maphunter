@@ -238,7 +238,7 @@ class DetailTop: UIView {
         let shapeLayer = CAShapeLayer()
         
         let transform = CATransform3DIdentity
-        let rotateTransform = CATransform3DRotate(transform, -CGFloat(M_PI_2), 0, 0, 1)
+        let rotateTransform = CATransform3DRotate(transform, -.pi / 2, 0, 0, 1)
         let translateTransform = CATransform3DTranslate(rotateTransform, self.bounds.height / 2 - bezierRadius / 2 - self.bounds.height, self.bounds.width / 2 - bezierRadius / 2, 0)
         shapeLayer.transform = translateTransform
         

@@ -8,11 +8,10 @@
 
 import UIKit
 enum BandIdType{
-    case id100_102
-    case id101
-    case id107
-    case id115
+    case id107plus
     case id119
+    case id127
+    case id129
     case undefined
 }
 class ScanCell: UITableViewCell {
@@ -22,16 +21,14 @@ class ScanCell: UITableViewCell {
         didSet{
             let name = bandName?.lowercased().replacingOccurrences(of: " ", with: "")
             
-            if name == "id100" || name == "id102"{
-                bandIdType = .id100_102
-            }else if name == "id101"{
-                bandIdType = .id101
-            }else if name == "id107" || name == "id107plus" || name == "id107plushr"{
-                bandIdType = .id107
-            }else if name == "id115"{
-                bandIdType = .id115
+            if name == "id107plus" || name == "id107plushr"{
+                bandIdType = .id107plus
             }else if name == "id119"{
                 bandIdType = .id119
+            }else if name == "id127"{
+                bandIdType = .id127
+            }else if name == "id129"{
+                bandIdType = .id129
             }else{
                 bandIdType = .undefined
             }
@@ -51,16 +48,14 @@ class ScanCell: UITableViewCell {
             
             var imageName: String
             switch type {
-            case .id100_102:
-                imageName = "resource/scan/id100_102"
-            case .id101:
-                imageName = "resource/scan/id101"
-            case .id107:
-                imageName = "resource/scan/id107"
-            case .id115:
-                imageName = "resource/scan/id115"
+            case .id107plus:
+                imageName = "resource/scan/id107plus"
             case .id119:
                 imageName = "resource/scan/id119"
+            case .id127:
+                imageName = "resource/scan/id127"
+            case .id129:
+                imageName = "resource/scan/id129"
             default:
                 imageName = "resource/scan/undefined"
             }

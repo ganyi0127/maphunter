@@ -58,6 +58,9 @@
 		BE3DB32F1E972179001CA7AF /* AppointScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB32E1E972179001CA7AF /* AppointScanVC.swift */; };
 		BE3DB3341E973BDC001CA7AF /* BootRegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB3331E973BDC001CA7AF /* BootRegisterVC.swift */; };
 		BE3DB3361E976D4B001CA7AF /* LocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB3351E976D4B001CA7AF /* LocalNotification.swift */; };
+		BE3E747E1E9DC44A00D571BB /* BootPreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3E747D1E9DC44A00D571BB /* BootPreVC.swift */; };
+		BE3E74801E9E185600D571BB /* BootBluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3E747F1E9E185600D571BB /* BootBluetooth.swift */; };
+		BE3E74841E9E212D00D571BB /* BootUnconnectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3E74831E9E212D00D571BB /* BootUnconnectVC.swift */; };
 		BE41E6741E8D016D00387B59 /* NicknameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE41E6731E8D016D00387B59 /* NicknameVC.swift */; };
 		BE41E6761E8D074100387B59 /* SexVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE41E6751E8D074100387B59 /* SexVC.swift */; };
 		BE41E6781E8D089F00387B59 /* JobVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE41E6771E8D089F00387B59 /* JobVC.swift */; };
@@ -69,6 +72,7 @@
 		BE4BFE9C1E150FD200F3FE91 /* IntroduceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE9B1E150FD200F3FE91 /* IntroduceVC.swift */; };
 		BE4BFE9E1E15140400F3FE91 /* MiddlePushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE9D1E15140400F3FE91 /* MiddlePushController.swift */; };
 		BE4BFEA01E15141A00F3FE91 /* MiddlePopController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE9F1E15141A00F3FE91 /* MiddlePopController.swift */; };
+		BE503E3A1E9F634A00C5A3FE /* BootOtherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE503E391E9F634A00C5A3FE /* BootOtherCell.swift */; };
 		BE54CB1F1E17938F00DDFFC6 /* WeightEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE54CB1E1E17938F00DDFFC6 /* WeightEditVC.swift */; };
 		BE54CB221E17AA9B00DDFFC6 /* AngelFit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE54CB201E17A94F00DDFFC6 /* AngelFit.framework */; };
 		BE54CB231E17AA9B00DDFFC6 /* AngelFit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE54CB201E17A94F00DDFFC6 /* AngelFit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -219,6 +223,9 @@
 		BE3DB32E1E972179001CA7AF /* AppointScanVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppointScanVC.swift; sourceTree = "<group>"; };
 		BE3DB3331E973BDC001CA7AF /* BootRegisterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootRegisterVC.swift; sourceTree = "<group>"; };
 		BE3DB3351E976D4B001CA7AF /* LocalNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalNotification.swift; sourceTree = "<group>"; };
+		BE3E747D1E9DC44A00D571BB /* BootPreVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootPreVC.swift; sourceTree = "<group>"; };
+		BE3E747F1E9E185600D571BB /* BootBluetooth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootBluetooth.swift; sourceTree = "<group>"; };
+		BE3E74831E9E212D00D571BB /* BootUnconnectVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootUnconnectVC.swift; sourceTree = "<group>"; };
 		BE41E6731E8D016D00387B59 /* NicknameVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NicknameVC.swift; sourceTree = "<group>"; };
 		BE41E6751E8D074100387B59 /* SexVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SexVC.swift; sourceTree = "<group>"; };
 		BE41E6771E8D089F00387B59 /* JobVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JobVC.swift; sourceTree = "<group>"; };
@@ -230,6 +237,7 @@
 		BE4BFE9B1E150FD200F3FE91 /* IntroduceVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroduceVC.swift; sourceTree = "<group>"; };
 		BE4BFE9D1E15140400F3FE91 /* MiddlePushController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiddlePushController.swift; sourceTree = "<group>"; };
 		BE4BFE9F1E15141A00F3FE91 /* MiddlePopController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiddlePopController.swift; sourceTree = "<group>"; };
+		BE503E391E9F634A00C5A3FE /* BootOtherCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootOtherCell.swift; sourceTree = "<group>"; };
 		BE54CB1E1E17938F00DDFFC6 /* WeightEditVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightEditVC.swift; sourceTree = "<group>"; };
 		BE54CB201E17A94F00DDFFC6 /* AngelFit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AngelFit.framework; sourceTree = "<group>"; };
 		BE576FF01E248CFE006BAD1C /* FunVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunVC.swift; sourceTree = "<group>"; };
@@ -540,6 +548,8 @@
 			children = (
 				BE3DB3261E963CFA001CA7AF /* BootScanVC.swift */,
 				BE3DB3281E963D4F001CA7AF /* BootScanCell.swift */,
+				BE503E391E9F634A00C5A3FE /* BootOtherCell.swift */,
+				BE3E747D1E9DC44A00D571BB /* BootPreVC.swift */,
 				BE3DB32D1E972109001CA7AF /* 搜索页 */,
 			);
 			name = "初始化搜索";
@@ -557,6 +567,8 @@
 			isa = PBXGroup;
 			children = (
 				BE3DB32E1E972179001CA7AF /* AppointScanVC.swift */,
+				BE3E747F1E9E185600D571BB /* BootBluetooth.swift */,
+				BE3E74831E9E212D00D571BB /* BootUnconnectVC.swift */,
 			);
 			name = "搜索页";
 			sourceTree = "<group>";
@@ -944,6 +956,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE8685961E334F7700EBEBED /* CustomSheet.swift in Sources */,
+				BE503E3A1E9F634A00C5A3FE /* BootOtherCell.swift in Sources */,
 				BE8685401E28DFF100EBEBED /* DefaultVC.swift in Sources */,
 				BE6055951E7BC5A100039CA0 /* Loading.swift in Sources */,
 				BE3DB3241E9624A1001CA7AF /* BootCell.swift in Sources */,
@@ -982,6 +995,7 @@
 				BE41E6781E8D089F00387B59 /* JobVC.swift in Sources */,
 				BE8685421E29C74200EBEBED /* PremapVC.swift in Sources */,
 				BEB248EC1D9BD91A00C9F9ED /* IconView.swift in Sources */,
+				BE3E74801E9E185600D571BB /* BootBluetooth.swift in Sources */,
 				BE41E6761E8D074100387B59 /* SexVC.swift in Sources */,
 				32C3E62B1E09121800D34A74 /* MePopController.swift in Sources */,
 				32E238AB1DFA996E001969AE /* OCVariable.swift in Sources */,
@@ -1008,6 +1022,7 @@
 				32D4129E1DEEC4C0008EE637 /* DetailViewController.swift in Sources */,
 				BE576FF11E248CFE006BAD1C /* FunVC.swift in Sources */,
 				BE5770051E25E3B7006BAD1C /* FunOriginViewController.swift in Sources */,
+				BE3E74841E9E212D00D571BB /* BootUnconnectVC.swift in Sources */,
 				BE1F53491DC2FE7900EAD9BA /* Time.swift in Sources */,
 				BEDF4F3D1D9393F800E98D63 /* HealthVC.swift in Sources */,
 				BE86854F1E2F6EF200EBEBED /* PathMaptypeSettingVC.swift in Sources */,
@@ -1037,6 +1052,7 @@
 				BE3DB3361E976D4B001CA7AF /* LocalNotification.swift in Sources */,
 				BE5770091E28D6DB006BAD1C /* Setting.swift in Sources */,
 				BEDF4F6E1D98FCA900E98D63 /* FirstCell.swift in Sources */,
+				BE3E747E1E9DC44A00D571BB /* BootPreVC.swift in Sources */,
 				BEDF4F701D98FD1200E98D63 /* SecondCell.swift in Sources */,
 				BEDF4F741D99040300E98D63 /* ButtonExtension.swift in Sources */,
 				BE731A031E0B8CD1002BDF2D /* DetailDataView.swift in Sources */,

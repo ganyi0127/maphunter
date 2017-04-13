@@ -254,7 +254,7 @@ extension FunVC: UIScrollViewDelegate{
         identity.m34 = -1 / 1000   //1 / [camera distance]
         let remainingPercent = 1 - percent
         let indexDelta = scrollView.contentOffset.x / pathContainerView.bounds.width - CGFloat(index)           //计算偏移量 index
-        let angle = remainingPercent * CGFloat(-M_PI_2)
+        let angle = remainingPercent * -.pi / 2
         let rotationTransform = CATransform3DRotate(identity, angle, 0, 1, 0)
         let translationTransform = CATransform3DMakeTranslation(pathContainerView.bounds.width * 0.4 * indexDelta, 0, 0)
         let scaleTransform = CATransform3DMakeScale(0.8, 0.8 * (1 - fabs(indexDelta) * 0.75), 0)

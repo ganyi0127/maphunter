@@ -32,8 +32,8 @@ class HistoryVC: UIViewController  {
         if let macaddress = AngelManager.share()?.macAddress{
             let tracks = coredataHandler.selectTrack(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0).sorted{
                 track1, track2 -> Bool in
-                let earlyDate = track1.date?.earlierDate(track2.date as! Date)
-                if earlyDate == track1.date as? Date{
+                let earlyDate = track1.date?.earlierDate(track2.date! as Date)
+                if earlyDate == track1.date as Date?{
                     return false
                 }
                 return true

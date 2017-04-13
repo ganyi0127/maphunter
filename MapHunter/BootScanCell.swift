@@ -17,28 +17,25 @@ class BootScanCell: UITableViewCell {
         didSet{
             let name = bandName?.lowercased().replacingOccurrences(of: " ", with: "")
             
-            if name == "id100" || name == "id102"{
-                bandIdType = .id100_102
-            }else if name == "id101"{
-                bandIdType = .id101
-            }else if name == "id107" || name == "id107plus" || name == "id107plushr"{
-                bandIdType = .id107
-            }else if name == "id115"{
-                bandIdType = .id115
+            if name == "id107plus" || name == "id107plushr"{
+                bandIdType = .id107plus
             }else if name == "id119"{
                 bandIdType = .id119
+            }else if name == "id127"{
+                bandIdType = .id127
+            }else if name == "id129"{
+                bandIdType = .id129
             }else{
                 bandIdType = .undefined
             }
             
-            nameLabel?.text = name
+            nameLabel?.text = name?.uppercased()
         }
     }
     
     //MARK:- id型号
     private var bandIdType: BandIdType?{
         didSet{
-            //            createContents()
             
             guard let type = bandIdType else {
                 return
@@ -46,18 +43,16 @@ class BootScanCell: UITableViewCell {
             
             var imageName: String
             switch type {
-            case .id100_102:
-                imageName = "resource/scan/id100_102"
-            case .id101:
-                imageName = "resource/scan/id101"
-            case .id107:
-                imageName = "resource/scan/id107"
-            case .id115:
-                imageName = "resource/scan/id115"
+            case .id107plus:
+                imageName = "resource/scan/id107plus_side"
             case .id119:
-                imageName = "resource/scan/id119"
+                imageName = "resource/scan/id119_side"
+            case .id127:
+                imageName = "resource/scan/id127_side"
+            case .id129:
+                imageName = "resource/scan/id129_side"
             default:
-                imageName = "resource/scan/undefined"
+                imageName = "resource/scan/undefined_side"
             }
             guard let image = UIImage(named: imageName) else {
                 return
@@ -70,7 +65,7 @@ class BootScanCell: UITableViewCell {
     private var idImageView: UIImageView?
     
     //底图渐变
-    let gradient = CAGradientLayer()
+//    let gradient = CAGradientLayer()
     
     
     
@@ -86,43 +81,74 @@ class BootScanCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        
+        //手动添加分割线
+        let separatorFrame = CGRect(x: 0, y: view_size.width * 0.25 - 1, width: frame.width, height: 1)
+        let separatorLine = UIView(frame: separatorFrame)
+        separatorLine.backgroundColor = lightWordColor
+        contentView.addSubview(separatorLine)
+    }
+    
     private func config(){
-        backgroundColor = timeColor
+//        contentView.backgroundColor = .white
+        
+        
+        //设置分割线
+//        separatorInset = UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
+//        if responds(to: #selector(setter: BootCell.layoutMargins)) {
+//            layoutMargins = UIEdgeInsets(top: 1, left: 11, bottom: 1, right: 1)
+//        }
+//        if responds(to: #selector(setter: BootCell.preservesSuperviewLayoutMargins)) {
+//            preservesSuperviewLayoutMargins = false
+//        }
+        
     }
     
     private func createContents(){
         
         //绘制渐变
-        gradient.frame = CGRect(x: view_size.width * 0.03,
-                                y: view_size.width * 0.03,
-                                width: view_size.width * 0.94,
-                                height: view_size.width * 0.94 * 200 / 718 + view_size.width * 0.03)
-        gradient.backgroundColor = UIColor.darkGray.cgColor
-        gradient.cornerRadius =  view_size.width * 0.02
-        gradient.shadowColor = UIColor.black.cgColor
-        gradient.shadowRadius = 2
-        gradient.shadowOffset = .zero
-        gradient.shadowOpacity = 0.5
-        layer.addSublayer(gradient)
+//        let gradientFrame = CGRect(x: view_size.width * 0,
+//                                   y: view_size.width * 0,
+//                                   width: view_size.width * 1,
+//                                   height: view_size.width * 0.25)
+//        gradient.frame = gradientFrame
+//        gradient.backgroundColor = UIColor.white.cgColor
+//        gradient.cornerRadius =  view_size.width * 0.02
+//        gradient.shadowColor = UIColor.black.cgColor
+//        gradient.shadowRadius = 2
+//        gradient.shadowOffset = .zero
+//        gradient.shadowOpacity = 0.5
+//        layer.addSublayer(gradient)
 
+        //手环图片
         if idImageView == nil{
-            let imageFrame = CGRect(x: view_size.width * 0.03,
-                                    y: view_size.width * 0.03,
-                                    width: view_size.width * 0.2,
-                                    height: view_size.width * 0.94 * 200 / 718 + view_size.width * 0.03)
+            let imageFrame = CGRect(x: view_size.width * 0.6,
+                                    y: view_size.width * 0.01,
+                                    width: view_size.width * 0.35,
+                                    height: view_size.width * 0.35)
             idImageView = UIImageView(frame: imageFrame)
-            addSubview(idImageView!)
+            let maskLayer = CAShapeLayer()
+            let maskRect = CGRect(x: -imageFrame.origin.x,
+                                  y: -imageFrame.origin.y,
+                                  width: view_size.width * 1,
+                                  height: view_size.width * 0.25 - 1)
+            maskLayer.path = UIBezierPath(rect: maskRect).cgPath
+            idImageView?.layer.mask = maskLayer
+            contentView.addSubview(idImageView!)
         }
         
+        //手环名称
         if nameLabel == nil{
-            let labelFrame = CGRect(x: view_size.width * 0.35,
-                                    y: view_size.width * 0.08,
+            let labelFrame = CGRect(x: view_size.width * 0.1,
+                                    y: view_size.width * 0.1,
                                     width: view_size.width * 0.5,
-                                    height: 24)
+                                    height: fontBig.pointSize)
             nameLabel = UILabel(frame: labelFrame)
-            nameLabel?.font = fontMiddle
+            nameLabel?.font = fontBig
             nameLabel?.textColor = .black
-            addSubview(nameLabel!)
+            contentView.addSubview(nameLabel!)
         }
     }
 }

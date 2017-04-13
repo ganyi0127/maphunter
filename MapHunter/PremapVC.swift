@@ -168,11 +168,11 @@ class PremapVC: UIViewController {
     private let bigRadius: CGFloat = view_size.height * 1.5
     private lazy var centerPoint: CGPoint = {return CGPoint(x: view_size.width - self.smallRadius - 20, y: self.smallRadius + 20)}()
     private lazy var smallPath: CGPath = {
-        let bezier = UIBezierPath(arcCenter: self.centerPoint, radius: self.smallRadius, startAngle: 0, endAngle: CGFloat(M_PI) * 2, clockwise: true)
+        let bezier = UIBezierPath(arcCenter: self.centerPoint, radius: self.smallRadius, startAngle: 0, endAngle: .pi * 2, clockwise: true)
         return bezier.cgPath
     }()
     private lazy var bigPath: CGPath = {
-        let bezier = UIBezierPath(arcCenter: self.centerPoint, radius: self.bigRadius, startAngle: 0, endAngle: CGFloat(M_PI) * 2, clockwise: true)
+        let bezier = UIBezierPath(arcCenter: self.centerPoint, radius: self.bigRadius, startAngle: 0, endAngle: .pi * 2, clockwise: true)
         return bezier.cgPath
     }()
     private lazy var maskLayer: CAShapeLayer = {
@@ -525,8 +525,8 @@ class PremapVC: UIViewController {
         
         let bezier = UIBezierPath(arcCenter: CGPoint(x: finishButton.bounds.width / 2, y: finishButton.bounds.height / 2),
                                   radius: finishButton.bounds.width / 2 + 2,
-                                  startAngle: -CGFloat(M_PI_2),
-                                  endAngle: CGFloat(M_PI_2 * 3),
+                                  startAngle: -.pi / 2,
+                                  endAngle: .pi / 2 * 3,
                                   clockwise: true)
         finishShape = CAShapeLayer()
         finishShape?.path = bezier.cgPath

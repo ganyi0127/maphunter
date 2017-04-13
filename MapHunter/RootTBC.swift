@@ -27,7 +27,7 @@ class RootTBC: UITabBarController {
                 animation.duration = 0.2
                 animation.repeatCount = 1
                 animation.fromValue = 0
-                animation.toValue = M_PI_2 / 2 + M_PI
+                animation.toValue = Double.pi / 4 + .pi
                 animation.isRemovedOnCompletion = false
                 animation.fillMode = kCAFillModeBoth
                 animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
@@ -69,7 +69,7 @@ class RootTBC: UITabBarController {
                 let animation = CABasicAnimation(keyPath: "transform.rotation.z")
                 animation.duration = 0.2
                 animation.repeatCount = 1
-                animation.fromValue = M_PI_2 / 2 + M_PI
+                animation.fromValue = Double.pi / 4 + .pi
                 animation.toValue = 0
                 animation.isRemovedOnCompletion = false
                 animation.fillMode = kCAFillModeBoth

@@ -104,7 +104,7 @@ class FirstCell: UITableViewCell {
         
         var rotation = CATransform3DIdentity
         rotation.m34 = -1 / 500
-        rotation = CATransform3DRotate(rotation, CGFloat(M_PI_2) / 4, 0, 0, 0)
+        rotation = CATransform3DRotate(rotation, .pi / 2 / 4, 0, 0, 0)
         layer.shadowColor = UIColor.black.cgColor
         layer.transform = rotation
         

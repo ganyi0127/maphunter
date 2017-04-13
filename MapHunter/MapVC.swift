@@ -34,10 +34,10 @@ func calculateDistance(start:CLLocationCoordinate2D, end:CLLocationCoordinate2D)
     let endLongitude = end.longitude
     let endLatitude = end.latitude
     
-    let radLatitude1 = startLatitude * M_PI / 180
-    let radLatitude2 = endLatitude * M_PI / 180
+    let radLatitude1 = startLatitude * .pi / 180
+    let radLatitude2 = endLatitude * .pi / 180
     let a = fabs(radLatitude1 - radLatitude2)
-    let b = fabs(startLongitude * M_PI / 180 - endLongitude * M_PI / 180)
+    let b = fabs(startLongitude * .pi / 180 - endLongitude * .pi / 180)
     
     let earthRadius = 6378.137 //公里
     let metre = 2 * asin(sqrt(pow(sin(a / 2), 2) + cos(radLatitude1) * cos(radLatitude2) * pow(sin(b / 2), 2))) * earthRadius
@@ -358,7 +358,7 @@ class MapVC: UIViewController {
             self.geocoderLocked = false
             
             guard error == nil else{
-                print("创建大头针 geocoder回调错误:\n\(error)")
+                debugPrint("创建大头针 geocoder回调错误:\n\(String(describing: error))")
                 return
             }
             

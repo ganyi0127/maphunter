@@ -155,8 +155,8 @@ class DataBall: UIView {
             let bezierPath = UIBezierPath()
             bezierPath.addArc(withCenter: CGPoint(x: frame.width / 2, y: frame.height / 2 - refreshRadius * 0.0),
                               radius: refreshRadius,
-                              startAngle: CGFloat(-M_PI_2),
-                              endAngle: CGFloat(M_PI * 1.5),
+                              startAngle: -.pi / 2,
+                              endAngle: .pi * 1.5,
                               clockwise: true)
             bgShapeLayer?.path = bezierPath.cgPath
             layer.addSublayer(bgShapeLayer!)
@@ -304,10 +304,10 @@ class DataBall: UIView {
         flake.yAcceleration = 0
         
         //发射角度
-        flake.emissionRange = CGFloat(M_PI) * 2
+        flake.emissionRange = .pi * 2
         
         //自动旋转
-        flake.spinRange = CGFloat(M_PI) * 0.5
+        flake.spinRange = .pi * 0.5
         
         flake.contents = UIImage(named: "resource/fire")?.cgImage
         flake.color = color.cgColor

@@ -8,9 +8,10 @@
 
 import UIKit
 //存储可筛选设备名
-let nameList = ["id107", "id107plus", "id115", "id107plushr"]
+let nameList = ["id107plus", "id119", "id127", "id129"]
 class BootScanVC: UIViewController {
     @IBOutlet weak var tableview: UITableView!
+    @IBOutlet weak var backButton: UIButton!
     
     //MARK:- init
     override func viewDidLoad() {
@@ -23,10 +24,15 @@ class BootScanVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        navigationController?.setNavigation(hidden: true)
+//        navigationController?.setNavigation(hidden: true)
     }
     
     private func config(){
+        
+        view.backgroundColor = timeColor
+        
+        //隐藏navigation
+        navigationController?.isNavigationBarHidden = true
         
         automaticallyAdjustsScrollViewInsets = false
         
@@ -41,8 +47,18 @@ class BootScanVC: UIViewController {
         
     }
     
+    //MARK:- 返回上级页面
+    @IBAction func back(_ sender: UIButton) {
+        _ = navigationController?.popViewController(animated: true)
+    }
+    
+    //MARK:- 跳转到下级页面
+    @IBAction func next(_ sender: UIButton) {
+        
+    }
+    
     //MARK:- 获取其他设备
-    @IBAction func getOtherButton(_ sender: UIButton) {
+    fileprivate func scanOther() {
         
         //跳转到搜索页 无过滤
         let appointScanVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "scan") as! AppointScanVC
@@ -52,46 +68,59 @@ class BootScanVC: UIViewController {
     //MARK:- 通过筛选进行搜索
     fileprivate func scan(byName name: String){
         
-        let appointScanVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "scan") as! AppointScanVC
-        appointScanVC.filterName = name
-        navigationController?.show(appointScanVC, sender: nil)
+        //跳转到手环页
+        let bootPreVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "bootpre") as! BootPreVC
+        bootPreVC.filterName = name
+        navigationController?.show(bootPreVC, sender: nil)
     }
 }
 
+//MARK:- tableview delegate
 extension BootScanVC: UITableViewDelegate, UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return nameList.count
+        return nameList.count + 1   //+1为其他设备选项
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return view_size.width / 3
+        return view_size.width / 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let identifier = "\(indexPath.section)_\(indexPath.row)"
-        let name = nameList[indexPath.row]
         
-        var cell = tableView.dequeueReusableCell(withIdentifier: identifier)
-        if cell == nil {
-            cell = BootScanCell(identifier: identifier)
+        if indexPath.row == 4 {
+            //其他设备
+            let otherCell = BootOtherCell(identifier: identifier)
+            return otherCell
+        }else{
+            //筛选设备
+            let name = nameList[indexPath.row]
+            
+            var cell = tableView.dequeueReusableCell(withIdentifier: identifier)
+            if cell == nil {
+                cell = BootScanCell(identifier: identifier)
+            }
+            
+            let scanCell = cell as! BootScanCell
+            scanCell.bandName = name
+            return scanCell
         }
-        
-        let scanCell = cell as! BootScanCell
-        scanCell.bandName = name
-        return scanCell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         cell?.setSelected(false, animated: true)
         
-        let name = nameList[indexPath.row]
-        
-        //通过筛选进行搜索
-        scan(byName: name)
+        if indexPath.row != 4 {
+            let name = nameList[indexPath.row]
+            //通过筛选进行搜索
+            scan(byName: name)
+        }else{
+            scanOther()
+        }
     }
 }

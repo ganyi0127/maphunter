@@ -69,8 +69,8 @@ class StepProgress: UIView {
             let bezierPath = UIBezierPath()
             bezierPath.addArc(withCenter: CGPoint(x: frame.width / 2, y: frame.height / 2 - refreshRadius * 0.1),
                               radius: refreshRadius,
-                              startAngle: CGFloat(-M_PI_2),
-                              endAngle: CGFloat(M_PI * 1.5),
+                              startAngle: -.pi / 2,
+                              endAngle: .pi * 1.5,
                               clockwise: true)
             bgShapeLayer?.path = bezierPath.cgPath
             layer.addSublayer(bgShapeLayer!)

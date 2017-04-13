@@ -101,7 +101,7 @@ class Loading: UIView {
             
             let rotaAnim = CAKeyframeAnimation(keyPath: "transform.rotation.z")
             rotaAnim.keyTimes = [0, 0.33, 0.66, 1]
-            rotaAnim.values = [0, M_PI * 2 / 3, M_PI * 4 / 3, M_PI * 2]
+            rotaAnim.values = [0, Double.pi * 2 / 3, .pi * 4 / 3, .pi * 2]
             
             let groupAnim = CAAnimationGroup()
             groupAnim.duration = 2

@@ -21,12 +21,12 @@ class CoordinateTransform {
             var latitude = transformLatitude(withLongitude: wgsCoordinate.longitude - 105, withLatitude: wgsCoordinate.latitude - 35)
             var longitude = transformLongitude(withLongitude: wgsCoordinate.longitude - 105, withLatitude: wgsCoordinate.latitude - 35)
             
-            let radLatitude = wgsCoordinate.latitude * M_PI / 180
+            let radLatitude = wgsCoordinate.latitude * .pi / 180
             let degree  = 1 - pow(sin(radLatitude), 2) * ee
             let sqrtDegree = sqrt(degree)
             
-            latitude = (latitude * 180) / ((earthRadius * (1 - ee)) / (degree * sqrtDegree) * M_PI)
-            longitude = (longitude * 180) / (earthRadius * M_PI * cos(radLatitude) / sqrtDegree)
+            latitude = (latitude * 180) / ((earthRadius * (1 - ee)) / (degree * sqrtDegree) * .pi)
+            longitude = (longitude * 180) / (earthRadius * .pi * cos(radLatitude) / sqrtDegree)
             
             return CLLocationCoordinate2D(latitude: wgsCoordinate.latitude + latitude, longitude: wgsCoordinate.longitude + longitude)
         }
@@ -44,18 +44,18 @@ class CoordinateTransform {
     
     private class func transformLatitude(withLongitude longitude: Double, withLatitude latitude: Double) -> Double{
         var resultLatitude = -100 + longitude * 2 + latitude * 3 + pow(latitude, 2) * 0.2 + longitude * latitude * 0.1 + sqrt(abs(longitude)) * 0.2
-        resultLatitude += (sin(longitude * M_PI * 6) + sin(longitude * M_PI * 2)) * 40 / 3
-        resultLatitude += (sin(latitude * M_PI) + sin(latitude * M_PI / 3) * 2) * 40 / 3
-        let plus = sin(latitude * M_PI / 12) * 160 + sin(latitude * M_PI / 30) * 320
+        resultLatitude += (sin(longitude * .pi * 6) + sin(longitude * .pi * 2)) * 40 / 3
+        resultLatitude += (sin(latitude * .pi) + sin(latitude * .pi / 3) * 2) * 40 / 3
+        let plus = sin(latitude * .pi / 12) * 160 + sin(latitude * .pi / 30) * 320
         resultLatitude += plus * 2 / 3
         return resultLatitude
     }
     
     private class func transformLongitude(withLongitude longitude: Double, withLatitude latitude: Double) -> Double{
         var resultLongitude = 300 + longitude + latitude * 2 + pow(latitude, 2) * 0.1 + longitude * latitude * 0.1 + sqrt(abs(longitude)) * 0.1
-        resultLongitude += (sin(longitude * M_PI * 6) + sin(longitude * M_PI * 2)) * 40 / 3
-        resultLongitude += (sin(longitude * M_PI) + sin(longitude * M_PI / 3) * 2) * 40 / 3
-        resultLongitude += (sin(longitude * M_PI / 12) + sin(longitude * M_PI / 30) * 2) * 300 / 3
+        resultLongitude += (sin(longitude * .pi * 6) + sin(longitude * .pi * 2)) * 40 / 3
+        resultLongitude += (sin(longitude * .pi) + sin(longitude * .pi / 3) * 2) * 40 / 3
+        resultLongitude += (sin(longitude * .pi / 12) + sin(longitude * .pi / 30) * 2) * 300 / 3
         return resultLongitude
     }
 }

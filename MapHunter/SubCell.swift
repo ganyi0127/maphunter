@@ -293,7 +293,7 @@ class SubCell: UIView {
             bezierPath.move(to: startPoint)
 //            bezierPath.addQuadCurve(to: endPoint, controlPoint: controlPoint)
             let centerPoint = CGPoint(x: frame.width / 2, y: frame.height / 2)
-            bezierPath.addArc(withCenter: centerPoint, radius: frame.width * 0.45, startAngle: CGFloat(M_PI), endAngle: 0, clockwise: true)
+            bezierPath.addArc(withCenter: centerPoint, radius: frame.width * 0.45, startAngle: .pi, endAngle: 0, clockwise: true)
             
             shapeLayer.path = bezierPath.cgPath
             
@@ -421,7 +421,7 @@ class SubCell: UIView {
         let bezierPath = UIBezierPath()
         bezierPath.addArc(withCenter: centerPoint,
                           radius: refreshRadius * 0.9,
-                          startAngle: -CGFloat(M_PI),
+                          startAngle: -.pi,
                           endAngle: 0,
                           clockwise: true)
         shapeLayer.path = bezierPath.cgPath
@@ -451,8 +451,8 @@ class SubCell: UIView {
             
             let refreshRadius = frame.size.height/2 * 0.8
             let bezierPath = UIBezierPath()
-            let startAngle = -CGFloat(M_PI) + CGFloat(M_PI) * curValue / sumValue
-            let endAngle = -CGFloat(M_PI) + CGFloat(M_PI) * (value + curValue) / sumValue
+            let startAngle = -.pi + .pi * curValue / sumValue
+            let endAngle = -.pi + .pi * (value + curValue) / sumValue
             curValue += value
             bezierPath.addArc(withCenter: centerPoint,
                               radius: refreshRadius * 0.9,

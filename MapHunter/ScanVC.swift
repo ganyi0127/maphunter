@@ -48,6 +48,21 @@ class ScanVC: UIViewController {
         createContents()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if let currentPeripheral = PeripheralManager.share().currentPeripheral {
+            godManager.disconnect(currentPeripheral, closure: {_ in})
+        }
+        peripheralList.removeAll()
+        godManager.delegate = nil
+    }
+    
     private func config(){
         
         automaticallyAdjustsScrollViewInsets = false
@@ -63,25 +78,13 @@ class ScanVC: UIViewController {
     }
     
     private func createContents(){
-        beginLoading()
-        
-        //开始扫描
-        godManager.startScan{
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-                self.rescanButton.alpha = 1
-                let buttonLength = self.rescanButton.frame.width
-                self.rescanButton.frame.origin.y = view_size.height - buttonLength * 1.2
-            }, completion: {
-                _ in
-                self.endLoading()
-            })
-        }
         
         //添加重新扫描按钮
         view.addSubview(rescanButton)
+        rescan(sender: rescanButton)
     }
     
-    @objc private func rescan(sender: UIButton){
+    @objc fileprivate func rescan(sender: UIButton){
         beginLoading()
         
         peripheralList.removeAll()
@@ -136,7 +139,7 @@ extension ScanVC: GodManagerDelegate{
             return
         }
         
-        AngelManager.share()?.setBind(true){_ in }
+        AngelManager.share()?.setBind(true){_ in}
     }
     
     func godManager(bindingPeripheralsUUID UUIDList: [String]) {
@@ -146,6 +149,31 @@ extension ScanVC: GodManagerDelegate{
     //蓝牙中心状态
     func godManager(didUpdateCentralState state: GodManagerState) {
         debugPrint("蓝牙中心状态", state)
+        switch state {
+        case .resetting:
+            debugPrint(" 蓝牙设置中")
+        case .unauthorized:
+            debugPrint(" 蓝牙未授权")
+        case .unknown:
+            debugPrint(" 蓝牙未知")
+        case .unsupported:
+            debugPrint(" 该手机设备不支持蓝牙")
+        case .poweredOff:
+            //蓝牙关闭
+            debugPrint(" 蓝牙已关闭")
+            
+            //跳转到蓝牙提示页面
+            let bootBluetooth = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "bootbluetooth") as! BootBluetooth
+            navigationController?.show(bootBluetooth, sender: nil)
+        case .poweredOn:
+            //蓝牙开启
+            debugPrint(" 蓝牙已开启")
+            
+            //开始扫描
+            if !godManager.isScaning{
+                rescan(sender: rescanButton)
+            }
+        }
     }
     
     //蓝牙连接状态
@@ -198,6 +226,16 @@ extension ScanVC: UITableViewDelegate, UITableViewDataSource{
         
         let peripheralModel = peripheralList[indexPath.row]
         
-        godManager.connect(peripheralModel.peripheral)
+        
+        if peripheralModel.RSSI != 0 {
+            beginLoading()
+            godManager.connect(peripheralModel.peripheral)
+        }else{
+            let alertController = UIAlertController(title: "提示", message: "该设备已连接", preferredStyle: .alert)
+            alertController.setBlackTextColor()
+            let cancelAction = UIAlertAction(title: "确定", style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
 }
