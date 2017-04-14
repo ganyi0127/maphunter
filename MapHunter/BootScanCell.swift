@@ -64,12 +64,6 @@ class BootScanCell: UITableViewCell {
     //图片
     private var idImageView: UIImageView?
     
-    //底图渐变
-//    let gradient = CAGradientLayer()
-    
-    
-    
-    
     //MARK:- init
     init(identifier: String){
         super.init(style: .default, reuseIdentifier: identifier)
@@ -92,8 +86,6 @@ class BootScanCell: UITableViewCell {
     }
     
     private func config(){
-//        contentView.backgroundColor = .white
-        
         
         //设置分割线
 //        separatorInset = UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
@@ -108,20 +100,6 @@ class BootScanCell: UITableViewCell {
     
     private func createContents(){
         
-        //绘制渐变
-//        let gradientFrame = CGRect(x: view_size.width * 0,
-//                                   y: view_size.width * 0,
-//                                   width: view_size.width * 1,
-//                                   height: view_size.width * 0.25)
-//        gradient.frame = gradientFrame
-//        gradient.backgroundColor = UIColor.white.cgColor
-//        gradient.cornerRadius =  view_size.width * 0.02
-//        gradient.shadowColor = UIColor.black.cgColor
-//        gradient.shadowRadius = 2
-//        gradient.shadowOffset = .zero
-//        gradient.shadowOpacity = 0.5
-//        layer.addSublayer(gradient)
-
         //手环图片
         if idImageView == nil{
             let imageFrame = CGRect(x: view_size.width * 0.6,

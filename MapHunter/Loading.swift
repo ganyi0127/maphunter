@@ -15,12 +15,33 @@ class Loading: UIView {
         return self.length * 0.45
     }()
     
-    init() {
+    private var label: UILabel?
+    
+    var title: String?{
+        didSet{
+            if label == nil {
+                let labelFrame = CGRect(x: -view_size.width / 2 + length / 2,
+                                        y: length,
+                                        width: view_size.width,
+                                        height: 24)
+                label = UILabel(frame: labelFrame)
+                label?.textAlignment = .center
+                label?.font = fontSmall
+                label?.textColor = .white
+                addSubview(label!)
+            }
+            label?.text = title
+        }
+    }
+    
+    init(byTitle title: String? = nil) {
         let frame = CGRect(x: view_size.width / 2 - length / 2,
                            y: view_size.height / 2 - length / 2,
                            width: length,
-                           height: length)
+                           height: length + (title == nil ? 0 : 24))
         super.init(frame: frame)
+        
+        self.title = title
         
         config()
         createContents()

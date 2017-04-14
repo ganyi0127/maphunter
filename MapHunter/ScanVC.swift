@@ -14,7 +14,7 @@ class ScanVC: UIViewController {
     @IBOutlet weak var tableview: UITableView!
     
     //god manager
-    fileprivate let godManager = GodManager.share()
+    let godManager = GodManager.share()
     
     //存储所有设备
     var peripheralList = [(name: String, RSSI: NSNumber, peripheral: CBPeripheral)](){
@@ -25,7 +25,7 @@ class ScanVC: UIViewController {
     }
     
     //重新扫描按钮
-    fileprivate var rescanButton: UIButton = {
+    var rescanButton: UIButton = {
         let buttonLength = view_size.width *  0.25
         let buttonFrame = CGRect(x: view_size.width / 2 - buttonLength / 2,
                                  y: view_size.height,
@@ -84,7 +84,7 @@ class ScanVC: UIViewController {
         rescan(sender: rescanButton)
     }
     
-    @objc fileprivate func rescan(sender: UIButton){
+    @objc func rescan(sender: UIButton){
         beginLoading()
         
         peripheralList.removeAll()
@@ -216,6 +216,9 @@ extension ScanVC: UITableViewDelegate, UITableViewDataSource{
         let scanCell = cell as! ScanCell
         let standardName = peripheralModel.name.lowercased().replacingOccurrences(of: " ", with: "")
         scanCell.bandName = standardName
+        if tableview.indexPathForSelectedRow == indexPath {
+            scanCell.setSelected(true, animated: true)
+        }
         scanCell.bandRSSI = peripheralModel.RSSI.intValue
         return scanCell
     }

@@ -28,9 +28,9 @@ extension UIViewController{
     }
     
     //loading实现
-    func beginLoading(){
+    func beginLoading(byTitle title: String? = nil){
         if loading == nil{
-            loading = Loading()
+            loading = Loading(byTitle: title)
         }else if loading?.superview != nil{
             loading?.removeFromSuperview()
         }

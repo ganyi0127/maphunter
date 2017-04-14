@@ -83,9 +83,18 @@ class ScanCell: UITableViewCell {
                 imageName = "resource/scan/rssi_2"
             }else{
                 imageName = "resource/scan/rssi_3"
-                if abs_rssi == 0 {
-                    bindingImageView?.isHidden = false
+            }
+            
+            //显示绑定或选中
+            if abs_rssi == 0 || isSelected {
+                bindingImageView?.isHidden = false
+                if isSelected {
+                    bindingImageView?.image = UIImage(named: "resource/scan/checkmark")
+                }else{
+                    bindingImageView?.image = UIImage(named: "resource/scan/connected")
                 }
+            }else{
+                bindingImageView?.isHidden = true
             }
             
             rssiLabel?.text = "RSSI: \(rssi)"

@@ -28,10 +28,7 @@ class BootPreVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        bandTypeLabel.font = fontMiddle
-        bandDetailLabel.font = fontSmall
         
-        nextButton.setTitleColor(defaut_color, for: .normal)
         
         if let name = filterName{            
             bandTypeLabel.text = "激活您的" + name.uppercased()
@@ -44,6 +41,15 @@ class BootPreVC: UIViewController {
     
     private func config(){
         
+        //设置标签字体
+        bandTypeLabel.font = fontMiddle
+        bandDetailLabel.font = fontSmall
+        
+        //设置下一步颜色
+        nextButton.setTitleColor(defaut_color, for: .normal)
+        
+        //设置返回图片
+        backButton.setImage(UIImage(named: "resource/scan/back")?.transfromImage(size: CGSize(width: 17, height: 17)), for: .normal)
     }
     
     private func createContents(){

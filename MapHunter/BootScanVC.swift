@@ -23,13 +23,12 @@ class BootScanVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-//        navigationController?.setNavigation(hidden: true)
     }
     
     private func config(){
         
         view.backgroundColor = timeColor
+        backButton.setImage(UIImage(named: "resource/scan/back")?.transfromImage(size: CGSize(width: 17, height: 17)), for: .normal)
         
         //隐藏navigation
         navigationController?.isNavigationBarHidden = true
