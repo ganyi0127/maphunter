@@ -40,7 +40,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="KkP-LW-PxH">
-                                <rect key="frame" x="-0.5" y="20" width="375" height="671"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="671"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3Pd-dK-y6J">
                                     <size key="itemSize" width="50" height="50"/>
@@ -132,7 +132,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="登录" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="loT-Hx-eMh">
-                                <rect key="frame" x="-0.5" y="72" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="43i-Y7-hht"/>
                                 </constraints>
@@ -151,7 +151,7 @@
                                 </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="登录密码" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="TA3-PJ-cbD">
-                                <rect key="frame" x="38" y="186" width="300" height="30"/>
+                                <rect key="frame" x="37.5" y="186" width="300" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES"/>
@@ -161,7 +161,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7gH-LL-vc2">
-                                <rect key="frame" x="292" y="186" width="46" height="30"/>
+                                <rect key="frame" x="291.5" y="186" width="46" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="qkq-9Y-HOe"/>
                                 </constraints>
@@ -291,7 +291,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RBf-Sx-khD">
-                                <rect key="frame" x="-0.5" y="20" width="375" height="30"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="30"/>
                                 <state key="normal" title="选择您的设备"/>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gkr-0s-UHE">
@@ -310,7 +310,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pB1-5V-bUE" userLabel="LowNavigation">
-                                <rect key="frame" x="-0.5" y="618" width="375" height="49"/>
+                                <rect key="frame" x="0.0" y="618" width="375" height="49"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zMq-t9-DJq">
                                         <rect key="frame" x="8" y="0.0" width="49" height="49"/>
@@ -392,7 +392,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="激活的手环类型" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H1v-DL-5jh">
-                                <rect key="frame" x="-0.5" y="20" width="375" height="21"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -581,7 +581,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="正在查找..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TVS-GL-1nd">
-                                <rect key="frame" x="0.5" y="20" width="375" height="21"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -632,7 +632,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您的蓝牙功能好像..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RIH-Nx-xTY">
-                                <rect key="frame" x="63" y="57" width="250" height="42"/>
+                                <rect key="frame" x="62.5" y="57" width="250" height="42"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -715,6 +715,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="resource/scan/bandeffect" translatesAutoresizingMaskIntoConstraints="NO" id="Ejh-YT-JMM" userLabel="特效">
+                                <rect key="frame" x="-162" y="-80" width="700" height="700"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="700" id="2oG-6Z-LdW"/>
+                                    <constraint firstAttribute="width" secondItem="Ejh-YT-JMM" secondAttribute="height" multiplier="1:1" id="N7y-0d-aeb"/>
+                                </constraints>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="绑定成功" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ipD-zQ-iNK">
                                 <rect key="frame" x="0.0" y="28" width="375" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -790,6 +797,7 @@
                             <constraint firstItem="xkK-l4-tE2" firstAttribute="top" secondItem="ipD-zQ-iNK" secondAttribute="bottom" constant="8" id="I3K-4q-Eyh"/>
                             <constraint firstItem="ipD-zQ-iNK" firstAttribute="top" secondItem="7yU-0g-xND" secondAttribute="bottom" constant="8" id="IA1-l0-VQ6"/>
                             <constraint firstItem="SKh-UQ-9N9" firstAttribute="bottom" secondItem="KFy-s6-8NU" secondAttribute="bottom" id="Mf5-Gc-Fqp"/>
+                            <constraint firstItem="Ejh-YT-JMM" firstAttribute="centerX" secondItem="KFy-s6-8NU" secondAttribute="centerX" id="O2l-Ii-2Fr"/>
                             <constraint firstItem="SKh-UQ-9N9" firstAttribute="height" secondItem="KFy-s6-8NU" secondAttribute="height" multiplier="1/2" id="RBO-QC-1TA"/>
                             <constraint firstItem="xkK-l4-tE2" firstAttribute="height" secondItem="ipD-zQ-iNK" secondAttribute="height" multiplier="2" id="SnA-Ap-Y1l"/>
                             <constraint firstItem="SKh-UQ-9N9" firstAttribute="trailing" secondItem="KFy-s6-8NU" secondAttribute="trailing" id="TGo-Ss-aju"/>
@@ -798,12 +806,14 @@
                             <constraint firstItem="xkK-l4-tE2" firstAttribute="width" secondItem="ipD-zQ-iNK" secondAttribute="width" multiplier="2/3" id="hXd-bz-NDy"/>
                             <constraint firstItem="SKh-UQ-9N9" firstAttribute="width" secondItem="KFy-s6-8NU" secondAttribute="width" multiplier="1/2" id="jgF-sB-Ykq"/>
                             <constraint firstItem="KFy-s6-8NU" firstAttribute="top" secondItem="xkK-l4-tE2" secondAttribute="bottom" id="kNB-ap-zYh"/>
+                            <constraint firstItem="Ejh-YT-JMM" firstAttribute="centerY" secondItem="KFy-s6-8NU" secondAttribute="centerY" id="nZg-NS-SIH"/>
                             <constraint firstItem="Inv-FK-ioj" firstAttribute="width" secondItem="yNT-lv-IQ1" secondAttribute="width" id="wcs-Ae-9wX"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="backButton" destination="ajJ-61-ryd" id="ASw-Xo-Mxy"/>
                         <outlet property="bandImageView" destination="KFy-s6-8NU" id="tm9-rK-mlF"/>
+                        <outlet property="effectImageView" destination="Ejh-YT-JMM" id="0FT-L3-YdA"/>
                         <outlet property="firstLabel" destination="ipD-zQ-iNK" id="O42-Lh-vKk"/>
                         <outlet property="nextButton" destination="rFD-R3-sls" id="GvN-Nu-DmP"/>
                         <outlet property="secondLabel" destination="xkK-l4-tE2" id="aaq-ih-azS"/>
@@ -812,7 +822,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b3P-do-klQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3965.5999999999999" y="-457.42128935532236"/>
+            <point key="canvasLocation" x="3965.217391304348" y="-458.1521739130435"/>
         </scene>
         <!--Boot RegisterVC-->
         <scene sceneID="9xO-W8-8I9">
@@ -1030,6 +1040,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="resource/scan/bandeffect" width="16" height="16"/>
         <image name="resource/scan/bluetooth" width="16" height="16"/>
         <image name="resource/scan/warning" width="16" height="16"/>
     </resources>

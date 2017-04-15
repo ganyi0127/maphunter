@@ -56,9 +56,9 @@ class ScanVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        if let currentPeripheral = PeripheralManager.share().currentPeripheral {
-            godManager.disconnect(currentPeripheral, closure: {_ in})
-        }
+//        if let currentPeripheral = PeripheralManager.share().currentPeripheral {
+//            godManager.disconnect(currentPeripheral, closure: {_ in})
+//        }
         peripheralList.removeAll()
         godManager.delegate = nil
     }

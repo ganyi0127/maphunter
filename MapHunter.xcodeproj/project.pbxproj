@@ -116,6 +116,13 @@
 		BEB248F71D9CB6DC00C9F9ED /* SubCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB248F61D9CB6DC00C9F9ED /* SubCell.swift */; };
 		BEB249091D9E202000C9F9ED /* Cell6Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB249081D9E202000C9F9ED /* Cell6Content.swift */; };
 		BEB2490B1D9E46BD00C9F9ED /* CellCube.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB2490A1D9E46BD00C9F9ED /* CellCube.swift */; };
+		BECD4F121EA1C24400C9136C /* Info.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BECD4F111EA1C24400C9136C /* Info.storyboard */; };
+		BECD4F141EA1C27400C9136C /* InfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD4F131EA1C27400C9136C /* InfoVC.swift */; };
+		BECD4F191EA1C48000C9136C /* InfoBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD4F181EA1C48000C9136C /* InfoBaseView.swift */; };
+		BECD4F1B1EA1C4A400C9136C /* InfoSexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD4F1A1EA1C4A400C9136C /* InfoSexView.swift */; };
+		BECD4F1D1EA1C4CA00C9136C /* InfoHeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD4F1C1EA1C4CA00C9136C /* InfoHeightView.swift */; };
+		BECD4F1F1EA1C4E800C9136C /* InfoWeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD4F1E1EA1C4E800C9136C /* InfoWeightView.swift */; };
+		BECD4F211EA1C4FF00C9136C /* InfoAgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD4F201EA1C4FF00C9136C /* InfoAgeView.swift */; };
 		BEDF4F351D93910E00E98D63 /* Configure.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDF4F341D93910E00E98D63 /* Configure.swift */; };
 		BEDF4F3B1D9393BC00E98D63 /* StateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDF4F3A1D9393BC00E98D63 /* StateVC.swift */; };
 		BEDF4F3D1D9393F800E98D63 /* HealthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDF4F3C1D9393F800E98D63 /* HealthVC.swift */; };
@@ -281,6 +288,13 @@
 		BEB248F61D9CB6DC00C9F9ED /* SubCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubCell.swift; sourceTree = "<group>"; };
 		BEB249081D9E202000C9F9ED /* Cell6Content.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cell6Content.swift; sourceTree = "<group>"; };
 		BEB2490A1D9E46BD00C9F9ED /* CellCube.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellCube.swift; sourceTree = "<group>"; };
+		BECD4F111EA1C24400C9136C /* Info.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Info.storyboard; sourceTree = "<group>"; };
+		BECD4F131EA1C27400C9136C /* InfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoVC.swift; sourceTree = "<group>"; };
+		BECD4F181EA1C48000C9136C /* InfoBaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoBaseView.swift; sourceTree = "<group>"; };
+		BECD4F1A1EA1C4A400C9136C /* InfoSexView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoSexView.swift; sourceTree = "<group>"; };
+		BECD4F1C1EA1C4CA00C9136C /* InfoHeightView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoHeightView.swift; sourceTree = "<group>"; };
+		BECD4F1E1EA1C4E800C9136C /* InfoWeightView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoWeightView.swift; sourceTree = "<group>"; };
+		BECD4F201EA1C4FF00C9136C /* InfoAgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoAgeView.swift; sourceTree = "<group>"; };
 		BEDF4F341D93910E00E98D63 /* Configure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configure.swift; sourceTree = "<group>"; };
 		BEDF4F3A1D9393BC00E98D63 /* StateVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateVC.swift; sourceTree = "<group>"; };
 		BEDF4F3C1D9393F800E98D63 /* HealthVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthVC.swift; sourceTree = "<group>"; };
@@ -465,8 +479,9 @@
 				BEAE9E651E84AAD5000C1452 /* MapHunter.entitlements */,
 				BE54CB201E17A94F00DDFFC6 /* AngelFit.framework */,
 				BE2DC9EC1D9210A300978C97 /* Main.storyboard */,
-				BE1C366C1D93725000AB4370 /* RootTBC.swift */,
 				BE3DB31C1E961DAB001CA7AF /* 引导页 */,
+				BE503E3C1EA1C05B00C5A3FE /* 个人设置 */,
+				BE1C366C1D93725000AB4370 /* RootTBC.swift */,
 				BEDF4F371D93938500E98D63 /* 状态 */,
 				BEDF4F361D93937C00E98D63 /* 地图 */,
 				BEDF4F381D93938D00E98D63 /* 健康 */,
@@ -589,6 +604,16 @@
 				BE54CB1E1E17938F00DDFFC6 /* WeightEditVC.swift */,
 			);
 			name = "目标设置\\介绍页面\\编辑页面";
+			sourceTree = "<group>";
+		};
+		BE503E3C1EA1C05B00C5A3FE /* 个人设置 */ = {
+			isa = PBXGroup;
+			children = (
+				BECD4F111EA1C24400C9136C /* Info.storyboard */,
+				BECD4F131EA1C27400C9136C /* InfoVC.swift */,
+				BECD4F151EA1C41C00C9136C /* 设置模块 */,
+			);
+			name = "个人设置";
 			sourceTree = "<group>";
 		};
 		BE576FF91E25BC6B006BAD1C /* Contents */ = {
@@ -717,6 +742,18 @@
 				BEB248E61D9B4E2600C9F9ED /* ThirdCell.swift */,
 			);
 			name = Cell3;
+			sourceTree = "<group>";
+		};
+		BECD4F151EA1C41C00C9136C /* 设置模块 */ = {
+			isa = PBXGroup;
+			children = (
+				BECD4F181EA1C48000C9136C /* InfoBaseView.swift */,
+				BECD4F1A1EA1C4A400C9136C /* InfoSexView.swift */,
+				BECD4F1C1EA1C4CA00C9136C /* InfoHeightView.swift */,
+				BECD4F1E1EA1C4E800C9136C /* InfoWeightView.swift */,
+				BECD4F201EA1C4FF00C9136C /* InfoAgeView.swift */,
+			);
+			name = "设置模块";
 			sourceTree = "<group>";
 		};
 		BEDF4F361D93937C00E98D63 /* 地图 */ = {
@@ -926,6 +963,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BECD4F121EA1C24400C9136C /* Info.storyboard in Resources */,
 				3267D0511DF7E7B40060B9C2 /* resource in Resources */,
 				BE2DC9F61D9210A300978C97 /* LaunchScreen.storyboard in Resources */,
 				BE2DC9F31D9210A300978C97 /* Assets.xcassets in Resources */,
@@ -979,10 +1017,12 @@
 				BE576FFF1E25DD55006BAD1C /* RecommendRouteViewController.swift in Sources */,
 				BE8685551E30C7CD00EBEBED /* ViewControllerExtension.swift in Sources */,
 				BE7319FF1E0B7F00002BDF2D /* DetailTop.swift in Sources */,
+				BECD4F1D1EA1C4CA00C9136C /* InfoHeightView.swift in Sources */,
 				BE3DB3291E963D4F001CA7AF /* BootScanCell.swift in Sources */,
 				BE6055931E7B81AB00039CA0 /* FunctableCell.swift in Sources */,
 				BE1C36731D93763900AB4370 /* ItemButton.swift in Sources */,
 				BE1C366D1D93725000AB4370 /* RootTBC.swift in Sources */,
+				BECD4F211EA1C4FF00C9136C /* InfoAgeView.swift in Sources */,
 				BE3DB3221E961F12001CA7AF /* BootVC.swift in Sources */,
 				BE71B9E71DBF4CAA00143E1E /* Net.swift in Sources */,
 				BE8685441E2F4D9C00EBEBED /* SettingPathVC.swift in Sources */,
@@ -1004,6 +1044,7 @@
 				32C5726A1DD9C2E700CEC5EB /* GradientPolylineOverlay.m in Sources */,
 				BE54CB1F1E17938F00DDFFC6 /* WeightEditVC.swift in Sources */,
 				32C3E6291E090B4C00D34A74 /* MePushController.swift in Sources */,
+				BECD4F1F1EA1C4E800C9136C /* InfoWeightView.swift in Sources */,
 				320535391DFE7AFC0087068E /* CalendarCell.swift in Sources */,
 				BE3DB32F1E972179001CA7AF /* AppointScanVC.swift in Sources */,
 				32C3E6271E0904B900D34A74 /* MeDetails.swift in Sources */,
@@ -1011,10 +1052,12 @@
 				BE5770031E25DD8B006BAD1C /* SpriteViewController.swift in Sources */,
 				BEB248E71D9B4E2600C9F9ED /* ThirdCell.swift in Sources */,
 				32D411E81DEBCEC2008EE637 /* DataBall.swift in Sources */,
+				BECD4F191EA1C48000C9136C /* InfoBaseView.swift in Sources */,
 				32C3E6361E0A7D8D00D34A74 /* MeSetting.swift in Sources */,
 				32D4123F1DED713D008EE637 /* DetailCell.swift in Sources */,
 				BEB248F71D9CB6DC00C9F9ED /* SubCell.swift in Sources */,
 				32C3E62D1E091F2200D34A74 /* MeInfo.swift in Sources */,
+				BECD4F141EA1C27400C9136C /* InfoVC.swift in Sources */,
 				BEDF4F791D990EF800E98D63 /* DateProgress.swift in Sources */,
 				BE8685471E2F5C4300EBEBED /* PathCell0.swift in Sources */,
 				BE4BFE9E1E15140400F3FE91 /* MiddlePushController.swift in Sources */,
@@ -1024,6 +1067,7 @@
 				BE5770051E25E3B7006BAD1C /* FunOriginViewController.swift in Sources */,
 				BE3E74841E9E212D00D571BB /* BootConnectedVC.swift in Sources */,
 				BE1F53491DC2FE7900EAD9BA /* Time.swift in Sources */,
+				BECD4F1B1EA1C4A400C9136C /* InfoSexView.swift in Sources */,
 				BEDF4F3D1D9393F800E98D63 /* HealthVC.swift in Sources */,
 				BE86854F1E2F6EF200EBEBED /* PathMaptypeSettingVC.swift in Sources */,
 				BE7319FD1E0B7D9B002BDF2D /* DetailScrollView.swift in Sources */,

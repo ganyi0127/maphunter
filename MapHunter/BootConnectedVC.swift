@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import AngelFit
 class BootConnectedVC: UIViewController {
     
     @IBOutlet weak var firstLabel: UILabel!
     @IBOutlet weak var secondLabel: UILabel!
+    @IBOutlet weak var effectImageView: UIImageView!
     @IBOutlet weak var bandImageView: UIImageView!
     @IBOutlet weak var warningImageView: UIImageView!
     @IBOutlet weak var backButton: UIButton!
@@ -19,9 +21,7 @@ class BootConnectedVC: UIViewController {
     //手环名称
     var bandName: String? {
         didSet{
-            guard let name = bandName else{
-                return
-            }
+            let name = bandName?.lowercased().replacingOccurrences(of: " ", with: "")
             
             if name == "id107plus" || name == "id107plushr"{
                 bandIdType = .id107plus
@@ -102,6 +102,20 @@ class BootConnectedVC: UIViewController {
         }
         
         warningImageView.isHidden = isSuccess ?? false
+        
+        if let success = isSuccess{
+            if success {
+                effectImageView.isHidden = false
+                //添加特效动画
+                let rotaAnim = CABasicAnimation(keyPath: "transform.rotation.z")
+                rotaAnim.fromValue = 0
+                rotaAnim.toValue = Double.pi * 2
+                rotaAnim.fillMode = kCAFillModeBoth
+                rotaAnim.repeatCount = HUGE
+                rotaAnim.duration = 3
+                effectImageView.layer.add(rotaAnim, forKey: nil)
+            }
+        }
     }
     
     private func config(){
@@ -119,6 +133,39 @@ class BootConnectedVC: UIViewController {
     //MARK:- 返回上两级页面
     @IBAction func back(_ sender: UIButton) {
         
+        if let success = isSuccess{
+            if success{
+                if let peripheral = PeripheralManager.share().currentPeripheral {
+                    
+                    if peripheral.state == .connected{
+                        GodManager.share().disconnect(peripheral){
+                            success in
+                            if success{
+                                self.popEarlierVC()
+                            }
+                        }
+                    }else{
+                        let uuidstr = peripheral.identifier.uuidString
+                        _ = PeripheralManager.share().delete(UUIDString: uuidstr)
+                        PeripheralManager.share().UUID = nil
+                        self.popEarlierVC()
+                    }
+                }else{
+                    let list = PeripheralManager.share().selectUUIDStringList()
+                    list.forEach{
+                        uuidStr in
+                        _ = PeripheralManager.share().delete(UUIDString: uuidStr)
+                    }
+                    self.popEarlierVC()
+                }
+                return
+            }
+        }
+        popEarlierVC()
+    }
+    
+    //MARK:- 返回上两级页面
+    private func popEarlierVC(){
         let viewcontrollers = navigationController?.viewControllers
         guard let count = viewcontrollers?.count, count >= 3 else{
             return
@@ -132,6 +179,32 @@ class BootConnectedVC: UIViewController {
     
     //MARK:- 返回上一级页面
     @IBAction func tryAgain(_ sender: UIButton) {        
-//        _ = navigationController?.popViewController(animated: true)
+        if nextButton.titleLabel?.text == "下一步" {
+//            //跳转到主页
+//            let rootTBC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController() as! RootTBC
+//            self.present(rootTBC, animated: true, completion: nil)
+            
+            //推送到个人设置页
+            if let infoVC = UIStoryboard(name: "Info", bundle: Bundle.main).instantiateViewController(withIdentifier: "infovc") as? InfoVC {
+                navigationController?.show(infoVC, sender: nil)
+            }
+        }else{
+            nextButton.isEnabled = false
+            beginLoading(byTitle: "正在设置手环")
+            let angelManager = AngelManager.share()
+            angelManager?.setBind(true){
+                success in
+                self.endLoading()
+                self.nextButton.isEnabled = true
+                //跳转到绑定成功页面
+                if success{
+                    //跳转到主页
+                    let rootTBC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController() as! RootTBC
+                    self.present(rootTBC, animated: true, completion: nil)
+                }else{
+                    
+                }
+            }
+        }
     }
 }

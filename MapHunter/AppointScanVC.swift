@@ -68,7 +68,7 @@ class AppointScanVC: ScanVC {
     
     //MARK:- tip弹窗视图
     private lazy var tipView: UIView? = {
-        let tipFrame = CGRect(x: 0, y: self.firstLabel.frame.height, width: view_size.width, height: view_size.height - self.firstLabel.frame.height - 49)
+        let tipFrame = CGRect(x: 0, y: self.tableview.frame.origin.y, width: view_size.width, height: view_size.height - self.tableview.frame.origin.y - 49)
         let tipView: UIView = UIView(frame: tipFrame)
             let labelFrame = CGRect(x: 0, y: 0, width: tipView.frame.width, height: 24)
             let label = UILabel(frame: labelFrame)
@@ -92,15 +92,16 @@ class AppointScanVC: ScanVC {
     
     //MARK:- 失败视图
     private lazy var failureView: UIView? = {
-        let failureView: UIView = UIView(frame: self.tableview.frame)
+        let failureFrame = CGRect(x: 0, y: self.tableview.frame.origin.y, width: view_size.width, height: view_size.height - self.tableview.frame.origin.y - 49)
+        let failureView: UIView = UIView(frame: failureFrame)
             let labelFrame = CGRect(x: 0, y: 0, width: failureView.frame.width, height: 24)
             let label = UILabel(frame: labelFrame)
             label.font = fontSmall
             label.numberOfLines = 3
             label.textAlignment = .center
             let bandName = self.filterName == nil ? "手环" : self.filterName!.uppercased()
-            label.text = "请在手机系统将蓝牙连接设备，进行忽略确保" + bandName + "位于你的设备附近，然后重试"
-            label.sizeToFit()
+            label.text = "请在手机系统将蓝牙连接设备，进行忽略\n确保" + bandName + "位于你的设备附近，然后重试"
+            label.sizeThatFits(labelFrame.size)
             failureView.addSubview(label)
             
             let imageFrame = CGRect(x: 0, y: 24, width: failureView.frame.width, height: failureView.frame.width)
@@ -150,6 +151,9 @@ class AppointScanVC: ScanVC {
     }
     
     private func config(){
+        
+        view.backgroundColor = timeColor
+        
         //设置下一步颜色
         nextButton.setTitleColor(defaut_color, for: .normal)
         
@@ -163,6 +167,12 @@ class AppointScanVC: ScanVC {
         if let tView = tipView{
             view.addSubview(tView)
         }
+        
+        //显示失败视图
+        if let fView = self.failureView{
+            fView.isHidden = true
+            self.view.addSubview(fView)
+        }
     }
     
     //MARK:- 返回上级页面
@@ -174,11 +184,6 @@ class AppointScanVC: ScanVC {
     @IBAction func next(_ sender: UIButton) {
         
         if sender.titleLabel?.text == "下一步"{
-//            //判断是否连接设备
-//            guard PeripheralManager.share().currentPeripheral != nil else {
-//                debugPrint("请连接设备")
-//                return
-//            }
             
             //判断是否已选择设备
             guard let indexPath = tableview.indexPathForSelectedRow else{
@@ -192,8 +197,9 @@ class AppointScanVC: ScanVC {
             godManager.connect(peripheralModel.peripheral)
         }else{
             //重新载入
-            failureView?.removeFromSuperview()
+            failureView?.isHidden = true
             if let tView = tipView {
+                tView.isHidden = false
                 cancelButton.isHidden = false
                 backButton.isHidden = true
                 nextButton.isHidden = true
@@ -225,15 +231,15 @@ class AppointScanVC: ScanVC {
         nextButton.isEnabled = true
         
         //移除tip视图
-        failureView?.removeFromSuperview()
-        tipView?.removeFromSuperview()
+        failureView?.isHidden = true
+        tipView?.isHidden = true
     }
     
     //MARK:- 5S搜索失败后调用
     private func failureScan(){
         self.endLoading()
         
-        self.tipView?.removeFromSuperview()
+        self.tipView?.isHidden = true
         
         //当搜索解释未获取到设备时，添加失败视图
         if self.peripheralList.isEmpty{
@@ -243,9 +249,7 @@ class AppointScanVC: ScanVC {
             nextButton.isHidden = false
             backButton.isHidden = false
             cancelButton.isHidden = true
-            if let fView = self.failureView{
-                self.view.addSubview(fView)
-            }
+            failureView?.isHidden = false
         }else{
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
                 self.rescanButton.alpha = 1
@@ -333,7 +337,7 @@ class AppointScanVC: ScanVC {
             return
         }
         
-        //延迟2.5秒后设置绑定
+        //延迟3.5秒后设置绑定
         beginLoading(byTitle: "正在设置你的" + (connectName ?? "手环"))
         _ = delay(3.5){
             self.endLoading()
@@ -344,7 +348,7 @@ class AppointScanVC: ScanVC {
                 let bootConnectVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "bootconnected") as! BootConnectedVC
                 bootConnectVC.isSuccess = success
                 bootConnectVC.bandName = self.connectName
-                self.present(bootConnectVC, animated: true, completion: nil)
+                self.navigationController?.show(bootConnectVC, sender: true)
             }
         }
     }
@@ -359,21 +363,6 @@ class AppointScanVC: ScanVC {
         case .connect:
             //登陆主页
             debugPrint(" 连接手环成功")
-
-//            let angelManager = AngelManager.share()
-//            angelManager?.setBind(true){
-//                success in
-//                guard success else{
-//                    //跳转到连接失败页面
-//                    let bootUnconnectVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "bootunconnect") as! BootUnconnectVC
-//                    self.navigationController?.show(bootUnconnectVC, sender: nil)
-//                    return
-//                }
-//                
-//                //跳转到主页
-//                let rootTBC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController() as! RootTBC
-//                self.present(rootTBC, animated: true, completion: nil)
-//            }
         case .disConnect:
             debugPrint(" 手环断开连接")
             break
@@ -381,7 +370,7 @@ class AppointScanVC: ScanVC {
             //跳转到绑定成功页面
             let bootConnectVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "bootconnected") as! BootConnectedVC
             bootConnectVC.bandName = self.connectName
-            self.present(bootConnectVC, animated: true, completion: nil)
+            self.navigationController?.show(bootConnectVC, sender: true)
         case .failed:
             //弹出无法连接页面
             debugPrint(" 连接手环失败")
@@ -389,7 +378,7 @@ class AppointScanVC: ScanVC {
             //跳转到绑定成功页面
             let bootConnectVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "bootconnected") as! BootConnectedVC
             bootConnectVC.bandName = self.connectName
-            self.present(bootConnectVC, animated: true, completion: nil)
+            self.navigationController?.show(bootConnectVC, sender: true)
         }
     }
     
@@ -404,7 +393,6 @@ class AppointScanVC: ScanVC {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let cell = tableView.cellForRow(at: indexPath) as? ScanCell
-//        cell?.setSelected(false, animated: true)
         
         let allCells = tableview.visibleCells
         allCells.forEach{
@@ -413,18 +401,5 @@ class AppointScanVC: ScanVC {
             bandCell?.bandRSSI = bandCell?.bandRSSI
         }
         cell?.bandRSSI = peripheralList[indexPath.row].RSSI.intValue
-        
-//        let peripheralModel = peripheralList[indexPath.row]
-//        
-//        if peripheralModel.RSSI != 0 {
-//            beginLoading(byTitle: "正在设置您的\(peripheralModel.name)")
-//            godManager.connect(peripheralModel.peripheral)
-//        }else{
-//            let alertController = UIAlertController(title: "提示", message: "该设备已连接", preferredStyle: .alert)
-//            alertController.setBlackTextColor()
-//            let cancelAction = UIAlertAction(title: "确定", style: .cancel, handler: nil)
-//            alertController.addAction(cancelAction)
-//            self.present(alertController, animated: true, completion: nil)
-//        }
     }
 }

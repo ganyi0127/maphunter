@@ -132,29 +132,35 @@ class ScanCell: UITableViewCell {
     
     private func config(){
         
-        backgroundColor = timeColor
+        backgroundColor = .white
+        
+        //手动添加分割线
+        let separatorFrame = CGRect(x: 0, y: view_size.width / 3 - 1, width: frame.width, height: 1)
+        let separatorLine = UIView(frame: separatorFrame)
+        separatorLine.backgroundColor = lightWordColor
+        contentView.addSubview(separatorLine)
     }
     
     private func createContents(){
         
         //绘制渐变
-        gradient.frame = CGRect(x: view_size.width * 0.03,
-                                y: view_size.width * 0.03,
-                                width: view_size.width * 0.94,
-                                height: view_size.width * 0.94 * 200 / 718 + view_size.width * 0.03)
-        gradient.backgroundColor = UIColor.white.cgColor
-        gradient.cornerRadius =  view_size.width * 0.02
-        gradient.shadowColor = UIColor.gray.cgColor
-        gradient.shadowRadius = 2
-        gradient.shadowOffset = .zero
-        gradient.shadowOpacity = 0.5
-        layer.addSublayer(gradient)
+//        gradient.frame = CGRect(x: view_size.width * 0.03,
+//                                y: view_size.width * 0.03,
+//                                width: view_size.width * 0.94,
+//                                height: view_size.width * 0.94 * 200 / 718 + view_size.width * 0.03)
+//        gradient.backgroundColor = UIColor.white.cgColor
+//        gradient.cornerRadius =  view_size.width * 0.02
+//        gradient.shadowColor = UIColor.gray.cgColor
+//        gradient.shadowRadius = 2
+//        gradient.shadowOffset = .zero
+//        gradient.shadowOpacity = 0.5
+//        layer.addSublayer(gradient)
         
         if idImageView == nil{
             let imageFrame = CGRect(x: view_size.width * 0.03,
-                                    y: view_size.width * 0.03,
+                                    y: (view_size.width / 3 - view_size.width * 0.2) / 2,
                                     width: view_size.width * 0.2,
-                                    height: view_size.width * 0.94 * 200 / 718 + view_size.width * 0.03)
+                                    height: view_size.width * 0.2)
             idImageView = UIImageView(frame: imageFrame)
             addSubview(idImageView!)
         }
