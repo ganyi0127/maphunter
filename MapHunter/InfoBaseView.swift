@@ -7,9 +7,18 @@
 //
 
 import Foundation
+enum InfoType{
+    case gender
+    case height
+    case weight
+    case birthday
+}
 class InfoBaseView: UIView {
     
     private var lineShapeLayer: CAShapeLayer?
+    
+    var closure: ((InfoType)->())?
+    var type: InfoType?
     
     //MARK:- init
     override func didMoveToSuperview() {
@@ -21,6 +30,7 @@ class InfoBaseView: UIView {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
+        
         //添加分割线
         let bezierPath = UIBezierPath(rect: bounds)
         if lineShapeLayer == nil{
@@ -34,7 +44,7 @@ class InfoBaseView: UIView {
     }
     
     func config(){
-        
+        //接收触摸事件
         isUserInteractionEnabled = true
     }
     
@@ -46,6 +56,7 @@ class InfoBaseView: UIView {
 //MARK:- 触摸事件
 extension InfoBaseView{
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //点击动效
         let anim = CABasicAnimation(keyPath: "transform.scale.x")
         anim.toValue = 0.5
         anim.duration = 0.05
@@ -55,5 +66,10 @@ extension InfoBaseView{
         anim.duration = 0.3
         anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
         layer.add(anim, forKey: "began")
+        
+        //点击回调
+        if let t = type{
+            closure?(t)
+        }
     }
 }

@@ -8,5 +8,9 @@
 
 import Foundation
 class InfoAgeView: InfoBaseView {
-    
+    override func config() {
+        super.config()
+        
+        type = .birthday
+    }
 }

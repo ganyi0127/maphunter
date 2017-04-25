@@ -9,6 +9,8 @@
 import UIKit
 import AngelFit
 import CoreBluetooth
+let dataCubeSpacing: CGFloat = 6            //模块间距
+let dataCubeAspectRatio: CGFloat = 1.35     //模块宽高比
 class FirstCell: UITableViewCell {
     
     //运动
@@ -78,17 +80,10 @@ class FirstCell: UITableViewCell {
         super.draw(rect)
         print("draw")
         
-        sportDataCube.frame.origin = CGPoint(x: frame.width * 0.03,
-                                               y: frame.height * 0.03)
-        
-        heartRateDataCube.frame.origin = CGPoint(x: frame.width / 2 + frame.width * 0.015,
-                                               y: frame.height * 0.03)
-        
-        sleepDataCube.frame.origin = CGPoint(x: frame.width * 0.03,
-                                              y: sportDataCube.frame.height + frame.height * 0.06)
-        
-        weightDataCube.frame.origin = CGPoint(x: frame.width / 2 + frame.width * 0.015,
-                                              y: heartRateDataCube.frame.height + frame.height * 0.06)
+        sportDataCube.frame.origin = CGPoint(x: dataCubeSpacing, y: dataCubeSpacing)
+        heartRateDataCube.frame.origin = CGPoint(x: dataCubeSpacing, y: dataCubeSpacing + sportDataCube.frame.height + dataCubeSpacing)
+        sleepDataCube.frame.origin = CGPoint(x: frame.width / 2 + dataCubeSpacing / 2, y: dataCubeSpacing)
+        weightDataCube.frame.origin = CGPoint(x: frame.width / 2 + dataCubeSpacing / 2, y: dataCubeSpacing + heartRateDataCube.frame.height + dataCubeSpacing)
         
         startTimer()
         //开始计时
@@ -129,9 +124,11 @@ class FirstCell: UITableViewCell {
         heartRateDataCube.data = data
         addSubview(heartRateDataCube)
         
+        //获取睡眠数据
         sleepDataCube.data = data
         addSubview(sleepDataCube)
         
+        //获取体重数据
         if let user = CoreDataHandler.share().selectUser(userId: UserManager.share().userId){
             data.value1 = CGFloat(user.currentWeight)
             data.value2 = CGFloat(user.goalWeight)
@@ -187,10 +184,17 @@ class FirstCell: UITableViewCell {
             }
             var data = DataCubeData()
             data.value1 = CGFloat(heartrateData.silentHeartRate)
-            data.value2 = CGFloat(heartrateData.burnFatMinutes)
+            data.value2 = CGFloat(heartrateData.burnFatMinutes)     //血压
             data.value3 = CGFloat(heartrateData.aerobicMinutes)
             data.value4 = CGFloat(heartrateData.limitMinutes)
             self.heartRateDataCube.data = data
+        }
+        
+        //获取目标步数
+        let coredataHandler = CoreDataHandler.share()
+        let userId = UserManager.share().userId
+        if let user = coredataHandler.selectUser(userId: userId){
+            goalStep = UInt32(user.goalStep)
         }
         
         //实时数据api
@@ -214,7 +218,9 @@ class FirstCell: UITableViewCell {
                 
                 var data = DataCubeData()
                 data.value1 = CGFloat(step)
-                data.value2 = CGFloat(self.goalStep - step)
+                data.value2 = CGFloat(self.goalStep)
+                data.value3 = 40        //最后运动的时长
+                data.value4 = 2         //最后运动的类型
                 self.sportDataCube.data = data
                 
             }

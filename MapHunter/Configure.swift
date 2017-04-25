@@ -12,7 +12,7 @@ import UIKit
 let view_size = UIScreen.main.bounds.size
 
 //navigation高度
-var navigation_height:CGFloat?
+var navigation_height: CGFloat?
 
 //通用字体、颜色
 let font_name = "PingFangTC-Medium"
@@ -27,6 +27,9 @@ let notiy = NotificationCenter.default
 let unselect_notiy = NSNotification.Name(rawValue: "unselect")
 let switch_notiy = NSNotification.Name("switch")
 let calendar_notiy = NSNotification.Name("calendar")
+
+//userDefaults
+let userDefaults = UserDefaults.standard
 
 //当前选择的日期
 var selectDate = Date()
@@ -45,9 +48,11 @@ let myRouteImg = UIImage(named: "resource/map/background/myroute")//?.transfromI
 let spriteImg = UIImage(named: "resource/map/background/sprite")//?.transfromImage(size: view_size)
 
 //背景颜色
-let defaut_color = UIColor.orange                                                           //主色调
+let defaut_color = UIColor(colorHex: 0xf96b1e)                                              //主色调
+let default_color2 = UIColor(colorHex: 0xffc09e)                                            //副色调
 let defaultColor = UIColor.white                                                            //navigation颜色
-let timeColor = UIColor(red: 238 / 255, green: 243 / 255, blue: 244 / 255, alpha: 1)        //时间轴主颜色
+let separatorColor = UIColor(colorHex: 0xd9d9d9)                                            //分割线颜色
+let timeColor = UIColor(colorHex: 0xF0F0f0)                                                 //时间轴主颜色
 let lightWordColor = UIColor(red: 217 / 255, green: 217 / 255, blue: 217 / 255, alpha: 1)   //高亮文字颜色
 let subWordColor = UIColor(red: 100 / 255, green: 100 / 255, blue: 100 / 255, alpha: 1)     //灰文字颜色颜色
 let wordColor = UIColor(red: 50 / 255, green: 50 / 255, blue: 50 / 255, alpha: 1)           //文字颜色

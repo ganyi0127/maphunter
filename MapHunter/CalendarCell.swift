@@ -29,24 +29,28 @@ class CalendarCell: UITableViewCell {
 
     //左按钮
     private lazy var leftButton: UIButton = { ()->UIButton in
-        let buttonWidth = self.bounds.size.height * 0.6
-        let buttonOrigin = CGPoint(x: buttonWidth * 0.8, y: self.bounds.height / 2 - buttonWidth / 2)
-        let buttonFrame = CGRect(origin: buttonOrigin, size: CGSize(width: buttonWidth, height: buttonWidth))
-        let button = UIButton(frame: buttonFrame)
+        let buttonWidth = self.bounds.size.height * 1.5
+        let buttonHeight = self.bounds.size.height
+        let imageLength = self.bounds.size.height * 0.6
+        let buttonOrigin = CGPoint(x: 0, y: self.bounds.height / 2 - buttonHeight / 2)
+        let buttonFrame = CGRect(origin: buttonOrigin, size: CGSize(width: buttonWidth, height: buttonHeight))
+        let button: UIButton = UIButton(frame: buttonFrame)
         button.tag = 0
-        button.setImage(UIImage(named: "resource/button_left")?.transfromImage(size: CGSize(width: buttonWidth / 2, height: buttonWidth / 2)), for: .normal)
+        button.setImage(UIImage(named: "resource/button_left")?.transfromImage(size: CGSize(width: imageLength / 2, height: imageLength / 2)), for: .normal)
         button.addTarget(self, action: #selector(clickButton), for: .touchUpInside)
         return button
     }()
     
     //右按钮
     private lazy var rightButton: UIButton = { ()->UIButton in
-        let buttonWidth = self.contentView.bounds.size.height * 0.6
-        let buttonOrigin = CGPoint(x: view_size.width - buttonWidth * 1.8, y: self.contentView.bounds.height / 2 - buttonWidth / 2)
-        let buttonFrame = CGRect(origin: buttonOrigin, size: CGSize(width: buttonWidth, height: buttonWidth))
+        let buttonWidth = self.bounds.size.height * 1.5
+        let buttonHeight = self.bounds.size.height
+        let imageLength = self.bounds.size.height * 0.6
+        let buttonOrigin = CGPoint(x: view_size.width - buttonWidth, y: self.contentView.bounds.height / 2 - buttonHeight / 2)
+        let buttonFrame = CGRect(origin: buttonOrigin, size: CGSize(width: buttonWidth, height: buttonHeight))
         let button = UIButton(frame: buttonFrame)
         button.tag = 1
-        button.setImage(UIImage(named: "resource/button_right")?.transfromImage(size: CGSize(width: buttonWidth / 2, height: buttonWidth / 2)), for: .normal)
+        button.setImage(UIImage(named: "resource/button_right")?.transfromImage(size: CGSize(width: imageLength / 2, height: imageLength / 2)), for: .normal)
         button.addTarget(self, action: #selector(clickButton), for: .touchUpInside)
         return button
     }()
@@ -81,6 +85,11 @@ class CalendarCell: UITableViewCell {
         tap.numberOfTapsRequired = 1
         tap.numberOfTouchesRequired = 1
         label.addGestureRecognizer(tap)
+        
+        //添加无点击回调的按钮，用于接收当rightButton不可点时穿过的点击事件
+        let noneButton = UIButton(frame: rightButton.frame)
+        noneButton.backgroundColor = nil
+        contentView.addSubview(noneButton)
         
         //左右按钮
         contentView.addSubview(leftButton)
@@ -126,6 +135,18 @@ class CalendarCell: UITableViewCell {
         
         attributedString.insert(attributeImage, at: 0)
         self.label.attributedText = attributedString
+        
+        //判断是否为最后可选日期（>今天）
+        let calendar = Calendar.current
+        let todayComponents = calendar.dateComponents([.year, .month, .day], from: Date())
+        var curComponents = calendar.dateComponents([.year, .month, .day], from: date)
+        curComponents.year = todayComponents.year
+        curComponents.month = todayComponents.month
+        curComponents.day = todayComponents.day
+        if let today = calendar.date(from: curComponents){
+            let comparisonResult = date.compare(today)
+            rightButton.isEnabled = comparisonResult == ComparisonResult.orderedAscending
+        }
     }
     
     @objc private func clickButton(sender: UIButton){

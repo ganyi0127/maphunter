@@ -33,6 +33,9 @@ class StateVC: UIViewController {
     //上拉下拉
     fileprivate var newY: CGFloat = 0
     fileprivate var oldY: CGFloat = 0
+    
+    //选择线(我的活动，好友)
+    fileprivate weak var selectedLine: UIView?
 
     //获取时间轴数据
     fileprivate var trackList = [Track](){
@@ -173,7 +176,7 @@ class StateVC: UIViewController {
         
         control.attributedTitle = NSAttributedString(string: "同步数据")
         
-        beginLoading()
+        beginLoading(byTitle: "同步健康与运动数据")
         
         let angelManager = AngelManager.share()
         //初始化设置用户信息
@@ -300,33 +303,63 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             return nil
         }
         
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view_size.width, height: 50))
-        headerView.backgroundColor = timeColor
+        //设置头
+        let defaultCellHeight: CGFloat = 44         //默认cell高度 用于头部
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view_size.width, height: defaultCellHeight))
+        headerView.backgroundColor = .clear
+
+        //设置切换按钮
+        //[我的活动]
+        let myActiveFrame = CGRect(x: 0, y: 0, width: view_size.width / 2, height: 44)
+        let myActive = UIButton(frame: myActiveFrame)
+        myActive.setTitle("我的活动", for: .normal)
+        myActive.setTitleColor(subWordColor, for: .normal)
+        myActive.setTitleColor(lightWordColor, for: .disabled)
+        myActive.backgroundColor = .white
+        myActive.isSelected = true
+        myActive.tag = 0
+        myActive.addTarget(self, action: #selector(switchFromHeader(byButton:)), for: .touchUpInside)
+        headerView.addSubview(myActive)
         
-        //icon
-        let imageViewFrame = CGRect(x: view_size.width * 0.1, y: 15, width: 20, height: 20)
-        let imageView = UIImageView(frame: imageViewFrame)
-        imageView.image = UIImage(named: "resource/mystory")?.transfromImage(size: CGSize(width: 20, height: 20))
-        headerView.addSubview(imageView)
+        //[好友]
+        let myFriendsFrame = CGRect(x: view_size.width / 2, y: 0, width: view_size.width / 2, height: defaultCellHeight)
+        let myFriends = UIButton(frame: myFriendsFrame)
+        myFriends.setTitle("好友", for: .normal)
+        myFriends.setTitleColor(subWordColor, for: .normal)
+        myFriends.setTitleColor(lightWordColor, for: .disabled)
+        myFriends.backgroundColor = .white
+        myFriends.isSelected = false
+        myFriends.tag = 1
+        myFriends.addTarget(self, action: #selector(switchFromHeader(byButton:)), for: .touchUpInside)
+        headerView.addSubview(myFriends)
         
-        //我的一天
-        let label = UILabel(frame: CGRect(x: imageView.frame.origin.x + imageView.frame.width * 1.5,
-                                          y: 25 - 9,
-                                          width: view_size.width,
-                                          height: 18))
-        label.textColor = wordColor
-        label.font = UIFont(name: font_name, size: 18)
-        label.text = "我的一天"
-        label.textColor = subWordColor
-        label.textAlignment = .left
-        headerView.addSubview(label)
-        
-        //分割线
-        let view = UIView(frame: CGRect(x: 0, y: 50 - 1, width: view_size.width, height: 1))
-        view.backgroundColor = lightWordColor
-        headerView.addSubview(view)
+        //[选择线]
+        if selectedLine == nil{
+            let selectedHeight: CGFloat = 2
+            let selectedLineFrame = CGRect(x: 0, y: defaultCellHeight - selectedHeight, width: view_size.width / 2, height: selectedHeight)
+            let line = UIView(frame: selectedLineFrame)
+            line.backgroundColor = subWordColor
+            selectedLine = line
+            headerView.addSubview(line)
+        }
         
         return headerView
+    }
+    
+    //MARK:- 切换按钮点击事件
+    @objc private func switchFromHeader(byButton button: UIButton){
+        let tag = button.tag
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+            if tag == 0{
+                //我的活动
+                self.selectedLine?.frame.origin.x = 0
+            }else{
+                //好友
+                self.selectedLine?.frame.origin.x = view_size.width / 2
+            }
+        }, completion: {
+            complete in
+        })
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -342,7 +375,11 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             return 0
         }
         
-        return 50
+        return 44
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -350,11 +387,11 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             
             switch indexPath.row {
             case 0:
-                return view_size.width
+                return view_size.width / dataCubeAspectRatio    //四个模块整体比例为dataCubeAspectRatio
             case 1:
-                return view_size.height * 0.1
+                return 44                                       //日历切换高度为默认固定cell高度
             default:
-                return view_size.width / 3
+                return view_size.width / 3                      //事件轴类型高度 需动态设置
             }
         }
         

@@ -8,5 +8,9 @@
 
 import Foundation
 class InfoWeightView: InfoBaseView {
-    
+    override func config() {
+        super.config()
+        
+        type = .weight
+    }
 }

@@ -97,7 +97,7 @@ class ScanCell: UITableViewCell {
                 bindingImageView?.isHidden = true
             }
             
-            rssiLabel?.text = "RSSI: \(rssi)"
+            rssiLabel?.text = "RSSI: \(abs_rssi)"
             
             guard let image = UIImage(named: imageName) else {
                 return
@@ -130,15 +130,19 @@ class ScanCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        
+        //手动添加分割线
+        let separatorFrame = CGRect(x: 0, y: 88 - 1, width: frame.width, height: 1)
+        let separatorLine = UIView(frame: separatorFrame)
+        separatorLine.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
+        addSubview(separatorLine)
+    }
+    
     private func config(){
         
         backgroundColor = .white
-        
-        //手动添加分割线
-        let separatorFrame = CGRect(x: 0, y: view_size.width / 3 - 1, width: frame.width, height: 1)
-        let separatorLine = UIView(frame: separatorFrame)
-        separatorLine.backgroundColor = lightWordColor
-        contentView.addSubview(separatorLine)
     }
     
     private func createContents(){
@@ -156,18 +160,21 @@ class ScanCell: UITableViewCell {
 //        gradient.shadowOpacity = 0.5
 //        layer.addSublayer(gradient)
         
+        let cellHeight: CGFloat = 88    //view_size.width / 3
+        let cellToTop: CGFloat = 88 / 2 - 24 - 6 / 2
+        
         if idImageView == nil{
-            let imageFrame = CGRect(x: view_size.width * 0.03,
-                                    y: (view_size.width / 3 - view_size.width * 0.2) / 2,
+            let imageFrame = CGRect(x: view_size.width * 0.05,
+                                    y: cellToTop / 2,
                                     width: view_size.width * 0.2,
-                                    height: view_size.width * 0.2)
+                                    height: cellHeight - cellToTop)
             idImageView = UIImageView(frame: imageFrame)
             addSubview(idImageView!)
         }
         
         if nameLabel == nil{
-            let labelFrame = CGRect(x: view_size.width * 0.35,
-                                    y: view_size.width * 0.08,
+            let labelFrame = CGRect(x: view_size.width * 0.4,
+                                    y: cellToTop,
                                     width: view_size.width * 0.5,
                                     height: 24)
             nameLabel = UILabel(frame: labelFrame)
@@ -177,8 +184,8 @@ class ScanCell: UITableViewCell {
         }
         
         if rssiImageView == nil{
-            let imageFrame = CGRect(x: view_size.width * 0.35,
-                                    y: view_size.width * 0.08 + 30,
+            let imageFrame = CGRect(x: view_size.width * 0.4,
+                                    y: cellToTop + 30,
                                     width: view_size.width * 0.05,
                                     height: view_size.width * 0.05)
             rssiImageView = UIImageView(frame: imageFrame)
@@ -186,8 +193,8 @@ class ScanCell: UITableViewCell {
         }
         
         if rssiLabel == nil{
-            let labelFrame = CGRect(x: view_size.width * 0.35 + view_size.width * 0.06,
-                                    y: view_size.width * 0.08 + 30,
+            let labelFrame = CGRect(x: view_size.width * 0.4 + view_size.width * 0.06,
+                                    y: cellToTop + 30,
                                     width: view_size.width * 0.5,
                                     height: 24)
             rssiLabel = UILabel(frame: labelFrame)
@@ -197,10 +204,11 @@ class ScanCell: UITableViewCell {
         }
         
         if bindingImageView == nil{
-            let imageFrame = CGRect(x: view_size.width * 0.94 - view_size.width * 0.03 - 24,
-                                    y: view_size.width * 0.08,
-                                    width: 24,
-                                    height: 24)
+            let imageLenght: CGFloat = 18
+            let imageFrame = CGRect(x: view_size.width * 0.94 - view_size.width * 0.03 - imageLenght,
+                                    y: cellHeight / 2 - imageLenght / 2,
+                                    width: imageLenght,
+                                    height: imageLenght)
             bindingImageView = UIImageView(frame: imageFrame)
             if let image = UIImage(named: "resource/scan/connected") {
                 bindingImageView?.image = image

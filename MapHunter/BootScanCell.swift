@@ -81,20 +81,11 @@ class BootScanCell: UITableViewCell {
         //手动添加分割线
         let separatorFrame = CGRect(x: 0, y: view_size.width * 0.25 - 1, width: frame.width, height: 1)
         let separatorLine = UIView(frame: separatorFrame)
-        separatorLine.backgroundColor = lightWordColor
-        contentView.addSubview(separatorLine)
+        separatorLine.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
+        addSubview(separatorLine)
     }
     
     private func config(){
-        
-        //设置分割线
-//        separatorInset = UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
-//        if responds(to: #selector(setter: BootCell.layoutMargins)) {
-//            layoutMargins = UIEdgeInsets(top: 1, left: 11, bottom: 1, right: 1)
-//        }
-//        if responds(to: #selector(setter: BootCell.preservesSuperviewLayoutMargins)) {
-//            preservesSuperviewLayoutMargins = false
-//        }
         
     }
     
@@ -102,10 +93,10 @@ class BootScanCell: UITableViewCell {
         
         //手环图片
         if idImageView == nil{
-            let imageFrame = CGRect(x: view_size.width * 0.6,
-                                    y: view_size.width * 0.01,
-                                    width: view_size.width * 0.35,
-                                    height: view_size.width * 0.35)
+            let imageFrame = CGRect(x: view_size.width * 0.56,
+                                    y: 8,
+                                    width: view_size.width * 0.38,
+                                    height: view_size.width * 0.38)
             idImageView = UIImageView(frame: imageFrame)
             let maskLayer = CAShapeLayer()
             let maskRect = CGRect(x: -imageFrame.origin.x,

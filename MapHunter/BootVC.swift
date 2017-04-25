@@ -20,11 +20,15 @@ class BootVC: UIViewController {
         createContents()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         //隐藏导航栏
         navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         //添加创建并添加本地通知
         LocalNotification.addNotification(withMessage: "its a test local notification!!!")
@@ -55,6 +59,13 @@ class BootVC: UIViewController {
         }else if sender.tag == 1{
             //登陆
         }
+    }
+    
+    //MARK:- 登录主页面
+    @IBAction func loadingMainMenu(_ sender: UIButton) {
+        //登陆主页
+        let rootTBC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController() as! RootTBC
+        present(rootTBC, animated: true, completion: nil)
     }
 }
 

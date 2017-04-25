@@ -86,7 +86,7 @@ class AppointScanVC: ScanVC {
                 }
             }
             tipView.addSubview(imageView)
-        tipView.backgroundColor = .white
+        tipView.backgroundColor = .clear
         return tipView
     }()
     
@@ -123,12 +123,13 @@ class AppointScanVC: ScanVC {
                 warningImageView.image = warningImage
             }
             failureView.addSubview(warningImageView)
-        failureView.backgroundColor = .white
+        failureView.backgroundColor = .clear
         return failureView
     }()
     
     //MARK:- init
     override func viewDidLoad() {
+        showRescanButton = false    //隐藏重新扫描按钮
         super.viewDidLoad()
         
         config()
@@ -139,7 +140,9 @@ class AppointScanVC: ScanVC {
         
         //修改firstLabel文字
         if let name = filterName{
-            firstLabel.text = "正在查找您的" + name.uppercased()
+            firstLabel.text = "选择需要绑定的" + name.uppercased()
+        }else{
+            firstLabel.text = "选择需要绑定的设备"
         }
         
     }
@@ -156,6 +159,8 @@ class AppointScanVC: ScanVC {
         
         //设置下一步颜色
         nextButton.setTitleColor(defaut_color, for: .normal)
+        nextButton.setTitleColor(.lightGray, for: .disabled)
+        nextButton.isEnabled = false
         
         //设置取消颜色
         cancelButton.setTitleColor(defaut_color, for: .normal)
@@ -181,6 +186,7 @@ class AppointScanVC: ScanVC {
     }
     
     //MARK:- 跳转到下级页面--绑定手环（设置）
+    fileprivate var isConnecting = false
     @IBAction func next(_ sender: UIButton) {
         
         if sender.titleLabel?.text == "下一步"{
@@ -190,6 +196,11 @@ class AppointScanVC: ScanVC {
                 debugPrint("请选择设备")
                 return
             }
+            
+            guard !isConnecting && !isScaning else{
+                return
+            }
+            isConnecting = true
             
             let peripheralModel = peripheralList[indexPath.row]
             connectName = peripheralModel.name
@@ -203,7 +214,7 @@ class AppointScanVC: ScanVC {
                 cancelButton.isHidden = false
                 backButton.isHidden = true
                 nextButton.isHidden = true
-                nextButton.setTitle("下一步", for: .normal)
+                nextButton.setTitle("重新扫描", for: .normal)
                 view.addSubview(tView)
             }
             rescan(sender: rescanButton)
@@ -218,7 +229,11 @@ class AppointScanVC: ScanVC {
     //MARK:- 搜索到第一个设备时调用
     private func beginScan(){
         
-        beginLoading()
+        var name = "设备"
+        if let fName = filterName{
+            name = fName
+        }
+        beginLoading(byTitle: "正在搜索您的" + name)
         
         firstLabel.text = "选择要绑定的设备"
         
@@ -227,9 +242,6 @@ class AppointScanVC: ScanVC {
         backButton.isHidden = false
         nextButton.isHidden = false
         
-        //当有已连接手环情况下，设置下一步按钮为可点状态
-        nextButton.isEnabled = true
-        
         //移除tip视图
         failureView?.isHidden = true
         tipView?.isHidden = true
@@ -237,41 +249,50 @@ class AppointScanVC: ScanVC {
     
     //MARK:- 5S搜索失败后调用
     private func failureScan(){
-        self.endLoading()
+        endLoading()
         
-        self.tipView?.isHidden = true
+        isScaning = false
+        
+        tipView?.isHidden = true
+        
+        nextButton.isEnabled = true     //成功或失败都设置为可点状态
         
         //当搜索解释未获取到设备时，添加失败视图
         if self.peripheralList.isEmpty{
             self.firstLabel.text = "搜索失败"
             nextButton.setTitle("再试一次", for: .normal)
-            nextButton.isEnabled = true
             nextButton.isHidden = false
             backButton.isHidden = false
             cancelButton.isHidden = true
             failureView?.isHidden = false
         }else{
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-                self.rescanButton.alpha = 1
-                let buttonLength = self.rescanButton.frame.width
-                self.rescanButton.frame.origin.y = view_size.height - buttonLength * 1.2
-            }, completion: {
-                _ in
-            })
+            if showRescanButton{
+                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+                    self.rescanButton.alpha = 1
+                    let buttonLength = self.rescanButton.frame.width
+                    self.rescanButton.frame.origin.y = view_size.height - buttonLength * 1.2
+                }, completion: {
+                    _ in
+                })
+            }
         }
     }
     
     //MARK:- 重写搜索
+    private var isScaning = false
     override func rescan(sender: UIButton) {
         
         peripheralList.removeAll()
         
-        UIView.animate(withDuration: 0.3, delay: 0.1, options: .curveEaseIn, animations: {
-            self.rescanButton.alpha = 0
-            self.rescanButton.frame.origin.y = view_size.height
-        }, completion: nil)
+        if showRescanButton{
+            UIView.animate(withDuration: 0.3, delay: 0.1, options: .curveEaseIn, animations: {
+                self.rescanButton.alpha = 0
+                self.rescanButton.frame.origin.y = view_size.height
+            }, completion: nil)
+        }
         
         //开始扫描
+        isScaning = true
         godManager.startScan{
             self.failureScan()
         }
@@ -301,6 +322,7 @@ class AppointScanVC: ScanVC {
             peripheralList.append((name, 0, peripheral))
             peripheralList = peripheralList.sorted{fabs($0.RSSI.floatValue) < fabs($1.RSSI.floatValue)}
         }
+        tableview.reloadData()
     }
     //发现设备
     override func godManager(didDiscoverPeripheral peripheral: CBPeripheral, withRSSI RSSI: NSNumber, peripheralName name: String) {
@@ -326,11 +348,13 @@ class AppointScanVC: ScanVC {
             peripheralList.append((name, RSSI, peripheral))
             peripheralList = peripheralList.sorted{fabs($0.RSSI.floatValue) < fabs($1.RSSI.floatValue)}
         }
+        tableview.reloadData()
     }
     
     //连接状态
     override func godManager(didConnectedPeripheral peripheral: CBPeripheral, connectState isSuccess: Bool) {
         guard isSuccess else {
+            isConnecting = false
             //跳转到连接失败页面
             let bootConnectVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "bootconnected") as! BootConnectedVC
             navigationController?.show(bootConnectVC, sender: nil)
@@ -339,16 +363,30 @@ class AppointScanVC: ScanVC {
         
         //延迟3.5秒后设置绑定
         beginLoading(byTitle: "正在设置你的" + (connectName ?? "手环"))
-        _ = delay(3.5){
-            self.endLoading()
-            let angelManager = AngelManager.share()
-            angelManager?.setBind(true){
-                success in
-                //跳转到绑定成功页面
-                let bootConnectVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "bootconnected") as! BootConnectedVC
-                bootConnectVC.isSuccess = success
-                bootConnectVC.bandName = self.connectName
-                self.navigationController?.show(bootConnectVC, sender: true)
+        
+        //判断设备是否已绑定
+        if PeripheralManager.share().select(UUIDString: peripheral.identifier.uuidString) {
+            //跳转到绑定成功或失败页面
+            let bootConnectVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "bootconnected") as! BootConnectedVC
+            bootConnectVC.isSuccess = true
+            bootConnectVC.bandName = self.connectName
+            self.navigationController?.show(bootConnectVC, sender: true)
+        }else{
+            _ = delay(3.5){
+                let angelManager = AngelManager.share()
+                angelManager?.setBind(true){
+                    success in
+                    DispatchQueue.main.async {
+                        self.endLoading()
+                        self.isConnecting = false
+                        
+                        //跳转到绑定成功或失败页面
+                        let bootConnectVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "bootconnected") as! BootConnectedVC
+                        bootConnectVC.isSuccess = success
+                        bootConnectVC.bandName = self.connectName
+                        self.navigationController?.show(bootConnectVC, sender: true)
+                    }
+                }
             }
         }
     }
@@ -384,9 +422,9 @@ class AppointScanVC: ScanVC {
     
     //MARK:- 选择设备
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        if tableview.indexPathForSelectedRow != nil{
-            nextButton.isEnabled = true
-        }
+//        if tableview.indexPathForSelectedRow != nil{
+//            nextButton.isEnabled = true
+//        }
         return indexPath
     }
     
@@ -401,5 +439,21 @@ class AppointScanVC: ScanVC {
             bandCell?.bandRSSI = bandCell?.bandRSSI
         }
         cell?.bandRSSI = peripheralList[indexPath.row].RSSI.intValue
+        
+//        //判断是否已选择设备 直接连接绑定登录
+//        guard let indexPath = tableview.indexPathForSelectedRow else{
+//            debugPrint("请选择设备")
+//            return
+//        }
+        
+        guard !isConnecting && !isScaning else{
+            return
+        }
+        isConnecting = true
+        
+        let peripheralModel = peripheralList[indexPath.row]
+        connectName = peripheralModel.name
+        beginLoading(byTitle: "正在设置您的\(connectName!)")
+        godManager.connect(peripheralModel.peripheral)
     }
 }

@@ -180,9 +180,6 @@ class BootConnectedVC: UIViewController {
     //MARK:- 返回上一级页面
     @IBAction func tryAgain(_ sender: UIButton) {        
         if nextButton.titleLabel?.text == "下一步" {
-//            //跳转到主页
-//            let rootTBC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController() as! RootTBC
-//            self.present(rootTBC, animated: true, completion: nil)
             
             //推送到个人设置页
             if let infoVC = UIStoryboard(name: "Info", bundle: Bundle.main).instantiateViewController(withIdentifier: "infovc") as? InfoVC {

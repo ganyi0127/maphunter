@@ -586,6 +586,27 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection id="doA-3d-hxn">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="eOF-oK-qRZ" style="IBUITableViewCellStyleDefault" id="ubj-z5-Tk6">
+                                        <rect key="frame" x="0.0" y="247" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ubj-z5-Tk6" id="jri-2n-BUi">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="注销账号" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eOF-oK-qRZ">
+                                                    <rect key="frame" x="15" y="0.0" width="384" height="43.666666666666664"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.96821206810000005" green="0.4010783732" blue="0.00068032217680000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="43O-JD-c4O" id="6ZI-wA-xrw"/>
@@ -988,7 +1009,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U91-6s-n5y">
-                                <rect key="frame" x="29.999999999999996" y="40" width="22.666666666666661" height="23.666666666666664"/>
+                                <rect key="frame" x="30" y="40" width="31" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="U91-6s-n5y" secondAttribute="height" multiplier="1:1" constant="-1" id="ckO-xc-MaS"/>
                                 </constraints>
@@ -998,7 +1019,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PPu-I2-sWa">
-                                <rect key="frame" x="361.33333333333326" y="40" width="22.666666666666686" height="22.666666666666664"/>
+                                <rect key="frame" x="353" y="40" width="31" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="PPu-I2-sWa" secondAttribute="height" multiplier="1:1" id="gbq-SK-De2"/>
                                 </constraints>
@@ -1008,7 +1029,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iCN-Hr-Kkb" userLabel="运动">
-                                <rect key="frame" x="0.66666666666665719" y="83.666666666666686" width="413" height="111.33333333333331"/>
+                                <rect key="frame" x="0.66666666666665719" y="92.000000000000014" width="413" height="107.33333333333336"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="运动" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LpO-MB-BJs">
                                         <rect key="frame" x="8" y="8" width="42" height="21"/>
@@ -1026,13 +1047,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="resource/target/target_step_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="Vk7-EB-4BW">
-                                        <rect key="frame" x="12" y="37" width="35" height="34.999999999999986"/>
+                                        <rect key="frame" x="12" y="37" width="35" height="35"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Vk7-EB-4BW" secondAttribute="height" multiplier="1:1" id="NTa-x3-iuQ"/>
                                         </constraints>
                                     </imageView>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="8000" minValue="1000" maxValue="80000" translatesAutoresizingMaskIntoConstraints="NO" id="MEu-Jx-JaD">
-                                        <rect key="frame" x="53" y="40" width="355" height="30.999999999999986"/>
+                                        <rect key="frame" x="53" y="40" width="355" height="31"/>
                                         <color key="minimumTrackTintColor" red="0.9682120680809021" green="0.40107837319374084" blue="0.00068032217677682638" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="thumbTintColor" red="0.9682120680809021" green="0.40107837319374084" blue="0.00068032217677682638" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
@@ -1055,7 +1076,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n39-k0-elX" userLabel="体重">
-                                <rect key="frame" x="-1" y="203" width="414" height="111"/>
+                                <rect key="frame" x="-1" y="207.33333333333337" width="414" height="106.66666666666663"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="体重" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rny-nE-cbV">
                                         <rect key="frame" x="8" y="8" width="42" height="21"/>
@@ -1073,13 +1094,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="resource/target/target_weight_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="zoJ-OY-ogv">
-                                        <rect key="frame" x="12" y="37" width="35" height="35"/>
+                                        <rect key="frame" x="12" y="37" width="35" height="34.999999999999972"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="zoJ-OY-ogv" secondAttribute="height" multiplier="1:1" id="Hen-ZP-Cnk"/>
                                         </constraints>
                                     </imageView>
                                     <slider opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="60" minValue="25" maxValue="225" translatesAutoresizingMaskIntoConstraints="NO" id="km3-61-VJY">
-                                        <rect key="frame" x="53" y="40" width="355" height="31"/>
+                                        <rect key="frame" x="53" y="40" width="355" height="30.999999999999972"/>
                                         <color key="minimumTrackTintColor" red="0.20875269174575806" green="0.76834481954574585" blue="0.57958120107650757" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="thumbTintColor" red="0.15983092784881592" green="0.61465620994567871" blue="0.4645501971244812" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
@@ -1157,7 +1178,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="目标设定" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k2X-CC-soO">
-                                <rect key="frame" x="56.333333333333343" y="41" width="302.33333333333337" height="21"/>
+                                <rect key="frame" x="64.666666666666686" y="45.333333333333329" width="285.66666666666663" height="20.999999999999986"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1175,7 +1196,7 @@
                             <constraint firstItem="k2X-CC-soO" firstAttribute="centerY" secondItem="U91-6s-n5y" secondAttribute="centerY" id="MKX-nc-ZDu"/>
                             <constraint firstItem="RYP-VL-OCr" firstAttribute="top" secondItem="ZGe-xN-JcI" secondAttribute="bottom" id="QPD-7d-Iao"/>
                             <constraint firstItem="iCN-Hr-Kkb" firstAttribute="top" secondItem="U91-6s-n5y" secondAttribute="bottom" constant="20" id="TVW-XY-wYY"/>
-                            <constraint firstItem="U91-6s-n5y" firstAttribute="width" secondItem="tTf-ff-kIt" secondAttribute="width" multiplier="1/28" constant="8" id="XMS-gf-WiP"/>
+                            <constraint firstItem="U91-6s-n5y" firstAttribute="width" secondItem="tTf-ff-kIt" secondAttribute="width" multiplier="1/18" constant="8" id="XMS-gf-WiP"/>
                             <constraint firstItem="ZGe-xN-JcI" firstAttribute="width" secondItem="tTf-ff-kIt" secondAttribute="width" id="YWl-2S-DII"/>
                             <constraint firstAttribute="leadingMargin" secondItem="U91-6s-n5y" secondAttribute="leading" constant="-10" id="Ynn-pv-Vem"/>
                             <constraint firstItem="k2X-CC-soO" firstAttribute="leading" secondItem="U91-6s-n5y" secondAttribute="trailing" constant="3.3333333333333357" id="YsJ-un-bfe"/>

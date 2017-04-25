@@ -25,24 +25,44 @@ class DataCube: UIView {
     
     fileprivate var type: DataCubeType!          //CUBE类型 运动、心率、睡眠、体重
     
-    //显示curLable
-    private lazy var mainLabel: UILabel = {
-        let frame = CGRect(x: self.frame.width * 0.05, y: self.frame.height * 0.1, width: self.frame.width, height: self.frame.height * 0.25)
-        let curLabel: UILabel = UILabel(frame: frame)
-        curLabel.textAlignment = .left
-        curLabel.textColor = .white
-        curLabel.font = UIFont(name: font_name, size: self.frame.height * 0.2)
-        return curLabel
+    //显示第一个lable
+    private lazy var firstLabel: UILabel = {
+        let frame = CGRect(x: 4, y: 8, width: self.frame.width, height: self.frame.height * 0.2)
+        let label: UILabel = UILabel(frame: frame)
+        label.textAlignment = .left
+        label.textColor = .white
+        label.font = fontSmall
+        return label
     }()
     
-    //显示subLable
-    private lazy var subLabel: UILabel = {
-        let frame = CGRect(x: self.mainLabel.frame.origin.x, y: self.mainLabel.frame.origin.y + self.mainLabel.frame.height, width: self.frame.width, height: self.frame.height * 0.2)
-        let targetLabel = UILabel(frame: frame)
-        targetLabel.textAlignment = .left
-        targetLabel.textColor = .white
-        targetLabel.font = UIFont(name: font_name, size: self.frame.height * 0.1)
-        return targetLabel
+    //显示第二个lable
+    private lazy var secondLabel: UILabel = {
+        let frame = CGRect(x: 4, y: self.firstLabel.frame.origin.y + self.firstLabel.frame.height + 4, width: self.frame.width, height: self.frame.height * 0.2)
+        let label = UILabel(frame: frame)
+        label.textAlignment = .left
+        label.textColor = UIColor.white.withAlphaComponent(0.5)
+        label.font = fontSmall
+        return label
+    }()
+    
+    //显示第三个label
+    private lazy var thirdLabel: UILabel = {
+        let frame = CGRect(x: 4, y: self.secondLabel.frame.origin.y + self.secondLabel.frame.height + 4, width: self.frame.width, height: self.frame.height * 0.2)
+        let label = UILabel(frame: frame)
+        label.textAlignment = .left
+        label.textColor = UIColor.white.withAlphaComponent(0.5)
+        label.font = fontSmall
+        return label
+    }()
+    
+    //显示第四个label(目前只有sport用到)
+    private lazy var fourthLabel: UILabel = {
+        let frame = CGRect(x: 4, y: self.frame.height - self.frame.height * 0.2 - 4, width: self.frame.width, height: self.frame.height * 0.2)
+        let label = UILabel(frame: frame)
+        label.textAlignment = .left
+        label.textColor = UIColor.white.withAlphaComponent(0.5)
+        label.font = fontSmall
+        return label
     }()
     
     //点击回调
@@ -69,54 +89,115 @@ class DataCube: UIView {
         didSet{
             switch type as DataCubeType {
             case .sport:
-                var text = "\(Int16(data.value1))步"
-                let mainAttributedString = NSMutableAttributedString(string: text,
-                                                                     attributes: [NSFontAttributeName: fontHuge])
-                mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 1, 1))
-                mainLabel.attributedText = mainAttributedString
+                var text = "今日运动"
+                firstLabel.text = text
                 
-                text = "还有\(Int16(data.value2))步完成"
-                let subAttributedString = NSAttributedString(string: text,
-                                                             attributes: [NSFontAttributeName: fontSmall])
-                subLabel.attributedText = subAttributedString
+                text = "\(Int16(data.value1))步"
+                let firstMutableAttributed = NSMutableAttributedString(string: text,
+                                                                       attributes: [NSFontAttributeName: fontMiddle, NSForegroundColorAttributeName: UIColor.white])
+                firstMutableAttributed.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 1, 1))
+                secondLabel.attributedText = firstMutableAttributed
+                
+                if data.value2 == 0.0{
+                    text = "完成0%"
+                }else{
+                    text = "完成\(Int(data.value1 / data.value2 * 100))%"
+                }
+                thirdLabel.text = text
+                
+                //显示fourthLabel
+                text = "\(Int(data.value3))分钟"
+                let fourthMutableAttributed = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: fontSmall])
+                
+                //添加图片混排
+                let length = fontSmall.pointSize * 1.2
+                let imageSize = CGSize(width: length, height: length)
+                let imageBounds = CGRect(x: 0, y: length / 2 - fourthLabel.bounds.height / 2, width: length, height: length)
+                
+                let attach = NSTextAttachment()
+                attach.image = UIImage(named: "resource/target/target_sleep_begin")?.transfromImage(size: imageSize)
+                attach.bounds = imageBounds
+                let attributed = NSAttributedString(attachment: attach)
+                fourthMutableAttributed.append(attributed)
+                
+                fourthLabel.attributedText = fourthMutableAttributed
             case .heartrate:
+                var text = "心肺功能"
+                firstLabel.text = text
                 
-                var text = "\(Int16(data.value1))Bmp"
-                let mainAttributedString = NSMutableAttributedString(string: text,
-                                                                     attributes: [NSFontAttributeName: fontHuge])
-                mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 3, 3))
-                mainLabel.attributedText = mainAttributedString
-                
-                text = "\(Int16(data.value2))分钟"
-                heartrateLabel1.text = text
-                
-                text = "\(Int16(data.value3))分钟"
-                heartrateLabel2.text = text
-                
-                text = "\(Int16(data.value4))分钟"
-                heartrateLabel3.text = text
+                text = "心率 \(Int16(data.value1))次/分钟"
+                let secondMutableAttributed = NSMutableAttributedString(string: text,
+                                                                     attributes: [NSFontAttributeName: fontMiddle, NSForegroundColorAttributeName: UIColor.white])
+                secondMutableAttributed.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 4, 4))
+                secondMutableAttributed.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(0, 2))
+                secondLabel.attributedText = secondMutableAttributed
+
+                text = "血压 \(Int16(data.value2))" + "/" + "\(Int16(data.value3))"
+                let thirdMutableAttributed = NSMutableAttributedString(string: text,
+                                                                     attributes: [NSFontAttributeName: fontMiddle, NSForegroundColorAttributeName: UIColor.white])
+                thirdMutableAttributed.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(0, 2))
+                thirdLabel.attributedText = thirdMutableAttributed
+//                text = "\(Int16(data.value2))分钟"
+//                heartrateLabel1.text = text
+//                
+//                text = "\(Int16(data.value3))分钟"
+//                heartrateLabel2.text = text
+//                
+//                text = "\(Int16(data.value4))分钟"
+//                heartrateLabel3.text = text
             case .sleep:
+                var text = "昨晚睡眠"
+                firstLabel.text = text
                 
                 let hourStr = "\(Int16(data.value1) / 60)"
                 let minuteStr = Int16(data.value2) % 60 < 10 ? "0\(Int16(data.value2) % 60)" : "\(Int16(data.value2) % 60)"
-                let text = hourStr + "小时" + minuteStr + "分钟"
-                let mainAttributedString = NSMutableAttributedString(string: text,
-                                                                     attributes: [NSFontAttributeName: fontHuge])
-                mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 2, 2))
-                mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 6, 2))
-                mainLabel.attributedText = mainAttributedString
+                text = hourStr + "小时" + minuteStr + "分钟"
+                let secondMutableAttributed = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: fontMiddle])
+                secondMutableAttributed.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 2, 2))
+                secondMutableAttributed.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 6, 2))
+                secondLabel.attributedText = secondMutableAttributed
+                
+                text = "优质睡眠"
             case .weight:
+                var text = "身心状态"
+                firstLabel.text = text
                 
-                var text = String(format: "%.1f", data.value1) + "Kg"
-                let mainAttributedString = NSMutableAttributedString(string: text,
-                                                                     attributes: [NSFontAttributeName: fontHuge])
-                mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 2, 2))
-                mainLabel.attributedText = mainAttributedString
+//                text = String(format: "%.1f", data.value1) + "Kg"
+//                let mainAttributedString = NSMutableAttributedString(string: text,
+//                                                                     attributes: [NSFontAttributeName: fontHuge])
+//                mainAttributedString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 2, 2))
+//                firstLabel.attributedText = mainAttributedString
+//                
+//                text = "目标体重" + String(format: "%.1f", data.value2) + "Kg"
+//                let subAttributedString = NSAttributedString(string: text,
+//                                                             attributes: [NSFontAttributeName: fontSmall])
+//                secondLabel.attributedText = subAttributedString
                 
-                text = "目标体重" + String(format: "%.1f", data.value2) + "Kg"
-                let subAttributedString = NSAttributedString(string: text,
-                                                             attributes: [NSFontAttributeName: fontSmall])
-                subLabel.attributedText = subAttributedString
+                text = "轻度疲劳"
+                let secondMutableAttributed = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: fontSmall])
+                
+                //添加图片混排
+                let length = fontSmall.pointSize * 1.2
+                let imageSize = CGSize(width: length, height: length)
+                let imageBounds = CGRect(x: 0, y: length / 2 - fourthLabel.bounds.height / 2, width: length, height: length)
+                
+                let attach = NSTextAttachment()
+                attach.image = UIImage(named: "resource/target/target_sleep_begin")?.transfromImage(size: imageSize)
+                attach.bounds = imageBounds
+                let attributed = NSAttributedString(attachment: attach)
+                secondMutableAttributed.insert(attributed, at: 0)
+                
+                secondLabel.attributedText = secondMutableAttributed
+                
+                text = "和平"
+                let thirdMutableAttributed = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: fontSmall])
+                
+                attach.image = UIImage(named: "resource/target/target_sleep_begin")?.transfromImage(size: imageSize)
+                attach.bounds = imageBounds
+                let thirdAttributed = NSAttributedString(attachment: attach)
+                thirdMutableAttributed.insert(thirdAttributed, at: 0)
+                
+                thirdLabel.attributedText = thirdMutableAttributed
             }
         }
     }
@@ -172,8 +253,9 @@ class DataCube: UIView {
     //MARK:- init
     init(dataCubeType type: DataCubeType){
         
-        let length = view_size.width * (1 - 0.09) / 2
-        let initFrame = CGRect(x: 0, y: 0, width: length, height: length * 547 / 580)
+        let width = (view_size.width - dataCubeSpacing * 3) / 2
+        let height = width / dataCubeAspectRatio
+        let initFrame = CGRect(x: 0, y: 0, width: width, height: height)
         super.init(frame: initFrame)
         
         self.type = type
@@ -204,12 +286,12 @@ class DataCube: UIView {
         case .heartrate:
             imageName = "heartrate"
             
-            addSubview(heartrateIcon1)
-            addSubview(heartrateIcon2)
-            addSubview(heartrateIcon3)
-            addSubview(heartrateLabel1)
-            addSubview(heartrateLabel2)
-            addSubview(heartrateLabel3)
+//            addSubview(heartrateIcon1)
+//            addSubview(heartrateIcon2)
+//            addSubview(heartrateIcon3)
+//            addSubview(heartrateLabel1)
+//            addSubview(heartrateLabel2)
+//            addSubview(heartrateLabel3)
         case .sleep:
             imageName = "sleep"
         case .weight:
@@ -232,8 +314,10 @@ class DataCube: UIView {
         addSubview(imageView)
         
         //设置中央文字
-        addSubview(mainLabel)
-        addSubview(subLabel)
+        addSubview(firstLabel)
+        addSubview(secondLabel)
+        addSubview(thirdLabel)
+        addSubview(fourthLabel)
     }
     
     @objc private func click(){

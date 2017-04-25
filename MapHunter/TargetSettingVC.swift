@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 import AngelFit
-@IBDesignable
+//@IBDesignable
 class TargetSettingVC: UIViewController {
     
     @IBOutlet weak var refuseButton: UIButton!

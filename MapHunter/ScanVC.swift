@@ -17,14 +17,16 @@ class ScanVC: UIViewController {
     let godManager = GodManager.share()
     
     //存储所有设备
-    var peripheralList = [(name: String, RSSI: NSNumber, peripheral: CBPeripheral)](){
-        didSet{
-            
-            tableview.reloadData()
-        }
-    }
+    var peripheralList = [(name: String, RSSI: NSNumber, peripheral: CBPeripheral)]()
+//    {
+//        didSet{
+//            
+//            tableview.reloadData()
+//        }
+//    }
     
     //重新扫描按钮
+    var showRescanButton = true
     var rescanButton: UIButton = {
         let buttonLength = view_size.width *  0.25
         let buttonFrame = CGRect(x: view_size.width / 2 - buttonLength / 2,
@@ -80,30 +82,38 @@ class ScanVC: UIViewController {
     private func createContents(){
         
         //添加重新扫描按钮
-        view.addSubview(rescanButton)
+        if showRescanButton{
+            view.addSubview(rescanButton)
+        }
         rescan(sender: rescanButton)
     }
     
     @objc func rescan(sender: UIButton){
-        beginLoading()
+        beginLoading(byTitle: "正在查找您的手环")
         
         peripheralList.removeAll()
         
-        UIView.animate(withDuration: 0.3, delay: 0.1, options: .curveEaseIn, animations: {
-            self.rescanButton.alpha = 0
-            self.rescanButton.frame.origin.y = view_size.height
-        }, completion: nil)
+        if showRescanButton{
+            UIView.animate(withDuration: 0.3, delay: 0.1, options: .curveEaseIn, animations: {
+                self.rescanButton.alpha = 0
+                self.rescanButton.frame.origin.y = view_size.height
+            }, completion: nil)
+        }
         
         //开始扫描
         godManager.startScan{
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-                self.rescanButton.alpha = 1
-                let buttonLength = self.rescanButton.frame.width
-                self.rescanButton.frame.origin.y = view_size.height - buttonLength * 1.2
-            }, completion: {
-                _ in
+            if self.showRescanButton{
+                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+                    self.rescanButton.alpha = 1
+                    let buttonLength = self.rescanButton.frame.width
+                    self.rescanButton.frame.origin.y = view_size.height - buttonLength * 1.2
+                }, completion: {
+                    _ in
+                    self.endLoading()
+                })
+            }else{
                 self.endLoading()
-            })
+            }
         }
     }
 }
@@ -119,6 +129,7 @@ extension ScanVC: GodManagerDelegate{
         }
         peripheralList.append((name, 0, peripheral))
         peripheralList = peripheralList.sorted{fabs($0.RSSI.floatValue) < fabs($1.RSSI.floatValue)}
+        tableview.reloadData()
     }
     //发现设备
     func godManager(didDiscoverPeripheral peripheral: CBPeripheral, withRSSI RSSI: NSNumber, peripheralName name: String) {
@@ -131,6 +142,7 @@ extension ScanVC: GodManagerDelegate{
         
         peripheralList.append((name, RSSI, peripheral))
         peripheralList = peripheralList.sorted{fabs($0.RSSI.floatValue) < fabs($1.RSSI.floatValue)}
+        tableview.reloadData()
     }
     
     func godManager(didConnectedPeripheral peripheral: CBPeripheral, connectState isSuccess: Bool) {
@@ -201,7 +213,7 @@ extension ScanVC: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return view_size.width / 3
+        return 88   //view_size.width / 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -227,6 +239,9 @@ extension ScanVC: UITableViewDelegate, UITableViewDataSource{
         let cell = tableView.cellForRow(at: indexPath)
         cell?.setSelected(false, animated: true)
         
+        guard indexPath.row < peripheralList.count else {
+            return
+        }
         let peripheralModel = peripheralList[indexPath.row]
         
         

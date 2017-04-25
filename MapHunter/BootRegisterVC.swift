@@ -11,24 +11,79 @@ class BootRegisterVC: UIViewController {
     @IBOutlet weak var accountTextField: UITextField!
     @IBOutlet weak var verificationTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var registerButton: UIButton!
-    @IBOutlet weak var clause1: UISwitch!
-    @IBOutlet weak var clause2: UISwitch!
+    @IBOutlet weak var accountSeparatorLine: UIView!        //线->账号
+    @IBOutlet weak var verificationSeparatorLine: UIView!   //线->验证码
+    @IBOutlet weak var passwordSeparatorLine: UIView!       //线->密码
+    @IBOutlet weak var verificationButton: UIButton!    //获取验证码按钮
+    @IBOutlet weak var registerButton: UIButton!        //注册按钮
+    @IBOutlet weak var tipLabel: UILabel!               //提示标签
+    @IBOutlet weak var backButton: UIButton!            //返回按钮
+    @IBOutlet weak var lowNavigation: UIView!           //底部导航视图
+    @IBOutlet weak var showButton: UIButton!            //显示密码按钮
+    @IBOutlet weak var agreementButton: UIButton!       //同意按钮
+    @IBOutlet weak var contentButton: UIButton!         //条款按钮
+    @IBOutlet weak var loginButton: UIButton!           //登录按钮
+    @IBOutlet weak var confirmLabel: UILabel!           //确认文本
+    
+    //头像
+    @IBOutlet weak var headImageView: UIImageView!      //头像图片
     
     fileprivate let passwordMinLength = 6           //密码最小长度
     fileprivate let passwordMaxLength = 20          //密码最大长度
+    fileprivate let verifyLenght = 6                //验证码长度
     fileprivate let accountMinLength = 4            //账号最小长度
     fileprivate let accountMaxLength = 32           //账号最大长度
     
     
     private var mailAddress: String?                //存储合法邮箱地址
     
-    //MARK:- init
+    fileprivate var headImage: UIImage?{
+        didSet{
+            headImageView.image = headImage
+        }
+    }
+    
+    private var tap: UITapGestureRecognizer?
+    
+    //是否显示密码
+    fileprivate var isShowPassword = false{
+        didSet{
+            passwordTextField.isSecureTextEntry = !isShowPassword
+        }
+    }
+    
+    //MARK:- init *********************************************
     override func viewDidLoad() {
         super.viewDidLoad()
         
         config()
         createContents()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
+    }
+    
+    private var bottomImageView: UIImageView?       //底部图片
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        //手动添加背景图片
+        if bottomImageView == nil{            
+            if let originImage = UIImage(named: "resource/boot/bg_bottom"){
+                let originSize = originImage.size
+                let imageSize = CGSize(width: view_size.width, height: view_size.width * originSize.height / originSize.width)
+                let bottomImage = originImage.transfromImage(size: imageSize)
+                let lowNavigationHeight: CGFloat = 49
+                bottomImageView = UIImageView(frame: CGRect(x: 0,
+                                                            y: view.frame.height - lowNavigationHeight - imageSize.height,
+                                                            width: imageSize.width,
+                                                            height: imageSize.height))
+                bottomImageView?.image = bottomImage
+                view.insertSubview(bottomImageView!, belowSubview: lowNavigation)
+            }
+        }
     }
     
     deinit {
@@ -40,10 +95,126 @@ class BootRegisterVC: UIViewController {
         //键盘事件
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notif:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notif:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+        //初始化控件
+        if let account = userDefaults.string(forKey: "account"){
+            accountTextField.text = account
+        }
+        accountSeparatorLine.backgroundColor = separatorColor
+        verificationSeparatorLine.backgroundColor = separatorColor
+        passwordSeparatorLine.backgroundColor = separatorColor
+        loginButton.setTitleColor(defaut_color, for: .normal)
+        loginButton.titleLabel?.font = fontSmall
+        registerButton.setTitleColor(defaut_color, for: .normal)
+        registerButton.setTitleColor(.lightGray, for: .disabled)
+        registerButton.isEnabled = false
+        contentButton.setTitleColor(default_color2, for: .normal)
+        contentButton.titleLabel?.font = fontSmall
+        confirmLabel.font = fontSmall
+        confirmLabel.textColor = wordColor
+        backButton.setImage(UIImage(named: "resource/scan/back")?.transfromImage(size: CGSize(width: 17, height: 17)), for: .normal)
+        tipLabel.text = ""
+        tipLabel.font = fontSmall
+        tipLabel.textColor = defaut_color
+        verificationButton.setTitleColor(defaut_color, for: UIControlState.normal)
+        verificationButton.setTitleColor(.lightGray, for: .disabled)
+        verificationButton.isEnabled = isEmailLegal(emailString: accountTextField.text)
+        showButton.tintColor = .clear
+        showButton.setBackgroundImage(UIImage(named: "resource/boot/show_on")?.transfromImage(size: CGSize(width: 24, height: 24)), for: .normal)
+        showButton.setBackgroundImage(UIImage(named: "resource/boot/show_off")?.transfromImage(size: CGSize(width: 24, height: 24)), for: .selected)
+        agreementButton.tintColor = .clear
+        agreementButton.setBackgroundImage(UIImage(named: "resource/boot/agreement_off"), for: .normal)
+        agreementButton.setBackgroundImage(UIImage(named: "resource/boot/agreement_on"), for: .selected)
+        
+        headImage = UIImage(named: "resource/boot/camera")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        //设置头像遮罩
+        let path = UIBezierPath(ovalIn: headImageView.bounds)
+        
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = path.cgPath
+        headImageView.layer.mask = maskLayer
+        
+        let ovalLayer = CAShapeLayer()
+        ovalLayer.path = path.cgPath
+        ovalLayer.fillColor = nil
+        ovalLayer.lineWidth = 4
+        ovalLayer.strokeColor = timeColor.cgColor
+        headImageView.layer.addSublayer(ovalLayer)
+        
+        //为头像添加点击事件
+        if tap == nil{
+            tap = UITapGestureRecognizer(target: self, action: #selector(tapHeadImageView(recognizer:)))
+            tap?.numberOfTapsRequired = 1
+            tap?.numberOfTouchesRequired = 1
+            headImageView.addGestureRecognizer(tap!)
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if let t = tap{
+            headImageView.removeGestureRecognizer(t)
+            tap = nil
+        }
     }
     
     private func createContents(){
         
+    }
+    
+    //MARK:- 检查邮箱是否合法
+    fileprivate func isEmailLegal(emailString string: String?) -> Bool{
+        //判断账号是否为空
+        guard let account: String = string, !account.characters.isEmpty else {
+            tipLabel.text = "请填写邮箱"
+            return false
+        }
+        
+        //判断账号是否合法
+        let mailPattern = "^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$"
+        let matcher = Regex(mailPattern)
+        let maybeMailAddress = account
+        guard matcher.match(input: maybeMailAddress) else{
+            tipLabel.text = "请输入可用的邮箱作为登录账号"
+            verificationButton.isEnabled = false
+            return false
+        }
+        
+        tipLabel.text = ""
+        verificationButton.isEnabled = true
+        return true
+    }
+    
+    //MARK:- 检查密码是否合法
+    fileprivate func isPasswordLegal(passwordString string: String?) -> Bool{
+        //判断密码是否为空
+        guard let password: String = passwordTextField.text, !password.characters.isEmpty else{
+            tipLabel.text = "密码不能为空"
+            return false
+        }
+        guard  password.characters.count >= passwordMinLength else {
+            tipLabel.text = "密码长度为\(passwordMinLength)~\(passwordMaxLength)之间"
+            return false
+        }
+        tipLabel.text = ""
+        return true
+    }
+    
+    //MARK:- 检查验证码是否合法
+    fileprivate func isVerifyCodeLegal(verifyCode string: String?) -> Bool{
+        //判断验证码是否为空
+        guard let verifyCode = verificationTextField.text, verifyCode.characters.count == verifyLenght else {
+            tipLabel.text = "请输入六位验证码"
+            return false
+        }
+        tipLabel.text = ""
+        return true
     }
     
     //MARK:- 点击获取验证码
@@ -52,55 +223,36 @@ class BootRegisterVC: UIViewController {
         verificationTextField.endEditing(true)
         passwordTextField.endEditing(true)
         
-        //判断账号是否为空
-        guard let account: String = accountTextField.text, !account.characters.isEmpty else {
-            let alertController = UIAlertController(title: "账号格式不正确", message: "邮箱不能为空", preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "确定", style: .cancel, handler: nil)
-            alertController.addAction(cancelAction)
-            present(alertController, animated: true, completion: nil)
-            return
+        if isEmailLegal(emailString: accountTextField.text) {
+            //发送验证码
+            ACAccountManager.sendVerifyCode(withAccount: accountTextField.text!, template: 1){
+                error in
+                DispatchQueue.main.async {
+                    if let err = error {
+                        debugPrint("<verify code> 发送验证码错误 error: \(err)")
+                        self.tipLabel.text = "发送验证码错误"
+                        return
+                    }
+                    
+                    self.tipLabel.text = "验证码发送正常，请在注册邮箱中查收"
+                    debugPrint("<verify code> 发送验证码成功")
+                    
+                    //存储该邮箱
+                    self.mailAddress = self.accountTextField.text
+                }
+            }
         }
-        
-        //判断账号是否合法
-        let mailPattern = "^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$"
-        let matcher = Regex(mailPattern)
-        let maybeMailAddress = account
-        guard matcher.match(input: maybeMailAddress) else{
-            let alertController = UIAlertController(title: "账号格式不正确", message: "请输入正确的邮箱", preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "确定", style: .cancel, handler: nil)
-            alertController.addAction(cancelAction)
-            present(alertController, animated: true, completion: nil)
-            return
-        }
-        
-        //存储该邮箱
-        mailAddress = account
     }
     
     //MARK:- 点击勾选条款
-    @IBAction func acceptSwitch(_ sender: UISwitch) {
-        let tag = sender.tag
-        
-        //当勾选条款情况下，允许注册
-        if clause1.isOn && clause2.isOn {
-            registerButton.isEnabled = true
-        }else{
-            registerButton.isEnabled = false
-        }
-        
-        if tag == 0 {
-            //FunSport使用条款
-        }else if tag == 1{
-            //FunSport隐私条款
-            
-        }
+    @IBAction func accept(_ sender: UIButton) {
+        agreementButton.isSelected = !agreementButton.isSelected
+        setDoneButtonEnable()
     }
     
-    //MARK:- 点击返回登录
-    @IBAction func backToLogin(_ sender: UIButton) {
-        
-        //返回登录页面
-        dismiss(animated: true, completion: nil)
+    //MARK:- 返回上一级
+    @IBAction func back(_ sender: UIButton) {
+        _ = navigationController?.popViewController(animated: true)
     }
     
     //MARK:- 点击注册
@@ -112,38 +264,104 @@ class BootRegisterVC: UIViewController {
         
         //判断账号是否为空
         guard let account: String = mailAddress else{
-            let alertController = UIAlertController(title: "账号错误", message: "未获取的邮箱地址", preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "确定", style: .cancel, handler: nil)
-            alertController.addAction(cancelAction)
-            present(alertController, animated: true, completion: nil)
+            tipLabel.text = "点击获取验证码"
+            return
+        }
+        
+        guard account == accountTextField.text else {
+            tipLabel.text = "该邮箱未获取验证码"
             return
         }
         
         //判断密码是否为空
-        guard let password: String = passwordTextField.text, !password.characters.isEmpty, password.characters.count >= passwordMinLength else{
-            let alertController = UIAlertController(title: "密码格式不正确", message: "密码长度为\(passwordMinLength)~\(passwordMaxLength)之间", preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "确定", style: .cancel, handler: nil)
-            alertController.addAction(cancelAction)
-            present(alertController, animated: true, completion: nil)
+        guard let password = passwordTextField.text else {
+            return
+        }
+        guard isPasswordLegal(passwordString: password) else {
+            return
+        }
+        
+        //判断验证码是否为空
+        guard let verifyCode = verificationTextField.text else {
+            return
+        }
+        guard isVerifyCodeLegal(verifyCode: verifyCode) else {
             return
         }
         
         //判断是否勾选点击勾选条款
-        guard clause1.isOn, clause2.isOn else {
+        guard agreementButton.isSelected else {
+            tipLabel.text = "需同意FunSport使用条款"
+            return
+        }
+        
+        //监测网络是否可用
+        guard isNetworkEnable() else {
             return
         }
         
         //loading视图
-        //        beginLoading()
+        beginLoading()
         
-        //账号密码注册
-        var body = [String:String]()
-        body["username"] = account
-        body["password"] = password
-        
-        //注册成功并载入权限设置页面
-        let rootTBC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController() as! RootTBC
-        present(rootTBC, animated: true, completion: nil)
+        //判断验证码是否正确 注册
+        ACAccountManager.checkVerifyCode(withAccount: account, verifyCode: verifyCode){
+            flag, error in
+            
+            DispatchQueue.main.async {
+                
+                self.endLoading()
+                if let err = error{
+                    debugPrint("<register error> error: \(err)")
+                    self.tipLabel.text = "请求失败"
+                    return
+                }
+                if flag{
+                    //验证码正确
+                    self.beginLoading(byTitle: "登录中")
+                    ACAccountManager.register(withNickName: nil, phone: nil, email: account, password: password, verifyCode: verifyCode){
+                        userinfo, error in
+                        
+                        DispatchQueue.main.async {
+                            
+                            self.endLoading()   //停止loading
+                            if let err = error{
+                                debugPrint("<register error> userinfo: \(String(describing: userinfo)), \(err)")
+                                self.tipLabel.text = "注册信息错误"
+                                let alert = UIAlertController(title: "测试注册错误", message: "\(err)", preferredStyle: .alert)
+                                let cancel = UIAlertAction(title: "关闭", style: .cancel, handler: nil)
+                                alert.addAction(cancel)
+                                self.present(alert, animated: true, completion: nil)
+                                return
+                            }
+                            debugPrint("<register success> userinfo: \(String(describing: userinfo)), error: nil")
+                            self.tipLabel.text = "注册成功"
+                            //注册成功并载入登录
+                            userDefaults.set(account, forKey: "account")
+                            userDefaults.set(password, forKey: "password")
+                            
+                            //登录到通知与提醒页面 判断
+                            let notificationSettingTypes = UIApplication.shared.currentUserNotificationSettings?.types
+                            let isAlreadyRequestAppleHealth = userDefaults.bool(forKey: "applehealth")
+                            let locationStatus = CLLocationManager.authorizationStatus()
+                            guard notificationSettingTypes?.rawValue != 0 && isAlreadyRequestAppleHealth && (locationStatus == .authorizedWhenInUse || locationStatus == .authorizedAlways)  else{
+                                if let notifyLocalnotifyVC = UIStoryboard(name: "Notify", bundle: Bundle.main).instantiateViewController(withIdentifier: "notify") as? NotifyLocalNotifyVC{
+                                    self.present(notifyLocalnotifyVC, animated: true, completion: nil)
+                                    return
+                                }
+                                return
+                            }
+                            
+                            //跳转到主页
+                            let rootTBC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController() as! RootTBC
+                            self.present(rootTBC, animated: true, completion: nil)
+                        }
+                    }
+                }else{
+                    //验证码错误
+                    self.tipLabel.text = "验证码错误"
+                }
+            }
+        }
     }
     
     //MARK:- 第三方登录
@@ -160,28 +378,35 @@ class BootRegisterVC: UIViewController {
     
     //MARK:- 显示密码
     @IBAction func displayPassword(_ sender: UIButton) {
+        isShowPassword = !isShowPassword
+        sender.isSelected = isShowPassword
+    }
+    
+    //MARK:- 点击查看使用条款
+    @IBAction func checkAgreement(_ sender: UIButton) {
         
     }
     
-    //MARK:- 点击事件 回收键盘
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        accountTextField.resignFirstResponder()
-        passwordTextField.resignFirstResponder()
-    }
-    
     //MARK:- 输入判断
-    @IBAction func editingChanged(_ sender: UITextField) {
+    @IBAction func valueChanged(_ sender: UITextField) {
         guard sender.text != nil else{
             return
         }
+        
+        //根据邮箱是否非法判断是否显示获取验证码按钮
+        verificationButton.isEnabled = isEmailLegal(emailString: accountTextField.text)
         
         //判断账号或密码
         var maxLength: Int                      //输入最大长度
         if sender.tag == 0{
             maxLength = accountMaxLength        //取账号最大长度
+        }else if sender.tag == 1{
+            maxLength = verifyLenght            //验证码长度
         }else{
             maxLength = passwordMaxLength       //取密码最大长度
         }
+        
+        setDoneButtonEnable()
         
         //限制字符数
         if (sender.text?.lengthOfBytes(using: String.Encoding.utf8))! > maxLength{
@@ -193,16 +418,89 @@ class BootRegisterVC: UIViewController {
             }
         }
     }
+    
+    @IBAction func editingBegin(_ sender: UITextField) {
+        setDoneButtonEnable()
+    }
+    
+    @IBAction func editingChanged(_ sender: UITextField) {
+        setDoneButtonEnable()
+    }
+    
+    //MARK:- 页面点击事件 回收键盘
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        accountSeparatorLine.backgroundColor = separatorColor
+        verificationSeparatorLine.backgroundColor = separatorColor
+        passwordSeparatorLine.backgroundColor = separatorColor
+        accountTextField.resignFirstResponder()
+        verificationTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+    }
+    
+    //MARK:- 头像点击事件
+    @objc private func tapHeadImageView(recognizer: UITapGestureRecognizer){
+        let alertController = UIAlertController(title: nil, message: "", preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel){
+            action in
+        }
+        alertController.addAction(cancelAction)
+        
+        let cameraAction = UIAlertAction(title: "拍照", style: .default){
+            action in
+            self.selectPhotoFromCamera()
+        }
+        alertController.addAction(cameraAction)
+        
+        let libraryAction = UIAlertAction(title: "从手机相册选择", style: .default){
+            action in
+            self.selectPhotoFromLibrary()
+        }
+        alertController.addAction(libraryAction)
+        
+        alertController.setBlackTextColor()
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    //MARK:- 检查登录或注册按钮是否可选
+    fileprivate func setDoneButtonEnable(){
+        registerButton.isEnabled = isEmailLegal(emailString: accountTextField.text) && isPasswordLegal(passwordString: passwordTextField.text) && isVerifyCodeLegal(verifyCode: verificationTextField.text) && agreementButton.isSelected
+    }
 }
 
 //MARK:- textfield delegate
 extension BootRegisterVC: UITextFieldDelegate{
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == accountTextField {
+            accountSeparatorLine.backgroundColor = defaut_color
+            verificationSeparatorLine.backgroundColor = separatorColor
+            passwordSeparatorLine.backgroundColor = separatorColor
+        }else if textField == verificationTextField{
+            accountSeparatorLine.backgroundColor = separatorColor
+            verificationSeparatorLine.backgroundColor = defaut_color
+            passwordSeparatorLine.backgroundColor = separatorColor
+        }else if textField == passwordTextField{
+            accountSeparatorLine.backgroundColor = separatorColor
+            verificationSeparatorLine.backgroundColor = separatorColor
+            passwordSeparatorLine.backgroundColor = defaut_color
+        }
+    }
+    
     //点击return事件
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        accountSeparatorLine.backgroundColor = separatorColor
         if textField.tag == 0{
-            passwordTextField.becomeFirstResponder()
+            verificationSeparatorLine.backgroundColor = defaut_color
+            passwordSeparatorLine.backgroundColor = separatorColor
+            verificationTextField.becomeFirstResponder()
         }else if textField.tag == 1{
+            verificationSeparatorLine.backgroundColor = separatorColor
+            passwordSeparatorLine.backgroundColor = defaut_color
+            passwordTextField.becomeFirstResponder()
+        }else if textField.tag == 2{
+            verificationSeparatorLine.backgroundColor = separatorColor
+            passwordSeparatorLine.backgroundColor = separatorColor
             textField.resignFirstResponder()
             register(registerButton)
         }
@@ -220,6 +518,10 @@ extension BootRegisterVC: UITextFieldDelegate{
         
         let animations = {
             let keyboardTransform = CGAffineTransform(translationX: 0, y: -offset)
+            let viewTransform = CGAffineTransform(translationX: 0, y: -offset / 2)
+            let lowTransform = CGAffineTransform(translationX: 0, y: -offset + offset / 2)
+            self.lowNavigation.transform = lowTransform
+            self.view.transform = viewTransform
         }
         
         if duration > 0 {
@@ -228,7 +530,6 @@ extension BootRegisterVC: UITextFieldDelegate{
         }else{
             animations()
         }
-        
     }
     
     //键盘回收
@@ -239,6 +540,8 @@ extension BootRegisterVC: UITextFieldDelegate{
         
         let animations = {
             let keyboardTransform = CGAffineTransform.identity
+            self.lowNavigation.transform = keyboardTransform
+            self.view.transform = keyboardTransform
         }
         
         if duration > 0 {
@@ -249,14 +552,82 @@ extension BootRegisterVC: UITextFieldDelegate{
         }
     }
     
-    //复制判断
+    //输入判断
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let existedLength = textField.text?.lengthOfBytes(using: .utf8)
         let selectedLength = range.length
         let replaceLength = string.lengthOfBytes(using: .utf8)
-        if existedLength! - selectedLength + replaceLength > passwordMaxLength{
+        var maxLength: Int
+        if textField.tag == 0{
+            maxLength = accountMaxLength
+            if var accountString = accountTextField.text{
+                let startIndex = accountString.index(accountString.startIndex, offsetBy: range.location)
+                let endIndex = accountString.index(accountString.startIndex, offsetBy: range.location + range.length)
+                let replaceRange = Range(startIndex..<endIndex)
+                accountString = accountString.replacingCharacters(in: replaceRange, with: string)
+                verificationButton.isEnabled = isEmailLegal(emailString: accountString)
+            }
+        }else if textField.tag == 1{
+            maxLength = verifyLenght
+        }else {
+            maxLength = passwordMaxLength
+        }
+        
+        
+        if existedLength! - selectedLength + replaceLength > maxLength{
             return false
         }
         return true
+    }
+}
+
+//MARK:- 头像操作
+extension BootRegisterVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+    
+    //MARK:从照片库中挑选图片
+    fileprivate func selectPhotoFromLibrary(){
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else{
+            let alertController = UIAlertController(title: "拍照", message: "相机获取图片失效", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "确定", style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            present(alertController, animated: true, completion: nil)
+            return
+        }
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = true
+        imagePicker.modalPresentationStyle = .currentContext
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    //MARK:从相机中拍摄图片
+    fileprivate func selectPhotoFromCamera(){
+        
+        guard UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) else{
+            let alertController = UIAlertController(title: "相册", message: "获取相册图片失效", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "确定", style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            present(alertController, animated: true, completion: nil)
+            return
+        }
+        let cameraPicker = UIImagePickerController()
+        cameraPicker.delegate = self
+        cameraPicker.sourceType = UIImagePickerControllerSourceType.camera
+        cameraPicker.modalPresentationStyle = .currentContext
+        cameraPicker.allowsEditing = true
+        //        cameraPicker.cameraOverlayView = ? 覆盖在相机上
+        cameraPicker.showsCameraControls = true
+        cameraPicker.cameraDevice = .front
+        present(cameraPicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+        self.headImage = image
+        picker.dismiss(animated: true){}
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true){}
     }
 }

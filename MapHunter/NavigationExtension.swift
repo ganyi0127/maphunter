@@ -49,14 +49,20 @@ extension UINavigationController: UINavigationControllerDelegate{
                 
                 if viewController.isKind(of: StateVC.self){
                     //状态视图
-//                    let image = UIImage(named: "resource/icon_calendar")
-//                    let imageSize = CGSize(width: navigation_height! * 0.6, height: navigation_height! * 0.6)
-//                    let calenderBarButton = UIBarButtonItem(image: image?.transfromImage(size: imageSize),
-//                                                            style: .done,
-//                                                            target: (viewController as! StateVC).topView,
-//                                                            action: #selector((viewController as! StateVC).topView.clickCalendar))
-//                    
-//                    viewController.navigationItem.rightBarButtonItem = calenderBarButton
+                    let image = UIImage(named: "resource/me/me_head_boy")
+                    let imageSize = CGSize(width: navigation_height! * 0.98, height: navigation_height! * 0.98)
+                    let imageFrame = CGRect(origin: .zero, size: imageSize)
+                    let imageView = UIImageView(frame: imageFrame)
+                    imageView.image = image
+                    let maskLayer = CAShapeLayer()
+                    maskLayer.path = UIBezierPath(ovalIn: imageFrame).cgPath
+                    imageView.layer.mask = maskLayer
+                    let tap = UITapGestureRecognizer(target: (viewController as! StateVC).topView, action: #selector((viewController as! StateVC).topView.clickCalendar))
+                    tap.numberOfTapsRequired = 1
+                    tap.numberOfTouchesRequired = 1
+                    imageView.addGestureRecognizer(tap)
+                    let heardItem = UIBarButtonItem(customView: imageView)
+                    viewController.navigationItem.rightBarButtonItem = heardItem
                 }else if viewController.isKind(of: MeVC.self){
                     //个人视图
                     let image = UIImage(named: "resource/me/me_setting")

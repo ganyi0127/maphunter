@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-private var loading: Loading?
+private var loading: Loading? = nil
 extension UIViewController{
     open override func awakeFromNib() {
         didReceiveMemoryWarning()
@@ -33,6 +33,7 @@ extension UIViewController{
             loading = Loading(byTitle: title)
         }else if loading?.superview != nil{
             loading?.removeFromSuperview()
+            loading = Loading(byTitle: title)
         }
         
         loading?.alpha = 0
@@ -49,6 +50,7 @@ extension UIViewController{
             _ in
             loading?.alpha = 1
             loading?.removeFromSuperview()
+            loading = nil
         })
     }
 }

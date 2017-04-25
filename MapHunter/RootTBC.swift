@@ -156,6 +156,7 @@ class RootTBC: UITabBarController {
     
     private func config(){
         
+        _ = GodManager.share()
         _ = AngelManager.share()
         
         //修改默认界面
@@ -167,9 +168,9 @@ class RootTBC: UITabBarController {
         
         
         //初始化权限
-        permissionHealthKit()
-        permissionPushNotification()
-        permissionLocation()
+//        permissionHealthKit()
+//        permissionPushNotification()
+//        permissionLocation()
     }
     
     private func createContents(){

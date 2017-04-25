@@ -17,9 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        //初始化一次SDK，可能存在配置回调未赋值的问题（逻辑漏洞）
-//        _ = AngelManager.share()?.setSynchronizationConfig(closure: {_ in})
-        
         //后台参数
         application.setMinimumBackgroundFetchInterval(5)
         
@@ -27,15 +24,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         
         //进入
-        let isFirstLogin = true
-        if isFirstLogin{
-            //引导页
-            let navigation = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateInitialViewController()
-            window?.rootViewController = navigation
-        }else{
+        if let password = userDefaults.string(forKey: "password"), !password.characters.isEmpty{
             //直接登陆
             let rootTBC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController() as! RootTBC
             window?.rootViewController = rootTBC
+        }else{
+            //引导页
+            let navigation = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateInitialViewController()
+            window?.rootViewController = navigation
         }
         window?.makeKeyAndVisible()
         
@@ -50,7 +46,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        //后台初始化
+        let id = ACloudLib.getMajorDomainId()       //获取产品id (930)
+        ACloudLib.setMajorDomain("i-doo", majorDomainId: 930)
+        if true{
+            //测试环境
+            ACloudLib.setMode(ACLoudLibMode.test, region: .china)
+        }else{
+            //正式环境
+            ACloudLib.setMode(.router, region: .china)
+        }
+        ACloudLib.setLogEnabled(true)
+        
+        //崩溃处理
+        NSSetUncaughtExceptionHandler(customUncaughtExceptionHandler())
+        
+        //蒲公英sdk初始化
+        let PgyAppId = "f16920655e1cec805b62f4fad7b7774e"
+        PgyManager.shared().start(withAppId: PgyAppId)
+        PgyUpdateManager.sharedPgy().start(withAppId: PgyAppId)
+        PgyUpdateManager.sharedPgy().checkUpdate()  //检查更新
+        
         return true
+    }
+    
+    //MARK:- 崩溃回调
+    func customUncaughtExceptionHandler() -> @convention(c) (NSException) -> Void{
+        return {
+            (exception) -> Void in
+            let arr = exception.callStackSymbols    //得到当前调用栈信息
+            let reason = exception.reason           //得到崩溃原因
+            let name = exception.name               //异常类型
+            
+            let data = "<exception> type: \(name), reason: \(String(describing: reason)), stackInfo: \(arr)"
+            debugPrint(data)
+            writeData(data: "<exception> [type]: \(name)\n [reason]: \(String(describing: reason))")
+            
+            //手动上报到蒲公英
+            PgyManager.shared().report(exception)
+        }
     }
     
     //MARK:- 通知 注册推送成功后调用
@@ -165,6 +199,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Fallback on earlier versions
         }
     }
-
 }
 

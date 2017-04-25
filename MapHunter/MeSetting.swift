@@ -41,27 +41,33 @@ extension MeSetting{
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.row {
-        case 0:
-            //个人信息页面
-            guard let infoViewController = storyboard?.instantiateViewController(withIdentifier: "meinfo") else{
-                return
+        if indexPath.section == 0 {
+            switch indexPath.row {
+            case 0:
+                //个人信息页面
+                guard let infoViewController = storyboard?.instantiateViewController(withIdentifier: "meinfo") else{
+                    return
+                }
+                navigationController?.pushViewController(infoViewController, animated: true)
+            case 1:
+                //单位设置页面
+                let unitViewController = MeUnit()
+                navigationController?.pushViewController(unitViewController, animated: true)
+            case 2:
+                //星期开始日页面
+                let weekbeginViewController = MeWeekbegin()
+                navigationController?.pushViewController(weekbeginViewController, animated: true)
+            case 3:
+                //版本
+                let versionViewController = MeVersion()
+                navigationController?.pushViewController(versionViewController, animated: true)
+            default:
+                break
             }
-            navigationController?.pushViewController(infoViewController, animated: true)
-        case 1:
-            //单位设置页面
-            let unitViewController = MeUnit()
-            navigationController?.pushViewController(unitViewController, animated: true)
-        case 2:
-            //星期开始日页面
-            let weekbeginViewController = MeWeekbegin()
-            navigationController?.pushViewController(weekbeginViewController, animated: true)
-        case 3:
-            //版本
-            let versionViewController = MeVersion()
-            navigationController?.pushViewController(versionViewController, animated: true)
-        default:
-            break
+        }else{
+            //注销账号
+            userDefaults.set(nil, forKey: "password")
+            navigationController?.popViewController(animated: true)
         }
     }
 }

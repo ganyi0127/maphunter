@@ -587,6 +587,17 @@ extension TopScrollView: UIScrollViewDelegate{
         if isOpen{
             
             if contentOffset.x == view_size.width * 2{
+                //判断左滑是否合法 今天日期大于当前日期
+                /*
+                if let firstDate = dateProgressOfCurrentMonth.first?.date{
+                    let components0 = calendar.dateComponents([.year, .month], from: Date())
+                    let components1 = calendar.dateComponents([.year, .month], from: firstDate)
+                    if components0.year! <= components1.year! && components0.month! <= components1.month! {
+                        return
+                    }
+                }
+                 */
+                
                 //左滑 nextMonth to thisMonth
                 dateProgressOfLastMonth.forEach(){
                     dateProgress in

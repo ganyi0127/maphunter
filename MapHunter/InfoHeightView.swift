@@ -8,5 +8,9 @@
 
 import Foundation
 class InfoHeightView: InfoBaseView {
-    
+    override func config() {
+        super.config()
+        
+        type = .height
+    }
 }

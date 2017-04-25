@@ -8,5 +8,10 @@
 
 import Foundation
 class InfoSexView: InfoBaseView {
-    
+
+    override func config() {
+        super.config()
+        
+        type = .gender
+    }
 }

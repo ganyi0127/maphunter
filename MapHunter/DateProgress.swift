@@ -245,8 +245,18 @@ extension DateProgress{
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 
+        //日期大于今天则禁止点击
+        let comparisonResult = date?.compare(Date())
+        if comparisonResult == ComparisonResult.orderedDescending{
+            notiy.post(name: unselect_notiy, object: nil)
+            closure?(selectDate, false)
+            return
+        }
+        
+        //设置日期为当前日期
         selectDate = date!
         
+        //回调
         notiy.post(name: unselect_notiy, object: nil)
         select(true)
         closure?(date!, false)
