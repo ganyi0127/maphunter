@@ -95,7 +95,8 @@ class DataCube: UIView {
                 text = "\(Int16(data.value1))步"
                 let firstMutableAttributed = NSMutableAttributedString(string: text,
                                                                        attributes: [NSFontAttributeName: fontMiddle, NSForegroundColorAttributeName: UIColor.white])
-                firstMutableAttributed.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 1, 1))
+                firstMutableAttributed.addAttributes([NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white.withAlphaComponent(0.5)],
+                                                     range: NSMakeRange(text.characters.count - 1, 1))
                 secondLabel.attributedText = firstMutableAttributed
                 
                 if data.value2 == 0.0{
@@ -127,15 +128,18 @@ class DataCube: UIView {
                 
                 text = "心率 \(Int16(data.value1))次/分钟"
                 let secondMutableAttributed = NSMutableAttributedString(string: text,
-                                                                     attributes: [NSFontAttributeName: fontMiddle, NSForegroundColorAttributeName: UIColor.white])
-                secondMutableAttributed.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 4, 4))
-                secondMutableAttributed.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(0, 2))
+                                                                        attributes: [NSFontAttributeName: fontMiddle, NSForegroundColorAttributeName: UIColor.white])
+                secondMutableAttributed.addAttributes([NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white.withAlphaComponent(0.5)],
+                                                      range: NSMakeRange(text.characters.count - 4, 4))
+                secondMutableAttributed.addAttributes([NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white.withAlphaComponent(0.5)],
+                                                      range: NSMakeRange(0, 2))
                 secondLabel.attributedText = secondMutableAttributed
 
                 text = "血压 \(Int16(data.value2))" + "/" + "\(Int16(data.value3))"
                 let thirdMutableAttributed = NSMutableAttributedString(string: text,
                                                                      attributes: [NSFontAttributeName: fontMiddle, NSForegroundColorAttributeName: UIColor.white])
-                thirdMutableAttributed.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(0, 2))
+                thirdMutableAttributed.addAttributes([NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white.withAlphaComponent(0.5)],
+                                                     range: NSMakeRange(0, 2))
                 thirdLabel.attributedText = thirdMutableAttributed
 //                text = "\(Int16(data.value2))分钟"
 //                heartrateLabel1.text = text
@@ -152,12 +156,15 @@ class DataCube: UIView {
                 let hourStr = "\(Int16(data.value1) / 60)"
                 let minuteStr = Int16(data.value2) % 60 < 10 ? "0\(Int16(data.value2) % 60)" : "\(Int16(data.value2) % 60)"
                 text = hourStr + "小时" + minuteStr + "分钟"
-                let secondMutableAttributed = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: fontMiddle])
-                secondMutableAttributed.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 2, 2))
-                secondMutableAttributed.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 6, 2))
+                let secondMutableAttributed = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: fontMiddle, NSForegroundColorAttributeName: UIColor.white])
+                secondMutableAttributed.addAttributes([NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white.withAlphaComponent(0.5)],
+                                                      range: NSMakeRange(text.characters.count - 2, 2))
+                secondMutableAttributed.addAttributes([NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white.withAlphaComponent(0.5)],
+                                                      range: NSMakeRange(text.characters.count - 6, 2))
                 secondLabel.attributedText = secondMutableAttributed
                 
                 text = "优质睡眠"
+                thirdLabel.text = text
             case .weight:
                 var text = "身心状态"
                 firstLabel.text = text
