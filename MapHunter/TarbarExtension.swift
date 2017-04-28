@@ -18,10 +18,10 @@ extension UITabBarController{
         
         //修改底图与item图形
         if let backImage = UIImage(named: "resource/tabbar/background"){
-            tabBar.backgroundImage = backImage.transfromImage(size: tabbarSize)
+//            tabBar.backgroundImage = backImage.transfromImage(size: tabbarSize)
             tabBar.shadowImage = UIImage()
             
-            let height = tabBar.backgroundImage!.size.height / 2
+            let height: CGFloat = 49 / 2 //tabBar.backgroundImage!.size.height / 2
             let itemSize = CGSize(width: height, height: height)
             
 //            let item0 = UITabBarItem(title: "状态", image: UIImage(named: "resource/tabbar/status")?.transfromImage(size: itemSize), selectedImage: UIImage(named: "resource/tabbar/status_selected")?.transfromImage(size: itemSize))

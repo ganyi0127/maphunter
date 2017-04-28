@@ -705,7 +705,7 @@ class DetailTop: UIView {
                 self.deltaMinute = 0
                 dataList.forEach(){
                     data in
-                    self.deltaMinute += Int(Int16(data) % sleepTypeBit)
+                    self.deltaMinute += Int(Int(data) % Int(sleepTypeBit))
                 }
                 
                 var offsetX: CGFloat = self.radius                                                //计算数据x坐标值
@@ -714,7 +714,7 @@ class DetailTop: UIView {
                 dataList.enumerated().forEach(){
                     index, data in
                     
-                    let sleepType = Int16(data) / sleepTypeBit                          //获取睡眠类型
+                    let sleepType = Int(data) / Int(sleepTypeBit)                          //获取睡眠类型
                     var sleepColor: CGColor                                             //获取睡眠颜色
                     
                     var height = rectHeight
@@ -736,7 +736,7 @@ class DetailTop: UIView {
                         sleepColor = UIColor.clear.cgColor
                         break
                     }
-                    let sleepData = CGFloat(Int16(data) % sleepTypeBit)                           //获取数据
+                    let sleepData = CGFloat(Int(data) % Int(sleepTypeBit))                           //获取数据
                     rectWidth = (self.bounds.size.width - self.radius * 2) * sleepData / CGFloat(self.deltaMinute)
                     
                     let bezier = UIBezierPath(rect: CGRect(x: offsetX,
@@ -1151,7 +1151,7 @@ extension DetailTop{
                 var offsetX: CGFloat = 0
                 for i in 0..<dataList.count{
                     let data = dataList[i]
-                    let sleepData = Int16(data) % sleepTypeBit
+                    let sleepData = Int16(Int(data) % Int(sleepTypeBit))
                     
                     preOffsetX = offsetX
                     offsetX += (bounds.size.width - radius * 2) * CGFloat(sleepData) / CGFloat(deltaMinute)
@@ -1203,10 +1203,10 @@ extension DetailTop{
                 for i in 0..<dataList.count{
                     let data = dataList[i]
                     if i >= dataIndex{
-                        subEndMinute = subStartMinute + Int(Int16(dataList[dataIndex]) % sleepTypeBit)
+                        subEndMinute = subStartMinute + Int(Int(dataList[dataIndex]) % Int(sleepTypeBit))
                         break
                     }
-                    subStartMinute += Int(Int16(data) % sleepTypeBit)
+                    subStartMinute += Int(Int(data) % Int(sleepTypeBit))
                 }
                 
                 var timeResult = getNewHourAndMinute(hour: startSleepHour, minute: startSleepMinute, deltaMinute: subStartMinute)
@@ -1219,7 +1219,7 @@ extension DetailTop{
                 minute = timeResult.minute < 10 ? "0\(timeResult.minute)" : "\(timeResult.minute)"
                 let timeEnd = hour + ":" + minute
                 
-                let typeIndex = Int16(dataList[dataIndex]) / sleepTypeBit
+                let typeIndex = Int(dataList[dataIndex]) / Int(sleepTypeBit)
                 var typeStr: String
                 switch typeIndex{
                 case 0:

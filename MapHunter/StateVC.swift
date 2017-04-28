@@ -14,14 +14,6 @@ class StateVC: UIViewController {
     @IBOutlet weak var topView: TopView!            //日历
     @IBOutlet weak var tableView: UITableView!      //内容
     
-    //毛玻璃 打开日历后蒙版
-//    private lazy var effectView = { () -> UIVisualEffectView in
-//        let blur: UIBlurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
-//        let effectView: UIVisualEffectView = UIVisualEffectView(effect: blur)
-//        effectView.isUserInteractionEnabled = false
-//        effectView.frame = CGRect(x: 0, y: view_size.height * 0, width: view_size.width, height: view_size.height * 1)
-//        return effectView
-//    }()
     //取消点击事件
     private lazy var tap: UITapGestureRecognizer = {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.tap(recognizer:)))
@@ -36,7 +28,22 @@ class StateVC: UIViewController {
     
     //选择线(我的活动，好友)
     fileprivate weak var selectedLine: UIView?
-
+    fileprivate var switchTag: Int = 0{          //我的活动：0 好友：1 默认：0
+        didSet{
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                if self.switchTag == 0{
+                    //我的活动
+                    self.selectedLine?.frame.origin.x = 0
+                }else{
+                    //好友
+                    self.selectedLine?.frame.origin.x = view_size.width / 2
+                }
+            }, completion: {
+                complete in
+                self.tableView.reloadData()
+            })
+        }
+    }
     //获取时间轴数据
     fileprivate var trackList = [Track](){
         didSet{
@@ -62,6 +69,7 @@ class StateVC: UIViewController {
         let indexpath = IndexPath(row: 0, section: 0)
         tableView.reloadRows(at: [indexpath], with: UITableViewRowAnimation.fade)
         
+        _ = AngelManager.share()
     }
     
     private func config(){
@@ -158,6 +166,7 @@ class StateVC: UIViewController {
             DispatchQueue.main.async {
                 control.attributedTitle = NSAttributedString(string: "手环未绑定")
                 _ = delay(1){
+                    self.initFresh = false
                     control.endRefreshing()
                 }
             }
@@ -168,6 +177,7 @@ class StateVC: UIViewController {
             DispatchQueue.main.async {
                 control.attributedTitle = NSAttributedString(string: "手环未连接")
                 _ = delay(1){
+                    self.initFresh = false
                     control.endRefreshing()
                 }
             }
@@ -257,7 +267,6 @@ class StateVC: UIViewController {
                 }
             }
         }
-        
     }
     
     //MARK:- 接收连接状态
@@ -336,7 +345,12 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
         //[选择线]
         if selectedLine == nil{
             let selectedHeight: CGFloat = 2
-            let selectedLineFrame = CGRect(x: 0, y: defaultCellHeight - selectedHeight, width: view_size.width / 2, height: selectedHeight)
+            var selectedLineFrame = CGRect(x: 0, y: defaultCellHeight - selectedHeight, width: view_size.width / 2, height: selectedHeight)
+            if switchTag == 0{
+                selectedLineFrame.origin.x = 0
+            }else{
+                selectedLineFrame.origin.x = view_size.width / 2
+            }
             let line = UIView(frame: selectedLineFrame)
             line.backgroundColor = subWordColor
             selectedLine = line
@@ -348,18 +362,7 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
     
     //MARK:- 切换按钮点击事件
     @objc private func switchFromHeader(byButton button: UIButton){
-        let tag = button.tag
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-            if tag == 0{
-                //我的活动
-                self.selectedLine?.frame.origin.x = 0
-            }else{
-                //好友
-                self.selectedLine?.frame.origin.x = view_size.width / 2
-            }
-        }, completion: {
-            complete in
-        })
+        switchTag = button.tag
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -367,14 +370,13 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             return 2
         }
         
-        return trackList.count
+        return trackList.count + 1   //运动数 + 哈博士
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0{
             return 0
         }
-        
         return 44
     }
     
@@ -391,11 +393,16 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             case 1:
                 return 44                                       //日历切换高度为默认固定cell高度
             default:
-                return view_size.width / 3                      //事件轴类型高度 需动态设置
+                return view_size.width / 3                      //时间轴类型高度 需动态设置
             }
         }
         
-        return view_size.width / 2
+        if indexPath.row == 0 {
+            return view_size.width / 2                          //哈博士高度
+        }
+        
+        //需根据内容判断时间轴高度(是否包含步数，是否包含路径)
+        return view_size.width / 2                              //时间轴高度
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -454,87 +461,43 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             return cell!
         }
         
-        //今日故事 cell3
         let row = indexPath.row
+        //section == 1
+        if row == 0{
+            //哈博士
+            cell = tableView.dequeueReusableCell(withIdentifier: "ha")
+            if cell == nil {
+                cell = HaTip(reuseIdentifier: "ha")
+            }
+            let haTipCell = cell as! HaTip
+            var list = [HaData]()
+            (0..<3).forEach{
+                i in
+                var haData = HaData()
+                haData.title = "定下目标"
+                haData.text = "its text \(i) its text \(i) its text \(i) its text \(i) its text \(i) its text \(i) its text \(i) its text \(i) its text \(i) its text \(i) its text \(i) its text \(i)"
+                list.append(haData)
+            }
+            haTipCell.dataList = list
+            return cell!
+        }
 
+        //时间轴
         cell = tableView.dequeueReusableCell(withIdentifier: "cell")
         //添加数据 .sleep, .calorie, .weight 混合
-        if let track: Track = trackList[row]{
+        if let track: Track = trackList[row - 1] as? Track{
             //Type:运动类型(0x00:无， 0x01:走路， 0x02:跑步， 0x03:骑行，0x04:徒步， 0x05: 游泳， 0x06:爬山， 0x07:羽毛球， 0x08:其他， 0x09:健身， 0x0A:动感单车， 0x0B:椭圆机， 0x0C:跑步机， 0x0D:仰卧起坐， 0x0E:俯卧撑， 0x0F:哑铃， 0x10:举重， 0x11:健身操， 0x12:瑜伽， 0x13:跳绳， 0x14:乒乓球， 0x15:篮球， 0x16:足球 ， 0x17:排球， 0x18:网球， 0x19:高尔夫球， 0x1A:棒球， 0x1B:滑雪， 0x1C:轮滑，0x1D:跳舞)
-            var type: SportType
-            switch track.type {
-            case 0x01:
-                type = .walking
-            case 0x02:
-                type = .running
-            case 0x03:
-                type = .riding
-            case 0x04:
-                type = .hiking
-            case 0x05:
-                type = .swimming
-            case 0x06:
-                type = .climbing
-            case 0x07:
-                type = .badminton
-            case 0x08:
-                type = .other
-            case 0x09:
-                type = .physical
-            case 0x0A:
-                type = .bicycle
-            case 0x0B:
-                type = .ellipsoidBall
-            case 0x0C:
-                type = .treadmill
-            case 0x0D:
-                type = .situp
-            case 0x0E:
-                type = .pushup
-            case 0x0F:
-                type = .dumbbell
-            case 0x10:
-                type = .lifting
-            case 0x11:
-                type = .gymnastics
-            case 0x12:
-                type = .yoga
-            case 0x13:
-                type = .skipping
-            case 0x14:
-                type = .pingpong
-            case 0x15:
-                type = .basketball
-            case 0x16:
-                type = .football
-            case 0x17:
-                type = .vollyball
-            case 0x18:
-                type = .tennis
-            case 0x19:
-                type = .golf
-            case 0x1A:
-                type = .baseball
-            case 0x1B:
-                type = .skiing
-            case 0x1C:
-                type = .skating
-            case 0x1D:
-                type = .dancing
-            default:
-                type = .other
-            }
-            
             var value = StoryData()
-            value.type = type
-            value.date = track.date as? Date ?? Date()
+            value.type = SportType(rawValue: track.type)!
+            value.date = track.date as Date? ?? Date()
             value.hour = track.durations / (60 * 60)
             value.minute = (track.durations - track.durations / (60 * 60)) / 60
             value.calorie = CGFloat(track.calories)
             value.heartRate = CGFloat(track.avgrageHeartrate)
             value.fat = CGFloat(track.burnFatMinutes)
             
-            (cell as! ThirdCell).value = value
+//            (cell as! ThirdCell).value = value
+            (cell as! ThirdCell).track = track
         }
         
         return cell!

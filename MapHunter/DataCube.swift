@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AngelFit
 //跑步 心率 睡眠 体重
 enum DataCubeType{
     case sport
@@ -85,7 +86,7 @@ class DataCube: UIView {
     }
     
     //MARK:- 需传入的数据
-    var data: DataCubeData!{
+    var data: DataCubeData = DataCubeData(){
         didSet{
             switch type as DataCubeType {
             case .sport:
@@ -106,22 +107,55 @@ class DataCube: UIView {
                 }
                 thirdLabel.text = text
                 
-                //显示fourthLabel
-                text = "\(Int(data.value3))分钟"
-                let fourthMutableAttributed = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: fontSmall])
+                //显示fourthLabel 判断是否有过运动详情
+                //获取运动信息_日期为当前选择日
+                if let angelManager = AngelManager.share() {
+                    if let macaddress = angelManager.macAddress {
+                        let userId = UserManager.share().userId
+                        let tracks = CoreDataHandler.share().selectTrack(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+                        if !tracks.isEmpty {
+                            //默认获取当天数据，tracks个数>=0
+                            let calorie = tracks.reduce(0){$0 + $1.calories}
+                            let count = Int16(tracks.count)
+                            let distance = tracks.reduce(0){$0 + Int16($1.distance)}
+                            let minutes = tracks.reduce(0){$0 + $1.aerobicMinutes}
+                            let typeRawvalue = tracks.first?.type
+                            
+                            //获取运动类型
+                            if let sportType = SportType(rawValue: typeRawvalue!){
+                                text = "\(minutes)分钟"
+                                let fourthMutableAttributed = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: fontSmall])
+                                
+                                //添加图片混排
+                                let length = fontSmall.pointSize * 2
+                                let imageSize = CGSize(width: length, height: length)
+                                let imageBounds = CGRect(x: 0, y: length / 4 - length / 2, width: length, height: length)
+                                
+                                let attach = NSTextAttachment()
+                                if let imageName = sportTypeNameMap[sportType]{
+                                    attach.image = UIImage(named: "resource/sporticons/icon/\(imageName)")?.transfromImage(size: imageSize)
+                                }
+                                attach.bounds = imageBounds
+                                let attributed = NSAttributedString(attachment: attach)
+                                fourthMutableAttributed.append(attributed)
+                                fourthLabel.attributedText = fourthMutableAttributed
+                            }
+                        }
+                    }
+                }
                 
-                //添加图片混排
-                let length = fontSmall.pointSize * 1.2
-                let imageSize = CGSize(width: length, height: length)
-                let imageBounds = CGRect(x: 0, y: length / 2 - fourthLabel.bounds.height / 2, width: length, height: length)
+                //动画控制
+                if oldValue.value1 == data.value1 {
+                    sportAnimImageView.stopAnimating()
+                }else{
+                    sportAnimImageView.startAnimating()
+                }
                 
-                let attach = NSTextAttachment()
-                attach.image = UIImage(named: "resource/target/target_sleep_begin")?.transfromImage(size: imageSize)
-                attach.bounds = imageBounds
-                let attributed = NSAttributedString(attachment: attach)
-                fourthMutableAttributed.append(attributed)
+                //判断是否完成目标
+                let flag = data.value1 < data.value2 || data.value1 == 0 || data.value2 == 0
+                sportFinishedImageView.isHidden = flag
+                sportAnimImageView.isHidden = !flag
                 
-                fourthLabel.attributedText = fourthMutableAttributed
             case .heartrate:
                 var text = "心肺功能"
                 firstLabel.text = text
@@ -141,6 +175,14 @@ class DataCube: UIView {
                 thirdMutableAttributed.addAttributes([NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white.withAlphaComponent(0.5)],
                                                      range: NSMakeRange(0, 2))
                 thirdLabel.attributedText = thirdMutableAttributed
+                
+                //动画控制
+                if data.value1 <= 40{
+                    heartrateAnimImageView.stopAnimating()
+                }else{                    
+                    heartrateAnimImageView.startAnimating()
+                }
+                
 //                text = "\(Int16(data.value2))分钟"
 //                heartrateLabel1.text = text
 //                
@@ -154,7 +196,7 @@ class DataCube: UIView {
                 firstLabel.text = text
                 
                 let hourStr = "\(Int16(data.value1) / 60)"
-                let minuteStr = Int16(data.value2) % 60 < 10 ? "0\(Int16(data.value2) % 60)" : "\(Int16(data.value2) % 60)"
+                let minuteStr = Int16(data.value1) % 60 < 10 ? "0\(Int16(data.value1) % 60)" : "\(Int16(data.value1) % 60)"
                 text = hourStr + "小时" + minuteStr + "分钟"
                 let secondMutableAttributed = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: fontMiddle, NSForegroundColorAttributeName: UIColor.white])
                 secondMutableAttributed.addAttributes([NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white.withAlphaComponent(0.5)],
@@ -165,6 +207,10 @@ class DataCube: UIView {
                 
                 text = "优质睡眠"
                 thirdLabel.text = text
+                
+                //判断是否完成目标
+                sleepFinishedImageView.isHidden = data.value1 < data.value2 || data.value1 == 0 || data.value2 == 0
+
             case .weight:
                 var text = "身心状态"
                 firstLabel.text = text
@@ -188,10 +234,10 @@ class DataCube: UIView {
                 let imageSize = CGSize(width: length, height: length)
                 let imageBounds = CGRect(x: 0, y: length / 2 - fourthLabel.bounds.height / 2, width: length, height: length)
                 
-                let attach = NSTextAttachment()
-                attach.image = UIImage(named: "resource/target/target_sleep_begin")?.transfromImage(size: imageSize)
-                attach.bounds = imageBounds
-                let attributed = NSAttributedString(attachment: attach)
+                let secondAttachment = NSTextAttachment()
+                secondAttachment.image = UIImage(named: "resource/cube/weight_icon0_0")?.transfromImage(size: imageSize)
+                secondAttachment.bounds = imageBounds
+                let attributed = NSAttributedString(attachment: secondAttachment)
                 secondMutableAttributed.insert(attributed, at: 0)
                 
                 secondLabel.attributedText = secondMutableAttributed
@@ -199,15 +245,71 @@ class DataCube: UIView {
                 text = "和平"
                 let thirdMutableAttributed = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: fontSmall])
                 
-                attach.image = UIImage(named: "resource/target/target_sleep_begin")?.transfromImage(size: imageSize)
-                attach.bounds = imageBounds
-                let thirdAttributed = NSAttributedString(attachment: attach)
+                let thridAttachment = NSTextAttachment()
+                thridAttachment.image = UIImage(named: "resource/cube/weight_icon1_0")?.transfromImage(size: imageSize)
+                thridAttachment.bounds = imageBounds
+                let thirdAttributed = NSAttributedString(attachment: thridAttachment)
                 thirdMutableAttributed.insert(thirdAttributed, at: 0)
                 
                 thirdLabel.attributedText = thirdMutableAttributed
             }
         }
     }
+    
+    //动画
+    private lazy var sportAnimImageView: UIImageView = {
+        let imageView: UIImageView = UIImageView(frame: self.bounds)
+        var images = [UIImage]()
+        (0..<5).forEach{
+            i in
+            if let image = UIImage(named: "resource/cube/sport_anim/\(i)"){
+                images.append(image)
+            }
+        }
+        imageView.image = images.first
+        imageView.animationImages = images
+        imageView.animationDuration = 1
+        imageView.animationRepeatCount = 0
+        imageView.startAnimating()
+        return imageView
+    }()
+    
+    private lazy var heartrateAnimImageView: UIImageView = {
+        let imageView: UIImageView = UIImageView(frame: self.bounds)
+        var images = [UIImage]()
+        (0..<5).forEach{
+            i in
+            if let image = UIImage(named: "resource/cube/heartrate_anim/\(i)"){
+                images.append(image)
+            }
+        }
+        imageView.image = images.first
+        imageView.animationImages = images
+        imageView.animationDuration = 1
+        imageView.animationRepeatCount = 0
+        imageView.startAnimating()
+        return imageView
+    }()
+    
+    //sport完成图片
+    private lazy var sportFinishedImageView: UIImageView = {
+        let imageView = UIImageView(frame: self.bounds)
+        if let image = UIImage(named: "resource/cube/sport_finished"){
+            imageView.image = image
+        }
+        imageView.isHidden = true
+        return imageView
+    }()
+    
+    //睡眠完成图片
+    private lazy var sleepFinishedImageView: UIImageView = {
+        let imageView = UIImageView(frame: self.bounds)
+        if let image = UIImage(named: "resource/cube/sleep_finished"){
+            imageView.image = image
+        }
+        imageView.isHidden = true
+        return imageView
+    }()
     
     //心率子icon
     private lazy var heartrateIcon1: UIView = {
@@ -234,7 +336,8 @@ class DataCube: UIView {
         icon.layer.cornerRadius = radius / 2
         return icon
     }()
-    //心率子视图
+    
+    //心率子标签
     private lazy var heartrateLabel1: UILabel = {
         let frame = CGRect(x: self.heartrateIcon1.frame.origin.x + self.heartrateIcon1.frame.width * 1.2, y: self.heartrateIcon1.frame.origin.y, width: self.frame.width, height: self.heartrateIcon1.frame.height)
         let label: UILabel = UILabel(frame: frame)
@@ -290,8 +393,11 @@ class DataCube: UIView {
         switch type as DataCubeType {
         case .sport:
             imageName = "sport"
+            addSubview(sportAnimImageView)
+            addSubview(sportFinishedImageView)
         case .heartrate:
             imageName = "heartrate"
+            addSubview(heartrateAnimImageView)
             
 //            addSubview(heartrateIcon1)
 //            addSubview(heartrateIcon2)
@@ -301,6 +407,7 @@ class DataCube: UIView {
 //            addSubview(heartrateLabel3)
         case .sleep:
             imageName = "sleep"
+            addSubview(sleepFinishedImageView)
         case .weight:
             imageName = "weight"
         }

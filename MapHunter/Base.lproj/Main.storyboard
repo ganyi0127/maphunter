@@ -949,7 +949,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="212" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6m8-FO-ltZ">
-                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                                <rect key="frame" x="0.0" y="64" width="414" height="623"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
@@ -981,7 +981,7 @@
                             <constraint firstItem="6m8-FO-ltZ" firstAttribute="top" secondItem="7Eh-H1-6CJ" secondAttribute="bottom" id="LqL-SR-TmQ"/>
                             <constraint firstItem="7Eh-H1-6CJ" firstAttribute="centerX" secondItem="g9w-WD-W9p" secondAttribute="centerX" id="XhS-rv-jVc"/>
                             <constraint firstItem="6m8-FO-ltZ" firstAttribute="centerX" secondItem="g9w-WD-W9p" secondAttribute="centerX" id="cIF-ZU-zPf"/>
-                            <constraint firstItem="53W-0m-cDe" firstAttribute="top" secondItem="6m8-FO-ltZ" secondAttribute="bottom" constant="-49" id="dy8-jN-0PC"/>
+                            <constraint firstItem="53W-0m-cDe" firstAttribute="top" secondItem="6m8-FO-ltZ" secondAttribute="bottom" id="dy8-jN-0PC"/>
                             <constraint firstItem="7Eh-H1-6CJ" firstAttribute="top" secondItem="3Kw-FI-spr" secondAttribute="bottom" constant="-1" id="gBx-YN-u9b"/>
                             <constraint firstItem="6m8-FO-ltZ" firstAttribute="width" secondItem="g9w-WD-W9p" secondAttribute="width" id="zze-TI-hTF"/>
                         </constraints>

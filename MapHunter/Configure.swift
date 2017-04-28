@@ -59,17 +59,17 @@ let wordColor = UIColor(red: 50 / 255, green: 50 / 255, blue: 50 / 255, alpha: 1
 
 //MARK:- 模块起始颜色
 let modelStartColors: [DataCubeType: UIColor] = [
-    .sport: UIColor(red: 245 / 255, green: 113 / 255, blue: 41 / 255, alpha: 1),
-    .heartrate: UIColor(red: 54 / 255, green: 172 / 255, blue: 205 / 255, alpha: 1),
-    .sleep: UIColor(red: 92 / 255, green: 43 / 255, blue: 143 / 255, alpha: 1),
-    .weight: UIColor(red: 63 / 255, green: 205 / 255, blue: 140 / 255, alpha: 1)]
+    .sport: UIColor(colorHex: 0xf06136),
+    .heartrate: UIColor(colorHex: 0x2bbedd),
+    .sleep: UIColor(colorHex: 0x5a2e96),
+    .weight: UIColor(colorHex: 0x59d7a5)]
 
 //MARK:- 模块结束颜色
 let modelEndColors: [DataCubeType: UIColor] = [
-    .sport: UIColor(red: 241 / 255, green: 68 / 255, blue: 52 / 255, alpha: 1),
-    .heartrate: UIColor(red: 46 / 255, green: 143 / 255, blue: 188 / 255, alpha: 1),
-    .sleep: UIColor(red: 57 / 255, green: 16 / 255, blue: 122 / 255, alpha: 1),
-    .weight: UIColor(red: 2 / 255, green: 183 / 255, blue: 153 / 255, alpha: 1)]
+    .sport: UIColor(colorHex: 0xe93c2c),
+    .heartrate: UIColor(colorHex: 0x3fb6dd),
+    .sleep: UIColor(colorHex: 0x4b238a),
+    .weight: UIColor(colorHex: 0x54d09b)]
 
 //MARK:- 正则表达式
 struct Regex {

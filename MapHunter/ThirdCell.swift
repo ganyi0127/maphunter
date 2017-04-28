@@ -6,79 +6,81 @@
 //  Copyright © 2016年 ganyi. All rights reserved.
 //
 /*
-Type:运动类型(0x00:无， 0x01:走路， 0x02:跑步， 0x03:骑行，0x04:徒步， 0x05: 游泳， 0x06:爬山， 0x07:羽毛球， 0x08:其他， 0x09:健身， 0x0A:动感单车， 0x0B:椭圆机， 0x0C:跑步机， 0x0D:仰卧起坐， 0x0E:俯卧撑， 0x0F:哑铃， 0x10:举重， 0x11:健身操， 0x12:瑜伽， 0x13:跳绳， 0x14:乒乓球， 0x15:篮球， 0x16:足球 ， 0x17:排球， 0x18:网球， 0x19:高尔夫球， 0x1A:棒球， 0x1B:滑雪， 0x1C:轮滑，0x1D:跳舞)
+Type:运动类型(0x00:无， 0x01:走路， 0x02:跑步， 0x03:骑行，0x04:徒步， 0x05: 游泳， 0x06:爬山， 0x07:羽毛球， 0x08:其他， 0x09:健身， 0x0A:动感单车， 0x0B:椭圆机， 0x0C:跑步机， 0x0D:仰卧起坐， 0x0E:俯卧撑， 0x0F:哑铃， 0x10:举重， 0x11:健身操， 0x12:瑜伽， 0x13:跳绳， 0x14:乒乓球， 0x15:篮球， 0x16:足球 ， 0x17:排球， 0x18:网球， 0x19:高尔夫球， 0x1A:棒球， 0x1B:滑雪， 0x1C:轮滑，0x1D:跳舞) + (0x1E:划船, 0x1F:睡眠, 0x20:体重, 0x21卡路里)
 */
 import UIKit
-enum SportType: String{
-    case walking = "walking"
-    case running = "running"
-    case riding = "riding"
-    case hiking = "hiking"
-    case swimming = "swimming"
-    case climbing = "climbing"
-    case badminton = "badminton"
-    case physical = "physical"
-    case bicycle = "bicycle"
-    case ellipsoidBall = "ellipsoidBall"
-    case treadmill = "treadmill"
-    case boating = "boating"
-    case situp = "situp"
-    case pushup = "pushup"
-    case dumbbell = "dumbbell"
-    case lifting = "lifting"
-    case gymnastics = "gymnastics"
-    case yoga = "yoga"
-    case skipping = "skipping"
-    case pingpong = "pingpong"
-    case basketball = "basketball"
-    case football = "football"
-    case vollyball = "vollyball"
-    case tennis = "tennis"
-    case golf = "golf"
-    case baseball = "baseball"
-    case skiing = "skiing"
-    case skating = "skating"
-    case dancing = "dancing"
-    case other = "other"
-    case sleep = "sleep"
-    case weight = "weight"
-    case calorie = "calorie"
+import AngelFit
+enum SportType: Int16{
+    case none = 0x00
+    case walking
+    case running
+    case riding
+    case hiking
+    case swimming
+    case climbing
+    case badminton
+    case other
+    case physical
+    case bicycle
+    case ellipsoidBall
+    case treadmill
+    case situp
+    case pushup
+    case dumbbell
+    case lifting
+    case gymnastics
+    case yoga
+    case skipping
+    case pingpong
+    case basketball
+    case football
+    case vollyball
+    case tennis
+    case golf
+    case baseball
+    case skiing
+    case skating
+    case dancing
+    case boating
+    case sleep
+    case weight
+    case calorie
 }
 
-private let nameMap: [SportType: String] = [
-    .walking: "走路",
-    .running: "跑步",
-    .riding: "骑行",
-    .hiking: "徒步",
-    .swimming: "游泳",
-    .climbing: "爬山",
-    .badminton: "羽毛球",
-    .physical: "健身",
-    .bicycle: "动感单车",
-    .ellipsoidBall: "椭圆球",
-    .treadmill: "跑步机",
-    .boating: "划船机",
-    .situp: "仰卧起坐",
-    .pushup: "俯卧撑",
-    .dumbbell: "哑铃",
-    .lifting: "举重",
-    .gymnastics: "健身操",
-    .yoga: "瑜伽",
-    .skipping: "跳绳",
-    .pingpong: "乒乓球",
-    .basketball: "篮球",
-    .football: "足球",
-    .vollyball: "排球",
-    .tennis: "网球",
-    .golf: "高尔夫",
-    .baseball: "棒球",
-    .skiing: "滑雪",
-    .skating: "轮滑",
-    .dancing: "舞蹈",
-    .other: "其他",
-    .sleep: "睡眠",
-    .weight: "体重",
-    .calorie: "卡路里"
+let sportTypeNameMap: [SportType: String] = [
+    .walking: "walking",
+    .running: "running",
+    .riding: "riding",
+    .hiking: "hiking",
+    .swimming: "swimming",
+    .climbing: "climbing",
+    .badminton: "badminton",
+    .physical: "physical",
+    .bicycle: "bicycle",
+    .ellipsoidBall: "ellipsoidBall",
+    .treadmill: "treadmill",
+    .boating: "boating",
+    .situp: "situp",
+    .pushup: "pushup",
+    .dumbbell: "dumbbell",
+    .lifting: "lifting",
+    .gymnastics: "gymnastics",
+    .yoga: "yoga",
+    .skipping: "skipping",
+    .pingpong: "pingpong",
+    .basketball: "basketball",
+    .football: "football",
+    .vollyball: "vollyball",
+    .tennis: "tennis",
+    .golf: "golf",
+    .baseball: "baseball",
+    .skiing: "skiing",
+    .skating: "skating",
+    .dancing: "dancing",
+    .other: "other",
+    .sleep: "sleep",
+    .weight: "weight",
+    .calorie: "calorie"
 ]
 
 //数据结构
@@ -115,58 +117,48 @@ class ThirdCell: UITableViewCell {
             self.type = val.type
             createContents()
             
-            let type = val.type
-            let imageName = type.rawValue
-            
-            //添加背景图片
-            let imageSize = CGSize(width: gradient.frame.width, height: gradient.frame.height)
-            let image = UIImage(named: "resource/sporticons/background/\(imageName)")?.transfromImage(size: imageSize)
-            let iconSize = CGSize(width: gradient.frame.height / 3, height: gradient.frame.height / 3)
-            let icon = UIImage(named: "resource/sporticons/icon/\(imageName)")?.transfromImage(size: iconSize)
-            
-            //添加底图
-            let imageView = UIImageView(frame: CGRect(x: 0,
-                                                      y: gradient.frame.origin.y,
-                                                      width: imageSize.width,
-                                                      height: imageSize.height))
-            imageView.image = image
-            imageView.alpha = 0.3
-            addSubview(imageView)
-            
             //添加icon
-            let iconView = UIImageView(frame: CGRect(x: view_size.width * 0.05,
-                                                     y: view_size.width * 0.05,
-                                                     width: iconSize.width,
-                                                     height: iconSize.height))
-            iconView.layer.contents = icon?.cgImage
-            addSubview(iconView)
+            let type = val.type
+            if let imageName = sportTypeNameMap[type]{
+
+                let iconSize = CGSize(width: gradient.frame.height / 3, height: gradient.frame.height / 3)
+                let icon = UIImage(named: "resource/sporticons/icon/\(imageName)")?.transfromImage(size: iconSize)
+                let iconView = UIImageView(frame: CGRect(x: view_size.width * 0.05,
+                                                         y: view_size.width * 0.05,
+                                                         width: iconSize.width,
+                                                         height: iconSize.height))
+                iconView.backgroundColor = UIColor.white.withAlphaComponent(0.2)
+                iconView.layer.cornerRadius = iconSize.width / 2
+                iconView.layer.contents = icon?.cgImage
+                addSubview(iconView)
+            }
             
             //显示值
             switch val.type {
             case .walking:
-                label.text = "走路\(val.hour)小时\(val.minute)分钟"
+                titleLabel.text = "走路\(val.hour)小时\(val.minute)分钟"
             case .running:
-                label.text = "跑步\(val.hour)小时\(val.minute)分钟"
+                titleLabel.text = "跑步\(val.hour)小时\(val.minute)分钟"
             case .riding:
-                label.text = "骑行\(val.hour)小时\(val.minute)分钟"
+                titleLabel.text = "骑行\(val.hour)小时\(val.minute)分钟"
             case .hiking:
-                label.text = "徒步\(val.hour)小时\(val.minute)分钟"
+                titleLabel.text = "徒步\(val.hour)小时\(val.minute)分钟"
             case .swimming:
-                label.text = "游泳\(val.hour)小时\(val.minute)分钟"
+                titleLabel.text = "游泳\(val.hour)小时\(val.minute)分钟"
             case .sleep:
-                label.text = "睡眠\(val.hour)小时\(val.minute)分钟"
+                titleLabel.text = "睡眠\(val.hour)小时\(val.minute)分钟"
             case .calorie:
-                label.text = "消耗\(val.calorie)卡路里"
+                titleLabel.text = "消耗\(val.calorie)卡路里"
             case .weight:
-                label.text = "体重\(val.fat)公斤"
+                titleLabel.text = "体重\(val.fat)公斤"
             case .basketball:
-                label.text = "打篮球\(val.hour)小时\(val.minute)分钟"
+                titleLabel.text = "打篮球\(val.hour)小时\(val.minute)分钟"
             case .badminton:
-                label.text = "打羽毛球\(val.hour)小时\(val.minute)分钟"
+                titleLabel.text = "打羽毛球\(val.hour)小时\(val.minute)分钟"
             case .climbing:
-                label.text = "登山\(val.hour)小时\(val.minute)分钟"
+                titleLabel.text = "登山\(val.hour)小时\(val.minute)分钟"
             default:
-                label.text = "类型：\(val.type)"
+                titleLabel.text = "类型：\(val.type)"
             }
             
             //显示时间
@@ -176,48 +168,151 @@ class ThirdCell: UITableViewCell {
             deltaTimeLabel.text = "\(components.hour!):" + minuteStr
             
             //显示卡路里
-            detailLabel1.text = "消耗卡路里\(val.calorie)kcal"
+            detailLabel.text = "消耗卡路里\(val.calorie)kcal"
+        }
+    }
+    var track: Track?{
+        didSet{
+            guard let trk = track else {
+                return
+            }
+            
+//            value.date = track.date as Date? ?? Date()
+//            value.hour = track.durations / (60 * 60)
+//            value.minute = (track.durations - track.durations / (60 * 60)) / 60
+//            value.calorie = CGFloat(track.calories)
+//            value.heartRate = CGFloat(track.avgrageHeartrate)
+//            value.fat = CGFloat(track.burnFatMinutes)
+            self.type = SportType(rawValue: trk.type)!
+            createContents()
+            
+            //添加icon
+            if let imageName = sportTypeNameMap[self.type]{
+                
+                let iconSize = CGSize(width: gradient.frame.height / 3, height: gradient.frame.height / 3)
+                let icon = UIImage(named: "resource/sporticons/icon/\(imageName)")?.transfromImage(size: iconSize)
+                let iconView = UIImageView(frame: CGRect(x: view_size.width * 0.05,
+                                                         y: view_size.width * 0.05,
+                                                         width: iconSize.width,
+                                                         height: iconSize.height))
+                iconView.backgroundColor = UIColor.white.withAlphaComponent(0.2)
+                iconView.layer.cornerRadius = iconSize.width / 2
+                iconView.layer.contents = icon?.cgImage
+                addSubview(iconView)
+            }
+            
+            //显示值
+            let hour = trk.durations / (60 * 60)
+            let minute = (trk.durations - hour * 60 * 60) / 60
+            switch self.type {
+            case .walking:
+                titleLabel.text = "走路\(hour)小时\(minute)分钟"
+            case .running:
+                titleLabel.text = "跑步\(hour)小时\(minute)分钟"
+            case .riding:
+                titleLabel.text = "骑行\(hour)小时\(minute)分钟"
+            case .hiking:
+                titleLabel.text = "徒步\(hour)小时\(minute)分钟"
+            case .swimming:
+                titleLabel.text = "游泳\(hour)小时\(minute)分钟"
+            case .sleep:
+                titleLabel.text = "睡眠\(hour)小时\(minute)分钟"
+            case .calorie:
+                titleLabel.text = "消耗\(trk.calories)卡路里"
+            case .weight:
+                titleLabel.text = "体重\(trk.burnFatMinutes)公斤"
+            case .basketball:
+                titleLabel.text = "打篮球\(hour)小时\(minute)分钟"
+            case .badminton:
+                titleLabel.text = "打羽毛球\(hour)小时\(minute)分钟"
+            case .climbing:
+                titleLabel.text = "登山\(hour)小时\(minute)分钟"
+            default:
+                titleLabel.text = "类型：\(self.type)"
+            }
+            
+            //显示时间
+            let date = trk.date as Date? ?? Date()
+            let calender = Calendar.current
+            let components = calender.dateComponents([.hour, .minute], from: date)
+            let minuteStr = components.minute! < 10 ? "0\(components.minute!)" : "\(components.minute!)"
+            deltaTimeLabel.text = "\(components.hour!):" + minuteStr
+            
+            //显示卡路里
+            detailLabel.text = "消耗卡路里\(trk.calories)kcal"
+            
+            //绘制路径或步数
+            let items = trk.trackItems
         }
     }
     
-    //文字
-    private lazy var label: UILabel = {
+    //标题文字
+    private lazy var titleLabel: UILabel = {
         let label: UILabel = UILabel()
         label.frame = CGRect(x: self.gradient.frame.height / 3 + view_size.width * 0.1,
-                             y: view_size.width * 0.05,
+                             y: 8,
                              width: self.gradient.frame.width,
-                             height: self.gradient.frame.height / 3)
+                             height: 24)
+        label.textColor = .white
+        label.font = fontSmall
+        label.textAlignment = .left
+        return label
+    }()
+    
+    //详情文字
+    private lazy var detailLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.frame = CGRect(x: self.gradient.frame.height / 3 + view_size.width * 0.1,
+                             y: 8 * 2 + 24,
+                             width: self.gradient.frame.width,
+                             height: 24)
         label.textColor = .white
         label.font = fontMiddle
         label.textAlignment = .left
         return label
     }()
+    
+    //发布时间文字
     private lazy var deltaTimeLabel: UILabel = {
         let label: UILabel = UILabel()
-        label.frame = CGRect(x: 0,
-                             y: self.gradient.frame.height,
-                             width: self.gradient.frame.width,
-                             height: self.gradient.frame.height / 3)
+        label.frame = CGRect(x: self.frame.width * 0.08,
+                             y: self.gradient.frame.origin.y + self.gradient.frame.height,
+                             width: 120,
+                             height: 26)
         label.textColor = subWordColor
         label.font = fontSmall
-        label.textAlignment = .right
+        label.textAlignment = .left
         return label
     }()
-    private lazy var detailLabel1: UILabel = {
-        let label: UILabel = UILabel()
-        label.frame = CGRect(x: 0,
-                             y: self.gradient.frame.height / 3,
-                             width: self.gradient.frame.width,
-                             height: self.gradient.frame.height * 0.5)
-        label.textColor = .white
-        label.font = fontBig
-        label.textAlignment = .center
-        return label
+    
+    //点赞按钮
+    private lazy var likeButton: UIButton = {
+        let buttonFrame = CGRect(x: view_size.width - 8 * 2 - 32 * 2, y: self.gradient.frame.origin.y + self.gradient.frame.height, width: 32, height: 26)
+        let button: UIButton = UIButton(frame: buttonFrame)
+        if let image = UIImage(named: "resource/time/like_0")?.transfromImage(size: CGSize(width: 18, height: 18)){
+            button.setImage(image, for: .normal)
+        }
+        button.addTarget(self, action: #selector(like(sender:)), for: .touchUpInside)
+        return button
+    }()
+    
+    //评论按钮
+    private lazy var commentButton: UIButton = {
+        let buttonFrame = CGRect(x: view_size.width - 8 - 32, y: self.gradient.frame.origin.y + self.gradient.frame.height, width: 32, height: 26)
+        let button: UIButton = UIButton(frame: buttonFrame)
+        if let image = UIImage(named: "resource/time/comment_0")?.transfromImage(size: CGSize(width: 18, height: 18)){
+            button.setImage(image, for: .normal)
+        }
+        button.addTarget(self, action: #selector(comment(sender:)), for: .touchUpInside)
+        return button
     }()
     
     //底图渐变
     let gradient = CAGradientLayer()
     
+    
+    
+    //MARK:- init ************************************************************
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
         
@@ -233,12 +328,14 @@ class ThirdCell: UITableViewCell {
         var startColor: CGColor?
         var endColor: CGColor?
         
+        let margin: CGFloat = 8
+        
         //绘制渐变
-        gradient.frame = CGRect(x: view_size.width * 0.03,
-                                y: view_size.width * 0.03,
-                                width: view_size.width * 0.94,
-                                height: view_size.width * 0.94 * 200 / 718)
-        gradient.locations = [0.2, 0.8]
+        gradient.frame = CGRect(x: margin,
+                                y: 0,
+                                width: view_size.width - margin * 2,
+                                height: view_size.width / 2 - margin - 26)
+        gradient.locations = [0.2, 1]
         gradient.startPoint = CGPoint(x: 0, y: 0)
         gradient.endPoint = CGPoint(x: 0, y: 1)
         switch type {
@@ -259,15 +356,29 @@ class ThirdCell: UITableViewCell {
             endColor = modelEndColors[.sport]?.cgColor
         }
         gradient.colors = [startColor ?? UIColor.lightGray.cgColor, endColor ?? UIColor.gray.cgColor]
-        gradient.cornerRadius =  view_size.width * 0.02
+        gradient.cornerRadius =  2
         gradient.shadowColor = UIColor.black.cgColor
         layer.shouldRasterize = true        //光栅化
         layer.addSublayer(gradient)
         
         //添加标签
-        addSubview(label)
+        addSubview(titleLabel)
         addSubview(deltaTimeLabel)
-        addSubview(detailLabel1)
+        addSubview(detailLabel)
+        
+        //添加按钮
+        addSubview(likeButton)
+        addSubview(commentButton)
+    }
+    
+    //MARK:- 点赞按钮点击
+    @objc private func like(sender: UIButton){
+        
+    }
+    
+    //MARK:- 评论按钮点击
+    @objc private func comment(sender: UIButton){
+        
     }
 }
 

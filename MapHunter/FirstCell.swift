@@ -31,6 +31,7 @@ class FirstCell: UITableViewCell {
         let sleepDataCube = DataCube(dataCubeType: .sleep)
         return sleepDataCube
     }()
+    var goalSleep: UInt32 = 60 * 7
     
     //体重
     var weightDataCube: DataCube = {
@@ -126,6 +127,9 @@ class FirstCell: UITableViewCell {
         
         //获取睡眠数据
         sleepDataCube.data = data
+        data.value1 = 123
+        data.value2 = CGFloat(goalSleep)
+        sleepDataCube.data = data
         addSubview(sleepDataCube)
         
         //获取体重数据
@@ -190,7 +194,7 @@ class FirstCell: UITableViewCell {
             self.heartRateDataCube.data = data
         }
         
-        //获取目标步数
+        //获取目标步数,目标睡眠
         let coredataHandler = CoreDataHandler.share()
         let userId = UserManager.share().userId
         if let user = coredataHandler.selectUser(userId: userId){

@@ -202,6 +202,8 @@
 		BE731A011E0B8958002BDF2D /* DetailBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE731A001E0B8958002BDF2D /* DetailBack.swift */; };
 		BE731A031E0B8CD1002BDF2D /* DetailDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE731A021E0B8CD1002BDF2D /* DetailDataView.swift */; };
 		BE743BE01DAA1D25002AC282 /* CellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE743BDF1DAA1D25002AC282 /* CellExtension.swift */; };
+		BE80F8E81EB0389E00604D72 /* HaTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE80F8E71EB0389E00604D72 /* HaTip.swift */; };
+		BE80F8EC1EB048DB00604D72 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE80F8EB1EB048DB00604D72 /* TipView.swift */; };
 		BE82534F1EA75A9A001B276B /* ExceptionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE82534E1EA75A9A001B276B /* ExceptionHandler.swift */; };
 		BE8685401E28DFF100EBEBED /* DefaultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE86853F1E28DFF100EBEBED /* DefaultVC.swift */; };
 		BE8685421E29C74200EBEBED /* PremapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8685411E29C74200EBEBED /* PremapVC.swift */; };
@@ -676,6 +678,8 @@
 		BE731A001E0B8958002BDF2D /* DetailBack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailBack.swift; sourceTree = "<group>"; };
 		BE731A021E0B8CD1002BDF2D /* DetailDataView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailDataView.swift; sourceTree = "<group>"; };
 		BE743BDF1DAA1D25002AC282 /* CellExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellExtension.swift; sourceTree = "<group>"; };
+		BE80F8E71EB0389E00604D72 /* HaTip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HaTip.swift; sourceTree = "<group>"; };
+		BE80F8EB1EB048DB00604D72 /* TipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TipView.swift; sourceTree = "<group>"; };
 		BE82534E1EA75A9A001B276B /* ExceptionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExceptionHandler.swift; sourceTree = "<group>"; };
 		BE86853F1E28DFF100EBEBED /* DefaultVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultVC.swift; sourceTree = "<group>"; };
 		BE8685411E29C74200EBEBED /* PremapVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PremapVC.swift; sourceTree = "<group>"; };
@@ -2121,6 +2125,15 @@
 			name = "详情模块";
 			sourceTree = "<group>";
 		};
+		BE80F8E61EB0388500604D72 /* 哈博士 */ = {
+			isa = PBXGroup;
+			children = (
+				BE80F8E71EB0389E00604D72 /* HaTip.swift */,
+				BE80F8EB1EB048DB00604D72 /* TipView.swift */,
+			);
+			name = "哈博士";
+			sourceTree = "<group>";
+		};
 		BE8685451E2F5C2700EBEBED /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -2262,6 +2275,7 @@
 				BEB248F51D9CA50400C9F9ED /* Cell2 */,
 				BEB2490C1D9E503800C9F9ED /* Cell3 */,
 				32D4123D1DED708B008EE637 /* DetailCell */,
+				BE80F8E61EB0388500604D72 /* 哈博士 */,
 				320535371DFE7AD80087068E /* CalendarCell */,
 				32D4129C1DEEC49F008EE637 /* 模块 */,
 			);
@@ -2454,6 +2468,7 @@
 				BE0DD8A01EA6FD6E00574139 /* QNAsyncRun.m in Sources */,
 				BE0DD89B1EA6FD6E00574139 /* CKNullCache.m in Sources */,
 				327383721E00F4A000767708 /* StatePopController.swift in Sources */,
+				BE80F8EC1EB048DB00604D72 /* TipView.swift in Sources */,
 				BE0DD8B11EA6FD6E00574139 /* QNResolvUtil.m in Sources */,
 				BE0DD8A21EA6FD6E00574139 /* QNEtag.m in Sources */,
 				BE0DD8B61EA6FD6E00574139 /* QNResponseInfo.m in Sources */,
@@ -2499,6 +2514,7 @@
 				BE0DD8AD1EA6FD6E00574139 /* QNDnspodFree.m in Sources */,
 				BE71B9E71DBF4CAA00143E1E /* Net.swift in Sources */,
 				BE0DD8861EA6FD6E00574139 /* aes_cbc.c in Sources */,
+				BE80F8E81EB0389E00604D72 /* HaTip.swift in Sources */,
 				BE6455CA1EA4C4F600C8A416 /* NotifyLocationVC.swift in Sources */,
 				BE0DD8CA1EA6FD6E00574139 /* ESPTouchGenerator.m in Sources */,
 				BE6455BB1EA47C8A00C8A416 /* InfoSelector.swift in Sources */,

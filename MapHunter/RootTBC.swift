@@ -115,7 +115,7 @@ class RootTBC: UITabBarController {
                                      width: menuButtonWidth,
                                      height: menuButtonWidth)
         let menuButton = UIButton(frame: menuButtonFrame)
-        let height = self.tabBar.backgroundImage!.size.height / 2
+        let height: CGFloat = 49 / 2 //self.tabBar.backgroundImage!.size.height / 2
         let itemSize = CGSize(width: height, height: height)
         let image = UIImage(named: "resource/tabbar/main")?.transfromImage(size: itemSize)?.withRenderingMode(.alwaysOriginal)
         menuButton.setImage(image, for: .normal)
@@ -166,11 +166,26 @@ class RootTBC: UITabBarController {
         let satanManager = SatanManager.share()
         satanManager?.delegate = self
         
-        
-        //初始化权限
-//        permissionHealthKit()
-//        permissionPushNotification()
-//        permissionLocation()
+        //获取手环状态
+        NotificationCenter.default.addObserver(self, selector: #selector(binded), name: connected_notiy, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(disConnected), name: disconnected_notiy, object: nil)
+    }
+    
+    @objc private func binded(){
+//        linkBarButton.setState(withLinkButtonState: .connecting)
+        if let imageView = bandItem?.customView as? UIImageView{
+            imageView.image = globalBandImageMap[.binded]!
+            _ = delay(4){
+                imageView.image = globalBandImageMap[.normal]!
+            }
+        }
+    }
+    
+    @objc private func disConnected(){
+//        linkBarButton.setState(withLinkButtonState: .disconnected)
+        if let imageView = bandItem?.customView as? UIImageView{
+            imageView.image = globalBandImageMap[.disConnected]!
+        }
     }
     
     private func createContents(){

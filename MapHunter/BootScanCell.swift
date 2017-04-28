@@ -79,7 +79,7 @@ class BootScanCell: UITableViewCell {
         super.didMoveToSuperview()
         
         //手动添加分割线
-        let separatorFrame = CGRect(x: 0, y: view_size.width * 0.25 - 1, width: frame.width, height: 1)
+        let separatorFrame = CGRect(x: 0, y: view_size.width * 0.25 - 1, width: view_size.width, height: 1)
         let separatorLine = UIView(frame: separatorFrame)
         separatorLine.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
         addSubview(separatorLine)

@@ -61,6 +61,7 @@ class ScanVC: UIViewController {
 //        if let currentPeripheral = PeripheralManager.share().currentPeripheral {
 //            godManager.disconnect(currentPeripheral, closure: {_ in})
 //        }
+        tableview.endUpdates()
         peripheralList.removeAll()
         godManager.delegate = nil
     }
@@ -218,8 +219,9 @@ extension ScanVC: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let identifier = "\(indexPath.section)_\(indexPath.row)"
-        let peripheralModel = peripheralList[indexPath.row]
         
+        let peripheralModel = peripheralList[indexPath.row]
+
         var cell = tableView.dequeueReusableCell(withIdentifier: identifier)
         if cell == nil {
             cell = ScanCell(identifier: identifier)
@@ -242,10 +244,10 @@ extension ScanVC: UITableViewDelegate, UITableViewDataSource{
         guard indexPath.row < peripheralList.count else {
             return
         }
-        let peripheralModel = peripheralList[indexPath.row]
+        let peripheralModel = peripheralList[indexPath.row]  
         
         
-        if peripheralModel.RSSI != 0 {
+        if peripheralModel.RSSI != 0 || true {
             beginLoading()
             godManager.connect(peripheralModel.peripheral)
         }else{

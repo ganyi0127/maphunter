@@ -7,6 +7,27 @@
 //
 
 import UIKit
+//手环图标
+//let linkBarButton = ItemButton(buttonType: .link)
+
+//绑定状态
+var bandItem: UIBarButtonItem?
+enum GlobalBandState{
+    case normal
+    case binded
+    case disConnected
+    case batteryLow
+}
+var globalBandImageMap:[GlobalBandState: UIImage?]{
+    get{
+        let normalImage = UIImage(named: "resource/binding_state_0")!.transfromImage(size: CGSize(width: navigation_height! * 0.6, height: navigation_height! * 0.6))
+        let bindedImage = UIImage(named: "resource/binding_state_1")!.transfromImage(size: CGSize(width: navigation_height! * 0.6, height: navigation_height! * 0.6))
+        let disconnectedImage = UIImage(named: "resource/binding_state_2")!.transfromImage(size: CGSize(width: navigation_height! * 0.6, height: navigation_height! * 0.6))
+        let batteryLowImage = UIImage(named: "resource/binding_state_3")!.transfromImage(size: CGSize(width: navigation_height! * 0.6, height: navigation_height! * 0.6))
+        return [GlobalBandState.normal: normalImage, GlobalBandState.binded: bindedImage, GlobalBandState.disConnected: disconnectedImage, GlobalBandState.batteryLow: batteryLowImage]
+    }
+}
+
 extension UINavigationController: UINavigationControllerDelegate{
     
     open override func awakeFromNib() {
@@ -40,15 +61,29 @@ extension UINavigationController: UINavigationControllerDelegate{
             
             if navigationItem.leftBarButtonItem == nil {
                 if viewController.isKind(of: StateVC.self){
-                    let linkBarButton = ItemButton(buttonType: .link)
-                    viewController.navigationItem.leftBarButtonItem = linkBarButton
+                    if viewController.navigationItem.leftBarButtonItem == nil{
+//                        viewController.navigationItem.leftBarButtonItem = linkBarButton
+                        //手环状态视图
+                        let image = globalBandImageMap[.disConnected]!
+                        let imageSize = image?.size
+                        let imageFrame = CGRect(origin: .zero, size: imageSize!)
+                        let imageView = UIImageView(frame: imageFrame)
+                        imageView.image = image
+//                        let tap = UITapGestureRecognizer(target: (viewController as! StateVC).topView, action: #selector((viewController as! StateVC).topView.clickCalendar))
+//                        tap.numberOfTapsRequired = 1
+//                        tap.numberOfTouchesRequired = 1
+//                        imageView.addGestureRecognizer(tap)
+                        if bandItem == nil{
+                            bandItem = UIBarButtonItem(customView: imageView)
+                        }
+                        viewController.navigationItem.leftBarButtonItem = bandItem!
+                    }
                 }
             }
             
             if navigationItem.rightBarButtonItem == nil {
-                
                 if viewController.isKind(of: StateVC.self){
-                    //状态视图
+                    //头像
                     let image = UIImage(named: "resource/me/me_head_boy")
                     let imageSize = CGSize(width: navigation_height! * 0.98, height: navigation_height! * 0.98)
                     let imageFrame = CGRect(origin: .zero, size: imageSize)
