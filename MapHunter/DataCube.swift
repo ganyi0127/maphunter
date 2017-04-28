@@ -412,28 +412,34 @@ class DataCube: UIView {
             imageName = "weight"
         }
         
-        //绘制渐变
+        let radius = frame.size.width * 0.05
+        
+        //绘制背景渐变
         let gradient = CAGradientLayer()
         gradient.frame = bounds
         gradient.locations = [0.2, 0.8]
         gradient.startPoint = CGPoint(x: 0, y: 0)
         gradient.endPoint = CGPoint(x: 1, y: 1)
         gradient.colors = [modelStartColors[type]!.cgColor, modelEndColors[type]!.cgColor]
-        gradient.cornerRadius = frame.size.width * 0.05
+        gradient.cornerRadius = radius
         layer.insertSublayer(gradient, at: 0)
         
-        
+        //背景图片
         let imageView = UIImageView(frame: frame)
         imageView.image = UIImage(named: "resource/cube/" + imageName)
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: radius).cgPath
+        imageView.layer.mask = maskLayer
         addSubview(imageView)
         
-        //设置中央文字
+        //添加所有文本标签
         addSubview(firstLabel)
         addSubview(secondLabel)
         addSubview(thirdLabel)
         addSubview(fourthLabel)
     }
     
+    //MARK:- 点击模块动画
     @objc private func click(){
         
         let anim = CAKeyframeAnimation(keyPath: "transform.scale")

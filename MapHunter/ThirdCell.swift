@@ -6,7 +6,7 @@
 //  Copyright © 2016年 ganyi. All rights reserved.
 //
 /*
-Type:运动类型(0x00:无， 0x01:走路， 0x02:跑步， 0x03:骑行，0x04:徒步， 0x05: 游泳， 0x06:爬山， 0x07:羽毛球， 0x08:其他， 0x09:健身， 0x0A:动感单车， 0x0B:椭圆机， 0x0C:跑步机， 0x0D:仰卧起坐， 0x0E:俯卧撑， 0x0F:哑铃， 0x10:举重， 0x11:健身操， 0x12:瑜伽， 0x13:跳绳， 0x14:乒乓球， 0x15:篮球， 0x16:足球 ， 0x17:排球， 0x18:网球， 0x19:高尔夫球， 0x1A:棒球， 0x1B:滑雪， 0x1C:轮滑，0x1D:跳舞) + (0x1E:划船, 0x1F:睡眠, 0x20:体重, 0x21卡路里)
+Type:运动类型(0x00:无， 0x01:走路， 0x02:跑步， 0x03:骑行，0x04:徒步， 0x05: 游泳， 0x06:爬山， 0x07:羽毛球， 0x08:其他， 0x09:健身， 0x0A:动感单车， 0x0B:椭圆机， 0x0C:跑步机， 0x0D:仰卧起坐， 0x0E:俯卧撑， 0x0F:哑铃， 0x10:举重， 0x11:健身操， 0x12:瑜伽， 0x13:跳绳， 0x14:乒乓球， 0x15:篮球， 0x16:足球 ， 0x17:排球， 0x18:网球， 0x19:高尔夫球， 0x1A:棒球， 0x1B:滑雪， 0x1C:轮滑，0x1D:跳舞) + (0x1E:划船, 0x1F:睡眠, 0x20:体重, 0x21:血压, 0x22:卡路里)
 */
 import UIKit
 import AngelFit
@@ -44,6 +44,7 @@ enum SportType: Int16{
     case boating
     case sleep
     case weight
+    case bloodPressure
     case calorie
 }
 
@@ -78,8 +79,10 @@ let sportTypeNameMap: [SportType: String] = [
     .skating: "skating",
     .dancing: "dancing",
     .other: "other",
+    
     .sleep: "sleep",
     .weight: "weight",
+    .bloodPressure: "bloodPressure",
     .calorie: "calorie"
 ]
 
@@ -104,73 +107,13 @@ class ThirdCell: UITableViewCell {
     @IBOutlet weak var heartRateLabel:UILabel!
     @IBOutlet weak var fatLabel:UILabel!
     
+    //类型
+    private var type: SportType = .other
     
-    private var type: SportType = .other        //类型
+    //地图高度
+    var trackViewHeight: CGFloat = 0
     
-    //值
-    var value:StoryData?{
-        didSet{
-            guard let val = value else {
-                return
-            }
-            
-            self.type = val.type
-            createContents()
-            
-            //添加icon
-            let type = val.type
-            if let imageName = sportTypeNameMap[type]{
-
-                let iconSize = CGSize(width: gradient.frame.height / 3, height: gradient.frame.height / 3)
-                let icon = UIImage(named: "resource/sporticons/icon/\(imageName)")?.transfromImage(size: iconSize)
-                let iconView = UIImageView(frame: CGRect(x: view_size.width * 0.05,
-                                                         y: view_size.width * 0.05,
-                                                         width: iconSize.width,
-                                                         height: iconSize.height))
-                iconView.backgroundColor = UIColor.white.withAlphaComponent(0.2)
-                iconView.layer.cornerRadius = iconSize.width / 2
-                iconView.layer.contents = icon?.cgImage
-                addSubview(iconView)
-            }
-            
-            //显示值
-            switch val.type {
-            case .walking:
-                titleLabel.text = "走路\(val.hour)小时\(val.minute)分钟"
-            case .running:
-                titleLabel.text = "跑步\(val.hour)小时\(val.minute)分钟"
-            case .riding:
-                titleLabel.text = "骑行\(val.hour)小时\(val.minute)分钟"
-            case .hiking:
-                titleLabel.text = "徒步\(val.hour)小时\(val.minute)分钟"
-            case .swimming:
-                titleLabel.text = "游泳\(val.hour)小时\(val.minute)分钟"
-            case .sleep:
-                titleLabel.text = "睡眠\(val.hour)小时\(val.minute)分钟"
-            case .calorie:
-                titleLabel.text = "消耗\(val.calorie)卡路里"
-            case .weight:
-                titleLabel.text = "体重\(val.fat)公斤"
-            case .basketball:
-                titleLabel.text = "打篮球\(val.hour)小时\(val.minute)分钟"
-            case .badminton:
-                titleLabel.text = "打羽毛球\(val.hour)小时\(val.minute)分钟"
-            case .climbing:
-                titleLabel.text = "登山\(val.hour)小时\(val.minute)分钟"
-            default:
-                titleLabel.text = "类型：\(val.type)"
-            }
-            
-            //显示时间
-            let calender = Calendar.current
-            let components = calender.dateComponents([.hour, .minute], from: val.date)
-            let minuteStr = components.minute! < 10 ? "0\(components.minute!)" : "\(components.minute!)"
-            deltaTimeLabel.text = "\(components.hour!):" + minuteStr
-            
-            //显示卡路里
-            detailLabel.text = "消耗卡路里\(val.calorie)kcal"
-        }
-    }
+    //数据
     var track: Track?{
         didSet{
             guard let trk = track else {
@@ -189,10 +132,10 @@ class ThirdCell: UITableViewCell {
             //添加icon
             if let imageName = sportTypeNameMap[self.type]{
                 
-                let iconSize = CGSize(width: gradient.frame.height / 3, height: gradient.frame.height / 3)
+                let iconSize = CGSize(width: 46, height: 46)
                 let icon = UIImage(named: "resource/sporticons/icon/\(imageName)")?.transfromImage(size: iconSize)
-                let iconView = UIImageView(frame: CGRect(x: view_size.width * 0.05,
-                                                         y: view_size.width * 0.05,
+                let iconView = UIImageView(frame: CGRect(x: 16,
+                                                         y: 6,
                                                          width: iconSize.width,
                                                          height: iconSize.height))
                 iconView.backgroundColor = UIColor.white.withAlphaComponent(0.2)
@@ -243,13 +186,52 @@ class ThirdCell: UITableViewCell {
             
             //绘制路径或步数
             let items = trk.trackItems
+            guard items?.count != 0 else{
+                return
+            }
+            let trackHeartrateItems = trk.trackHeartrateItems?.sortedArray(using: [NSSortDescriptor(key: "id", ascending: true)]) as! [TrackHeartrateItem]
+            let trackItems = trk.trackItems?.sortedArray(using: [NSSortDescriptor(key: "date", ascending: true)]) as! [TrackItem]
+            var historyOverlay: GradientPolylineOverlay?
+            var preVelcity: Float = 0
+            trackItems.enumerated().forEach{
+                index, trackItem in
+                
+                //获取间隔
+                let interval = trackItem.interval
+                //获取距离
+                let subDistance = trackItem.subDistance
+                
+                //绘制路径
+                if index == 0{
+                    //前一个速度
+                    preVelcity = interval == 0 ? 0 : Float(subDistance / interval)
+                    preVelcity = 6  //模拟
+                }else{
+                    //当前速度
+                    let velcity: Float = interval == 0 ? 0 : Float(subDistance / interval)
+                    //当前坐标点
+                    let curCoordinate = CLLocationCoordinate2D(latitude: trackItem.latitude, longitude: trackItem.longtitude)
+                    if historyOverlay == nil{
+                        //获取第一个坐标点
+                        let firstCoordinate = CLLocationCoordinate2D(latitude: trackItems[0].latitude, longitude: trackItems[0].longtitude)
+                        historyOverlay = GradientPolylineOverlay(start: firstCoordinate,
+                                                                 end: curCoordinate,
+                                                                 startVelcity: preVelcity,
+                                                                 endVelcity: velcity)
+                    }else{
+                        historyOverlay?.add(curCoordinate, velcity: velcity)
+                    }
+                    preVelcity = velcity
+//                    mapView.add(historyOverlay!, level: .aboveLabels)
+                }
+            }
         }
     }
     
     //标题文字
     private lazy var titleLabel: UILabel = {
         let label: UILabel = UILabel()
-        label.frame = CGRect(x: self.gradient.frame.height / 3 + view_size.width * 0.1,
+        label.frame = CGRect(x: 16 + 46 + 8,
                              y: 8,
                              width: self.gradient.frame.width,
                              height: 24)
@@ -262,8 +244,8 @@ class ThirdCell: UITableViewCell {
     //详情文字
     private lazy var detailLabel: UILabel = {
         let label: UILabel = UILabel()
-        label.frame = CGRect(x: self.gradient.frame.height / 3 + view_size.width * 0.1,
-                             y: 8 * 2 + 24,
+        label.frame = CGRect(x: 16 + 46 + 8,
+                             y: 8 + 24,
                              width: self.gradient.frame.width,
                              height: 24)
         label.textColor = .white
@@ -334,7 +316,7 @@ class ThirdCell: UITableViewCell {
         gradient.frame = CGRect(x: margin,
                                 y: 0,
                                 width: view_size.width - margin * 2,
-                                height: view_size.width / 2 - margin - 26)
+                                height: thirdCellHeight + trackViewHeight - margin - 26)
         gradient.locations = [0.2, 1]
         gradient.startPoint = CGPoint(x: 0, y: 0)
         gradient.endPoint = CGPoint(x: 0, y: 1)

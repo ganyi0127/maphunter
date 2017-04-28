@@ -236,7 +236,7 @@ extension GodManager: CBCentralManagerDelegate{
         
         if peripheral.state == .disconnected{
             //发送连接失败消息
-            NotificationCenter.default.post(name: disconnected_notiy, object: nil, userInfo: nil)            
+            NotificationCenter.default.post(name: disconnected_notiy, object: nil, userInfo: nil)
         }
         
         //自动重连

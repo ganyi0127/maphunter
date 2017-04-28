@@ -84,7 +84,7 @@ class TipView: UIView {
         hatipLabel.textAlignment = .left
         addSubview(hatipLabel)
         
-        let mutableAttributed = NSMutableAttributedString(string: "哈博士", attributes: [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.lightGray])
+        let mutableAttributed = NSMutableAttributedString(string: " 哈博士", attributes: [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.lightGray])
         let length = fontSmall.pointSize * 1.2
         let imageSize = CGSize(width: length, height: length)
         let imageBounds = CGRect(x: 0, y: length / 2 - 24 / 2, width: length, height: length)
@@ -107,7 +107,7 @@ class TipView: UIView {
         
         //评价按钮
         let commentButtonImageSize = CGSize(width: buttonLenght, height: buttonLenght)
-        let commentButtonFrame = CGRect(x: frame.width - sideLength - buttonLenght, y: topLength, width: buttonLenght, height: buttonLenght)
+        let commentButtonFrame = CGRect(x: frame.width - buttonLenght - sideLength, y: topLength / 2, width: buttonLenght + sideLength, height: buttonLenght + topLength)
         let commentButton = UIButton(frame: commentButtonFrame)
         if let image = UIImage(named: "resource/time/tipicon")?.transfromImage(size: commentButtonImageSize){
             commentButton.setImage(image, for: .normal)

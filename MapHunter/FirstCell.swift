@@ -223,8 +223,8 @@ class FirstCell: UITableViewCell {
                 var data = DataCubeData()
                 data.value1 = CGFloat(step)
                 data.value2 = CGFloat(self.goalStep)
-                data.value3 = 40        //最后运动的时长
-                data.value4 = 2         //最后运动的类型
+//                data.value3 = 40        //最后运动的时长
+//                data.value4 = 2         //最后运动的类型
                 self.sportDataCube.data = data
                 
             }

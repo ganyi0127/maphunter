@@ -9,6 +9,11 @@
 import UIKit
 import AngelFit
 import CoreBluetooth
+
+//附加数据高度
+let thirdCellHeight: CGFloat = 120
+let trackItemsHeight: CGFloat = 120
+
 class StateVC: UIViewController {
     
     @IBOutlet weak var topView: TopView!            //日历
@@ -397,12 +402,23 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             }
         }
         
-        if indexPath.row == 0 {
+        let row = indexPath.row
+        if row == 0 {
             return view_size.width / 2                          //哈博士高度
         }
         
         //需根据内容判断时间轴高度(是否包含步数，是否包含路径)
-        return view_size.width / 2                              //时间轴高度
+        if let track: Track = trackList[row - 1] as? Track{
+            //Type:运动类型(0x00:无， 0x01:走路， 0x02:跑步， 0x03:骑行，0x04:徒步， 0x05: 游泳， 0x06:爬山， 0x07:羽毛球， 0x08:其他， 0x09:健身， 0x0A:动感单车， 0x0B:椭圆机， 0x0C:跑步机， 0x0D:仰卧起坐， 0x0E:俯卧撑， 0x0F:哑铃， 0x10:举重， 0x11:健身操， 0x12:瑜伽， 0x13:跳绳， 0x14:乒乓球， 0x15:篮球， 0x16:足球 ， 0x17:排球， 0x18:网球， 0x19:高尔夫球， 0x1A:棒球， 0x1B:滑雪， 0x1C:轮滑，0x1D:跳舞)
+            var value = StoryData()
+            value.type = SportType(rawValue: track.type)!
+            value.heartRate = CGFloat(track.avgrageHeartrate)
+            
+            if track.trackItems?.count == 0{
+                return thirdCellHeight                  //时间轴高度
+            }
+        }
+        return thirdCellHeight + trackItemsHeight       //时间轴高度(带图表)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -484,6 +500,7 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
 
         //时间轴
         cell = tableView.dequeueReusableCell(withIdentifier: "cell")
+        let thirdCell = cell as! ThirdCell
         //添加数据 .sleep, .calorie, .weight 混合
         if let track: Track = trackList[row - 1] as? Track{
             //Type:运动类型(0x00:无， 0x01:走路， 0x02:跑步， 0x03:骑行，0x04:徒步， 0x05: 游泳， 0x06:爬山， 0x07:羽毛球， 0x08:其他， 0x09:健身， 0x0A:动感单车， 0x0B:椭圆机， 0x0C:跑步机， 0x0D:仰卧起坐， 0x0E:俯卧撑， 0x0F:哑铃， 0x10:举重， 0x11:健身操， 0x12:瑜伽， 0x13:跳绳， 0x14:乒乓球， 0x15:篮球， 0x16:足球 ， 0x17:排球， 0x18:网球， 0x19:高尔夫球， 0x1A:棒球， 0x1B:滑雪， 0x1C:轮滑，0x1D:跳舞)
@@ -496,8 +513,8 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             value.heartRate = CGFloat(track.avgrageHeartrate)
             value.fat = CGFloat(track.burnFatMinutes)
             
-//            (cell as! ThirdCell).value = value
-            (cell as! ThirdCell).track = track
+            thirdCell.track = track                                                             //所有数据
+            thirdCell.trackViewHeight = track.trackItems?.count == 0 ? 0 : trackItemsHeight     //设置附加高度
         }
         
         return cell!
