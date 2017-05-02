@@ -12,6 +12,7 @@ class TipView: UIView {
     private var titleLabel: UILabel?
     private var textLabel: UITextView?
     
+    //内容
     var data: HaData?{
         didSet{
             titleLabel?.text = data?.title
@@ -19,7 +20,34 @@ class TipView: UIView {
         }
     }
     
+    //点赞与展开按钮
+    private var commentButton: UIButton?
     
+    private lazy var subButtonList: [UIButton]? = {
+        var list = [UIButton]()
+        let buttonImageSize = CGSize(width: 48, height: 48)
+        (0..<3).forEach{
+            i in
+    
+            let frame = CGRect(x: self.commentButton!.frame.origin.x, y: self.commentButton!.frame.origin.y + self.commentButton!.frame.height * 0.15, width: self.commentButton!.frame.width * 0.7, height: self.commentButton!.frame.height * 0.7)
+            let button: UIButton = UIButton(frame: frame)
+            button.tag = i
+            var imageName: String
+            if i == 0{
+                imageName = "tipicon_like"
+            }else if i == 1{
+                imageName = "tipicon_unlike"
+            }else{
+                imageName = "tipicon_share"
+            }
+            button.setImage(UIImage(named: "resource/time/" + imageName), for: .normal)
+            button.addTarget(self, action: #selector(self.clickSubButton(sender:)), for: .touchUpInside)
+            button.alpha = 0
+            list.append(button)
+            self.addSubview(button)
+        }
+        return list
+    }()
     
     
     //MARK:- init------------------------------------------------------------------------------------------
@@ -105,18 +133,18 @@ class TipView: UIView {
         moreButton.addTarget(self, action: #selector(learnMore(sender:)), for: .touchUpInside)
         addSubview(moreButton)
         
-        //评价按钮
+        //点赞与分享展开按钮
         let commentButtonImageSize = CGSize(width: buttonLenght, height: buttonLenght)
         let commentButtonFrame = CGRect(x: frame.width - buttonLenght - sideLength, y: topLength / 2, width: buttonLenght + sideLength, height: buttonLenght + topLength)
-        let commentButton = UIButton(frame: commentButtonFrame)
+        commentButton = UIButton(frame: commentButtonFrame)
         if let image = UIImage(named: "resource/time/tipicon")?.transfromImage(size: commentButtonImageSize){
-            commentButton.setImage(image, for: .normal)
+            commentButton?.setImage(image, for: .normal)
         }
         if let image = UIImage(named: "resource/time/tipicon_selected")?.transfromImage(size: commentButtonImageSize){
-            commentButton.setImage(image, for: .selected)
+            commentButton?.setImage(image, for: .selected)
         }
-        commentButton.addTarget(self, action: #selector(comment(sender:)), for: .touchUpInside)
-        addSubview(commentButton)
+        commentButton?.addTarget(self, action: #selector(comment(sender:)), for: .touchUpInside)
+        addSubview(commentButton!)
     }
     
     //MARK:- 点击更多按钮
@@ -128,8 +156,50 @@ class TipView: UIView {
     @objc private func comment(sender: UIButton){
         sender.isSelected = !sender.isSelected
         
+        
+        guard let comButtom = commentButton else {
+            return
+        }
+        
         if sender.isSelected {
-            
+            subButtonList?.forEach{
+                button in
+                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                    button.frame.origin.x = comButtom.frame.origin.x - CGFloat(3 - button.tag) * comButtom.frame.width
+                    button.alpha = 1
+                }, completion: nil)
+            }
+        }else{
+            subButtonList?.forEach{
+                button in
+                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                    button.frame.origin.x = comButtom.frame.origin.x
+                    button.alpha = 0
+                }, completion: nil)
+            }
+        }
+    }
+    
+    //MARK:- 喜欢 不喜欢 分享
+    @objc private func clickSubButton(sender: UIButton){
+        
+        if let comButton = commentButton{
+            if comButton.isSelected{
+                comment(sender: comButton)
+            }
+        }
+        
+        let tag = sender.tag
+        if tag == 0{
+            //喜欢
+            let like = TipAlertLike()
+            viewController()?.view.addSubview(like)
+        }else if tag == 1{
+            //不喜欢
+            let unlike = TipAlertUnlike()
+            viewController()?.view.addSubview(unlike)
+        }else{
+            //分享
         }
     }
 }

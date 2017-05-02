@@ -6,7 +6,7 @@
 //  Copyright © 2016年 ganyi. All rights reserved.
 //
 /*
-Type:运动类型(0x00:无， 0x01:走路， 0x02:跑步， 0x03:骑行，0x04:徒步， 0x05: 游泳， 0x06:爬山， 0x07:羽毛球， 0x08:其他， 0x09:健身， 0x0A:动感单车， 0x0B:椭圆机， 0x0C:跑步机， 0x0D:仰卧起坐， 0x0E:俯卧撑， 0x0F:哑铃， 0x10:举重， 0x11:健身操， 0x12:瑜伽， 0x13:跳绳， 0x14:乒乓球， 0x15:篮球， 0x16:足球 ， 0x17:排球， 0x18:网球， 0x19:高尔夫球， 0x1A:棒球， 0x1B:滑雪， 0x1C:轮滑，0x1D:跳舞) + (0x1E:划船, 0x1F:睡眠, 0x20:体重, 0x21:血压, 0x22:卡路里)
+Type:运动类型(0x00:无， 0x01:走路， 0x02:跑步， 0x03:骑行，0x04:徒步， 0x05: 游泳， 0x06:爬山， 0x07:羽毛球， 0x08:其他， 0x09:健身， 0x0A:动感单车， 0x0B:椭圆机， 0x0C:跑步机， 0x0D:仰卧起坐， 0x0E:俯卧撑， 0x0F:哑铃， 0x10:举重， 0x11:健身操， 0x12:瑜伽， 0x13:跳绳， 0x14:乒乓球， 0x15:篮球， 0x16:足球 ， 0x17:排球， 0x18:网球， 0x19:高尔夫球， 0x1A:棒球， 0x1B:滑雪， 0x1C:轮滑，0x1D:跳舞) + (0x1E:划船, 0x1F:睡眠, 0x20:体重, 0x21:血压, 0x22:卡路里, 0x23:测量心率, 0x24:静息心率, 0x25:心情状态)
 */
 import UIKit
 import AngelFit
@@ -41,11 +41,15 @@ enum SportType: Int16{
     case skiing
     case skating
     case dancing
+    
     case boating
     case sleep
     case weight
     case bloodPressure
     case calorie
+    case testHeartrate
+    case restingHeartrate
+    case emotion
 }
 
 let sportTypeNameMap: [SportType: String] = [
@@ -83,7 +87,10 @@ let sportTypeNameMap: [SportType: String] = [
     .sleep: "sleep",
     .weight: "weight",
     .bloodPressure: "bloodPressure",
-    .calorie: "calorie"
+    .calorie: "calorie",
+    .testHeartrate: "testHeartrate",
+    .restingHeartrate: "restingHeartrate",
+    .emotion: "emotion"
 ]
 
 //数据结构
@@ -110,7 +117,7 @@ class ThirdCell: UITableViewCell {
     //类型
     private var type: SportType = .other
     
-    //地图高度
+    //地图或步数高度
     var trackViewHeight: CGFloat = 0
     
     //数据
@@ -185,45 +192,56 @@ class ThirdCell: UITableViewCell {
             detailLabel.text = "消耗卡路里\(trk.calories)kcal"
             
             //绘制路径或步数
-            let items = trk.trackItems
-            guard items?.count != 0 else{
+            guard let items = trk.trackItems else{
+                return
+            }
+            guard items.count > 1 else{
                 return
             }
             let trackHeartrateItems = trk.trackHeartrateItems?.sortedArray(using: [NSSortDescriptor(key: "id", ascending: true)]) as! [TrackHeartrateItem]
             let trackItems = trk.trackItems?.sortedArray(using: [NSSortDescriptor(key: "date", ascending: true)]) as! [TrackItem]
-            var historyOverlay: GradientPolylineOverlay?
-            var preVelcity: Float = 0
-            trackItems.enumerated().forEach{
-                index, trackItem in
+            
+            //轨迹尺寸范围
+            let trackX: CGFloat = 8
+            let trackY = thirdCellHeight
+            let trackWidth = self.gradient.frame.width - trackX * 2
+            let trackHeight = trackViewHeight
+            
+            //边界
+            if let minLongtitude = trackItems.min(by: {$0.longtitude > $1.longtitude})?.longtitude,         //最小经度
+                let maxLongtitude = trackItems.max(by: {$0.longtitude > $1.longtitude})?.longtitude,        //最大经度
+                let minLatitude = trackItems.min(by: {$0.latitude > $1.latitude})?.latitude,                //最小纬度
+                let maxLatitude = trackItems.max(by: {$0.latitude > $1.latitude})?.latitude {               //最大纬度
                 
-                //获取间隔
-                let interval = trackItem.interval
-                //获取距离
-                let subDistance = trackItem.subDistance
-                
-                //绘制路径
-                if index == 0{
-                    //前一个速度
-                    preVelcity = interval == 0 ? 0 : Float(subDistance / interval)
-                    preVelcity = 6  //模拟
-                }else{
-                    //当前速度
-                    let velcity: Float = interval == 0 ? 0 : Float(subDistance / interval)
-                    //当前坐标点
-                    let curCoordinate = CLLocationCoordinate2D(latitude: trackItem.latitude, longitude: trackItem.longtitude)
-                    if historyOverlay == nil{
-                        //获取第一个坐标点
-                        let firstCoordinate = CLLocationCoordinate2D(latitude: trackItems[0].latitude, longitude: trackItems[0].longtitude)
-                        historyOverlay = GradientPolylineOverlay(start: firstCoordinate,
-                                                                 end: curCoordinate,
-                                                                 startVelcity: preVelcity,
-                                                                 endVelcity: velcity)
+                let deltaLongtitude = maxLongtitude - minLongtitude
+                let deltaLatitude = maxLatitude - minLatitude
+
+                let bezier = UIBezierPath()                
+                trackItems.enumerated().forEach{
+                    index, trackItem in
+                    
+                    let longtitude = trackItem.longtitude
+                    let latitude = trackItem.latitude
+                    
+                    //获取当前坐标位置
+                    let posX = trackX + CGFloat(longtitude - minLongtitude) / CGFloat(deltaLongtitude) * trackWidth
+                    let posY = trackY + CGFloat(latitude - minLatitude) / CGFloat(deltaLatitude) * trackHeight
+                    let pos = CGPoint(x: posX, y: posY)
+                    
+                    if index == 0{
+                        bezier.move(to: pos)
                     }else{
-                        historyOverlay?.add(curCoordinate, velcity: velcity)
+                        bezier.addLine(to: pos)
                     }
-                    preVelcity = velcity
-//                    mapView.add(historyOverlay!, level: .aboveLabels)
                 }
+                
+                let shapeLayer = CAShapeLayer()
+                shapeLayer.path = bezier.cgPath
+                shapeLayer.fillColor = nil
+                shapeLayer.strokeColor = UIColor.white.withAlphaComponent(0.5).cgColor
+                shapeLayer.lineWidth = 2
+                shapeLayer.lineCap = kCALineCapRound
+                layer.addSublayer(shapeLayer)
             }
         }
     }

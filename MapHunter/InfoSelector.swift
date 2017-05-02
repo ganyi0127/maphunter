@@ -105,7 +105,7 @@ class InfoSelector: UIView {
             datePickerView?.datePickerMode = .date
             datePickerView?.addTarget(self, action: #selector(selectBirthyDate(sender:)), for: .valueChanged)
             datePickerView?.maximumDate = Date()
-            datePickerView?.minimumDate = Date(timeIntervalSinceNow: -120 * 60 * 60 * 24 * 365)
+            datePickerView?.minimumDate = Date(timeIntervalSinceNow: -250 * 60 * 60 * 24 * 365)
             addSubview(datePickerView!)
         }else if type != .birthday && (infotype == nil || infotype == .birthday){
             datePickerView?.removeFromSuperview()

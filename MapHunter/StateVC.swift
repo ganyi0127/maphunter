@@ -414,7 +414,7 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             value.type = SportType(rawValue: track.type)!
             value.heartRate = CGFloat(track.avgrageHeartrate)
             
-            if track.trackItems?.count == 0{
+            if (track.trackItems?.count ?? 0) <= 1{
                 return thirdCellHeight                  //时间轴高度
             }
         }
@@ -514,7 +514,7 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             value.fat = CGFloat(track.burnFatMinutes)
             
             thirdCell.track = track                                                             //所有数据
-            thirdCell.trackViewHeight = track.trackItems?.count == 0 ? 0 : trackItemsHeight     //设置附加高度
+            thirdCell.trackViewHeight = (track.trackItems?.count ?? 0) <= 1 ? 0 : trackItemsHeight     //设置附加高度
         }
         
         return cell!

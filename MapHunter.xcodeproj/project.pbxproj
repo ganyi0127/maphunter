@@ -151,6 +151,10 @@
 		BE2DCA011D9210A300978C97 /* MapHunterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2DCA001D9210A300978C97 /* MapHunterTests.swift */; };
 		BE2DCA0C1D9210A300978C97 /* MapHunterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2DCA0B1D9210A300978C97 /* MapHunterUITests.swift */; };
 		BE2DCA2D1D92257C00978C97 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE2DCA2C1D92257C00978C97 /* MapKit.framework */; };
+		BE308E191EB830D70096B84E /* MainSubMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE308E181EB830D70096B84E /* MainSubMenuButton.swift */; };
+		BE308E1B1EB8735C0096B84E /* TipAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE308E1A1EB8735C0096B84E /* TipAlert.swift */; };
+		BE308E1E1EB87E340096B84E /* TipAlertLike.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE308E1D1EB87E340096B84E /* TipAlertLike.swift */; };
+		BE308E201EB87F4B0096B84E /* TipAlertUnlike.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE308E1F1EB87F4B0096B84E /* TipAlertUnlike.swift */; };
 		BE3DB3201E961E7A001CA7AF /* Boot.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE3DB31F1E961E7A001CA7AF /* Boot.storyboard */; };
 		BE3DB3221E961F12001CA7AF /* BootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB3211E961F12001CA7AF /* BootVC.swift */; };
 		BE3DB3241E9624A1001CA7AF /* BootCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB3231E9624A1001CA7AF /* BootCell.swift */; };
@@ -628,6 +632,10 @@
 		BE2DCA0B1D9210A300978C97 /* MapHunterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapHunterUITests.swift; sourceTree = "<group>"; };
 		BE2DCA0D1D9210A300978C97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE2DCA2C1D92257C00978C97 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		BE308E181EB830D70096B84E /* MainSubMenuButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSubMenuButton.swift; sourceTree = "<group>"; };
+		BE308E1A1EB8735C0096B84E /* TipAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TipAlert.swift; sourceTree = "<group>"; };
+		BE308E1D1EB87E340096B84E /* TipAlertLike.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TipAlertLike.swift; sourceTree = "<group>"; };
+		BE308E1F1EB87F4B0096B84E /* TipAlertUnlike.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TipAlertUnlike.swift; sourceTree = "<group>"; };
 		BE3DB31F1E961E7A001CA7AF /* Boot.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Boot.storyboard; sourceTree = "<group>"; };
 		BE3DB3211E961F12001CA7AF /* BootVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootVC.swift; sourceTree = "<group>"; };
 		BE3DB3231E9624A1001CA7AF /* BootCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootCell.swift; sourceTree = "<group>"; };
@@ -1894,6 +1902,7 @@
 				BE503E3C1EA1C05B00C5A3FE /* 个人设置 */,
 				BE6455BE1EA4BDA300C8A416 /* 通知与提醒 */,
 				BE1C366C1D93725000AB4370 /* RootTBC.swift */,
+				BE308E181EB830D70096B84E /* MainSubMenuButton.swift */,
 				BEDF4F371D93938500E98D63 /* 状态 */,
 				BEDF4F361D93937C00E98D63 /* 地图 */,
 				BEDF4F381D93938D00E98D63 /* 健康 */,
@@ -1968,6 +1977,16 @@
 				BE2DCA2C1D92257C00978C97 /* MapKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BE308E1C1EB87C9E0096B84E /* 提示弹窗 */ = {
+			isa = PBXGroup;
+			children = (
+				BE308E1A1EB8735C0096B84E /* TipAlert.swift */,
+				BE308E1D1EB87E340096B84E /* TipAlertLike.swift */,
+				BE308E1F1EB87F4B0096B84E /* TipAlertUnlike.swift */,
+			);
+			name = "提示弹窗";
 			sourceTree = "<group>";
 		};
 		BE3DB31C1E961DAB001CA7AF /* 引导页 */ = {
@@ -2130,6 +2149,7 @@
 			children = (
 				BE80F8E71EB0389E00604D72 /* HaTip.swift */,
 				BE80F8EB1EB048DB00604D72 /* TipView.swift */,
+				BE308E1C1EB87C9E0096B84E /* 提示弹窗 */,
 			);
 			name = "哈博士";
 			sourceTree = "<group>";
@@ -2511,6 +2531,7 @@
 				BE1C366D1D93725000AB4370 /* RootTBC.swift in Sources */,
 				BECD4F211EA1C4FF00C9136C /* InfoAgeView.swift in Sources */,
 				BE3DB3221E961F12001CA7AF /* BootVC.swift in Sources */,
+				BE308E1E1EB87E340096B84E /* TipAlertLike.swift in Sources */,
 				BE0DD8AD1EA6FD6E00574139 /* QNDnspodFree.m in Sources */,
 				BE71B9E71DBF4CAA00143E1E /* Net.swift in Sources */,
 				BE0DD8861EA6FD6E00574139 /* aes_cbc.c in Sources */,
@@ -2604,6 +2625,7 @@
 				BE0DD89A1EA6FD6E00574139 /* CKMemoryCache.m in Sources */,
 				BE0DD8AA1EA6FD6E00574139 /* QNNetworkInfo.m in Sources */,
 				BE0DD8891EA6FD6E00574139 /* AFNetworkReachabilityManager.m in Sources */,
+				BE308E1B1EB8735C0096B84E /* TipAlert.swift in Sources */,
 				BE0DD8BD1EA6FD6E00574139 /* QNUploadManager.m in Sources */,
 				BE0DD8871EA6FD6E00574139 /* aes_core.c in Sources */,
 				BE0DD8AC1EA6FD6E00574139 /* QNDnspodEnterprise.m in Sources */,
@@ -2614,6 +2636,7 @@
 				BE1C36701D93745500AB4370 /* NavigationExtension.swift in Sources */,
 				BE8685491E2F5C6400EBEBED /* PathCell1.swift in Sources */,
 				BE0DD8D51EA6FD6E00574139 /* AsyncSocket.m in Sources */,
+				BE308E201EB87F4B0096B84E /* TipAlertUnlike.swift in Sources */,
 				BEDF4F771D9909ED00E98D63 /* TopScrollView.swift in Sources */,
 				BE6ACD851DBC583C006C4471 /* TopScrollDelegate.swift in Sources */,
 				BE0DD8E01EA6FD6E00574139 /* YYClassInfo.m in Sources */,
@@ -2657,6 +2680,7 @@
 				BE4BFE9C1E150FD200F3FE91 /* IntroduceVC.swift in Sources */,
 				32C3E6341E0A694E00D34A74 /* AlertExtension.swift in Sources */,
 				BE41E67A1E8D097400387B59 /* ActiveForcesVC.swift in Sources */,
+				BE308E191EB830D70096B84E /* MainSubMenuButton.swift in Sources */,
 				BE2DC9E91D9210A300978C97 /* AppDelegate.swift in Sources */,
 				BE0DD8BE1EA6FD6E00574139 /* QNUploadOption.m in Sources */,
 				BE0DD8881EA6FD6E00574139 /* AFHTTPSessionManager.m in Sources */,

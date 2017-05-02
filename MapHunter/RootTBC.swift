@@ -14,6 +14,20 @@ import CoreBluetooth
 import HealthKit
 class RootTBC: UITabBarController {
     
+    //子按钮
+    private lazy var subButtonList: [MainSubMenuButton]? = {
+        var list = [MainSubMenuButton]()
+        let buttonImageSize = CGSize(width: 48, height: 48)
+        (0..<6).forEach{
+            i in
+            let subButton: MainSubMenuButton = MainSubMenuButton(index: i)
+            subButton.addTarget(self, action: #selector(self.clickSubMenuButton(sender:)), for: .touchUpInside)
+            list.append(subButton)
+            self.view.addSubview(subButton)
+        }
+       return list
+    }()
+    
     //展开按钮
     private var menuButtonFlag: Bool = false{
         didSet{
@@ -41,6 +55,14 @@ class RootTBC: UITabBarController {
                 }, completion: nil)
                 self.selectedViewController?.view.addSubview(effectView)
                 effectView.addGestureRecognizer(tap)
+                
+                //显示子按钮
+                self.subButtonList?.forEach{
+                    button in
+                    UIView.animate(withDuration: 0.15, delay: Double(button.tag) * 0.04, options: .curveEaseIn, animations: {
+                        button.setHidden(flag: false)
+                    }, completion: nil)
+                }
                 
                 //隐藏tabbar
                 let tabbarFrame = self.tabBar.frame
@@ -75,6 +97,14 @@ class RootTBC: UITabBarController {
                 animation.fillMode = kCAFillModeBoth
                 animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
                 menuButton.layer.add(animation, forKey: key)
+                
+                //隐藏子按钮
+                self.subButtonList?.forEach{
+                    button in
+                    UIView.animate(withDuration: 0.1, delay: Double(button.tag) * 0.02, options: .curveEaseIn, animations: {
+                        button.setHidden(flag: true)
+                    }, completion: nil)
+                }
                 
                 //移除高斯模糊
                 effectView.removeGestureRecognizer(tap)
@@ -133,7 +163,7 @@ class RootTBC: UITabBarController {
     
     //毛玻璃
     private lazy var effectView = { () -> UIVisualEffectView in
-        let blur: UIBlurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
+        let blur: UIBlurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
         let effectView: UIVisualEffectView = UIVisualEffectView(effect: blur)
         effectView.frame = CGRect(x: 0, y: 0, width: view_size.width, height: view_size.height)
         return effectView
@@ -146,7 +176,7 @@ class RootTBC: UITabBarController {
     fileprivate var startTime: Date?
     fileprivate var totalTime: TimeInterval = 0
     
-    //MARK:- init
+    //MARK:- init************************************************************************************************************
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -198,73 +228,23 @@ class RootTBC: UITabBarController {
 //            GodManager.share().startScan()
 //        }
     }
-    
-    //MARK:- 苹果健康权限设置
-    private func permissionHealthKit(){
-        //判断当前设备是否支持HeathKit
-        if HKHealthStore.isHealthDataAvailable() {
-            // 1. Set the types you want to read from HK Store
-            let healthKitTypesToRead: Set<HKObjectType> = [
-                HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.dateOfBirth)!,
-                HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.bloodType)!,
-                HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.biologicalSex)!,
-                HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!,
-                HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)!,
-                HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)!,
-                HKObjectType.workoutType()
-            ]
-            
-            // 2. Set the types you want to write to HK Store
-            let healthKitTypesToWrite: Set<HKObjectType> = [
-                HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMassIndex)!,
-                HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!,
-                HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)!,
-                HKQuantityType.workoutType()
-            ]
-            
-            let healthStore = HKHealthStore()
-            
-            //请求
-            healthStore.requestAuthorization(toShare: nil, read: healthKitTypesToWrite) {
-                success, error in
-                guard success else{
-                    if let err = error {
-                        debugPrint("error: \(err)")
-                    }
-                    return
-                }
-                
-                debugPrint("同意获取write数据")
-            }
-        }else{
-            debugPrint("设备不支持HealthKit")
-        }
-    }
-    
-    //MARK:- 智能推送权限设置
-    private func permissionPushNotification(){
-        //注册push notification
-        let notificationTypes: UIUserNotificationType = [UIUserNotificationType.alert, UIUserNotificationType.badge, UIUserNotificationType.sound]
-        let pushNotificationSettings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
-        
-        UIApplication.shared.registerUserNotificationSettings(pushNotificationSettings)
-        UIApplication.shared.registerForRemoteNotifications()        
-    }
-    
-    //MARK:- 定位权限设置
-    private func permissionLocation(){
 
-        debugPrint("请求后台定位访问")
-        let locationManager = CLLocationManager()
-        locationManager.requestAlwaysAuthorization()  //请求允许访问
-    }
-    
-    
-    
     //MARK:- 切换状态时 取消menubutton选中
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         menuButtonFlag = false
         
+    }
+    
+    //MARK:- 点击sub menu按钮
+    @objc private func clickSubMenuButton(sender: MainSubMenuButton){
+        let tag = sender.tag
+        debugPrint("<main menu> sub button tag: \(tag)")
+        switch tag {
+        case 0:
+            break
+        default:
+            break
+        }
     }
     
     //MARK:- 点击展开按钮
@@ -282,7 +262,6 @@ class RootTBC: UITabBarController {
 
 //MARK:- 交换数据代理
 extension RootTBC: SatanManagerDelegate{
-    
     
     //发送app持续时间
     func satanManagerDuration() -> Int {

@@ -63,7 +63,6 @@ class HaTip: UITableViewCell {
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
         
-        
     }
     
     private func config(){
@@ -79,7 +78,7 @@ class HaTip: UITableViewCell {
         scrollView?.showsVerticalScrollIndicator = false
         scrollView?.showsHorizontalScrollIndicator = false
         scrollView?.delegate = self
-        contentView.addSubview(scrollView!)
+        addSubview(scrollView!)
         
         let pageControlFrame = CGRect(x: 0, y: scrollFrame.origin.y + scrollFrame.height, width: hatip_width, height: 20)
         pageControl = UIPageControl(frame: pageControlFrame)
