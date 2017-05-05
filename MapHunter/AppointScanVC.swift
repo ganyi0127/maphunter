@@ -97,10 +97,10 @@ class AppointScanVC: ScanVC {
             let labelFrame = CGRect(x: 0, y: 0, width: failureView.frame.width, height: 24)
             let label = UILabel(frame: labelFrame)
             label.font = fontSmall
-            label.numberOfLines = 3
+            label.numberOfLines = 0
             label.textAlignment = .center
             let bandName = self.filterName == nil ? "手环" : self.filterName!.uppercased()
-            label.text = "请在手机系统将蓝牙连接设备，进行忽略\n确保" + bandName + "位于你的设备附近，然后重试"
+            label.text = "请在手机系统将蓝牙连接设备，进行忽略确保" + bandName + "位于你的设备附近，然后重试"
             label.sizeThatFits(labelFrame.size)
             failureView.addSubview(label)
             
@@ -140,9 +140,9 @@ class AppointScanVC: ScanVC {
         
         //修改firstLabel文字
         if let name = filterName{
-            firstLabel.text = "选择需要绑定的" + name.uppercased()
+            firstLabel.text = "正在查找您的" + name.uppercased()
         }else{
-            firstLabel.text = "选择需要绑定的设备"
+            firstLabel.text = "正在查找您的设备"
         }
         
     }

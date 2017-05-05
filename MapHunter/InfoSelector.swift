@@ -15,6 +15,8 @@ class InfoSelector: UIView {
     private let initFrame = CGRect(x: 0, y: view_size.height, width: view_size.width, height: height)
     private let pickerFrame = CGRect(x: 0, y: 44, width: view_size.width, height: height - 44)
     
+    private let calender = Calendar.current
+    
     fileprivate var infotype: InfoType?
     fileprivate var value1: Any?
     fileprivate var value2: Any?
@@ -29,6 +31,13 @@ class InfoSelector: UIView {
         }
     }
     fileprivate var valueList2 = [String](){
+        didSet{
+            pickerView?.reloadAllComponents()
+        }
+    }
+    
+    //存储单位切换后数据
+    fileprivate var valueListSwitchCopy = [Int](){
         didSet{
             pickerView?.reloadAllComponents()
         }
@@ -139,7 +148,7 @@ class InfoSelector: UIView {
             valueList1 = list
             valueList2 = ["厘米", "英寸"]
             
-            let defaultInt = 173 - 30
+            let defaultInt = 175 - 30
             value1 = valueList1[defaultInt]
             pickerView?.selectRow(defaultInt, inComponent: 0, animated: true)
         case .weight:
@@ -155,10 +164,15 @@ class InfoSelector: UIView {
             value1 = valueList1[defaultInt]
             pickerView?.selectRow(defaultInt, inComponent: 0, animated: true)
         case .birthday:
-            let defaultDate = Date(timeIntervalSinceNow: -25 * 60 * 60 * 24 * 360)
-            datePickerView?.setDate(defaultDate, animated: true)
-            datePickerView?.date = defaultDate
-            value1 = defaultDate
+            var components = calender.dateComponents([.year, .month, .day], from: Date())
+            components.year = components.year! - 25
+            components.month = 6
+            components.day = 18
+            if let defaultDate = calender.date(from: components){
+                datePickerView?.setDate(defaultDate, animated: true)
+                datePickerView?.date = defaultDate
+                value1 = defaultDate
+            }
             break
         }
     }
@@ -210,17 +224,42 @@ extension InfoSelector: UIPickerViewDelegate, UIPickerViewDataSource{
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if component == 0 {
-            if infotype == .gender {
+            if infotype == .gender {        //性别
                 if row < valueList2.count{
                     return valueList2[row]
                 }
-            }else{
-                if row < valueList1.count{
-                    return "\(valueList1[row])"
+            }else if infotype == .height{   //身高
+                if pickerView.selectedRow(inComponent: 1) == 0{
+                    //公制
+                    if row < valueList1.count{
+                        return "\(valueList1[row])"
+                    }
+                }else{
+                    //英制
+                    if row < valueListSwitchCopy.count{
+                        let value = valueListSwitchCopy[row]
+                        let foot = value / 12
+                        let inch = value % 12
+                        return "\(foot)\'\(inch)\""
+                    }
+                }
+            }else{                          //体重
+                if pickerView.selectedRow(inComponent: 1) == 0{
+                    //公制
+                    if row < valueList1.count{
+                        return "\(valueList1[row])"
+                    }
+                }else{
+                    if row < valueListSwitchCopy.count{
+                        return "\(CGFloat(valueListSwitchCopy[row]))"
+                    }
+                    //英制
                 }
             }
             return ""
         }
+        
+        //第二行 （身高、体重）单位
         if row < valueList2.count{
             return valueList2[row]
         }
@@ -230,7 +269,7 @@ extension InfoSelector: UIPickerViewDelegate, UIPickerViewDataSource{
     
     //选择内容
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if component == 0{
+        if component == 0{  //选择数值
             if infotype == .gender{
                 if row < valueList2.count{
                     value2 = valueList2[row]
@@ -240,10 +279,26 @@ extension InfoSelector: UIPickerViewDelegate, UIPickerViewDataSource{
             if row < valueList1.count {
                 value1 = valueList1[row]
             }
-        }else{
+        }else{              //选择单位
+            
+            //切换单位后更新数据
+            if row == 1 {
+                if infotype == .height{         //身高
+//                    1英尺=12英寸=304.8mm；foot
+//                    1英寸=25.4mm；inch
+                    valueListSwitchCopy = valueList1.map{Int(CGFloat($0) / 2.54)}
+                }else if infotype == .weight{   //体重
+                    valueListSwitchCopy = valueList1.map{Int(CGFloat($0) * 2.2046)}
+                }
+            }
+            
+            
+            //存储单位
             if row < valueList2.count{
                 value2 = valueList2[row]
             }
+            
+            pickerView.reloadAllComponents()
         }
     }
 }

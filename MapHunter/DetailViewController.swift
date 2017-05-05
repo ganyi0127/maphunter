@@ -27,7 +27,7 @@ class DetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigation(hidden: true)
         navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white]
         
         //显示日期
         let formatter = DateFormatter()

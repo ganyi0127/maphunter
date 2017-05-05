@@ -372,7 +372,7 @@ extension GodManager:CBPeripheralDelegate{
         let length = (data as NSData).length
         
         var val: [UInt8] = Array(repeating: 0x00, count: 20)
-        (data as NSData).getBytes(&val, length: val.count)
+        (data as NSData).getBytes(&val, length: length)
         protocol_receive_data(val,UInt16(length))
         print("3.\(String(describing: peripheral.name))接收蓝牙数据成功 \n \(val)")
     }

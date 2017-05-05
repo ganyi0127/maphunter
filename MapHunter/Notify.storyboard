@@ -111,7 +111,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uq6-kb-aMr" userLabel="LowNavigation">
                                 <rect key="frame" x="0.0" y="618" width="375" height="49"/>
                                 <subviews>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dl1-6A-y8W">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dl1-6A-y8W">
                                         <rect key="frame" x="8" y="0.0" width="49" height="49"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Dl1-6A-y8W" secondAttribute="height" multiplier="1:1" id="FbS-w9-LUe"/>
@@ -189,7 +189,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Kj-I4-OYm" userLabel="LowNavigation">
                                 <rect key="frame" x="0.0" y="618" width="375" height="49"/>
                                 <subviews>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pfm-qL-HXd">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pfm-qL-HXd">
                                         <rect key="frame" x="8" y="0.0" width="49" height="49"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="pfm-qL-HXd" secondAttribute="height" multiplier="1:1" id="4TV-Aj-k71"/>
@@ -267,7 +267,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CdQ-J6-0W5" userLabel="LowNavigation">
                                 <rect key="frame" x="0.0" y="618" width="375" height="49"/>
                                 <subviews>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6pG-Od-QNi">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6pG-Od-QNi">
                                         <rect key="frame" x="8" y="0.0" width="49" height="49"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="6pG-Od-QNi" secondAttribute="height" multiplier="1:1" id="B6a-c2-ZdH"/>

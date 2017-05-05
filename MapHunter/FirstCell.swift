@@ -127,7 +127,24 @@ class FirstCell: UITableViewCell {
         
         //获取睡眠数据
         sleepDataCube.data = data
-        data.value1 = 123
+        AngelManager.share()?.getSleepData{
+            sleepDataList in
+            let sumDuring = sleepDataList.reduce(0, {
+                result, sleepData -> CGFloat in
+                var duringHour = sleepData.endTimeHour - sleepData.startTimeHour
+                if duringHour < 0{
+                    duringHour += 24
+                }
+                var duringMinute = sleepData.endTimeMinute - sleepData.startTimeMinute
+                if duringMinute < 0{
+                    duringHour -= 1
+                    duringMinute += 60
+                }
+                return result + CGFloat(duringHour) * 60 + CGFloat(duringMinute)
+            })
+            
+            data.value1 = sumDuring
+        }
         data.value2 = CGFloat(goalSleep)
         sleepDataCube.data = data
         addSubview(sleepDataCube)

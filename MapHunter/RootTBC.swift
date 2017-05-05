@@ -59,9 +59,7 @@ class RootTBC: UITabBarController {
                 //显示子按钮
                 self.subButtonList?.forEach{
                     button in
-                    UIView.animate(withDuration: 0.15, delay: Double(button.tag) * 0.04, options: .curveEaseIn, animations: {
-                        button.setHidden(flag: false)
-                    }, completion: nil)
+                    button.setHidden(flag: false)
                 }
                 
                 //隐藏tabbar
@@ -101,9 +99,7 @@ class RootTBC: UITabBarController {
                 //隐藏子按钮
                 self.subButtonList?.forEach{
                     button in
-                    UIView.animate(withDuration: 0.1, delay: Double(button.tag) * 0.02, options: .curveEaseIn, animations: {
-                        button.setHidden(flag: true)
-                    }, completion: nil)
+                    button.setHidden(flag: true)
                 }
                 
                 //移除高斯模糊

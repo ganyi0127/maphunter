@@ -247,6 +247,7 @@
 		BECD4F1D1EA1C4CA00C9136C /* InfoHeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD4F1C1EA1C4CA00C9136C /* InfoHeightView.swift */; };
 		BECD4F1F1EA1C4E800C9136C /* InfoWeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD4F1E1EA1C4E800C9136C /* InfoWeightView.swift */; };
 		BECD4F211EA1C4FF00C9136C /* InfoAgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD4F201EA1C4FF00C9136C /* InfoAgeView.swift */; };
+		BED368A11EB9B869004BCDE1 /* SynProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED368A01EB9B869004BCDE1 /* SynProgress.swift */; };
 		BEDF4F351D93910E00E98D63 /* Configure.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDF4F341D93910E00E98D63 /* Configure.swift */; };
 		BEDF4F3B1D9393BC00E98D63 /* StateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDF4F3A1D9393BC00E98D63 /* StateVC.swift */; };
 		BEDF4F3D1D9393F800E98D63 /* HealthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDF4F3C1D9393F800E98D63 /* HealthVC.swift */; };
@@ -728,6 +729,7 @@
 		BECD4F1C1EA1C4CA00C9136C /* InfoHeightView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoHeightView.swift; sourceTree = "<group>"; };
 		BECD4F1E1EA1C4E800C9136C /* InfoWeightView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoWeightView.swift; sourceTree = "<group>"; };
 		BECD4F201EA1C4FF00C9136C /* InfoAgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoAgeView.swift; sourceTree = "<group>"; };
+		BED368A01EB9B869004BCDE1 /* SynProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynProgress.swift; sourceTree = "<group>"; };
 		BEDF4F341D93910E00E98D63 /* Configure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configure.swift; sourceTree = "<group>"; };
 		BEDF4F3A1D9393BC00E98D63 /* StateVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateVC.swift; sourceTree = "<group>"; };
 		BEDF4F3C1D9393F800E98D63 /* HealthVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthVC.swift; sourceTree = "<group>"; };
@@ -2253,6 +2255,7 @@
 			isa = PBXGroup;
 			children = (
 				BEDF4F3A1D9393BC00E98D63 /* StateVC.swift */,
+				BED368A01EB9B869004BCDE1 /* SynProgress.swift */,
 				3205353A1DFFD1F00087068E /* StatePushController.swift */,
 				327383711E00F4A000767708 /* StatePopController.swift */,
 				BE4BFE971E1502F300F3FE91 /* BottomPushController.swift */,
@@ -2385,7 +2388,7 @@
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = T65EE75V48;
 						LastSwiftMigration = 0810;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -2537,6 +2540,7 @@
 				BE0DD8861EA6FD6E00574139 /* aes_cbc.c in Sources */,
 				BE80F8E81EB0389E00604D72 /* HaTip.swift in Sources */,
 				BE6455CA1EA4C4F600C8A416 /* NotifyLocationVC.swift in Sources */,
+				BED368A11EB9B869004BCDE1 /* SynProgress.swift in Sources */,
 				BE0DD8CA1EA6FD6E00574139 /* ESPTouchGenerator.m in Sources */,
 				BE6455BB1EA47C8A00C8A416 /* InfoSelector.swift in Sources */,
 				BE0DD8981EA6FD6E00574139 /* CKCacheContent.m in Sources */,
@@ -2876,8 +2880,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.aiju.funsport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b284f9df-4a95-4d27-9422-2eccab78b819";
-				PROVISIONING_PROFILE_SPECIFIER = Funsport_DevPF;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MapHunter/MapHunter-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -2892,7 +2896,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MapHunter/MapHunter.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: an he (T65EE75V48)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: an he (T65EE75V48)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = T65EE75V48;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2919,8 +2923,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.aiju.funsport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1a85b964-f369-42d8-82ef-de9573554258";
-				PROVISIONING_PROFILE_SPECIFIER = Funsport_DisPF;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MapHunter/MapHunter-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;

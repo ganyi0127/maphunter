@@ -192,12 +192,12 @@ class ThirdCell: UITableViewCell {
             detailLabel.text = "消耗卡路里\(trk.calories)kcal"
             
             //绘制路径或步数
-            guard let items = trk.trackItems else{
+            guard let items = trk.trackItems, items.count > 1 else{
+                //无法绘制轨迹的情况下，绘制步数
+                let steps = trk.step
                 return
             }
-            guard items.count > 1 else{
-                return
-            }
+            
             let trackHeartrateItems = trk.trackHeartrateItems?.sortedArray(using: [NSSortDescriptor(key: "id", ascending: true)]) as! [TrackHeartrateItem]
             let trackItems = trk.trackItems?.sortedArray(using: [NSSortDescriptor(key: "date", ascending: true)]) as! [TrackItem]
             

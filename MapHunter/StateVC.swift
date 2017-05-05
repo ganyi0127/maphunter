@@ -56,7 +56,28 @@ class StateVC: UIViewController {
         }
     }
     
-    //MARK:- init
+    //标题
+    private var canChangeTitle = true
+    private var progressTask: Task?
+    fileprivate var navigationTitle: String?{
+        didSet{
+            guard canChangeTitle else {
+                return
+            }
+            cancel(progressTask)
+            navigationController?.navigationBar.topItem?.title = navigationTitle
+            progressTask = delay(3){
+                if self.canChangeTitle{
+                    self.navigationController?.navigationBar.topItem?.title = nil
+                }
+            }
+        }
+    }
+    
+    //进度条
+    fileprivate var synProgress: SynProgress? = nil
+    
+    //MARK:- init ****************************************************************************************************************
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -75,6 +96,23 @@ class StateVC: UIViewController {
         tableView.reloadRows(at: [indexpath], with: UITableViewRowAnimation.fade)
         
         _ = AngelManager.share()
+        
+        //设置top title
+        navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: subWordColor]
+        
+        //设置返回navigation back
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        canChangeTitle = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationTitle = nil
+        canChangeTitle = false
     }
     
     private func config(){
@@ -136,7 +174,7 @@ class StateVC: UIViewController {
             ctrl.backgroundColor = nil
             ctrl.layer.zPosition = -0.1
             ctrl.tintColor = UIColor(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1)
-            ctrl.attributedTitle = NSAttributedString(string: "同步健康数据")
+//            ctrl.attributedTitle = NSAttributedString(string: "同步健康数据")
             ctrl.addTarget(self, action: #selector(refreshStateChange(_:)), for: .valueChanged)
             return ctrl
         }()
@@ -157,9 +195,9 @@ class StateVC: UIViewController {
     var initFresh = false
     @objc private func refreshStateChange(_ control: UIRefreshControl){
 
+        control.endRefreshing()
         guard !initFresh else {
-            initFresh = false
-            control.endRefreshing()
+//            self.endSynchronization()
             return
         }
         
@@ -169,10 +207,12 @@ class StateVC: UIViewController {
         let peripheral = PeripheralManager.share().currentPeripheral
         guard peripheral != nil else {
             DispatchQueue.main.async {
-                control.attributedTitle = NSAttributedString(string: "手环未绑定")
+//                control.attributedTitle = NSAttributedString(string: "手环未绑定")
+                self.navigationTitle = "手环未绑定"
+
                 _ = delay(1){
                     self.initFresh = false
-                    control.endRefreshing()
+//                    self.endSynchronization()
                 }
             }
             return
@@ -180,18 +220,25 @@ class StateVC: UIViewController {
         
         guard peripheral?.state == CBPeripheralState.connected  else {
             DispatchQueue.main.async {
-                control.attributedTitle = NSAttributedString(string: "手环未连接")
+//                control.attributedTitle = NSAttributedString(string: "手环未连接")
+                self.navigationTitle = "手环未连接"
                 _ = delay(1){
                     self.initFresh = false
-                    control.endRefreshing()
+                    self.endSynchronization()
                 }
             }
             return
         }
         
-        control.attributedTitle = NSAttributedString(string: "同步数据")
+//        control.attributedTitle = NSAttributedString(string: "同步数据")
         
-        beginLoading(byTitle: "同步健康与运动数据")
+//        beginLoading(byTitle: "同步健康与运动数据")
+        
+        //添加进度条
+        synProgress = SynProgress()
+        view.addSubview(synProgress!)
+        
+        navigationTitle = "同步数据"
         
         let angelManager = AngelManager.share()
         //初始化设置用户信息
@@ -216,7 +263,8 @@ class StateVC: UIViewController {
                     if complete{
                         message = count > 0 ? "正在同步运动数据..." : "同步完成"
                         debugPrint(message)
-                        control.attributedTitle = NSAttributedString(string: message)
+//                        control.attributedTitle = NSAttributedString(string: message)
+                        self.navigationTitle = message
                         
                         self.tableView.reloadData()
                         
@@ -227,50 +275,58 @@ class StateVC: UIViewController {
                                 DispatchQueue.main.async {
                                     guard !timeout else{
                                         message = "同步运动数据超时"
-                                        control.attributedTitle = NSAttributedString(string: message)
-                                        
+//                                        control.attributedTitle = NSAttributedString(string: message)
+                                        self.navigationTitle = message
                                         self.initFresh = false
-                                        
-                                        //弹窗
-                                        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-                                        let cancel = UIAlertAction(title: "返回", style: .cancel){
-                                            action in
-                                            control.endRefreshing()
-                                        }
-                                        alertController.addAction(cancel)
-                                        self.present(alertController, animated: true, completion: nil)
+                                        self.endSynchronization()
                                         return
                                     }
                                     
                                     if complete {
-                                        self.endLoading()
+//                                        self.endLoading()
                                         
                                         message = "同步运动数据完成"
-                                        control.attributedTitle = NSAttributedString(string: message)
-                                        control.endRefreshing()
+                                        self.navigationTitle = message
+                                        self.endSynchronization()
+//                                        control.attributedTitle = NSAttributedString(string: message)
+//                                        control.endRefreshing()
                                         
                                         self.initFresh = false
+                                        self.synProgress?.setProgress(progress: 100)
                                         
                                         //更新时间轴数据
                                         self.receiveConnectedMessage(notify: nil)
                                     }else{
-                                        message = "正在同步运动数据:\(progress / 2 + 50)%"
-                                        control.attributedTitle = NSAttributedString(string: message)
+                                        let realProgress = progress / 2 + 50
+                                        message = "正在同步运动数据:\(realProgress)%"
+//                                        control.attributedTitle = NSAttributedString(string: message)
+                                        self.navigationTitle = message
+                                        self.synProgress?.setProgress(progress: CGFloat(realProgress) / 2 + 50)
                                     }
                                 }
                             }
                         }else{
                             self.initFresh = false
-                            self.endLoading()
-                            control.endRefreshing()
+                            self.endSynchronization()
                         }
                     }else{
-                        message = "正在同步健康数据:\(count > 0 ? progress / 2 : progress)%"
+                        let realProgress = count > 0 ? progress / 2 : progress
+                        message = "正在同步健康数据:\(realProgress)%"
                         debugPrint(message)
-                        control.attributedTitle = NSAttributedString(string: message)
+//                        control.attributedTitle = NSAttributedString(string: message)
+                        self.navigationTitle = message
+                        self.synProgress?.setProgress(progress: CGFloat(realProgress))
                     }
                 }
             }
+        }
+    }
+    
+    //MARK:- 结束同步
+    private func endSynchronization(){
+        _ = delay(1){
+            self.synProgress?.removeFromSuperview()
+            self.synProgress = nil
         }
     }
     
@@ -284,6 +340,8 @@ class StateVC: UIViewController {
         }
         calendarCell.date = selectDate
         
+        //显示连接成功信息
+        navigationTitle = "连接成功"
         
         //更新数据
         if let angelManager = AngelManager.share() {
