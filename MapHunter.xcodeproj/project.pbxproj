@@ -2388,7 +2388,7 @@
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = T65EE75V48;
 						LastSwiftMigration = 0810;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -2880,8 +2880,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.aiju.funsport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "dfdd4539-f550-46c7-aa40-38142a167461";
+				PROVISIONING_PROFILE_SPECIFIER = Funsport_Dev_PF;
 				SWIFT_OBJC_BRIDGING_HEADER = "MapHunter/MapHunter-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -2896,7 +2896,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MapHunter/MapHunter.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: an he (T65EE75V48)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = T65EE75V48;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2923,8 +2923,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.aiju.funsport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "6c8b052b-45b8-4634-8863-52da6d66904f";
+				PROVISIONING_PROFILE_SPECIFIER = Funsport_Dis_PF;
 				SWIFT_OBJC_BRIDGING_HEADER = "MapHunter/MapHunter-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
