@@ -17,7 +17,6 @@ class NotifyLocalNotifyVC: UIViewController {
         nextButton.setTitleColor(defaut_color, for: .normal)
         
         navigationController?.isNavigationBarHidden = true
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,7 +44,14 @@ class NotifyLocalNotifyVC: UIViewController {
             UIApplication.shared.registerForRemoteNotifications()
         }else{
             nextButton.isEnabled = false
+            
             performSegue(withIdentifier: "next", sender: nil)
+        }
+    }
+    
+    @IBAction func next(_ sender: UIButton) {        
+        if let locationVC = storyboard?.instantiateViewController(withIdentifier: "location") as? NotifyLocationVC{
+            navigationController?.show(locationVC, sender: nil)
         }
     }
 }

@@ -30,7 +30,7 @@
         <!--智能通知-->
         <scene sceneID="nlk-Ud-Nax">
             <objects>
-                <viewController storyboardIdentifier="notify" id="JVv-et-uFZ" userLabel="智能通知" customClass="NotifyLocalNotifyVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="localnotify" id="JVv-et-uFZ" userLabel="智能通知" customClass="NotifyLocalNotifyVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Gnx-Hu-sSC"/>
                         <viewControllerLayoutGuide type="bottom" id="ylJ-2v-TFJ"/>
@@ -56,7 +56,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                                         <state key="normal" title="下一步"/>
                                         <connections>
-                                            <segue destination="XCy-Kb-Rrp" kind="show" identifier="next" id="m9C-Ud-8hq"/>
+                                            <action selector="next:" destination="JVv-et-uFZ" eventType="touchUpInside" id="g9j-2z-zqD"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -96,7 +96,7 @@
         <!--Notify ApplehealthVC-->
         <scene sceneID="uZ0-pz-Ik0">
             <objects>
-                <viewController id="XCy-Kb-Rrp" customClass="NotifyApplehealthVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="applehealth" id="XCy-Kb-Rrp" customClass="NotifyApplehealthVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hQa-Tw-QNE"/>
                         <viewControllerLayoutGuide type="bottom" id="L38-At-HbY"/>
@@ -124,7 +124,7 @@
                                         <rect key="frame" x="273.5" y="-0.5" width="93.5" height="49"/>
                                         <state key="normal" title="下一步"/>
                                         <connections>
-                                            <segue destination="9X3-Ie-FDv" kind="show" identifier="next" id="6Jr-n4-SQz"/>
+                                            <action selector="next:" destination="XCy-Kb-Rrp" eventType="touchUpInside" id="1zN-eu-RO6"/>
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qbu-yi-KAP" userLabel="SeparatorLine">
@@ -169,12 +169,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xRY-7I-hzT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="575" y="135"/>
+            <point key="canvasLocation" x="1378" y="134"/>
         </scene>
         <!--Notify LocationVC-->
         <scene sceneID="ps0-8B-ROt">
             <objects>
-                <viewController id="9X3-Ie-FDv" customClass="NotifyLocationVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="location" id="9X3-Ie-FDv" customClass="NotifyLocationVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="W77-oy-z2u"/>
                         <viewControllerLayoutGuide type="bottom" id="tqt-Fg-1ur"/>
@@ -202,7 +202,7 @@
                                         <rect key="frame" x="273.5" y="-0.5" width="93.5" height="49"/>
                                         <state key="normal" title="下一步"/>
                                         <connections>
-                                            <segue destination="lyB-3R-AVA" kind="show" identifier="next" id="UKe-4G-a7v"/>
+                                            <action selector="next:" destination="9X3-Ie-FDv" eventType="touchUpInside" id="chQ-Zz-Ozn"/>
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2el-tV-i6B" userLabel="SeparatorLine">
@@ -247,12 +247,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UoE-LP-k06" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1399" y="135"/>
+            <point key="canvasLocation" x="591" y="134"/>
         </scene>
         <!--Notify CallVC-->
         <scene sceneID="6Me-6K-xdy">
             <objects>
-                <viewController id="lyB-3R-AVA" customClass="NotifyCallVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="call" id="lyB-3R-AVA" customClass="NotifyCallVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ath-hs-C3C"/>
                         <viewControllerLayoutGuide type="bottom" id="I4l-So-RDg"/>

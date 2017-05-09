@@ -2107,8 +2107,8 @@
 			children = (
 				BE6455BF1EA4BDE200C8A416 /* Notify.storyboard */,
 				BE6455C31EA4C00700C8A416 /* NotifyLocalNotifyVC.swift */,
-				BE6455D31EA4C83B00C8A416 /* NotifyApplehealthVC.swift */,
 				BE6455C91EA4C4F600C8A416 /* NotifyLocationVC.swift */,
+				BE6455D31EA4C83B00C8A416 /* NotifyApplehealthVC.swift */,
 				BE6455CD1EA4C58600C8A416 /* NotifyCallVC.swift */,
 			);
 			name = "通知与提醒";

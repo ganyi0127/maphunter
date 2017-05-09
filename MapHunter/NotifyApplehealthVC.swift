@@ -88,4 +88,10 @@ class NotifyApplehealthVC: UIViewController {
     @IBAction func back(_ sender: UIButton) {
         _ = navigationController?.popViewController(animated: true)
     }
+    
+    @IBAction func next(_ sender: UIButton) {
+        if let callVC = storyboard?.instantiateViewController(withIdentifier: "call") as? NotifyCallVC{
+            navigationController?.show(callVC, sender: nil)
+        }
+    }
 }

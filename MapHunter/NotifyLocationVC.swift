@@ -65,4 +65,10 @@ class NotifyLocationVC: UIViewController {
         
         _ = navigationController?.popViewController(animated: true)
     }
+    
+    @IBAction func next(_ sender: UIButton) {
+        if let applehealthVC = storyboard?.instantiateViewController(withIdentifier: "applehealth") as? NotifyApplehealthVC{
+            navigationController?.show(applehealthVC, sender: nil)
+        }
+    }
 }

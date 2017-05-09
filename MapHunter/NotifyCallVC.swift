@@ -59,7 +59,7 @@ class NotifyCallVC: UIViewController {
             success in
             debugPrint("<call remind> 打开来电提醒: \(success)")
             DispatchQueue.main.async {
-                self.endLoading()
+                self.endLoading()                
                 self.nextButton.isEnabled = true
             }
         }

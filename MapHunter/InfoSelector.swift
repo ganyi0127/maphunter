@@ -74,6 +74,9 @@ class InfoSelector: UIView {
         if let img = UIImage(named: "resource/target/target_refuse")?.transfromImage(size: refuseImageSize){
             refuseButton.setImage(img, for: .normal)
         }
+        if let img = UIImage(named: "resource/target/target_refuse_highlight")?.transfromImage(size: refuseImageSize){
+            refuseButton.setImage(img, for: .highlighted)
+        }
         refuseButton.addTarget(self, action: #selector(refuse(sender:)), for: .touchUpInside)
         addSubview(refuseButton)
         
@@ -82,6 +85,9 @@ class InfoSelector: UIView {
         let acceptButton = UIButton(frame: acceptButtonFrame)
         if let img = UIImage(named: "resource/target/target_accept")?.transfromImage(size: acceptImageSize){
             acceptButton.setImage(img, for: .normal)
+        }
+        if let img = UIImage(named: "resource/target/target_accept_highlight")?.transfromImage(size: acceptImageSize){
+            acceptButton.setImage(img, for: .highlighted)
         }
         acceptButton.addTarget(self, action: #selector(accept(sender:)), for: .touchUpInside)
         addSubview(acceptButton)        

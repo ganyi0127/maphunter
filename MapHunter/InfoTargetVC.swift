@@ -491,7 +491,7 @@ class InfoTargetVC: UIViewController {
         sleepDetailLabel.attributedText = sleepDetailAttributed
         
         //计算时间差
-        var offsetHour = 0
+        var offsetHour: Int16 = 0
         var daltaMinute = wakeminute - sleepMinute
         while daltaMinute < 0 {
             daltaMinute += 60
