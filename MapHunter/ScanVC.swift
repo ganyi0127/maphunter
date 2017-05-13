@@ -102,6 +102,7 @@ class ScanVC: UIViewController {
         }
         
         //开始扫描
+        godManager.isAutoReconnect = false
         godManager.startScan{
             if self.showRescanButton{
                 UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {

@@ -111,7 +111,7 @@ class StateVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationTitle = nil
+        navigationTitle = ""
         canChangeTitle = false
     }
     
@@ -283,13 +283,10 @@ class StateVC: UIViewController {
                                     }
                                     
                                     if complete {
-//                                        self.endLoading()
                                         
                                         message = "同步运动数据完成"
                                         self.navigationTitle = message
                                         self.endSynchronization()
-//                                        control.attributedTitle = NSAttributedString(string: message)
-//                                        control.endRefreshing()
                                         
                                         self.initFresh = false
                                         self.synProgress?.setProgress(progress: 100)
@@ -299,7 +296,6 @@ class StateVC: UIViewController {
                                     }else{
                                         let realProgress = progress / 2 + 50
                                         message = "正在同步运动数据:\(realProgress)%"
-//                                        control.attributedTitle = NSAttributedString(string: message)
                                         self.navigationTitle = message
                                         self.synProgress?.setProgress(progress: CGFloat(realProgress) / 2 + 50)
                                     }
@@ -313,7 +309,6 @@ class StateVC: UIViewController {
                         let realProgress = count > 0 ? progress / 2 : progress
                         message = "正在同步健康数据:\(realProgress)%"
                         debugPrint(message)
-//                        control.attributedTitle = NSAttributedString(string: message)
                         self.navigationTitle = message
                         self.synProgress?.setProgress(progress: CGFloat(realProgress))
                     }
@@ -341,7 +336,7 @@ class StateVC: UIViewController {
         calendarCell.date = selectDate
         
         //显示连接成功信息
-        navigationTitle = "连接成功"
+        //navigationTitle = "连接成功"
         
         //更新数据
         if let angelManager = AngelManager.share() {
@@ -520,7 +515,7 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
                     var data = DataCubeData()
                     data.value1 = CGFloat(user.currentWeight)
                     data.value2 = CGFloat(user.goalWeight)
-                    (cell as! FirstCell).weightDataCube.data = data
+                    (cell as! FirstCell).mindBodyDataCube.data = data
                 }
                 
                 //定时器刷新

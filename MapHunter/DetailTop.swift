@@ -44,7 +44,7 @@ class DetailTop: UIView {
             case .sleep:
                 unit = "%"
                 text = "\(Int16(value / 10000 * 100))" + unit
-            case .weight:
+            case .mindBody:
                 unit = "Kg"
                 text = "\(Int16(value))" + unit
             }
@@ -185,7 +185,7 @@ class DetailTop: UIView {
         self.selectedLabel.frame.origin.x = dataWidth / 2 - 40
         selectedView.addSubview(self.selectedLabel)
         
-        if self.type == .weight{
+        if self.type == .mindBody{
             selectedView.addSubview(self.weightDeltaLabel)
         }
         return selectedView
@@ -207,7 +207,7 @@ class DetailTop: UIView {
         selectedLabel.layer.shadowColor = UIColor.black.cgColor
         selectedLabel.layer.shadowOpacity = 0.5
         selectedLabel.layer.shadowRadius = 1
-//        selectedLabel.layer.shadowOffset = CGSize(width: 0, height: 0)
+        selectedLabel.layer.shadowOffset = .zero
         labelFrame.origin = .zero
         selectedLabel.layer.shadowPath = CGPath(rect: labelFrame, transform: nil)
         selectedLabel.clipsToBounds = false
@@ -284,8 +284,8 @@ class DetailTop: UIView {
             text = "心率"
         case .sleep:
             text = "睡眠"
-        case .weight:
-            text = "体重"
+        case .mindBody:
+            text = "身心状态"
         }
         let label: UILabel = UILabel(frame: CGRect(x: 0, y: -100, width: self.bounds.size.width, height: 20))
         label.text = "无" + text + "数据"
@@ -832,7 +832,7 @@ class DetailTop: UIView {
                 self.leftValue = del.detailLeftValue()
                 self.rightValue = del.detailRightValue()
                 
-            case .weight:
+            case .mindBody:
                 self.deltaMinute = 1
                 
                 //获取日期列表
@@ -1234,7 +1234,7 @@ extension DetailTop{
                     typeStr = ""
                 }
                 selectedLabel.text = timeStart + unit + timeEnd + "\n" + typeStr
-            case .weight:
+            case .mindBody:
                 
                 //重置触摸位置
                 dataIndex = Int((location.x - radius - dataWidth / 2) / dataWidth)

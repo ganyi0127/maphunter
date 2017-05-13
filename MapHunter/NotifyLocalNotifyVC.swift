@@ -45,13 +45,14 @@ class NotifyLocalNotifyVC: UIViewController {
         }else{
             nextButton.isEnabled = false
             
-            performSegue(withIdentifier: "next", sender: nil)
+            next(nextButton)
         }
     }
     
-    @IBAction func next(_ sender: UIButton) {        
-        if let locationVC = storyboard?.instantiateViewController(withIdentifier: "location") as? NotifyLocationVC{
-            navigationController?.show(locationVC, sender: nil)
+    @IBAction func next(_ sender: UIButton) {
+        
+        if let locationVC = UIStoryboard(name: "Notify", bundle: Bundle.main).instantiateViewController(withIdentifier: "location") as? NotifyLocationVC{
+            navigationController?.pushViewController(locationVC, animated: true)
         }
     }
 }

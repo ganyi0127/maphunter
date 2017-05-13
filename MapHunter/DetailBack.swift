@@ -124,7 +124,7 @@ class DetailBack: UIView {
             dataViewTypeList = []
         case .sleep:
             dataViewTypeList = [.deepSleep, .quiteSleep, .lightSleep, .wakeTime, .sleepTime, .wakeCount]
-        case .weight:
+        case .mindBody:
             dataViewTypeList = [.weightStartTime, .weightDelta]
         }
         
@@ -216,8 +216,8 @@ extension DetailBack: DetailTopDelegate{
                     closure(result)
                 }
             }
-        case .weight:
-            //体重数据
+        case .mindBody:
+            //身心状态数据
             var result = [CGFloat]()
             (0..<7).forEach(){
                 i in
@@ -314,7 +314,7 @@ extension DetailBack: DetailTopDelegate{
             if let sleepData = sleepDataList.first{
                 return CGFloat(sleepData.deepSleepMinute)
             }
-        case .weight:
+        case .mindBody:
             return 0
         }
         return 0

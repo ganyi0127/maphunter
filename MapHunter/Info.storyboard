@@ -102,7 +102,7 @@
                                 </constraints>
                             </view>
                             <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jhx-AN-QSV" userLabel="身高" customClass="InfoHeightView" customModule="MapHunter" customModuleProvider="target" colorLabel="IBBuiltInLabel-Red">
-                                <rect key="frame" x="187" y="72" width="187.5" height="187.5"/>
+                                <rect key="frame" x="187.5" y="72" width="187.5" height="187.5"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="E6g-mR-gAh">
                                         <rect key="frame" x="1" y="1" width="186" height="185.5"/>
@@ -151,7 +151,7 @@
                                 </constraints>
                             </view>
                             <view tag="3" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7mc-WX-pPK" userLabel="年龄" customClass="InfoAgeView" customModule="MapHunter" customModuleProvider="target" colorLabel="IBBuiltInLabel-Green">
-                                <rect key="frame" x="188" y="259" width="187.5" height="187.5"/>
+                                <rect key="frame" x="187.5" y="259" width="187.5" height="187.5"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Mwk-pu-L0U">
                                         <rect key="frame" x="1" y="1" width="185.5" height="185.5"/>

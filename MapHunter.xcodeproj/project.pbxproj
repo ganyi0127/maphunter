@@ -247,6 +247,15 @@
 		BECD4F1D1EA1C4CA00C9136C /* InfoHeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD4F1C1EA1C4CA00C9136C /* InfoHeightView.swift */; };
 		BECD4F1F1EA1C4E800C9136C /* InfoWeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD4F1E1EA1C4E800C9136C /* InfoWeightView.swift */; };
 		BECD4F211EA1C4FF00C9136C /* InfoAgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD4F201EA1C4FF00C9136C /* InfoAgeView.swift */; };
+		BED2AD991EC41B6C002A1837 /* ManualRecordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED2AD981EC41B6C002A1837 /* ManualRecordVC.swift */; };
+		BED2AD9C1EC44754002A1837 /* RecordSportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED2AD9B1EC44754002A1837 /* RecordSportVC.swift */; };
+		BED2AD9E1EC44762002A1837 /* RecordSleepVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED2AD9D1EC44762002A1837 /* RecordSleepVC.swift */; };
+		BED2ADA01EC4476D002A1837 /* RecordWeightVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED2AD9F1EC4476D002A1837 /* RecordWeightVC.swift */; };
+		BED2ADA21EC4479A002A1837 /* RecordMoodVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED2ADA11EC4479A002A1837 /* RecordMoodVC.swift */; };
+		BED2ADA41EC447AA002A1837 /* RecordBloodPressureVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED2ADA31EC447AA002A1837 /* RecordBloodPressureVC.swift */; };
+		BED2ADA61EC447B7002A1837 /* RecordHeartrateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED2ADA51EC447B7002A1837 /* RecordHeartrateVC.swift */; };
+		BED2ADA91EC45EC4002A1837 /* RecordTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED2ADA81EC45EC4002A1837 /* RecordTableView.swift */; };
+		BED2ADAB1EC46E18002A1837 /* RecordTabelViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED2ADAA1EC46E18002A1837 /* RecordTabelViewCell.swift */; };
 		BED368A11EB9B869004BCDE1 /* SynProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED368A01EB9B869004BCDE1 /* SynProgress.swift */; };
 		BEDF4F351D93910E00E98D63 /* Configure.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDF4F341D93910E00E98D63 /* Configure.swift */; };
 		BEDF4F3B1D9393BC00E98D63 /* StateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDF4F3A1D9393BC00E98D63 /* StateVC.swift */; };
@@ -729,6 +738,15 @@
 		BECD4F1C1EA1C4CA00C9136C /* InfoHeightView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoHeightView.swift; sourceTree = "<group>"; };
 		BECD4F1E1EA1C4E800C9136C /* InfoWeightView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoWeightView.swift; sourceTree = "<group>"; };
 		BECD4F201EA1C4FF00C9136C /* InfoAgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoAgeView.swift; sourceTree = "<group>"; };
+		BED2AD981EC41B6C002A1837 /* ManualRecordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManualRecordVC.swift; sourceTree = "<group>"; };
+		BED2AD9B1EC44754002A1837 /* RecordSportVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordSportVC.swift; sourceTree = "<group>"; };
+		BED2AD9D1EC44762002A1837 /* RecordSleepVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordSleepVC.swift; sourceTree = "<group>"; };
+		BED2AD9F1EC4476D002A1837 /* RecordWeightVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordWeightVC.swift; sourceTree = "<group>"; };
+		BED2ADA11EC4479A002A1837 /* RecordMoodVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordMoodVC.swift; sourceTree = "<group>"; };
+		BED2ADA31EC447AA002A1837 /* RecordBloodPressureVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordBloodPressureVC.swift; sourceTree = "<group>"; };
+		BED2ADA51EC447B7002A1837 /* RecordHeartrateVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordHeartrateVC.swift; sourceTree = "<group>"; };
+		BED2ADA81EC45EC4002A1837 /* RecordTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordTableView.swift; sourceTree = "<group>"; };
+		BED2ADAA1EC46E18002A1837 /* RecordTabelViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordTabelViewCell.swift; sourceTree = "<group>"; };
 		BED368A01EB9B869004BCDE1 /* SynProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynProgress.swift; sourceTree = "<group>"; };
 		BEDF4F341D93910E00E98D63 /* Configure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configure.swift; sourceTree = "<group>"; };
 		BEDF4F3A1D9393BC00E98D63 /* StateVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateVC.swift; sourceTree = "<group>"; };
@@ -1904,7 +1922,7 @@
 				BE503E3C1EA1C05B00C5A3FE /* 个人设置 */,
 				BE6455BE1EA4BDA300C8A416 /* 通知与提醒 */,
 				BE1C366C1D93725000AB4370 /* RootTBC.swift */,
-				BE308E181EB830D70096B84E /* MainSubMenuButton.swift */,
+				BED2AD971EC416E9002A1837 /* 记录数据 */,
 				BEDF4F371D93938500E98D63 /* 状态 */,
 				BEDF4F361D93937C00E98D63 /* 地图 */,
 				BEDF4F381D93938D00E98D63 /* 健康 */,
@@ -2237,6 +2255,39 @@
 			name = "设置模块";
 			sourceTree = "<group>";
 		};
+		BED2AD971EC416E9002A1837 /* 记录数据 */ = {
+			isa = PBXGroup;
+			children = (
+				BE308E181EB830D70096B84E /* MainSubMenuButton.swift */,
+				BED2AD981EC41B6C002A1837 /* ManualRecordVC.swift */,
+				BED2ADA71EC45E86002A1837 /* RecordExtension */,
+				BED2AD9A1EC44731002A1837 /* 记录类型 */,
+			);
+			name = "记录数据";
+			sourceTree = "<group>";
+		};
+		BED2AD9A1EC44731002A1837 /* 记录类型 */ = {
+			isa = PBXGroup;
+			children = (
+				BED2AD9B1EC44754002A1837 /* RecordSportVC.swift */,
+				BED2AD9D1EC44762002A1837 /* RecordSleepVC.swift */,
+				BED2AD9F1EC4476D002A1837 /* RecordWeightVC.swift */,
+				BED2ADA11EC4479A002A1837 /* RecordMoodVC.swift */,
+				BED2ADA31EC447AA002A1837 /* RecordBloodPressureVC.swift */,
+				BED2ADA51EC447B7002A1837 /* RecordHeartrateVC.swift */,
+			);
+			name = "记录类型";
+			sourceTree = "<group>";
+		};
+		BED2ADA71EC45E86002A1837 /* RecordExtension */ = {
+			isa = PBXGroup;
+			children = (
+				BED2ADA81EC45EC4002A1837 /* RecordTableView.swift */,
+				BED2ADAA1EC46E18002A1837 /* RecordTabelViewCell.swift */,
+			);
+			name = RecordExtension;
+			sourceTree = "<group>";
+		};
 		BEDF4F361D93937C00E98D63 /* 地图 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2485,6 +2536,7 @@
 				BE6055951E7BC5A100039CA0 /* Loading.swift in Sources */,
 				BE0DD4F61EA5B0CB00574139 /* FindPasswordVC.swift in Sources */,
 				BE3DB3241E9624A1001CA7AF /* BootCell.swift in Sources */,
+				BED2ADA21EC4479A002A1837 /* RecordMoodVC.swift in Sources */,
 				BEDF4F6B1D98FB3800E98D63 /* TopView.swift in Sources */,
 				32D4129B1DEEB6EF008EE637 /* DetailView.swift in Sources */,
 				32C3E6201E07E3CA00D34A74 /* MeCell1.swift in Sources */,
@@ -2544,13 +2596,17 @@
 				BE0DD8CA1EA6FD6E00574139 /* ESPTouchGenerator.m in Sources */,
 				BE6455BB1EA47C8A00C8A416 /* InfoSelector.swift in Sources */,
 				BE0DD8981EA6FD6E00574139 /* CKCacheContent.m in Sources */,
+				BED2ADA61EC447B7002A1837 /* RecordHeartrateVC.swift in Sources */,
+				BED2ADA91EC45EC4002A1837 /* RecordTableView.swift in Sources */,
 				BE0DD4FA1EA5ECA800574139 /* AgreementVC.swift in Sources */,
 				BE8685441E2F4D9C00EBEBED /* SettingPathVC.swift in Sources */,
+				BED2AD991EC41B6C002A1837 /* ManualRecordVC.swift in Sources */,
 				32C3E6321E0A385E00D34A74 /* HeadViewController.swift in Sources */,
 				32C3E6381E0A837900D34A74 /* MeUnit.swift in Sources */,
 				32C3E63C1E0A86F600D34A74 /* MeVersion.swift in Sources */,
 				BE0DD8D61EA6FD6E00574139 /* AsyncUdpSocket.m in Sources */,
 				BE0DD8D11EA6FD6E00574139 /* ESP_CRC8.m in Sources */,
+				BED2ADA01EC4476D002A1837 /* RecordWeightVC.swift in Sources */,
 				BE4BFE931E14F5EB00F3FE91 /* DetailInfoVC.swift in Sources */,
 				BE0DD8A11EA6FD6E00574139 /* QNCrc32.m in Sources */,
 				BEDF4F3B1D9393BC00E98D63 /* StateVC.swift in Sources */,
@@ -2558,6 +2614,7 @@
 				BE6455CE1EA4C58600C8A416 /* NotifyCallVC.swift in Sources */,
 				BE0DD8901EA6FD6E00574139 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				32D412461DEE8793008EE637 /* TarbarExtension.swift in Sources */,
+				BED2ADAB1EC46E18002A1837 /* RecordTabelViewCell.swift in Sources */,
 				BE41E6781E8D089F00387B59 /* JobVC.swift in Sources */,
 				BE0DD8921EA6FD6E00574139 /* UIButton+AFNetworking.m in Sources */,
 				BE0DD88C1EA6FD6E00574139 /* AFURLResponseSerialization.m in Sources */,
@@ -2587,6 +2644,7 @@
 				32C3E63A1E0A86A000D34A74 /* MeWeekbegin.swift in Sources */,
 				BE5770031E25DD8B006BAD1C /* SpriteViewController.swift in Sources */,
 				BE0DD8C91EA6FD6E00574139 /* ESPGuideCode.m in Sources */,
+				BED2AD9E1EC44762002A1837 /* RecordSleepVC.swift in Sources */,
 				BEB248E71D9B4E2600C9F9ED /* ThirdCell.swift in Sources */,
 				32D411E81DEBCEC2008EE637 /* DataBall.swift in Sources */,
 				BE0DD8D91EA6FD6E00574139 /* MarvellSmartConfig.m in Sources */,
@@ -2610,6 +2668,7 @@
 				BE6455C41EA4C00700C8A416 /* NotifyLocalNotifyVC.swift in Sources */,
 				BE3E74841E9E212D00D571BB /* BootConnectedVC.swift in Sources */,
 				BE1F53491DC2FE7900EAD9BA /* Time.swift in Sources */,
+				BED2AD9C1EC44754002A1837 /* RecordSportVC.swift in Sources */,
 				BE0DD8BF1EA6FD6E00574139 /* QNUpToken.m in Sources */,
 				BECD4F1B1EA1C4A400C9136C /* InfoSexView.swift in Sources */,
 				BEDF4F3D1D9393F800E98D63 /* HealthVC.swift in Sources */,
@@ -2643,6 +2702,7 @@
 				BE308E201EB87F4B0096B84E /* TipAlertUnlike.swift in Sources */,
 				BEDF4F771D9909ED00E98D63 /* TopScrollView.swift in Sources */,
 				BE6ACD851DBC583C006C4471 /* TopScrollDelegate.swift in Sources */,
+				BED2ADA41EC447AA002A1837 /* RecordBloodPressureVC.swift in Sources */,
 				BE0DD8E01EA6FD6E00574139 /* YYClassInfo.m in Sources */,
 				BE4BFE981E1502F300F3FE91 /* BottomPushController.swift in Sources */,
 				BE0DD88E1EA6FD6E00574139 /* AFAutoPurgingImageCache.m in Sources */,
@@ -2768,7 +2828,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = NO;
@@ -2821,8 +2881,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: an he (T65EE75V48)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: an he (T65EE75V48)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
@@ -2852,7 +2912,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MapHunter/MapHunter.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: an he (A4R4XM8NL6)";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = T65EE75V48;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2880,7 +2940,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.aiju.funsport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "dfdd4539-f550-46c7-aa40-38142a167461";
+				PROVISIONING_PROFILE = "088c34eb-7a99-4d21-801a-aaf153eafda9";
 				PROVISIONING_PROFILE_SPECIFIER = Funsport_Dev_PF;
 				SWIFT_OBJC_BRIDGING_HEADER = "MapHunter/MapHunter-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2895,8 +2955,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MapHunter/MapHunter.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: an he (T65EE75V48)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = T65EE75V48;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2923,8 +2983,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.aiju.funsport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6c8b052b-45b8-4634-8863-52da6d66904f";
-				PROVISIONING_PROFILE_SPECIFIER = Funsport_Dis_PF;
+				PROVISIONING_PROFILE = "088c34eb-7a99-4d21-801a-aaf153eafda9";
+				PROVISIONING_PROFILE_SPECIFIER = Funsport_Dev_PF;
 				SWIFT_OBJC_BRIDGING_HEADER = "MapHunter/MapHunter-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;

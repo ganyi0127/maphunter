@@ -65,7 +65,7 @@ class BootScanVC: UIViewController {
     }
     
     //MARK:- 通过筛选进行搜索
-    fileprivate func scan(byName name: String){
+    fileprivate func scan(byName name: String?){
         
         //跳转到手环页
         let bootPreVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "bootpre") as! BootPreVC
@@ -119,7 +119,8 @@ extension BootScanVC: UITableViewDelegate, UITableViewDataSource{
             //通过筛选进行搜索
             scan(byName: name)
         }else{
-            scanOther()
+            //scanOther()
+            scan(byName: nil)
         }
     }
 }

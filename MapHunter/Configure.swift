@@ -62,14 +62,34 @@ let modelStartColors: [DataCubeType: UIColor] = [
     .sport: UIColor(colorHex: 0xf06136),
     .heartrate: UIColor(colorHex: 0x2bbedd),
     .sleep: UIColor(colorHex: 0x5a2e96),
-    .weight: UIColor(colorHex: 0x59d7a5)]
+    .mindBody: UIColor(colorHex: 0x59d7a5)]
 
 //MARK:- 模块结束颜色
 let modelEndColors: [DataCubeType: UIColor] = [
     .sport: UIColor(colorHex: 0xe93c2c),
     .heartrate: UIColor(colorHex: 0x3fb6dd),
     .sleep: UIColor(colorHex: 0x4b238a),
-    .weight: UIColor(colorHex: 0x54d09b)]
+    .mindBody: UIColor(colorHex: 0x54d09b)]
+
+//MARK:- 数据类型颜色1
+let recordStartColors: [RecordType: UIColor] = [
+    .sport: modelStartColors[.sport]!,
+    .sleep: modelStartColors[.sleep]!,
+    .weight: modelStartColors[.mindBody]!,
+    .mood: .yellow,
+    .bloodPressure: modelStartColors[.heartrate]!,
+    .heartrate: modelStartColors[.heartrate]!
+]
+
+//MARK:- 数据类型颜色2
+let recordEndColors: [RecordType: UIColor] = [
+    .sport: modelStartColors[.sport]!.withAlphaComponent(0.2),
+    .sleep: modelStartColors[.sleep]!.withAlphaComponent(0.2),
+    .weight: modelStartColors[.mindBody]!.withAlphaComponent(0.2),
+    .mood: UIColor.yellow.withAlphaComponent(0.2),
+    .bloodPressure: modelStartColors[.heartrate]!.withAlphaComponent(0.2),
+    .heartrate: modelStartColors[.heartrate]!.withAlphaComponent(0.2)
+]
 
 //MARK:- 正则表达式
 struct Regex {

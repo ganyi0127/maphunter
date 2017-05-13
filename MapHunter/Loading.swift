@@ -105,7 +105,7 @@ class Loading: UIView {
         let path3 = UIBezierPath(roundedRect: rect3, cornerRadius: cornerRadius)
         
         var paths = [path0, path1, path2, path3]
-        var colors = [modelEndColors[.sport], modelEndColors[.heartrate], modelEndColors[.sleep], modelEndColors[.weight]]
+        var colors = [modelEndColors[.sport], modelEndColors[.heartrate], modelEndColors[.sleep], modelEndColors[.mindBody]]
         
         var shapeLayers = [CAShapeLayer]()
         (0..<4).forEach{

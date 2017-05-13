@@ -32,11 +32,17 @@ class BootPreVC: UIViewController {
         
         if let name = filterName{            
             bandTypeLabel.text = "激活您的" + name.uppercased()
-            bandDetailLabel.text = "请将手环配套的USB线相连，然后将线缆插入通电的USB接口来激活手环"
             if let image = UIImage(named: "resource/scan/\(name)_back"){
                 bandImageView.image = image
             }
+        }else{
+            bandTypeLabel.text = "激活您的手环"
+            //无通用背面图（需替换）
+            if let image = UIImage(named: "resource/scan/id107plus_back"){
+                bandImageView.image = image
+            }
         }
+        bandDetailLabel.text = "请将手环配套的USB线相连，然后将线缆插入通电的USB接口来激活手环"
     }
     
     private func config(){
@@ -65,8 +71,9 @@ class BootPreVC: UIViewController {
     @IBAction func next(_ sender: UIButton) {
         
         //跳转到搜索页 过滤
-        let appointScanVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "scan") as! AppointScanVC
-        appointScanVC.filterName = filterName
-        navigationController?.show(appointScanVC, sender: nil)
+        if let appointScanVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "scan") as? AppointScanVC{            
+            appointScanVC.filterName = filterName
+            navigationController?.pushViewController(appointScanVC, animated: true)
+        }
     }
 }

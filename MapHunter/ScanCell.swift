@@ -134,7 +134,7 @@ class ScanCell: UITableViewCell {
         super.didMoveToSuperview()
         
         //手动添加分割线
-        let separatorFrame = CGRect(x: 0, y: 88 - 1, width: frame.width, height: 1)
+        let separatorFrame = CGRect(x: 0, y: 88 - 1, width: view_size.width, height: 1)
         let separatorLine = UIView(frame: separatorFrame)
         separatorLine.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
         addSubview(separatorLine)

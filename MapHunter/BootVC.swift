@@ -8,11 +8,23 @@
 
 import UIKit
 class BootVC: UIViewController {
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var backCollectionView: UICollectionView!
+    @IBOutlet weak var frontCollectionView: UICollectionView!
     @IBOutlet weak var quickLogin: UIButton!
     @IBOutlet weak var login: UIButton!
     @IBOutlet weak var pageControl: UIPageControl!
     
+    fileprivate let backImages = [UIImage(named: "resource/boot/main/0_1")?.transfromImage(size: view_size),
+                                  UIImage(named: "resource/boot/main/1_1")?.transfromImage(size: view_size),
+                                  UIImage(named: "resource/boot/main/2_1")?.transfromImage(size: view_size),
+                                  UIImage(named: "resource/boot/main/3_1")?.transfromImage(size: view_size)]
+    fileprivate let frontImages = [UIImage(named: "resource/boot/main/0_2")?.transfromImage(size: view_size),
+                                   UIImage(named: "resource/boot/main/1_2")?.transfromImage(size: view_size),
+                                   UIImage(named: "resource/boot/main/2_2")?.transfromImage(size: view_size),
+                                   UIImage(named: "resource/boot/main/3_2")?.transfromImage(size: view_size)]
+    
+    
+    //MARK:- init****************************************************************
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,14 +55,47 @@ class BootVC: UIViewController {
     
     private func config(){
         //注册collection cell
-        collectionView.register(BootCell.self, forCellWithReuseIdentifier: "custom")
-        collectionView.backgroundColor = .cyan
+        (0..<4).forEach{
+            row in
+            backCollectionView.register(BootCell.self, forCellWithReuseIdentifier: "\(row)_0")
+            frontCollectionView.register(BootCell.self, forCellWithReuseIdentifier: "\(row)_1")
+        }
+        backCollectionView.backgroundColor = .clear
+        backCollectionView.layer.zPosition = 1
+        frontCollectionView.backgroundColor = .clear
+        frontCollectionView.layer.zPosition = 3
         
         self.automaticallyAdjustsScrollViewInsets = false
+        
+        quickLogin.setTitle("立即加入", for: .normal)
+        quickLogin.setTitleColor(.white, for: .normal)
+        quickLogin.tintColor = .white
+        quickLogin.backgroundColor = .clear
+        quickLogin.setBackgroundImage(UIImage(named: "resource/boot/main/botton_normal"), for: .normal)
+        quickLogin.setBackgroundImage(UIImage(named: "resource/boot/main/botton_highlighted"), for: .highlighted)
+        quickLogin.layer.zPosition = 4
+        
+        login.setTitle("登录", for: .normal)
+        login.setTitleColor(.white, for: .normal)
+        login.tintColor = .white
+        login.backgroundColor = .clear
+        login.setBackgroundImage(UIImage(named: "resource/boot/main/botton_normal"), for: .normal)
+        login.setBackgroundImage(UIImage(named: "resource/boot/main/botton_highlighted"), for: .highlighted)
+        login.layer.zPosition = 4
+        
+        pageControl.layer.zPosition = 4
     }
     
     private func createContents(){
         
+        //添加背景圆圈
+        if let originImage = UIImage(named: "resource/boot/main/bottom"){
+            let imageSize = CGSize(width: view_size.width, height: view_size.width * originImage.size.height / originImage.size.width)
+            let image = originImage.transfromImage(size: imageSize)
+            let bottomImageView = UIImageView(image: image)
+            bottomImageView.layer.zPosition = 2
+            view.addSubview(bottomImageView)
+        }
     }
     
     @IBAction func click(_ sender: UIButton) {
@@ -77,27 +122,38 @@ extension BootVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let row = indexPath.row
-        let identifier = "custom"
+        let tag = collectionView.tag
+        let identifier = "\(row)_\(tag)"
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
-        switch row {
-        case 0:
-            cell.backgroundColor = .red
-        case 1:
-            cell.backgroundColor = .yellow
-        case 2:
-            cell.backgroundColor = .blue
-        case 3:
-            cell.backgroundColor = .magenta
-        default:
-            cell.backgroundColor = .purple
+        if cell.contentView.subviews.isEmpty {
+            var image: UIImage?
+            if tag == 0 {
+                image = backImages[row]
+            }else{
+                image = frontImages[row]
+            }
+            let backImageView = UIImageView(frame: cell.bounds)
+            backImageView.image = image
+            cell.contentView.addSubview(backImageView)
         }
-        pageControl.currentPage = row
+//        pageControl.currentPage = row
         return cell
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        
+        pageControl.currentPage = Int(scrollView.contentOffset.x) / Int(view_size.width) //indexPath.row
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.tag == 1 {
+            backCollectionView.contentOffset = scrollView.contentOffset
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {

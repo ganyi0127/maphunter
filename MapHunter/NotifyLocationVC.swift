@@ -37,7 +37,8 @@ class NotifyLocationVC: UIViewController {
         
         guard CLLocationManager.locationServicesEnabled() else {
             nextButton.isEnabled = false
-            performSegue(withIdentifier: "next", sender: nil)
+            
+            next(nextButton)
             return
         }
         
@@ -46,7 +47,8 @@ class NotifyLocationVC: UIViewController {
         debugPrint("<Notify> status: \(status)")
         if status == .authorizedWhenInUse || status == .authorizedAlways {
             nextButton.isEnabled = false
-            performSegue(withIdentifier: "next", sender: nil)
+            
+            next(nextButton)
         }else{
             debugPrint("请求后台定位访问")
             locationManager.requestAlwaysAuthorization()  //请求允许访问
@@ -68,7 +70,7 @@ class NotifyLocationVC: UIViewController {
     
     @IBAction func next(_ sender: UIButton) {
         if let applehealthVC = storyboard?.instantiateViewController(withIdentifier: "applehealth") as? NotifyApplehealthVC{
-            navigationController?.show(applehealthVC, sender: nil)
+            navigationController?.pushViewController(applehealthVC, animated: true)
         }
     }
 }

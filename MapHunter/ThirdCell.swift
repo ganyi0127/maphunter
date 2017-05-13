@@ -340,8 +340,8 @@ class ThirdCell: UITableViewCell {
         gradient.endPoint = CGPoint(x: 0, y: 1)
         switch type {
         case .weight:
-            startColor = modelStartColors[.weight]?.cgColor
-            endColor = modelEndColors[.weight]?.cgColor
+            startColor = modelStartColors[.mindBody]?.cgColor
+            endColor = modelEndColors[.mindBody]?.cgColor
         case .calorie:
             startColor = UIColor(red: 238 / 255, green: 183 / 255, blue: 15 / 255, alpha: 1).cgColor
             endColor = UIColor(red: 236 / 255, green: 156 / 255, blue: 0 / 255, alpha: 1).cgColor

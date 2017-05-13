@@ -39,6 +39,13 @@ class NotifyCallVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        let isCallNotified = userDefaults.bool(forKey: "callnotified")
+        
+        if isCallNotified{
+            next(nextButton)
+            return
+        }
+        
         let angelManager = AngelManager.share()
         guard let macaddress = angelManager?.macAddress else{
             endLoading()
@@ -61,6 +68,9 @@ class NotifyCallVC: UIViewController {
             DispatchQueue.main.async {
                 self.endLoading()                
                 self.nextButton.isEnabled = true
+                
+                //保存是否已开启来电提醒
+                userDefaults.set(true, forKey: "callnotified")
             }
         }
     }

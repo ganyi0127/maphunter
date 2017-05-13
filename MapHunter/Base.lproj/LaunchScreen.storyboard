@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,24 +20,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FunSport" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OD4-PF-2Ud">
-                                <rect key="frame" x="93.5" y="320" width="187.5" height="28.5"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Italic" family="Helvetica Neue" pointSize="24"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchimage" translatesAutoresizingMaskIntoConstraints="NO" id="Gw4-Hj-eAS">
+                                <rect key="frame" x="-0.5" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JMj-yF-D5U">
+                                <rect key="frame" x="-0.5" y="626" width="375" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="OD4-PF-2Ud" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="6Se-OE-buC"/>
-                            <constraint firstItem="OD4-PF-2Ud" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="a18-0m-Rbu"/>
-                            <constraint firstItem="OD4-PF-2Ud" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="1/2" id="cta-Q2-kSC"/>
+                            <constraint firstItem="Gw4-Hj-eAS" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="2SU-yM-jJA"/>
+                            <constraint firstItem="JMj-yF-D5U" firstAttribute="width" secondItem="Gw4-Hj-eAS" secondAttribute="width" id="BWi-BY-6LU"/>
+                            <constraint firstItem="Gw4-Hj-eAS" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="MjA-9P-u5f"/>
+                            <constraint firstItem="Gw4-Hj-eAS" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" id="cQF-UT-hPM"/>
+                            <constraint firstItem="JMj-yF-D5U" firstAttribute="top" secondItem="Gw4-Hj-eAS" secondAttribute="bottom" constant="-41" id="fRg-rC-c0n"/>
+                            <constraint firstItem="Gw4-Hj-eAS" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="oM0-Aj-Rrc"/>
+                            <constraint firstItem="JMj-yF-D5U" firstAttribute="centerX" secondItem="Gw4-Hj-eAS" secondAttribute="centerX" id="zEr-Gw-IZ4"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="launchimage" width="16" height="16"/>
+    </resources>
 </document>

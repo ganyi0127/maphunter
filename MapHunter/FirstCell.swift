@@ -33,9 +33,9 @@ class FirstCell: UITableViewCell {
     }()
     var goalSleep: UInt32 = 60 * 7
     
-    //体重
-    var weightDataCube: DataCube = {
-        let weightDataCube = DataCube(dataCubeType: .weight)
+    //身心
+    var mindBodyDataCube: DataCube = {
+        let weightDataCube = DataCube(dataCubeType: .mindBody)
         return weightDataCube
     }()
     
@@ -84,7 +84,7 @@ class FirstCell: UITableViewCell {
         sportDataCube.frame.origin = CGPoint(x: dataCubeSpacing, y: dataCubeSpacing)
         heartRateDataCube.frame.origin = CGPoint(x: dataCubeSpacing, y: dataCubeSpacing + sportDataCube.frame.height + dataCubeSpacing)
         sleepDataCube.frame.origin = CGPoint(x: frame.width / 2 + dataCubeSpacing / 2, y: dataCubeSpacing)
-        weightDataCube.frame.origin = CGPoint(x: frame.width / 2 + dataCubeSpacing / 2, y: dataCubeSpacing + heartRateDataCube.frame.height + dataCubeSpacing)
+        mindBodyDataCube.frame.origin = CGPoint(x: frame.width / 2 + dataCubeSpacing / 2, y: dataCubeSpacing + heartRateDataCube.frame.height + dataCubeSpacing)
         
         startTimer()
         //开始计时
@@ -154,16 +154,14 @@ class FirstCell: UITableViewCell {
             data.value1 = CGFloat(user.currentWeight)
             data.value2 = CGFloat(user.goalWeight)
         }
-        weightDataCube.data = data
-        addSubview(weightDataCube)
+        mindBodyDataCube.data = data
+        addSubview(mindBodyDataCube)
         
         //添加回调
         sportDataCube.closure = clickedCube
         heartRateDataCube.closure = clickedCube
         sleepDataCube.closure = clickedCube
-        weightDataCube.closure = clickedCube
-        
-        
+        mindBodyDataCube.closure = clickedCube
     }
     
     //MARK:- 定时器

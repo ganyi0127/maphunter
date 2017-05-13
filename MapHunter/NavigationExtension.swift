@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreBluetooth
+import AngelFit
 //手环图标
 //let linkBarButton = ItemButton(buttonType: .link)
 
@@ -64,7 +66,8 @@ extension UINavigationController: UINavigationControllerDelegate{
                     if viewController.navigationItem.leftBarButtonItem == nil{
 //                        viewController.navigationItem.leftBarButtonItem = linkBarButton
                         //手环状态视图
-                        let image = globalBandImageMap[.disConnected]!
+                        let peripheral = PeripheralManager.share().currentPeripheral
+                        let image = peripheral?.state == CBPeripheralState.connected ? globalBandImageMap[.normal]! : globalBandImageMap[.disConnected]!
                         let imageSize = image?.size
                         let imageFrame = CGRect(origin: .zero, size: imageSize!)
                         let imageView = UIImageView(frame: imageFrame)

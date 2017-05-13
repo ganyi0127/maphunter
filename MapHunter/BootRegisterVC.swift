@@ -52,6 +52,36 @@ class BootRegisterVC: UIViewController {
         }
     }
     
+    //验证倒计时label
+    private lazy var countDownLabel: UILabel? = {
+        let label: UILabel = UILabel(frame: self.verificationButton.frame)
+        label.textAlignment = .center
+        label.font = fontSmall
+        label.textColor = defaut_color
+        return label
+    }()
+    
+    //MARK:- 定时器
+    fileprivate var timer: DispatchSourceTimer?
+    private var stepTime: DispatchTimeInterval = .seconds(1)
+    
+    //MARK:- 秒数
+    private var maxCountSecond = 30
+    private var countSeconds = 30{
+        didSet{
+            countDownLabel?.text = "\(countSeconds)"
+            if countSeconds < 0{
+                verificationButton.isEnabled = true
+                countDownLabel?.removeFromSuperview()
+            }else if countSeconds == maxCountSecond{
+                if let label = countDownLabel{
+                    verificationButton.isEnabled = false
+                    view.addSubview(label)
+                }
+            }
+        }
+    }
+    
     //MARK:- init *********************************************
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,6 +130,9 @@ class BootRegisterVC: UIViewController {
         if let account = userDefaults.string(forKey: "account"){
             accountTextField.text = account
         }
+        accountTextField.placeholder = "输入邮箱"
+        passwordTextField.placeholder = "输入密码"
+        verificationTextField.placeholder = "输入验证码"
         accountSeparatorLine.backgroundColor = separatorColor
         verificationSeparatorLine.backgroundColor = separatorColor
         passwordSeparatorLine.backgroundColor = separatorColor
@@ -122,6 +155,7 @@ class BootRegisterVC: UIViewController {
         showButton.tintColor = .clear
         showButton.setBackgroundImage(UIImage(named: "resource/boot/show_on")?.transfromImage(size: CGSize(width: 24, height: 24)), for: .normal)
         showButton.setBackgroundImage(UIImage(named: "resource/boot/show_off")?.transfromImage(size: CGSize(width: 24, height: 24)), for: .selected)
+        showButton.isHidden = true
         agreementButton.tintColor = .clear
         agreementButton.setBackgroundImage(UIImage(named: "resource/boot/agreement_off"), for: .normal)
         agreementButton.setBackgroundImage(UIImage(named: "resource/boot/agreement_on"), for: .selected)
@@ -172,7 +206,7 @@ class BootRegisterVC: UIViewController {
     fileprivate func isEmailLegal(emailString string: String?) -> Bool{
         //判断账号是否为空
         guard let account: String = string, !account.characters.isEmpty else {
-            tipLabel.text = "请填写邮箱"
+            tipLabel.text = ""//"请填写邮箱"
             return false
         }
         
@@ -181,7 +215,7 @@ class BootRegisterVC: UIViewController {
         let matcher = Regex(mailPattern)
         let maybeMailAddress = account
         guard matcher.match(input: maybeMailAddress) else{
-            tipLabel.text = "请输入可用的邮箱作为登录账号"
+            tipLabel.text = "输入邮箱作为登录账号"
             verificationButton.isEnabled = false
             return false
         }
@@ -195,9 +229,11 @@ class BootRegisterVC: UIViewController {
     fileprivate func isPasswordLegal(passwordString string: String?) -> Bool{
         //判断密码是否为空
         guard let password: String = passwordTextField.text, !password.characters.isEmpty else{
-            tipLabel.text = "密码不能为空"
+            showButton.isHidden = true
+            tipLabel.text = ""//"密码不能为空"
             return false
         }
+        showButton.isHidden = false
         guard  password.characters.count >= passwordMinLength else {
             tipLabel.text = "密码长度为\(passwordMinLength)~\(passwordMaxLength)之间"
             return false
@@ -237,11 +273,31 @@ class BootRegisterVC: UIViewController {
                     self.tipLabel.text = "验证码发送正常，请在注册邮箱中查收"
                     debugPrint("<verify code> 发送验证码成功")
                     
+                    //倒计时
+                    self.countDown(flag: true)
+                    
                     //存储该邮箱
                     self.mailAddress = self.accountTextField.text
                 }
             }
         }
+    }
+    
+    //MARK:- 开始或暂停倒计时
+    private func countDown(flag: Bool){
+        if flag {
+            //开始计时
+            self.timer = DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags.strict, queue: .main)
+            self.timer?.scheduleRepeating(deadline: .now(), interval: self.stepTime)
+            self.timer?.setEventHandler{self.countSec()}
+            self.timer?.resume()        //启动定时器
+            
+            countSeconds = maxCountSecond
+        }
+    }
+    
+    private func countSec(){
+        countSeconds -= 1
     }
     
     //MARK:- 点击勾选条款
@@ -343,9 +399,10 @@ class BootRegisterVC: UIViewController {
                             let notificationSettingTypes = UIApplication.shared.currentUserNotificationSettings?.types
                             let isAlreadyRequestAppleHealth = userDefaults.bool(forKey: "applehealth")
                             let locationStatus = CLLocationManager.authorizationStatus()
-                            guard notificationSettingTypes?.rawValue != 0 && isAlreadyRequestAppleHealth && (locationStatus == .authorizedWhenInUse || locationStatus == .authorizedAlways)  else{
-                                if let notifyLocalnotifyVC = UIStoryboard(name: "Notify", bundle: Bundle.main).instantiateViewController(withIdentifier: "notify") as? NotifyLocalNotifyVC{
-                                    self.present(notifyLocalnotifyVC, animated: true, completion: nil)
+                            let isCallNotified = userDefaults.bool(forKey: "callnotified")
+                            guard notificationSettingTypes?.rawValue != 0 && isAlreadyRequestAppleHealth && (locationStatus == .authorizedWhenInUse || locationStatus == .authorizedAlways) && isCallNotified else{
+                                if let notifyNavigationController = UIStoryboard(name: "Notify", bundle: Bundle.main).instantiateViewController(withIdentifier: "notifyroot") as? UINavigationController{
+                                    self.present(notifyNavigationController, animated: true, completion: nil)
                                     return
                                 }
                                 return

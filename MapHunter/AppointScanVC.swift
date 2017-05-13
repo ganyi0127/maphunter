@@ -66,6 +66,8 @@ class AppointScanVC: ScanVC {
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     
+    private var bandImage: UIImage?
+    
     //MARK:- tip弹窗视图
     private lazy var tipView: UIView? = {
         let tipFrame = CGRect(x: 0, y: self.tableview.frame.origin.y, width: view_size.width, height: view_size.height - self.tableview.frame.origin.y - 49)
@@ -80,9 +82,14 @@ class AppointScanVC: ScanVC {
             
             let imageFrame = CGRect(x: 0, y: 24, width: tipView.frame.width, height: tipView.frame.width)
             let imageView = UIImageView(frame: imageFrame)
-            if let imageName = self.bandImageName{
-                if let image = UIImage(named: imageName){
-                    imageView.image = image
+            if let image = self.bandImage{
+                imageView.image = image
+            }else{
+                if let imageName = self.bandImageName{
+                    if let image = UIImage(named: imageName){
+                        self.bandImage = image
+                        imageView.image = image
+                    }
                 }
             }
             tipView.addSubview(imageView)
@@ -101,14 +108,19 @@ class AppointScanVC: ScanVC {
             label.textAlignment = .center
             let bandName = self.filterName == nil ? "手环" : self.filterName!.uppercased()
             label.text = "请在手机系统将蓝牙连接设备，进行忽略确保" + bandName + "位于你的设备附近，然后重试"
-            label.sizeThatFits(labelFrame.size)
+            label.sizeToFit()
             failureView.addSubview(label)
             
             let imageFrame = CGRect(x: 0, y: 24, width: failureView.frame.width, height: failureView.frame.width)
             let imageView = UIImageView(frame: imageFrame)
-            if let imageName = self.bandImageName{
-                if let image = UIImage(named: imageName){
-                    imageView.image = image
+            if let image = self.bandImage{
+                imageView.layer.contents = image.cgImage
+            }else{
+                if let imageName = self.bandImageName{
+                    if let image = UIImage(named: imageName){
+                        self.bandImage = image
+                        imageView.layer.contents = image.cgImage
+                    }
                 }
             }
             failureView.addSubview(imageView)
@@ -127,11 +139,19 @@ class AppointScanVC: ScanVC {
         return failureView
     }()
     
+    
+    
+    
     //MARK:- init
     override func viewDidLoad() {
-        showRescanButton = false    //隐藏重新扫描按钮
         super.viewDidLoad()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        showRescanButton = false    //隐藏重新扫描按钮
         config()
     }
     
@@ -148,8 +168,10 @@ class AppointScanVC: ScanVC {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+       
+        godManager.stopScan()
         
+        super.viewWillDisappear(animated)
         endLoading()
     }
     
@@ -214,7 +236,7 @@ class AppointScanVC: ScanVC {
                 cancelButton.isHidden = false
                 backButton.isHidden = true
                 nextButton.isHidden = true
-                nextButton.setTitle("重新扫描", for: .normal)
+                nextButton.setTitle("重新搜索", for: .normal)
                 view.addSubview(tView)
             }
             rescan(sender: rescanButton)

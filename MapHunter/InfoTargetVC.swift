@@ -44,7 +44,7 @@ class InfoTargetVC: UIViewController {
     var weightValue: Float = 60{
         didSet{
             DispatchQueue.main.async {
-                let text = "\(Int(self.weightValue))kg" //String(format: "%.1f", self.weightValue) + "kg"
+                let text = "\(lroundf(self.weightValue))kg" //String(format: "%.1f", self.weightValue) + "kg"
                 let mainAttributedString = NSMutableAttributedString(string: text,
                                                                      attributes: [NSFontAttributeName: fontBig])
                 let unitLength = 2
@@ -169,7 +169,7 @@ class InfoTargetVC: UIViewController {
             bottomLayer = CAShapeLayer()
             bottomLayer?.path = bottomBezier.cgPath
             bottomLayer?.fillColor = nil
-            bottomLayer?.strokeColor = UIColor.lightGray.cgColor
+            bottomLayer?.strokeColor = separatorColor.cgColor
             bottomLayer?.lineWidth = lineWidth
             centerImageView.superview?.layer.addSublayer(bottomLayer!)
         }
@@ -207,7 +207,7 @@ class InfoTargetVC: UIViewController {
         //MARK:- 绘制建议值
         let udGender = userDefaults.integer(forKey: "gender")
         let udHeight = userDefaults.integer(forKey: "height")
-        let udWeight = userDefaults.float(forKey: "weight")
+        let udWeight = userDefaults.float(forKey: "weight") / 10000
         let radius: CGFloat = 15
         
         //运动目标建议
@@ -242,8 +242,8 @@ class InfoTargetVC: UIViewController {
             
             let targetValue = 22 * pow(Float(udHeight) / 100, 2)
             //重新设置体重范围  
-            var reMin = targetValue - 15
-            var reMax = targetValue + 15
+            var reMin = udWeight * 0.6
+            var reMax = udWeight * 1.6
             if reMin > Float(udWeight){
                 reMin = Float(udWeight)
             }
@@ -252,8 +252,13 @@ class InfoTargetVC: UIViewController {
             }
             weightSlider.minimumValue = reMin
             weightSlider.maximumValue = reMax
-            weightValue = targetValue       //设置默认目标体重
-            weightSlider.setValue(targetValue, animated: true)
+            if targetValue > reMax || targetValue < reMin {
+                weightValue = udWeight
+                weightSlider.setValue(udWeight, animated: true)
+            }else{
+                weightValue = targetValue       //设置默认目标体重
+                weightSlider.setValue(targetValue, animated: true)
+            }
             
             let maxValue = CGFloat(weightSlider.maximumValue)
             let minValue = CGFloat(weightSlider.minimumValue)
@@ -262,9 +267,21 @@ class InfoTargetVC: UIViewController {
             let maxWeightValue = 23.9 * pow(CGFloat(udHeight) / 100, 2)
             let currentWeightPoint = CGPoint(x: weightSlider.frame.origin.x + radius + (weightSlider.frame.width - radius * 2) * (CGFloat(udWeight) - minValue) / (maxValue - minValue),
                                              y: weightSlider.frame.origin.y + weightSlider.frame.height / 2)
-            let minWeightPoint = CGPoint(x: weightSlider.frame.origin.x + radius + (weightSlider.frame.width - radius * 2) * (minWeightValue - minValue) / (maxValue - minValue),
+            var tmp0 = minWeightValue - minValue
+            if tmp0 < 0 {
+                tmp0 = 0
+            }else if tmp0 > maxValue - minValue{
+                tmp0 = maxValue - minValue
+            }
+            let minWeightPoint = CGPoint(x: weightSlider.frame.origin.x + radius + (weightSlider.frame.width - radius * 2) * tmp0 / (maxValue - minValue),
                                          y: weightSlider.frame.origin.y + weightSlider.frame.height / 2)
-            let maxWeightPoint = CGPoint(x: weightSlider.frame.origin.x + radius + (weightSlider.frame.width - radius * 2) * (maxWeightValue - minValue) / (maxValue - minValue),
+            var tmp1 = maxWeightValue - minValue
+            if tmp1 < 0{
+                tmp1 = 0
+            }else if tmp1 > maxValue - minValue{
+                tmp1 = maxValue - minValue
+            }
+            let maxWeightPoint = CGPoint(x: weightSlider.frame.origin.x + radius + (weightSlider.frame.width - radius * 2) * tmp1 / (maxValue - minValue),
                                          y: weightSlider.frame.origin.y + weightSlider.frame.height / 2)
             
             let lineLength: CGFloat = 10
@@ -320,13 +337,18 @@ class InfoTargetVC: UIViewController {
             weightView.layer.insertSublayer(weightMaxSuggestLayer!, below: weightSlider.layer)
             
             //绘制范围文字
-            labelFrame = CGRect(x: minWeightPoint.x, y: maxWeightPoint.y - lineSpacing - lineLength - labelHeight, width: maxWeightPoint.x - minWeightPoint.x, height: labelHeight)
-            weightRangeLabel = UILabel(frame: labelFrame)
-            weightRangeLabel?.textAlignment = .center
-            weightRangeLabel?.font = fontTiny
-            weightRangeLabel?.textColor = weightSlider.minimumTrackTintColor
-            weightRangeLabel?.text = "健康范围"
-            weightView.insertSubview(weightRangeLabel!, belowSubview: weightSlider)
+            if tmp0 != tmp1{
+                labelFrame = CGRect(x: minWeightPoint.x, y: maxWeightPoint.y - lineSpacing - lineLength - labelHeight, width: maxWeightPoint.x - minWeightPoint.x, height: labelHeight)
+                //当范围过小 不显示范围文字
+                if labelFrame.width > 40{
+                    weightRangeLabel = UILabel(frame: labelFrame)
+                    weightRangeLabel?.textAlignment = .center
+                    weightRangeLabel?.font = fontTiny
+                    weightRangeLabel?.textColor = weightSlider.minimumTrackTintColor
+                    weightRangeLabel?.text = "健康范围"
+                    weightView.insertSubview(weightRangeLabel!, belowSubview: weightSlider)
+                }
+            }
         }
         
         //睡眠目标建议 23:00~7:00
@@ -344,7 +366,7 @@ class InfoTargetVC: UIViewController {
             sleepBeginLayer = CAShapeLayer()
             sleepBeginLayer?.path = bottomBezier.cgPath
             sleepBeginLayer?.fillColor = nil
-            sleepBeginLayer?.strokeColor = UIColor.lightGray.cgColor
+            sleepBeginLayer?.strokeColor = separatorColor.cgColor
             sleepBeginLayer?.lineWidth = lineWidth
             sleepView.layer.insertSublayer(sleepBeginLayer!, below: timeLayer!)
             
@@ -352,7 +374,7 @@ class InfoTargetVC: UIViewController {
             sleepBeginLabel = UILabel(frame: beginLabelFrame)
             sleepBeginLabel?.textAlignment = .center
             sleepBeginLabel?.font = fontTiny
-            sleepBeginLabel?.textColor = .lightGray
+            sleepBeginLabel?.textColor = separatorColor
             sleepBeginLabel?.text = "建议"
             sleepView.addSubview(sleepBeginLabel!)
             
@@ -362,7 +384,7 @@ class InfoTargetVC: UIViewController {
             sleepEndLayer = CAShapeLayer()
             sleepEndLayer?.path = bottomBezier.cgPath
             sleepEndLayer?.fillColor = nil
-            sleepEndLayer?.strokeColor = UIColor.lightGray.cgColor
+            sleepEndLayer?.strokeColor = separatorColor.cgColor
             sleepEndLayer?.lineWidth = lineWidth
             sleepView.layer.insertSublayer(sleepEndLayer!, below: timeLayer!)
             
@@ -370,7 +392,7 @@ class InfoTargetVC: UIViewController {
             sleepEndLabel = UILabel(frame: endLabelFrame)
             sleepEndLabel?.textAlignment = .center
             sleepEndLabel?.font = fontTiny
-            sleepEndLabel?.textColor = .lightGray
+            sleepEndLabel?.textColor = separatorColor
             sleepEndLabel?.text = "建议"
             sleepView.addSubview(sleepEndLabel!)
         }
@@ -555,7 +577,7 @@ extension InfoTargetVC{
             var tuple = (hour: hour, minute: minute)
             
             //设置最小间隔
-            let leastDelta: CGFloat = 2      //最小间隔两小时
+            let leastDelta: CGFloat = 2         //最小间隔两小时
             if selectTag == 1{
                 let digitSleeptime = CGFloat(hour) + CGFloat(minute) / 60
                 let digitWaketime = CGFloat(wakeTime.hour) + CGFloat(wakeTime.minute) / 60
@@ -564,10 +586,10 @@ extension InfoTargetVC{
                     deltatime += 24
                 }
                 
-                if deltatime < leastDelta{
-                    tuple = (hour: wakeTime.hour - Int16(leastDelta), minute: wakeTime.minute)
-                    warn()
-                }
+//                if deltatime < leastDelta{
+//                    tuple = (hour: wakeTime.hour - Int16(leastDelta), minute: wakeTime.minute)
+//                    warn()
+//                }
                 sleepTime = tuple       //赋值
             }else if selectTag == 2{
                 let digitSleeptime = CGFloat(sleepTime.hour) + CGFloat(sleepTime.minute) / 60
@@ -577,10 +599,10 @@ extension InfoTargetVC{
                     deltatime += 24
                 }
                 
-                if deltatime < leastDelta{
-                    tuple = (hour: sleepTime.hour + Int16(leastDelta), minute: sleepTime.minute)
-                    warn()
-                }
+//                if deltatime < leastDelta{
+//                    tuple = (hour: sleepTime.hour + Int16(leastDelta), minute: sleepTime.minute)
+//                    warn()
+//                }
                 wakeTime = tuple        //赋值
             }
         }

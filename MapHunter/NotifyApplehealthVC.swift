@@ -39,7 +39,8 @@ class NotifyApplehealthVC: UIViewController {
             guard !isAlreadyRequest else {
                 debugPrint("以获得过applehealth权限")
                 nextButton.isEnabled = false
-                performSegue(withIdentifier: "next", sender: nil)
+                
+                next(nextButton)
                 return
             }
             
@@ -80,7 +81,8 @@ class NotifyApplehealthVC: UIViewController {
         }else{
             debugPrint("设备不支持HealthKit")
             nextButton.isEnabled = false
-            performSegue(withIdentifier: "next", sender: nil)
+            
+            next(nextButton)
         }
     }
     
@@ -91,7 +93,7 @@ class NotifyApplehealthVC: UIViewController {
     
     @IBAction func next(_ sender: UIButton) {
         if let callVC = storyboard?.instantiateViewController(withIdentifier: "call") as? NotifyCallVC{
-            navigationController?.show(callVC, sender: nil)
+            navigationController?.pushViewController(callVC, animated: true)
         }
     }
 }

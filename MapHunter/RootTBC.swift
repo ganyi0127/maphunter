@@ -32,6 +32,8 @@ class RootTBC: UITabBarController {
     private var menuButtonFlag: Bool = false{
         didSet{
             let key = "rotation"
+            
+            menuButton.isSelected = menuButtonFlag
             if menuButtonFlag{
                 
                 //移除之前动画
@@ -141,10 +143,13 @@ class RootTBC: UITabBarController {
                                      width: menuButtonWidth,
                                      height: menuButtonWidth)
         let menuButton = UIButton(frame: menuButtonFrame)
-        let height: CGFloat = 49 / 2 //self.tabBar.backgroundImage!.size.height / 2
+        let height: CGFloat = 49 * 0.75 //self.tabBar.backgroundImage!.size.height / 2
         let itemSize = CGSize(width: height, height: height)
         let image = UIImage(named: "resource/tabbar/main")?.transfromImage(size: itemSize)?.withRenderingMode(.alwaysOriginal)
         menuButton.setImage(image, for: .normal)
+        if let selectedImage = UIImage(named: "resource/tabbar/main_selected")?.transfromImage(size: itemSize)?.withRenderingMode(.alwaysOriginal){
+            menuButton.setImage(selectedImage, for: .selected)
+        }
         menuButton.addTarget(self, action: #selector(clickMenuButton(sender:)), for: .touchUpInside)
         return menuButton
     }()
@@ -182,7 +187,8 @@ class RootTBC: UITabBarController {
     
     private func config(){
         
-        _ = GodManager.share()
+        let godManager = GodManager.share()
+        godManager.isAutoReconnect = true
         _ = AngelManager.share()
         
         //修改默认界面
@@ -231,21 +237,43 @@ class RootTBC: UITabBarController {
         
     }
     
-    //MARK:- 点击sub menu按钮
+    //MARK:- 点击sub menu按钮 ["运动", "睡眠", "体重", "心情", "血压", "心率"]
     @objc private func clickSubMenuButton(sender: MainSubMenuButton){
         let tag = sender.tag
         debugPrint("<main menu> sub button tag: \(tag)")
+        
+        //关闭子按钮
+        clickMenuButton(sender: menuButton)
+        
+        //初始化手动设置页面
+        var manualRecordVC: UIViewController?
         switch tag {
         case 0:
-            break
+            manualRecordVC = RecordSportVC()
+        case 1:
+            manualRecordVC = RecordSleepVC()
+        case 2:
+            manualRecordVC = RecordWeightVC()
+        case 3:
+            manualRecordVC = RecordMoodVC()
+        case 4:
+            manualRecordVC = RecordBloodPressureVC()
+        case 5:
+            manualRecordVC = RecordHeartrateVC()
         default:
             break
+        }
+        
+        //推出页面
+        if let vc = manualRecordVC{
+            present(vc, animated: true, completion: nil)
+        }else{
+            debugPrint("<Menu Button> 创建手动记录类型错误")
         }
     }
     
     //MARK:- 点击展开按钮
     @objc private func clickMenuButton(sender: UIButton){
-
         menuButtonFlag = !menuButtonFlag
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
     }

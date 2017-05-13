@@ -111,6 +111,9 @@ class BootLoginVC: UIViewController {
         if let account = userDefaults.string(forKey: "account"){
             accountTextField.text = account
         }
+        
+        accountTextField.placeholder = "输入邮箱"
+        passwordTextField.placeholder = "输入密码"
         accountSeparatorLine.backgroundColor = separatorColor
         passwordSeparatorLine.backgroundColor = separatorColor
         loginButton.setTitleColor(defaut_color, for: .normal)
@@ -123,6 +126,7 @@ class BootLoginVC: UIViewController {
         showButton.tintColor = .clear
         showButton.setBackgroundImage(UIImage(named: "resource/boot/show_on")?.transfromImage(size: CGSize(width: 24, height: 24)), for: .normal)
         showButton.setBackgroundImage(UIImage(named: "resource/boot/show_off")?.transfromImage(size: CGSize(width: 24, height: 24)), for: .selected)
+        showButton.isHidden = true
         registButton.setTitleColor(defaut_color, for: .normal)
         registButton.titleLabel?.font = fontSmall
         registButton.isHidden = true        //需隐藏
@@ -144,7 +148,7 @@ class BootLoginVC: UIViewController {
     fileprivate func isEmailLegal(emailString string: String?) -> Bool{
         //判断账号是否为空
         guard let account: String = string, !account.characters.isEmpty else {
-            tipLabel.text = "请填写邮箱"
+            tipLabel.text = ""//"请填写邮箱"
             return false
         }
         
@@ -153,7 +157,7 @@ class BootLoginVC: UIViewController {
         let matcher = Regex(mailPattern)
         let maybeMailAddress = account
         guard matcher.match(input: maybeMailAddress) else{
-            tipLabel.text = "请输入可用的邮箱作为登录账号"
+            tipLabel.text = "输入邮箱作为登录账号"
             return false
         }
         
@@ -166,9 +170,11 @@ class BootLoginVC: UIViewController {
     fileprivate func isPasswordLegal(passwordString string: String?) -> Bool{
         //判断密码是否为空
         guard let password: String = passwordTextField.text, !password.characters.isEmpty else{
-            tipLabel.text = "密码不能为空"
+            showButton.isHidden = true
+            tipLabel.text = ""//"密码不能为空"
             return false
         }
+        showButton.isHidden = false
         guard  password.characters.count >= passwordMinLength else {
             tipLabel.text = "密码长度为\(passwordMinLength)~\(passwordMaxLength)之间"
             return false
@@ -239,9 +245,10 @@ class BootLoginVC: UIViewController {
                 let notificationSettingTypes = UIApplication.shared.currentUserNotificationSettings?.types
                 let isAlreadyRequestAppleHealth = userDefaults.bool(forKey: "applehealth")
                 let locationStatus = CLLocationManager.authorizationStatus()
-                guard notificationSettingTypes?.rawValue != 0 && isAlreadyRequestAppleHealth && (locationStatus == .authorizedWhenInUse || locationStatus == .authorizedAlways)  else{
-                    if let notifyLocalnotifyVC = UIStoryboard(name: "Notify", bundle: Bundle.main).instantiateViewController(withIdentifier: "notify") as? NotifyLocalNotifyVC{
-                        self.present(notifyLocalnotifyVC, animated: true, completion: nil)
+                let isCallNotified = userDefaults.bool(forKey: "callnotified")
+                guard notificationSettingTypes?.rawValue != 0 && isAlreadyRequestAppleHealth && (locationStatus == .authorizedWhenInUse || locationStatus == .authorizedAlways) && isCallNotified else{
+                    if let notifyNavigationController = UIStoryboard(name: "Notify", bundle: Bundle.main).instantiateViewController(withIdentifier: "notifyroot") as? UINavigationController{
+                        self.present(notifyNavigationController, animated: true, completion: nil)
                         return
                     }
                     return

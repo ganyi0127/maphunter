@@ -24,7 +24,7 @@ enum DetailDataViewType{
     case wakeTime
     case wakeCount
     
-    //体重
+    //身心状态
     case weightStartTime
     case weightDelta
 }

@@ -97,8 +97,8 @@ public final class GodManager: NSObject {
         //扫描
         centralManager?.scanForPeripherals(withServices: [service.uuid], options: nil)
 
-        //5秒后停止扫描
-        _ = delay(5){
+        //7秒后停止扫描
+        _ = delay(7){
             self.stopScan()
             closure?()
         }
@@ -206,8 +206,10 @@ extension GodManager: CBCentralManagerDelegate{
             task = delay(2){
                 //...
                 
-                self.connect(peripheralList[0])
-                self.loop()
+                if self.isAutoReconnect{                    
+                    self.connect(peripheralList[0])
+                    self.loop()
+                }
             }
             return
         }
@@ -218,8 +220,10 @@ extension GodManager: CBCentralManagerDelegate{
             task = delay(2){
                 //...
 
-                self.connect(peripheral)
-                self.loop()
+                if self.isAutoReconnect{
+                    self.connect(peripheral)
+                    self.loop()
+                }
             }
             return
         }
@@ -326,7 +330,7 @@ extension GodManager:CBPeripheralDelegate{
             let characteristicList = service.characteristics
             
             if let characteristics = characteristicList {
-                print("2.\(peripheral.name)发现特征成功")
+                print("2.\(String(describing: peripheral.name))发现特征成功")
                 for characteristic in characteristics {
                     switch characteristic.uuid {
                     case MainUUID.read:
@@ -341,7 +345,7 @@ extension GodManager:CBPeripheralDelegate{
                         peripheral.setNotifyValue(true, for: characteristic)
                         
                     default:
-                        print("otherUUID:\(characteristic.descriptors)")
+                        print("otherUUID:\(String(describing: characteristic.descriptors))")
                     }
                 }
             }

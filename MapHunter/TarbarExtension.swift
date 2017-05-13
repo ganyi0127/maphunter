@@ -18,7 +18,7 @@ extension UITabBarController{
         
         //修改底图与item图形
         if let backImage = UIImage(named: "resource/tabbar/background"){
-//            tabBar.backgroundImage = backImage.transfromImage(size: tabbarSize)
+            tabBar.backgroundImage = backImage.transfromImage(size: tabbarSize)
             tabBar.shadowImage = UIImage()
             
             let height: CGFloat = 49 / 2 //tabBar.backgroundImage!.size.height / 2

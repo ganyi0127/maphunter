@@ -13,7 +13,7 @@ enum DataCubeType{
     case sport
     case heartrate
     case sleep
-    case weight
+    case mindBody
 }
 struct DataCubeData {
     var value1: CGFloat = 0
@@ -79,7 +79,7 @@ class DataCube: UIView {
                 return SportColor.walking
             case .sleep:
                 return SportColor.riding
-            case .weight:
+            case .mindBody:
                 return SportColor.riding
             }
         }
@@ -211,7 +211,7 @@ class DataCube: UIView {
                 //判断是否完成目标
                 sleepFinishedImageView.isHidden = data.value1 < data.value2 || data.value1 == 0 || data.value2 == 0
 
-            case .weight:
+            case .mindBody:
                 var text = "身心状态"
                 firstLabel.text = text
                 
@@ -408,7 +408,7 @@ class DataCube: UIView {
         case .sleep:
             imageName = "sleep"
             addSubview(sleepFinishedImageView)
-        case .weight:
+        case .mindBody:
             imageName = "weight"
         }
         

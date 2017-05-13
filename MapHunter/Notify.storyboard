@@ -14,7 +14,7 @@
         <!--Navigation Controller-->
         <scene sceneID="QqD-rB-hJb">
             <objects>
-                <navigationController id="csk-vK-urL" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="notifyroot" id="csk-vK-urL" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ijl-uA-Ry6">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -106,7 +106,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="resource/introduce/notify_applehealth" translatesAutoresizingMaskIntoConstraints="NO" id="AlM-Og-rcU">
-                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uq6-kb-aMr" userLabel="LowNavigation">
                                 <rect key="frame" x="0.0" y="618" width="375" height="49"/>
@@ -184,7 +184,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="resource/introduce/notify_location" translatesAutoresizingMaskIntoConstraints="NO" id="ayl-LV-2Mw">
-                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Kj-I4-OYm" userLabel="LowNavigation">
                                 <rect key="frame" x="0.0" y="618" width="375" height="49"/>
@@ -262,7 +262,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="resource/introduce/notify_call" translatesAutoresizingMaskIntoConstraints="NO" id="vr5-LY-SOh">
-                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CdQ-J6-0W5" userLabel="LowNavigation">
                                 <rect key="frame" x="0.0" y="618" width="375" height="49"/>

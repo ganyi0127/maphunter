@@ -131,22 +131,22 @@ class InfoVC: UIViewController {
             }
             
             //修正
-            if w < 25 {
-                weight = 25
+            if w < 25 * 10000 {
+                weight = 25 * 10000
                 return
-            }else if w > 255{
-                weight = 255
+            }else if w > 255.9 * 10000{
+                weight = 255.9 * 10000
                 return
             }
             
             resetNextButton()
             
             //临时存储
-            userDefaults.set(Float(w), forKey: "weight")
+            userDefaults.set(Int(w), forKey: "weight")
             
             //修改体重文字
             weightLabel.textColor = settedColor
-            let text = "\(w)" + "公斤"
+            let text = String(format: "%.1f", w / 10000) + "公斤"
             let attributeString = NSMutableAttributedString(string: text,
                                                             attributes: [NSFontAttributeName: fontMiddle])
             attributeString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 2, 2))
@@ -169,13 +169,18 @@ class InfoVC: UIViewController {
             //修改生日文字
             birthdayLabel.textColor = settedColor
             let formatter = DateFormatter()
-            formatter.dateFormat = "yyy年MM月dd日"
+            formatter.dateFormat = "yyy年M月d日"
             let text = formatter.string(from: d)
+            
+            let components = calender.dateComponents([.month, .day], from: d)
+            let offsetMonth = components.day! < 10 ? 3 : 4
+            let offsetYear = components.month! < 10 ? offsetMonth + 2 : offsetMonth + 3
+            
             let attributeString = NSMutableAttributedString(string: text,
                                                             attributes: [NSFontAttributeName: fontMiddle])
             attributeString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 1, 1))   //日
-            attributeString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 4, 1))   //月
-            attributeString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - 7, 1))   //年
+            attributeString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - offsetMonth, 1))   //月
+            attributeString.addAttribute(NSFontAttributeName, value: fontSmall, range: NSMakeRange(text.characters.count - offsetYear, 1))   //年
             birthdayLabel.attributedText = attributeString
         }
     }
@@ -339,7 +344,7 @@ class InfoVC: UIViewController {
         }
         
         //体重
-        let udWeight = userDefaults.float(forKey: "weight")
+        let udWeight = userDefaults.integer(forKey: "weight")
         if udWeight != 0{
             weight = CGFloat(udWeight)
         }else{
