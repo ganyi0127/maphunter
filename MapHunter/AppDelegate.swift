@@ -72,13 +72,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ACloudLib.setLogEnabled(true)
         
         //崩溃处理
-        NSSetUncaughtExceptionHandler(customUncaughtExceptionHandler())
+        //NSSetUncaughtExceptionHandler(customUncaughtExceptionHandler())
         
         //蒲公英sdk初始化
         let PgyAppId = "f16920655e1cec805b62f4fad7b7774e"
         PgyManager.shared().start(withAppId: PgyAppId)
         PgyUpdateManager.sharedPgy().start(withAppId: PgyAppId)
         PgyUpdateManager.sharedPgy().checkUpdate()  //检查更新
+        PgyManager.shared().isFeedbackEnabled = false
+        
+        //友盟统计 591a5512677baa21560006e2
+        UMAnalyticsConfig.sharedInstance().appKey = "591a5512677baa21560006e2"
+        UMAnalyticsConfig.sharedInstance().channelId = "pgy"
+        MobClick.start(withConfigure: UMAnalyticsConfig.sharedInstance())
         
         return true
     }

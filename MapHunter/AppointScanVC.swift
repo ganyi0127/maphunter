@@ -101,7 +101,7 @@ class AppointScanVC: ScanVC {
     private lazy var failureView: UIView? = {
         let failureFrame = CGRect(x: 0, y: self.tableview.frame.origin.y, width: view_size.width, height: view_size.height - self.tableview.frame.origin.y - 49)
         let failureView: UIView = UIView(frame: failureFrame)
-            let labelFrame = CGRect(x: 0, y: 0, width: failureView.frame.width, height: 24)
+            let labelFrame = CGRect(x: 20, y: 0, width: failureView.frame.width - 20 * 2, height: 24)
             let label = UILabel(frame: labelFrame)
             label.font = fontSmall
             label.numberOfLines = 0
@@ -231,6 +231,7 @@ class AppointScanVC: ScanVC {
         }else{
             //重新载入
             failureView?.isHidden = true
+            
             if let tView = tipView {
                 tView.isHidden = false
                 cancelButton.isHidden = false
@@ -303,6 +304,14 @@ class AppointScanVC: ScanVC {
     //MARK:- 重写搜索
     private var isScaning = false
     override func rescan(sender: UIButton) {
+        
+        //修改firstLabel文字
+        if let name = filterName{
+            firstLabel.text = "正在查找您的" + name.uppercased()
+        }else{
+            firstLabel.text = "正在查找您的设备"
+        }
+
         
         peripheralList.removeAll()
         
@@ -395,6 +404,7 @@ class AppointScanVC: ScanVC {
             self.navigationController?.show(bootConnectVC, sender: true)
         }else{
             _ = delay(3.5){
+                //+30s判断
                 let angelManager = AngelManager.share()
                 angelManager?.setBind(true){
                     success in

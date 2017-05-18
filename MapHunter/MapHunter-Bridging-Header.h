@@ -14,3 +14,9 @@
 //蒲公英
 #import <PgySDK/PgyManager.h>
 #import <PgyUpdate/PgyUpdateManager.h>
+
+
+//友盟
+#import <UMMobClick/MobClick.h>
+#import <UMMobClick/MobClickSocialAnalytics.h>
+#import <UMMobClick/MobClickGameAnalytics.h>

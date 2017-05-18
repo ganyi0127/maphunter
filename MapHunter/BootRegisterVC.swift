@@ -54,7 +54,8 @@ class BootRegisterVC: UIViewController {
     
     //验证倒计时label
     private lazy var countDownLabel: UILabel? = {
-        let label: UILabel = UILabel(frame: self.verificationButton.frame)
+        let frame = CGRect(x: self.verificationButton.frame.origin.x, y: self.verificationButton.frame.origin.y - 4, width: self.verificationButton.frame.width, height: 12)
+        let label: UILabel = UILabel(frame: frame)
         label.textAlignment = .center
         label.font = fontSmall
         label.textColor = defaut_color
@@ -192,6 +193,9 @@ class BootRegisterVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        //移除定时器
+        timer?.cancel()
+        
         if let t = tap{
             headImageView.removeGestureRecognizer(t)
             tap = nil
@@ -206,7 +210,7 @@ class BootRegisterVC: UIViewController {
     fileprivate func isEmailLegal(emailString string: String?) -> Bool{
         //判断账号是否为空
         guard let account: String = string, !account.characters.isEmpty else {
-            tipLabel.text = ""//"请填写邮箱"
+            tipLabel.text = " "//"请填写邮箱"
             return false
         }
         
@@ -220,8 +224,10 @@ class BootRegisterVC: UIViewController {
             return false
         }
         
-        tipLabel.text = ""
-        verificationButton.isEnabled = true
+        tipLabel.text = " "
+        if countSeconds <= 0 {
+            verificationButton.isEnabled = true
+        }
         return true
     }
     
@@ -230,7 +236,7 @@ class BootRegisterVC: UIViewController {
         //判断密码是否为空
         guard let password: String = passwordTextField.text, !password.characters.isEmpty else{
             showButton.isHidden = true
-            tipLabel.text = ""//"密码不能为空"
+            tipLabel.text = " "//"密码不能为空"
             return false
         }
         showButton.isHidden = false
@@ -238,7 +244,7 @@ class BootRegisterVC: UIViewController {
             tipLabel.text = "密码长度为\(passwordMinLength)~\(passwordMaxLength)之间"
             return false
         }
-        tipLabel.text = ""
+        tipLabel.text = " "
         return true
     }
     
@@ -249,7 +255,7 @@ class BootRegisterVC: UIViewController {
             tipLabel.text = "请输入六位验证码"
             return false
         }
-        tipLabel.text = ""
+        tipLabel.text = " "
         return true
     }
     
@@ -575,10 +581,7 @@ extension BootRegisterVC: UITextFieldDelegate{
         
         let animations = {
             let keyboardTransform = CGAffineTransform(translationX: 0, y: -offset)
-            let viewTransform = CGAffineTransform(translationX: 0, y: -offset / 2)
-            let lowTransform = CGAffineTransform(translationX: 0, y: -offset + offset / 2)
-            self.lowNavigation.transform = lowTransform
-            self.view.transform = viewTransform
+            self.lowNavigation.transform = keyboardTransform
         }
         
         if duration > 0 {
@@ -598,7 +601,7 @@ extension BootRegisterVC: UITextFieldDelegate{
         let animations = {
             let keyboardTransform = CGAffineTransform.identity
             self.lowNavigation.transform = keyboardTransform
-            self.view.transform = keyboardTransform
+            //self.view.transform = keyboardTransform
         }
         
         if duration > 0 {

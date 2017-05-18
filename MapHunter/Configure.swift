@@ -91,6 +91,16 @@ let recordEndColors: [RecordType: UIColor] = [
     .heartrate: modelStartColors[.heartrate]!.withAlphaComponent(0.2)
 ]
 
+//MARK:- 数据类型颜色3
+let recordDarkColors: [RecordType: UIColor] = [
+    .sport: UIColor(colorHex: 0xc21404),
+    .sleep: UIColor(colorHex: 0x24015a),
+    .weight: UIColor(colorHex: 0x016a3f),
+    .mood: UIColor.yellow.withAlphaComponent(0.2),
+    .bloodPressure: UIColor(colorHex: 0x005e7d),
+    .heartrate: UIColor(colorHex: 0x005e7d)
+]
+
 //MARK:- 正则表达式
 struct Regex {
     let regex: NSRegularExpression?

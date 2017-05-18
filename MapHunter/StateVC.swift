@@ -581,25 +581,16 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
         
         newY = scrollView.contentOffset.y
         
-        if #available(iOS 10.0, *) {
-            if let refreshControl = tableView.refreshControl{
-                if refreshControl.isRefreshing {
-                    oldY = 0
-                    return
-                }
-            }
-        } else {
-            let refreshControls = tableView.subviews.filter(){$0.isKind(of: UIRefreshControl.self)}
-            if !refreshControls.isEmpty{
-                oldY = 0
-                return
-            }
-        }
-        
-        guard fabs(newY - oldY) > 100 else {
+        if newY <= 100 || initFresh{
+            oldY = 0
+            navigationController?.setTabbar(hidden: false)
             return
         }
-
+        
+        guard fabs(newY - oldY) > 150 else {
+            return
+        }
+        
         if newY > oldY {
             navigationController?.setTabbar(hidden: true)
         }else{

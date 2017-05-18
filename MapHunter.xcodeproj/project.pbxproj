@@ -162,7 +162,6 @@
 		BE3DB3291E963D4F001CA7AF /* BootScanCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB3281E963D4F001CA7AF /* BootScanCell.swift */; };
 		BE3DB32C1E9644D6001CA7AF /* BootLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB32B1E9644D6001CA7AF /* BootLoginVC.swift */; };
 		BE3DB32F1E972179001CA7AF /* AppointScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB32E1E972179001CA7AF /* AppointScanVC.swift */; };
-		BE3DB3341E973BDC001CA7AF /* BootRegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB3331E973BDC001CA7AF /* BootRegisterVC.swift */; };
 		BE3DB3361E976D4B001CA7AF /* LocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3DB3351E976D4B001CA7AF /* LocalNotification.swift */; };
 		BE3E747E1E9DC44A00D571BB /* BootPreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3E747D1E9DC44A00D571BB /* BootPreVC.swift */; };
 		BE3E74801E9E185600D571BB /* BootBluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3E747F1E9E185600D571BB /* BootBluetooth.swift */; };
@@ -201,6 +200,11 @@
 		BE6455D41EA4C83B00C8A416 /* NotifyApplehealthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6455D31EA4C83B00C8A416 /* NotifyApplehealthVC.swift */; };
 		BE6ACD851DBC583C006C4471 /* TopScrollDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6ACD841DBC583C006C4471 /* TopScrollDelegate.swift */; };
 		BE71B9E71DBF4CAA00143E1E /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71B9E61DBF4CAA00143E1E /* Net.swift */; };
+		BE72482B1ECBE10E008099B7 /* RecordFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7248291ECBE10E008099B7 /* RecordFooter.swift */; };
+		BE72482C1ECBE10E008099B7 /* RecordHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE72482A1ECBE10E008099B7 /* RecordHeader.swift */; };
+		BE72482E1ECBE2E0008099B7 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE72482D1ECBE2E0008099B7 /* UMMobClick.framework */; };
+		BE7248301ECBEC36008099B7 /* BootRegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE72482F1ECBEC36008099B7 /* BootRegisterVC.swift */; };
+		BE7248321ECC0783008099B7 /* RecordSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7248311ECC0783008099B7 /* RecordSelector.swift */; };
 		BE7319FD1E0B7D9B002BDF2D /* DetailScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7319FC1E0B7D9B002BDF2D /* DetailScrollView.swift */; };
 		BE7319FF1E0B7F00002BDF2D /* DetailTop.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7319FE1E0B7F00002BDF2D /* DetailTop.swift */; };
 		BE731A011E0B8958002BDF2D /* DetailBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE731A001E0B8958002BDF2D /* DetailBack.swift */; };
@@ -653,7 +657,6 @@
 		BE3DB3281E963D4F001CA7AF /* BootScanCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootScanCell.swift; sourceTree = "<group>"; };
 		BE3DB32B1E9644D6001CA7AF /* BootLoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootLoginVC.swift; sourceTree = "<group>"; };
 		BE3DB32E1E972179001CA7AF /* AppointScanVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppointScanVC.swift; sourceTree = "<group>"; };
-		BE3DB3331E973BDC001CA7AF /* BootRegisterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootRegisterVC.swift; sourceTree = "<group>"; };
 		BE3DB3351E976D4B001CA7AF /* LocalNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalNotification.swift; sourceTree = "<group>"; };
 		BE3E747D1E9DC44A00D571BB /* BootPreVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootPreVC.swift; sourceTree = "<group>"; };
 		BE3E747F1E9E185600D571BB /* BootBluetooth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootBluetooth.swift; sourceTree = "<group>"; };
@@ -691,6 +694,11 @@
 		BE6455D31EA4C83B00C8A416 /* NotifyApplehealthVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotifyApplehealthVC.swift; sourceTree = "<group>"; };
 		BE6ACD841DBC583C006C4471 /* TopScrollDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopScrollDelegate.swift; sourceTree = "<group>"; };
 		BE71B9E61DBF4CAA00143E1E /* Net.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
+		BE7248291ECBE10E008099B7 /* RecordFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordFooter.swift; sourceTree = "<group>"; };
+		BE72482A1ECBE10E008099B7 /* RecordHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordHeader.swift; sourceTree = "<group>"; };
+		BE72482D1ECBE2E0008099B7 /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
+		BE72482F1ECBEC36008099B7 /* BootRegisterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BootRegisterVC.swift; sourceTree = "<group>"; };
+		BE7248311ECC0783008099B7 /* RecordSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordSelector.swift; sourceTree = "<group>"; };
 		BE7319FC1E0B7D9B002BDF2D /* DetailScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailScrollView.swift; sourceTree = "<group>"; };
 		BE7319FE1E0B7F00002BDF2D /* DetailTop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailTop.swift; sourceTree = "<group>"; };
 		BE731A001E0B8958002BDF2D /* DetailBack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailBack.swift; sourceTree = "<group>"; };
@@ -780,6 +788,7 @@
 				BE0DD6EE1EA6318D00574139 /* libresolv.tbd in Frameworks */,
 				BE0DD8D41EA6FD6E00574139 /* libBLEasyConfig.a in Frameworks */,
 				BE0DD6EC1EA6318100574139 /* libicucore.tbd in Frameworks */,
+				BE72482E1ECBE2E0008099B7 /* UMMobClick.framework in Frameworks */,
 				BEB3E07E1EAF2671005DCEBD /* PgyUpdate.framework in Frameworks */,
 				BE0DD8E11EA6FD6E00574139 /* libAbleCloudLib.a in Frameworks */,
 				BE0DD8D81EA6FD6E00574139 /* libXlwDevice.a in Frameworks */,
@@ -1912,6 +1921,7 @@
 		BE2DC9E71D9210A300978C97 /* MapHunter */ = {
 			isa = PBXGroup;
 			children = (
+				BE72482D1ECBE2E0008099B7 /* UMMobClick.framework */,
 				BEB3E07B1EAF2671005DCEBD /* PgySDK.framework */,
 				BEB3E07C1EAF2671005DCEBD /* PgyUpdate.framework */,
 				BEAE9E651E84AAD5000C1452 /* MapHunter.entitlements */,
@@ -2056,7 +2066,7 @@
 		BE3DB3301E973B65001CA7AF /* 初始化注册 */ = {
 			isa = PBXGroup;
 			children = (
-				BE3DB3331E973BDC001CA7AF /* BootRegisterVC.swift */,
+				BE72482F1ECBEC36008099B7 /* BootRegisterVC.swift */,
 				BE0DD4F91EA5ECA800574139 /* AgreementVC.swift */,
 			);
 			name = "初始化注册";
@@ -2145,6 +2155,15 @@
 				BE71B9E61DBF4CAA00143E1E /* Net.swift */,
 			);
 			name = Net;
+			sourceTree = "<group>";
+		};
+		BE7248281ECBE0FF008099B7 /* 头尾 */ = {
+			isa = PBXGroup;
+			children = (
+				BE7248291ECBE10E008099B7 /* RecordFooter.swift */,
+				BE72482A1ECBE10E008099B7 /* RecordHeader.swift */,
+			);
+			name = "头尾";
 			sourceTree = "<group>";
 		};
 		BE731A041E0BCF4E002BDF2D /* 顶部图 */ = {
@@ -2284,6 +2303,8 @@
 			children = (
 				BED2ADA81EC45EC4002A1837 /* RecordTableView.swift */,
 				BED2ADAA1EC46E18002A1837 /* RecordTabelViewCell.swift */,
+				BE7248311ECC0783008099B7 /* RecordSelector.swift */,
+				BE7248281ECBE0FF008099B7 /* 头尾 */,
 			);
 			name = RecordExtension;
 			sourceTree = "<group>";
@@ -2533,6 +2554,7 @@
 				BE503E3A1E9F634A00C5A3FE /* BootOtherCell.swift in Sources */,
 				BE8685401E28DFF100EBEBED /* DefaultVC.swift in Sources */,
 				BE0DD8B01EA6FD6E00574139 /* QNResolver.m in Sources */,
+				BE72482C1ECBE10E008099B7 /* RecordHeader.swift in Sources */,
 				BE6055951E7BC5A100039CA0 /* Loading.swift in Sources */,
 				BE0DD4F61EA5B0CB00574139 /* FindPasswordVC.swift in Sources */,
 				BE3DB3241E9624A1001CA7AF /* BootCell.swift in Sources */,
@@ -2551,7 +2573,6 @@
 				BE198C131E793A4200B11A90 /* ScanCell.swift in Sources */,
 				BE0DD88D1EA6FD6E00574139 /* AFURLSessionManager.m in Sources */,
 				BE0DD8A51EA6FD6E00574139 /* QNPHAssetResource.m in Sources */,
-				BE3DB3341E973BDC001CA7AF /* BootRegisterVC.swift in Sources */,
 				32C3E6241E07E5F400D34A74 /* MeCell3.swift in Sources */,
 				BEDF4F3F1D93942E00E98D63 /* MeVC.swift in Sources */,
 				BE86854D1E2F6CED00EBEBED /* PathRemindSettingVC.swift in Sources */,
@@ -2651,6 +2672,7 @@
 				BECD4F191EA1C48000C9136C /* InfoBaseView.swift in Sources */,
 				32C3E6361E0A7D8D00D34A74 /* MeSetting.swift in Sources */,
 				BE0DD88F1EA6FD6E00574139 /* AFImageDownloader.m in Sources */,
+				BE7248301ECBEC36008099B7 /* BootRegisterVC.swift in Sources */,
 				32D4123F1DED713D008EE637 /* DetailCell.swift in Sources */,
 				BEB248F71D9CB6DC00C9F9ED /* SubCell.swift in Sources */,
 				BE0DD88A1EA6FD6E00574139 /* AFSecurityPolicy.m in Sources */,
@@ -2666,6 +2688,7 @@
 				BE576FF11E248CFE006BAD1C /* FunVC.swift in Sources */,
 				BE5770051E25E3B7006BAD1C /* FunOriginViewController.swift in Sources */,
 				BE6455C41EA4C00700C8A416 /* NotifyLocalNotifyVC.swift in Sources */,
+				BE7248321ECC0783008099B7 /* RecordSelector.swift in Sources */,
 				BE3E74841E9E212D00D571BB /* BootConnectedVC.swift in Sources */,
 				BE1F53491DC2FE7900EAD9BA /* Time.swift in Sources */,
 				BED2AD9C1EC44754002A1837 /* RecordSportVC.swift in Sources */,
@@ -2742,6 +2765,7 @@
 				BE0DD8931EA6FD6E00574139 /* UIImageView+AFNetworking.m in Sources */,
 				BE3DB3271E963CFA001CA7AF /* BootScanVC.swift in Sources */,
 				BE4BFE9C1E150FD200F3FE91 /* IntroduceVC.swift in Sources */,
+				BE72482B1ECBE10E008099B7 /* RecordFooter.swift in Sources */,
 				32C3E6341E0A694E00D34A74 /* AlertExtension.swift in Sources */,
 				BE41E67A1E8D097400387B59 /* ActiveForcesVC.swift in Sources */,
 				BE308E191EB830D70096B84E /* MainSubMenuButton.swift in Sources */,
