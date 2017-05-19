@@ -18,11 +18,11 @@ let recordAttributeMap: [RecordType: [RecordSubType]] = [
 
 class RecordTableView: UIView {
     
-    fileprivate let openOriginY: CGFloat = 64 + 8                   //展开Y轴位置
-    fileprivate let closeOriginY = view_size.height * 0.4           //收起Y轴位置
+    let openOriginY: CGFloat = 64 + 8                   //展开Y轴位置
+    let closeOriginY = view_size.height * 0.5           //收起Y轴位置
     
     //MARK:- 类型
-    private var type: RecordType?
+    private var type: RecordType!
     
     //MARK:- 存储需显示的数据名称列表
     private var attributeList: [RecordSubType]?
@@ -33,9 +33,10 @@ class RecordTableView: UIView {
     private var footer: RecordFooter?
     
     //是否展开
+    var openClosure: ((_ type: RecordType, _ isOpen: Bool)->())?
     var isOpen = false {
         didSet{
-            
+            openClosure?(type, isOpen)
             //动画
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
                 
@@ -87,6 +88,10 @@ class RecordTableView: UIView {
     
     //存储当前选择的subType
     private var selectedSubType: RecordSubType?
+    
+    //需存储的数据
+    static var sportType: SportType?
+    static var sportLevel: Int?
     
     //MARK:- init ************************************************************************************
     init(withRecordType type: RecordType) {
@@ -165,15 +170,15 @@ class RecordTableView: UIView {
             //设置选择回调
             recordTableViewCell.selectedClosure = {
                 cellType, value, eligible in                
-                
-                //文字
-                var detailText = ""
+             
                 switch cellType as RecordSubType{
                 case .sportActivityType:
-                    if let sportType = value as? Int16{
+                    if let sportType = value as? SportType{
+                        RecordTableView.sportType = sportType
                     }
                 case .sportLevel:
-                    if let level = value as? CGFloat{
+                    if let level = value as? Int{
+                        RecordTableView.sportLevel = level
                     }
                 case .sportStartDate:
                     if let date = value as? Date{

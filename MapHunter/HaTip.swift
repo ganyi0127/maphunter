@@ -80,7 +80,7 @@ class HaTip: UITableViewCell {
         scrollView?.delegate = self
         addSubview(scrollView!)
         
-        let pageControlFrame = CGRect(x: 0, y: scrollFrame.origin.y + scrollFrame.height, width: hatip_width, height: 20)
+        let pageControlFrame = CGRect(x: 0, y: scrollFrame.origin.y + scrollFrame.height, width: contentView.frame.width, height: 20)
         pageControl = UIPageControl(frame: pageControlFrame)
         pageControl?.currentPage = 0
         pageControl?.currentPageIndicatorTintColor = UIColor.gray

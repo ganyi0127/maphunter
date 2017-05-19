@@ -32,9 +32,6 @@ class RecordHeader: UIView {
         label.font = fontTiny
         label.textAlignment = .left
         label.textColor = .white
-        let format = DateFormatter()
-        format.dateFormat = "yyy-M-d"
-        label.text = format.string(from: self.leftDate)
         return label
     }()
     
@@ -45,9 +42,6 @@ class RecordHeader: UIView {
         label.font = fontTiny
         label.textAlignment = .right
         label.textColor = .white
-        let format = DateFormatter()
-        format.dateFormat = "yyy-M-d"
-        label.text = format.string(from: self.rightDate)
         return label
     }()
     
@@ -88,6 +82,9 @@ class RecordHeader: UIView {
         shapeLayer.fillColor = recordDarkColors[type]?.cgColor
         shapeLayer.lineWidth = 0
         layer.addSublayer(shapeLayer)
+        
+        leftDate = Date()
+        rightDate = Date()
     }
     
     private func createContents(){

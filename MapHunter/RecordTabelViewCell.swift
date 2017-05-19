@@ -52,14 +52,29 @@ class RecordTabelViewCell: UIView {
             var detailText = ""
             switch cellType as RecordSubType{
             case .sportActivityType:
-                if let sportType = value as? Int16{
-                    detailText = "\(sportType)"
+                if let sportType = value as? SportType{
+                    if let typeName = sportTypeNameMap[sportType]{
+                        detailText = typeName
+                    }else{
+                        detailText = "-"
+                    }
                 }else{
                     detailText = "-"
                 }
             case .sportLevel:
-                if let level = value as? CGFloat{
-                    detailText = "\(level)"
+                if let level = value as? Int{
+                    switch level {
+                    case 0:
+                        detailText = "Easy"
+                    case 1:
+                        detailText = "Moderate"
+                    case 2:
+                        detailText = "In the zone"
+                    case 3:
+                        detailText = "Difficult"
+                    default:
+                        detailText = "Cut buster"
+                    }
                 }else{
                     detailText = "-"
                 }
@@ -366,11 +381,12 @@ class RecordTabelViewCell: UIView {
             
             contentHeight = 0
            
+            self.recordSelector?.alpha = 0
+            self.recordSelector?.frame = CGRect(x: 0, y: self.frame.height, width: self.frame.width, height: 1)
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
                 self.contentView?.alpha = 0
                 self.contentView?.frame = CGRect(x: 0, y: self.frame.height, width: self.frame.width, height: 1)
                 
-                self.recordSelector?.alpha = 0
             }, completion: {
                 complete in
                 self.recordSelector?.removeFromSuperview()

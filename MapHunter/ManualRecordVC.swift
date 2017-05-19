@@ -16,6 +16,19 @@ class ManualRecordVC: UIViewController {
     
     var type: RecordType!
     
+    //选择列表
+    var recordTableView: RecordTableView?
+    
+    //头
+    var recordHeaderView: RecordHeaderView?
+    
+    //毛玻璃
+    private lazy var effectView = { () -> UIVisualEffectView in
+        let blur: UIBlurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let effectView: UIVisualEffectView = UIVisualEffectView(effect: blur)
+        effectView.frame = CGRect(x: 0, y: 0, width: view_size.width, height: view_size.height)
+        return effectView
+    }()
     
     //MARK:- init**************************************************************************************************
     init(withRecordType type: RecordType){
@@ -73,8 +86,67 @@ class ManualRecordVC: UIViewController {
         view.addSubview(acceptButton)
         
         //添加记录选择器
-        let recordTableView = RecordTableView(withRecordType: type)
-        view.addSubview(recordTableView)
+        if type != RecordType.mood {
+            recordTableView = RecordTableView(withRecordType: type)
+            
+            recordTableView?.openClosure = {
+                recordType, isOpen in
+                
+                switch recordType {
+                case .sport:
+                    //更新header视图
+                    let sportType = RecordTableView.sportType
+                    self.recordHeaderView?.sportType = sportType
+                case .sleep:
+                    break
+                case .weight:
+                    break
+                case .bloodPressure:
+                    break
+                case .heartrate:
+                    break
+                default:
+                    //身心状态不进行处理
+                    break
+                }
+                
+                if isOpen{
+                    if self.effectView.superview == nil{
+                        self.effectView.alpha = 0
+                        self.view.insertSubview(self.effectView, at: 1)
+                    }
+                }else{
+                }
+                
+                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                    if isOpen{
+                        self.recordHeaderView?.alpha = 0
+                        self.effectView.alpha = 1
+                    }else{
+                        self.recordHeaderView?.alpha = 1
+                        self.effectView.alpha = 0
+                    }
+                }, completion: {
+                    complete in
+                    guard complete else{
+                        return
+                    }
+                    
+                    if isOpen{
+                        
+                    }else{
+                        if self.effectView.superview != nil{
+                            self.effectView.removeFromSuperview()
+                        }
+                    }
+                })
+            }
+            
+            view.addSubview(recordTableView!)
+            
+            recordHeaderView = RecordHeaderView(withRecordType: type, top: recordTableView!.openOriginY, bottom: recordTableView!.closeOriginY)
+            view.insertSubview(recordHeaderView!, belowSubview: recordTableView!)
+        }
     }
     
     //MARK:- 点击按钮 同意

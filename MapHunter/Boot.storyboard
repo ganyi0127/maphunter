@@ -294,7 +294,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QZA-JM-kbQ">
-                                        <rect key="frame" x="63" y="43" width="43" height="44"/>
+                                        <rect key="frame" x="62" y="43" width="44" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="QZA-JM-kbQ" secondAttribute="height" multiplier="1:1" id="cQL-dW-141"/>
                                         </constraints>
@@ -1637,6 +1637,6 @@
         <image name="resource/scan/warning" width="16" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9nL-Xg-rTl"/>
+        <segue reference="9p5-Zr-Kzu"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -189,6 +189,8 @@
 		BE5770031E25DD8B006BAD1C /* SpriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5770021E25DD8B006BAD1C /* SpriteViewController.swift */; };
 		BE5770051E25E3B7006BAD1C /* FunOriginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5770041E25E3B7006BAD1C /* FunOriginViewController.swift */; };
 		BE5770091E28D6DB006BAD1C /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5770081E28D6DA006BAD1C /* Setting.swift */; };
+		BE5CB3511ECD38A60062499C /* RecordCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5CB3501ECD38A60062499C /* RecordCollectionCell.swift */; };
+		BE5CB3541ECD97F70062499C /* RecordHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5CB3531ECD97F70062499C /* RecordHeaderView.swift */; };
 		BE6055931E7B81AB00039CA0 /* FunctableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6055921E7B81AB00039CA0 /* FunctableCell.swift */; };
 		BE6055951E7BC5A100039CA0 /* Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6055941E7BC5A100039CA0 /* Loading.swift */; };
 		BE6455BB1EA47C8A00C8A416 /* InfoSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6455BA1EA47C8A00C8A416 /* InfoSelector.swift */; };
@@ -683,6 +685,8 @@
 		BE5770021E25DD8B006BAD1C /* SpriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteViewController.swift; sourceTree = "<group>"; };
 		BE5770041E25E3B7006BAD1C /* FunOriginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunOriginViewController.swift; sourceTree = "<group>"; };
 		BE5770081E28D6DA006BAD1C /* Setting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
+		BE5CB3501ECD38A60062499C /* RecordCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordCollectionCell.swift; sourceTree = "<group>"; };
+		BE5CB3531ECD97F70062499C /* RecordHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordHeaderView.swift; sourceTree = "<group>"; };
 		BE6055921E7B81AB00039CA0 /* FunctableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctableCell.swift; sourceTree = "<group>"; };
 		BE6055941E7BC5A100039CA0 /* Loading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loading.swift; sourceTree = "<group>"; };
 		BE6455BA1EA47C8A00C8A416 /* InfoSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoSelector.swift; sourceTree = "<group>"; };
@@ -2121,6 +2125,14 @@
 			name = path;
 			sourceTree = "<group>";
 		};
+		BE5CB3521ECD97DB0062499C /* 顶部视图 */ = {
+			isa = PBXGroup;
+			children = (
+				BE5CB3531ECD97F70062499C /* RecordHeaderView.swift */,
+			);
+			name = "顶部视图";
+			sourceTree = "<group>";
+		};
 		BE60558D1E7A957000039CA0 /* 设备 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2279,6 +2291,7 @@
 			children = (
 				BE308E181EB830D70096B84E /* MainSubMenuButton.swift */,
 				BED2AD981EC41B6C002A1837 /* ManualRecordVC.swift */,
+				BE5CB3521ECD97DB0062499C /* 顶部视图 */,
 				BED2ADA71EC45E86002A1837 /* RecordExtension */,
 				BED2AD9A1EC44731002A1837 /* 记录类型 */,
 			);
@@ -2304,6 +2317,7 @@
 				BED2ADA81EC45EC4002A1837 /* RecordTableView.swift */,
 				BED2ADAA1EC46E18002A1837 /* RecordTabelViewCell.swift */,
 				BE7248311ECC0783008099B7 /* RecordSelector.swift */,
+				BE5CB3501ECD38A60062499C /* RecordCollectionCell.swift */,
 				BE7248281ECBE0FF008099B7 /* 头尾 */,
 			);
 			name = RecordExtension;
@@ -2716,6 +2730,7 @@
 				BE0DD8871EA6FD6E00574139 /* aes_core.c in Sources */,
 				BE0DD8AC1EA6FD6E00574139 /* QNDnspodEnterprise.m in Sources */,
 				BE0DD8C61EA6FD6E00574139 /* MXCHIPAirlink.m in Sources */,
+				BE5CB3541ECD97F70062499C /* RecordHeaderView.swift in Sources */,
 				BE86854B1E2F624B00EBEBED /* PathTargetSettingVC.swift in Sources */,
 				BE0DD8B31EA6FD6E00574139 /* QNDes.m in Sources */,
 				BE5770011E25DD75006BAD1C /* MyRouteViewController.swift in Sources */,
@@ -2725,6 +2740,7 @@
 				BE308E201EB87F4B0096B84E /* TipAlertUnlike.swift in Sources */,
 				BEDF4F771D9909ED00E98D63 /* TopScrollView.swift in Sources */,
 				BE6ACD851DBC583C006C4471 /* TopScrollDelegate.swift in Sources */,
+				BE5CB3511ECD38A60062499C /* RecordCollectionCell.swift in Sources */,
 				BED2ADA41EC447AA002A1837 /* RecordBloodPressureVC.swift in Sources */,
 				BE0DD8E01EA6FD6E00574139 /* YYClassInfo.m in Sources */,
 				BE4BFE981E1502F300F3FE91 /* BottomPushController.swift in Sources */,

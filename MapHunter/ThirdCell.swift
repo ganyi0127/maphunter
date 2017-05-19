@@ -41,8 +41,8 @@ enum SportType: Int16{
     case skiing
     case skating
     case dancing
-    
     case boating
+    
     case sleep
     case weight
     case bloodPressure
@@ -53,6 +53,8 @@ enum SportType: Int16{
 }
 
 let sportTypeNameMap: [SportType: String] = [
+    .none: "",
+    
     .walking: "walking",
     .running: "running",
     .riding: "riding",

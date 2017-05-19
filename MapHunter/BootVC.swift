@@ -141,7 +141,6 @@ extension BootVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
             backImageView.image = image
             cell.contentView.addSubview(backImageView)
         }
-//        pageControl.currentPage = row
         return cell
     }
     

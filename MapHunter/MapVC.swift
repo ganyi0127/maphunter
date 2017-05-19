@@ -814,6 +814,7 @@ extension MapVC: CLLocationManagerDelegate{
                     }
                     
                     trackOverlay?.add(currentLocationList[1], velcity: endVelcity)
+                    
                     mapView.add(trackOverlay!, level: .aboveLabels)
                     
                     print("mapViewOverLayCount: \(mapView.overlays.count)")
