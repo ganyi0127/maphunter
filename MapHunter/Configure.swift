@@ -96,7 +96,7 @@ let recordDarkColors: [RecordType: UIColor] = [
     .sport: UIColor(colorHex: 0xc21404),
     .sleep: UIColor(colorHex: 0x24015a),
     .weight: UIColor(colorHex: 0x016a3f),
-    .mood: UIColor.yellow.withAlphaComponent(0.2),
+    .mood: UIColor(colorHex: 0x005e7d),
     .bloodPressure: UIColor(colorHex: 0x005e7d),
     .heartrate: UIColor(colorHex: 0x005e7d)
 ]

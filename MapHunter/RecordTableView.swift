@@ -92,6 +92,8 @@ class RecordTableView: UIView {
     //需存储的数据
     static var sportType: SportType?
     static var sportLevel: Int?
+    static var sleepDate: Date?
+    static var wakeDate: Date?
     
     //MARK:- init ************************************************************************************
     init(withRecordType type: RecordType) {
@@ -194,16 +196,20 @@ class RecordTableView: UIView {
                 case .sleepDate:
                     if let date = value as? Date{
                         self.header?.leftDate = date
+                        RecordTableView.sleepDate = date
                     }else{
                         let defaultDate = Date(timeInterval: -30 * 60, since: Date())
                         self.header?.leftDate = defaultDate
+                        RecordTableView.sleepDate = defaultDate
                     }
                 case .wakeDate:
                     if let date = value as? Date{
                         self.header?.rightDate = date
+                        RecordTableView.wakeDate = date
                     }else{
                         let defaultDate = Date(timeInterval: -30 * 60, since: Date())
                         self.header?.rightDate = defaultDate
+                        RecordTableView.wakeDate = defaultDate
                     }
                 case .weightValue:
                     if let weight = value as? CGFloat{

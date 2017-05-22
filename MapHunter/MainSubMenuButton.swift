@@ -7,7 +7,7 @@
 //
 
 import Foundation
-let originMainSubMenuButtonSize = CGSize(width: 48, height: 48)
+let originMainSubMenuButtonSize = CGSize(width: 88, height: 88)
 let initMainSubMenuButtonSize = CGSize(width: 1, height: 1)
 class MainSubMenuButton: UIButton {
     
@@ -41,7 +41,7 @@ class MainSubMenuButton: UIButton {
     
     private func config(){
         if let i = index {
-            setImage(UIImage(named: "resource/submenuicon/\(i)"), for: .normal)
+            setImage(UIImage(named: "resource/submenuicon/\(i)")?.transfromImage(size: CGSize(width: 48, height: 48)), for: .normal)
             tag = i
         }
     }
@@ -52,7 +52,7 @@ class MainSubMenuButton: UIButton {
             return
         }
         
-        let labelFrame = CGRect(x: 0, y: originMainSubMenuButtonSize.height + 4, width: originMainSubMenuButtonSize.width, height: 17)
+        let labelFrame = CGRect(x: 0, y: originMainSubMenuButtonSize.height - 17, width: originMainSubMenuButtonSize.width, height: 17)
         let label = UILabel(frame: labelFrame)
         label.textAlignment = .center
         label.textColor = .white

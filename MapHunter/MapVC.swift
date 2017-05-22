@@ -139,7 +139,7 @@ class MapVC: UIViewController {
     fileprivate var selectAnnotationView:MKAnnotationView?
     
     //MARK:保存实时位置
-    fileprivate var locationList = [(latitude: Double, longitude: Double)]()
+    fileprivate var locationList = [(latitude: Double, longitude: Double, velcity: Float)]()
     fileprivate var pasttimeList = [TimeInterval]()
     fileprivate var subDistanceList = [Double]()
     var isPause = false
@@ -701,7 +701,7 @@ extension MapVC: CLLocationManagerDelegate{
         if locationList.isEmpty{
             
             //放置起始点
-            locationList.append((latitude: coordinate.latitude, longitude: coordinate.longitude))
+            locationList.append((latitude: coordinate.latitude, longitude: coordinate.longitude, velcity: 0))
             
             //第一次回调
             delegate?.map(coordinate: coordinate,
@@ -784,10 +784,10 @@ extension MapVC: CLLocationManagerDelegate{
                     endVelcity = 0
                 }else{
                     //记录状态
-                    locationList.append((latitude: coordinate.latitude, longitude: coordinate.longitude))
+                    endVelcity = Float(distance / deltaSec) * 3.6
+                    locationList.append((latitude: coordinate.latitude, longitude: coordinate.longitude, velcity: endVelcity))
                     subDistanceList.append(distance)
                     pasttimeList.append(deltaSec)
-                    endVelcity = Float(distance / deltaSec) * 3.6
 //                    delegate?.map(pastTime: deltaSec)
                     //记录总距离
                     if let currentDistance = totalDistance{
@@ -802,24 +802,43 @@ extension MapVC: CLLocationManagerDelegate{
                     //临时存储结束速度
                     preVelcity = endVelcity
                     
-                    print("velcity:\n start-\(startVelcity)\n end---\(endVelcity)")
-                    print(currentLocationList)
+                    debugPrint("velcity:\n start-\(startVelcity)\n end---\(endVelcity)")
+                    debugPrint(currentLocationList)
                     
-                    //绘制路径
-                    if trackOverlay == nil{
+                    //优化路径绘制
+                    if mapView.overlays.count > 50{
+                        trackOverlay = nil
+                        mapView.removeOverlays(mapView.overlays)
+                        var preLocation: CLLocationCoordinate2D?
+                        var preVelcity: Float?
+                        locationList.forEach{
+                            latitude, longitude, velcity in
+                            let curLocation = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                            if let pLocation = preLocation, let pVelcity = preVelcity{
+                                if trackOverlay == nil{
+                                    trackOverlay = GradientPolylineOverlay(start: pLocation,
+                                                                           end: curLocation,
+                                                                           startVelcity: pVelcity,
+                                                                           endVelcity: velcity)
+                                }else{
+                                    trackOverlay?.add(curLocation, velcity: velcity)
+                                }
+                            }
+                            preLocation = curLocation
+                            preVelcity = velcity
+                        }
+                        mapView.add(trackOverlay!, level: .aboveLabels)
+                    }else{
+                        //绘制路径
                         trackOverlay = GradientPolylineOverlay(start: currentLocationList[0],
                                                                end: currentLocationList[1],
                                                                startVelcity: startVelcity,
                                                                endVelcity: endVelcity)
+                        mapView.add(trackOverlay!, level: .aboveLabels)
                     }
                     
-                    trackOverlay?.add(currentLocationList[1], velcity: endVelcity)
-                    
-                    mapView.add(trackOverlay!, level: .aboveLabels)
-                    
-                    print("mapViewOverLayCount: \(mapView.overlays.count)")
+                    debugPrint("mapViewOverLayCount: \(mapView.overlays.count)")
                 }
-                
             }
         }
     }

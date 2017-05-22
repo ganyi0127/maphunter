@@ -108,14 +108,14 @@ class RecordTabelViewCell: UIView {
                     detailText = format.string(from: defaultDate)
                 }
             case .weightValue:
-                if let weight = value as? CGFloat{
-                    detailText = "\(weight)kg"
+                if let weight = value as? Int{
+                    detailText = String(format: "%.1f", CGFloat(weight) / 10000) + "kg"
                 }else{
-                    detailText = "-kg"
+                    detailText = "-"
                 }
             case .weightFat:
-                if let fat = value as? CGFloat{
-                    detailText = "\(fat)"
+                if let fat = value as? Int{
+                    detailText = "\(fat)%"
                 }else{
                     detailText = "-"
                 }
@@ -130,13 +130,13 @@ class RecordTabelViewCell: UIView {
                 if let pressure = value as? Int{
                     detailText = "\(pressure)mmHg"
                 }else{
-                    detailText = "-mmHg"
+                    detailText = "-"
                 }
             case .systolicPressure:
                 if let pressure = value as? Int{
                     detailText = "\(pressure)mmHg"
                 }else{
-                    detailText = "-mmHg"
+                    detailText = "-"
                 }
             case .pressureDate:
                 if let date = value as? Date{
@@ -146,16 +146,16 @@ class RecordTabelViewCell: UIView {
                     detailText = format.string(from: defaultDate)
                 }
             case .heartrateActivityType:
-                if let sportType = value as? Int16{
-                    detailText = "\(sportType)"
+                if let heartrateType = value as? Int16{
+                    detailText = heartrateType == 0 ? "静息心率" : "静止心率"
                 }else{
-                    detailText = "未知"
+                    detailText = "-"
                 }
             case .heartrateValue:
                 if let heartrate = value as? Int{
                     detailText = "\(heartrate)次/分钟"
                 }else{
-                    detailText = "0次/分钟"
+                    detailText = "-"
                 }
             case .heartrateDate:
                 if let date = value as? Date{
@@ -293,7 +293,7 @@ class RecordTabelViewCell: UIView {
         case .weightValue:
             titleText = "体重"
         case .weightFat:
-            titleText = "体内脂肪%"
+            titleText = "体脂"
         case .weightDate:
             titleText = "时间"
         case .diastolicPressure:

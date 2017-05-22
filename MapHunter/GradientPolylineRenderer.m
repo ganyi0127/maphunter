@@ -109,7 +109,7 @@
             //跑步渐变
             ccolor = [UIColor colorWithHue:hues[i] saturation:1.0f brightness:1.0f alpha:1.0f];
             if (i==0){
-//                pcolor = [UIColor colorWithHue:hues[i] saturation:1.0f brightness:1.0f alpha:1.0f];
+                pcolor = [UIColor colorWithHue:hues[i] saturation:1.0f brightness:1.0f alpha:1.0f];
                 CGPathMoveToPoint(path, nil, point.x, point.y);
             } else {
                 CGPoint prevPoint = [self pointForMapPoint:polyline.points[i-1]];

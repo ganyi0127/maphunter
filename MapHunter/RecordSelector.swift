@@ -10,18 +10,22 @@ import Foundation
 class RecordSelector: UIView {
     
     //体重整数位
-    fileprivate var weightDataList: [Int]{
+    fileprivate var weightMin: CGFloat?
+    fileprivate var weightMax: CGFloat?
+    fileprivate lazy var weightDataList: [Int] = {
         var list = [Int]()
         var udWeight = userDefaults.integer(forKey: "weight")
         if udWeight == 0{
             udWeight = 65
         }
-        ((udWeight / 3)..<(udWeight * 3)).forEach{
+        self.weightMin = CGFloat(udWeight / 10000 / 3)
+        self.weightMax = CGFloat(udWeight / 10000 * 3)
+        (Int(self.weightMin!)..<Int(self.weightMax!)).forEach{
             i in
             list.append(i)
         }
         return list
-    }
+    }()
     
     //体重小数位
     fileprivate var weightDotDataList: [Int]{
@@ -35,6 +39,16 @@ class RecordSelector: UIView {
     
     //体重单位
     fileprivate var weightUnitDataList = ["千克", "磅"]
+    
+    //体脂率
+    fileprivate var weightFitDataList: [Int]{
+        var list = [Int]()
+        (0..<100).forEach{
+            v in
+            list.append(v)
+        }
+        return list
+    }
     
     fileprivate var type: RecordSubType!
     
@@ -90,6 +104,24 @@ class RecordSelector: UIView {
             pickerView?.delegate = self
             pickerView?.dataSource = self
             addSubview(pickerView!)
+            
+            //设置默认值
+            if type == .weightValue {
+                let udWeight = userDefaults.integer(forKey: "weight")
+                if udWeight != 0 {
+                    
+                    pickerView?.selectRow(udWeight / 10000, inComponent: 0, animated: true)
+                    pickerView?.selectRow(udWeight % 10000 / 1000, inComponent: 1, animated: true)
+                }
+            }else if type == .weightFat{
+                pickerView?.selectRow(20, inComponent: 0, animated: true)
+            }else if type == .diastolicPressure {
+                pickerView?.selectRow(120, inComponent: 0, animated: true)
+            }else if type == .diastolicPressure{
+                pickerView?.selectRow(80, inComponent: 0, animated: true)
+            }else if type == .heartrateValue{
+                pickerView?.selectRow(70, inComponent: 0, animated: true)
+            }
         case .sportActivityType:
             //自定义选择器
             let pageContolHeight: CGFloat = 20
@@ -259,15 +291,15 @@ extension RecordSelector: UIPickerViewDelegate, UIPickerViewDataSource{
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch type as RecordSubType {
         case .weightFat:
-            return 100
+            return weightFitDataList.count
         case .diastolicPressure:
-            return 40
+            return 250
         case .systolicPressure:
-            return 40
+            return 250
         case .heartrateActivityType:
             return 2
         case .heartrateValue:
-            return 250
+            return 250 - 20
         case .weightValue:
             switch component {
             case 0:
@@ -277,7 +309,6 @@ extension RecordSelector: UIPickerViewDelegate, UIPickerViewDataSource{
             default:
                 return weightUnitDataList.count
             }
-            return weightDataList.count
         default:
             return 0
         }
@@ -298,17 +329,15 @@ extension RecordSelector: UIPickerViewDelegate, UIPickerViewDataSource{
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch type as RecordSubType {
         case .weightFat:
-            return "\(row)"
+            return "\(weightFitDataList[row])"
         case .diastolicPressure:
             return "\(row)"
         case .systolicPressure:
             return "\(row)"
         case .heartrateActivityType:
-            return "\(row)"
+            return row == 0 ? "静止心率" : "静息心率"
         case .heartrateValue:
-            return "\(row)"
-        case .sportDuration:
-            return "\(row)"
+            return "\(row + 20)"
         case .weightValue:
             switch component {
             case 0:
@@ -327,19 +356,76 @@ extension RecordSelector: UIPickerViewDelegate, UIPickerViewDataSource{
         var selectedValue: Any?
         switch type as RecordSubType {
         case .weightFat:
-            selectedValue = 44
+            selectedValue = weightFitDataList[row]
         case .diastolicPressure:
-            selectedValue = 44
+            selectedValue = row
         case .systolicPressure:
-            selectedValue = 44
+            selectedValue = row
         case .heartrateActivityType:
-            selectedValue = 44
+            selectedValue = row
         case .heartrateValue:
-            selectedValue = 44
-        case .sportDuration:
-            selectedValue = 44
+            selectedValue = row + 20
         case .weightValue:
-            selectedValue = 44
+            
+            let row0 = pickerView.selectedRow(inComponent: 0)   //整数位
+            let row1 = pickerView.selectedRow(inComponent: 1)   //小数位
+            let row2 = pickerView.selectedRow(inComponent: 2)   //单位
+            if component == 2 { //公英制切换
+                
+                //获取之前的row
+                var newIndex: Int = 0
+                var newDotIndex: Int = 0
+                
+                let min = Int(weightMin!)
+                let max = Int(weightMax!)
+                
+                //转换为当前数值
+                if row2 == 0{    //如果当前为公制，之前则为英制
+                    var newValue = lroundf((Float(weightDataList[row0]) + Float(row1) / 10) / 2.2046 * 10000)
+                    
+                    
+                    if newValue < min * 10000{
+                        newValue = min * 10000
+                    }else if newValue > max * 10000{
+                        newValue = max * 10000
+                    }
+                    
+                    newIndex = newValue / 10000 - min
+                    newDotIndex = (newValue % 10000) / 1000
+                }else{          //如果当前为英制，之前则为公制
+                    
+                    var newValue = lroundf((Float(weightDataList[row0]) + Float(weightDotDataList[row1]) / 10) * 2.2046 * 10000)
+                    
+                    if newValue < lroundf(Float(min) * 2.2046) * 10000{
+                        newValue = lroundf(Float(min) * 2.2046) * 10000
+                    }else if newValue > lroundf(Float(max) * 2.2046) * 10000{
+                        newValue = lroundf(Float(max) * 2.2046) * 10000
+                    }
+                    
+                    newIndex = newValue / 10000 - lroundf(Float(min) * 2.2046)
+                    newDotIndex = (newValue % 10000) / 1000
+                }
+                
+                
+                //清空数据
+                weightDataList.removeAll()
+                let minWeight = row == 0 ? min : lroundf(Float(min) * 2.2046)
+                let maxWeight = row == 0 ? max : lroundf(Float(max) * 2.2046)
+                (minWeight...maxWeight).forEach{
+                    weight in
+                    weightDataList.append(weight)
+                }
+                
+                //刷新控件
+                pickerView.reloadAllComponents()
+                pickerView.selectRow(newIndex, inComponent: 0, animated: true)
+                pickerView.selectRow(newDotIndex, inComponent: 1, animated: true)
+                return
+            }else{      //选择数值
+                
+                let originValue = Int((Float(weightDataList[row0]) + Float(row1) / 10) * 10000)
+                selectedValue = row2 == 0 ? originValue : lroundf(Float(originValue) / 2.2046)
+            }
         default:
             selectedValue = nil
         }
