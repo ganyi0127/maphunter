@@ -191,12 +191,41 @@ class ManualRecordVC: UIViewController {
                         (date: Date(), weight: 87.4),
                         (date: Date(), weight: 88.9),
                         (date: Date(), weight: 44.2),
-                        (date: Date(), weight: 35.4),
+                        (date: Date(), weight: 35.4)
                     ]
+                    self.recordHeaderView?.weightTarget = 65.5
                 case .bloodPressure:
-                    break
+                    self.recordHeaderView?.bloodPressureDataList = [
+                        (date: Date(), diastolic: 120, systolic: 80),
+                        (date: Date(), diastolic: 200, systolic: 180),
+                        (date: Date(), diastolic: 80, systolic: 20),
+                        (date: Date(), diastolic: 50, systolic: 39),
+                        (date: Date(), diastolic: 244, systolic: 187),
+                        (date: Date(), diastolic: 250, systolic: 199),
+                        (date: Date(), diastolic: 50, systolic: 93),
+                        (date: Date(), diastolic: 40, systolic: 70),
+                        (date: Date(), diastolic: 170, systolic: 80),
+                        (date: Date(), diastolic: 140, systolic: 111),
+                        (date: Date(), diastolic: 135, systolic: 102),
+                        (date: Date(), diastolic: 120, systolic: 100),
+                        (date: Date(), diastolic: 120, systolic: 80),
+                        (date: Date(), diastolic: 90, systolic: 70),
+                        (date: Date(), diastolic: 70, systolic: 50)
+                    ]
+                    self.recordTableView?.header?.leftDate = Date()
+                    self.recordTableView?.header?.rightDate = Date()
                 case .heartrate:
-                    break
+                    self.recordHeaderView?.heartrateDataList = [
+                        (date: Date(), heartrate: 65),
+                        (date: Date(), heartrate: 80),
+                        (date: Date(), heartrate: 93),
+                        (date: Date(), heartrate: 123),
+                        (date: Date(), heartrate: 153),
+                        (date: Date(), heartrate: 143),
+                        (date: Date(), heartrate: 103),
+                        (date: Date(), heartrate: 83),
+                        (date: Date(), heartrate: 79)
+                    ]
                 default:
                     //身心状态不进行处理
                     break

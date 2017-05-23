@@ -117,7 +117,7 @@ class RecordSelector: UIView {
                 pickerView?.selectRow(20, inComponent: 0, animated: true)
             }else if type == .diastolicPressure {
                 pickerView?.selectRow(120, inComponent: 0, animated: true)
-            }else if type == .diastolicPressure{
+            }else if type == .systolicPressure{
                 pickerView?.selectRow(80, inComponent: 0, animated: true)
             }else if type == .heartrateValue{
                 pickerView?.selectRow(70, inComponent: 0, animated: true)

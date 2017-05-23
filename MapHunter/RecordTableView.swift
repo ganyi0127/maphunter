@@ -29,7 +29,7 @@ class RecordTableView: UIView {
     private var subCells = [RecordTabelViewCell]()
     
     //MARK:- footer
-    private var header: RecordHeader?
+    var header: RecordHeader?
     private var footer: RecordFooter?
     
     //是否展开

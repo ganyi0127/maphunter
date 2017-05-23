@@ -146,8 +146,8 @@ class RecordTabelViewCell: UIView {
                     detailText = format.string(from: defaultDate)
                 }
             case .heartrateActivityType:
-                if let heartrateType = value as? Int16{
-                    detailText = heartrateType == 0 ? "静息心率" : "静止心率"
+                if let heartrateType = value as? Int{
+                    detailText = heartrateType == 0 ? "静止心率" : "静息心率"
                 }else{
                     detailText = "-"
                 }
