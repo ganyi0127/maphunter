@@ -177,7 +177,22 @@ class ManualRecordVC: UIViewController {
                         self.recordHeaderView?.sleepMinute = minute
                     }
                 case .weight:
-                    break
+                    self.recordHeaderView?.weightDataList = [
+                        (date: Date(), weight: 65.4),
+                        (date: Date(), weight: 88.9),
+                        (date: Date(), weight: 23.2),
+                        (date: Date(), weight: 76.4),
+                        (date: Date(), weight: 76.4),
+                        (date: Date(), weight: 65.4),
+                        (date: Date(), weight: 88.9),
+                        (date: Date(), weight: 23.2),
+                        (date: Date(), weight: 76.4),
+                        (date: Date(), weight: 89.4),
+                        (date: Date(), weight: 87.4),
+                        (date: Date(), weight: 88.9),
+                        (date: Date(), weight: 44.2),
+                        (date: Date(), weight: 35.4),
+                    ]
                 case .bloodPressure:
                     break
                 case .heartrate:
@@ -219,10 +234,10 @@ class ManualRecordVC: UIViewController {
                 })
             }
             
-            view.addSubview(recordTableView!)
-            
             recordHeaderView = RecordHeaderView(withRecordType: type, top: recordTableView!.openOriginY, bottom: recordTableView!.closeOriginY)
             view.insertSubview(recordHeaderView!, belowSubview: recordTableView!)
+            
+            view.addSubview(recordTableView!)
         }else{
             //身心状态
             view.addSubview(moodBackground!)
@@ -273,37 +288,45 @@ class ManualRecordVC: UIViewController {
 extension ManualRecordVC{
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard type == .mood else {
-            return
+        if type == .mood {
+            moodTypeTextField?.resignFirstResponder()
+        }else{
+            recordHeaderView?.touchesBegan(touches, with: event)
         }
-        
-        moodTypeTextField?.resignFirstResponder()
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard type == .mood else {
-            return
-        }
-        
-        moodTipView?.isHidden = true
-        
-        guard let touch = touches.first else {
-            return
-        }
-        
-        let location = touch.location(in: view)
-        let y = location.y
-        let height = view.frame.height - moodTypeTextField!.frame.height
-        let index = Int(y) / (Int(height) / moodImageList.count)
-        if index < moodImageList.count {
-            moodImageView?.image = moodImageList[index].image
-            moodTypeTextField?.text = moodImageList[index].text
+        if type == .mood {
             
-            if index == 0 {
-                moodBackground?.isHidden = false
-            }else{
-                moodBackground?.isHidden = true
+            moodTipView?.isHidden = true
+            
+            guard let touch = touches.first else {
+                return
             }
+            
+            let location = touch.location(in: view)
+            let y = location.y
+            let height = view.frame.height - moodTypeTextField!.frame.height
+            let index = Int(y) / (Int(height) / moodImageList.count)
+            if index < moodImageList.count {
+                moodImageView?.image = moodImageList[index].image
+                moodTypeTextField?.text = moodImageList[index].text
+                
+                if index == 0 {
+                    moodBackground?.isHidden = false
+                }else{
+                    moodBackground?.isHidden = true
+                }
+            }
+        }else{
+            recordHeaderView?.touchesMoved(touches, with: event)
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if type == .mood{
+        }else{
+            recordHeaderView?.touchesEnded(touches, with: event)
         }
     }
 }

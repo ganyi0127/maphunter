@@ -108,6 +108,10 @@ class RecordTableView: UIView {
         createContents()
     }
     
+    override func didMoveToSuperview() {
+        isOpen = false
+    }
+    
     deinit {
         cancel(task)
     }
@@ -119,7 +123,7 @@ class RecordTableView: UIView {
     private func config(){
         
         backgroundColor = .clear
-        isUserInteractionEnabled = true
+        isUserInteractionEnabled = true        
     }
     
     private var task: Task?     //记录展开的定时器
