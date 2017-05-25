@@ -45,7 +45,8 @@ class NotifyLocationVC: UIViewController {
         //当用户已同意 则忽略
         let status = CLLocationManager.authorizationStatus()
         debugPrint("<Notify> status: \(status)")
-        if status == .authorizedWhenInUse || status == .authorizedAlways {
+        //CLAuthorizationStatus.notDetermined //未决定
+        if status == .notDetermined {
             nextButton.isEnabled = false
             
             next(nextButton)

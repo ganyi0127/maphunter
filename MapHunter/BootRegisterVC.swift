@@ -402,11 +402,12 @@ class BootRegisterVC: UIViewController {
                             userDefaults.set(password, forKey: "password")
                             
                             //登录到通知与提醒页面 判断
-                            let notificationSettingTypes = UIApplication.shared.currentUserNotificationSettings?.types
+                            //let notificationSettingTypes = UIApplication.shared.currentUserNotificationSettings?.types
+                            let isNotification = userDefaults.bool(forKey: "notification")
                             let isAlreadyRequestAppleHealth = userDefaults.bool(forKey: "applehealth")
                             let locationStatus = CLLocationManager.authorizationStatus()
                             let isCallNotified = userDefaults.bool(forKey: "callnotified")
-                            guard notificationSettingTypes?.rawValue != 0 && isAlreadyRequestAppleHealth && (locationStatus == .authorizedWhenInUse || locationStatus == .authorizedAlways) && isCallNotified else{
+                            guard isNotification && isAlreadyRequestAppleHealth && !(locationStatus == .notDetermined) && isCallNotified else{
                                 if let notifyNavigationController = UIStoryboard(name: "Notify", bundle: Bundle.main).instantiateViewController(withIdentifier: "notifyroot") as? UINavigationController{
                                     self.present(notifyNavigationController, animated: true, completion: nil)
                                     return

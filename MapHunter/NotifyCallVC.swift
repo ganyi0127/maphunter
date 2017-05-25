@@ -70,9 +70,9 @@ class NotifyCallVC: UIViewController {
                 self.nextButton.isEnabled = true
                 
                 //保存是否已开启来电提醒
-                userDefaults.set(true, forKey: "callnotified")
             }
         }
+        userDefaults.set(true, forKey: "callnotified")
     }
         
     //MARK:- 返回上级页面

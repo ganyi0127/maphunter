@@ -47,6 +47,7 @@ class NotifyLocalNotifyVC: UIViewController {
             
             next(nextButton)
         }
+        userDefaults.set(true, forKey: "notification")
     }
     
     @IBAction func next(_ sender: UIButton) {

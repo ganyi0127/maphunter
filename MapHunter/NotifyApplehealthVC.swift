@@ -81,7 +81,7 @@ class NotifyApplehealthVC: UIViewController {
         }else{
             debugPrint("设备不支持HealthKit")
             nextButton.isEnabled = false
-            
+            userDefaults.set(true, forKey: "applehealth")
             next(nextButton)
         }
     }

@@ -172,6 +172,11 @@ class RecordHeaderView: UIView {
             updateHeartrate()
         }
     }
+    var staticHeartrateDataList: [(date: Date, heartrate: Int)]?{
+        didSet{
+            updateHeartrate()
+        }
+    }
     fileprivate var heartrateMarkCircleList = [(shape: CAShapeLayer, heartrate: Int, offset: Int)]()
     
     //MARK:- bloodPressure

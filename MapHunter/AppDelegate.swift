@@ -27,10 +27,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let password = userDefaults.string(forKey: "password"), !password.characters.isEmpty{
             
             //登录到通知与提醒页面 判断
-            let notificationSettingTypes = UIApplication.shared.currentUserNotificationSettings?.types
-            let isAlreadyRequestAppleHealth = userDefaults.bool(forKey: "applehealth")
+            //let notificationSettingTypes = UIApplication.shared.currentUserNotificationSettings?.types
+            let isNotification = userDefaults.bool(forKey: "notification")
             let locationStatus = CLLocationManager.authorizationStatus()
-            guard notificationSettingTypes?.rawValue != 0 && isAlreadyRequestAppleHealth && (locationStatus == .authorizedWhenInUse || locationStatus == .authorizedAlways)  else{
+            let isAlreadyRequestAppleHealth = userDefaults.bool(forKey: "applehealth")
+            guard isNotification && isAlreadyRequestAppleHealth && !(locationStatus == .notDetermined)  else{
                 if let notifyNavigationController = UIStoryboard(name: "Notify", bundle: Bundle.main).instantiateViewController(withIdentifier: "notifyroot") as? UINavigationController{
                     window?.rootViewController = notifyNavigationController
                     window?.makeKeyAndVisible()

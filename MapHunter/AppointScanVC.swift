@@ -173,6 +173,8 @@ class AppointScanVC: ScanVC {
         
         super.viewWillDisappear(animated)
         endLoading()
+        
+        MapHunter.cancel(rescanTask)
     }
     
     private func config(){
@@ -256,9 +258,9 @@ class AppointScanVC: ScanVC {
         if let fName = filterName{
             name = fName
         }
-        beginLoading(byTitle: "正在搜索您的" + name)
+        beginLoading(byTitle: "正在查找您的" + name)
         
-        firstLabel.text = "选择要绑定的设备"
+        //firstLabel.text = "选择要绑定的设备"
         
         //设置按钮隐藏与显示
         cancelButton.isHidden = true
@@ -268,9 +270,16 @@ class AppointScanVC: ScanVC {
         //移除tip视图
         failureView?.isHidden = true
         tipView?.isHidden = true
+        
+        //修改按钮文字
+        cancelButton.isHidden = false
+        backButton.isHidden = true
+        nextButton.isHidden = true
+        nextButton.setTitle("重新搜索", for: .normal)
     }
     
     //MARK:- 5S搜索失败后调用
+    private var rescanTask: Task?
     private func failureScan(){
         endLoading()
         
@@ -289,6 +298,7 @@ class AppointScanVC: ScanVC {
             cancelButton.isHidden = true
             failureView?.isHidden = false
         }else{
+            firstLabel.text = "选择要绑定的设备"
             if showRescanButton{
                 UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
                     self.rescanButton.alpha = 1
@@ -298,6 +308,11 @@ class AppointScanVC: ScanVC {
                     _ in
                 })
             }
+        }
+        
+        //再过5s重新扫描
+        rescanTask = delay(5){
+            self.rescan(sender: self.rescanButton)
         }
     }
     
@@ -312,8 +327,9 @@ class AppointScanVC: ScanVC {
             firstLabel.text = "正在查找您的设备"
         }
 
-        
-        peripheralList.removeAll()
+//        if !isScaning{
+//            peripheralList.removeAll()
+//        }
         
         if showRescanButton{
             UIView.animate(withDuration: 0.3, delay: 0.1, options: .curveEaseIn, animations: {
@@ -329,6 +345,18 @@ class AppointScanVC: ScanVC {
         }
     }
     
+    //MARK:- 判断peripheralList是否包含某peripheral
+    private func getIndexFromPeripheralList(_ peripheral: CBPeripheral) -> Int?{
+        var index: Int?
+        peripheralList.enumerated().forEach{
+            i, element in
+            if element.peripheral.identifier.uuidString == peripheral.identifier.uuidString{
+                index = i
+            }
+        }
+        return index
+    }
+    
     //获取已连接设备
     override func godManager(currentConnectPeripheral peripheral: CBPeripheral, peripheralName name: String) {
         
@@ -338,20 +366,29 @@ class AppointScanVC: ScanVC {
         }
         
         //判断UUID重复，避免重复存储
-        let sameList = peripheralList.filter(){$0.peripheral.identifier.uuidString == peripheral.identifier.uuidString}
-        guard sameList.isEmpty else{
-            return
-        }
+//        let sameList = peripheralList.filter(){$0.peripheral.identifier.uuidString == peripheral.identifier.uuidString}
+//        guard sameList.isEmpty else{
+//            return
+//        }
         
         let standardName = name.lowercased().replacingOccurrences(of: " ", with: "")
         if let fname = filterName{
             if standardName == fname || standardName.contains(fname){
+                
+                if getIndexFromPeripheralList(peripheral) != nil {
+                    
+                }else{
+                    peripheralList.append((name, 0, peripheral))
+                    peripheralList = peripheralList.sorted{fabs($0.RSSI.floatValue) < fabs($1.RSSI.floatValue)}
+                }
+            }
+        }else{
+            if getIndexFromPeripheralList(peripheral) != nil {
+                
+            }else{
                 peripheralList.append((name, 0, peripheral))
                 peripheralList = peripheralList.sorted{fabs($0.RSSI.floatValue) < fabs($1.RSSI.floatValue)}
             }
-        }else{
-            peripheralList.append((name, 0, peripheral))
-            peripheralList = peripheralList.sorted{fabs($0.RSSI.floatValue) < fabs($1.RSSI.floatValue)}
         }
         tableview.reloadData()
     }
@@ -364,19 +401,27 @@ class AppointScanVC: ScanVC {
         }
         
         //判断UUID重复，避免重复存储
-        let sameList = peripheralList.filter(){$0.peripheral.identifier.uuidString == peripheral.identifier.uuidString}
-        guard sameList.isEmpty else{
-            return
-        }
+//        let sameList = peripheralList.filter(){$0.peripheral.identifier.uuidString == peripheral.identifier.uuidString}
+//        guard sameList.isEmpty else{
+//            return
+//        }
         
         let standardName = name.lowercased().replacingOccurrences(of: " ", with: "")
         if let fname = filterName{
             if standardName == fname || standardName.contains(fname) {
-                peripheralList.append((name, RSSI, peripheral))
+                if let index = getIndexFromPeripheralList(peripheral) {
+                    peripheralList[index].RSSI = RSSI
+                }else{
+                    peripheralList.append((name, RSSI, peripheral))
+                }
                 peripheralList = peripheralList.sorted{fabs($0.RSSI.floatValue) < fabs($1.RSSI.floatValue)}
             }
         }else{
-            peripheralList.append((name, RSSI, peripheral))
+            if let index = getIndexFromPeripheralList(peripheral) {
+                peripheralList[index].RSSI = RSSI
+            }else{
+                peripheralList.append((name, RSSI, peripheral))
+            }
             peripheralList = peripheralList.sorted{fabs($0.RSSI.floatValue) < fabs($1.RSSI.floatValue)}
         }
         tableview.reloadData()
@@ -405,10 +450,24 @@ class AppointScanVC: ScanVC {
         }else{
             _ = delay(3.5){
                 //+30s判断
+                let bandTask = delay(30){
+                    self.endLoading()
+                    self.isConnecting = false
+                    
+                    //跳转到绑定失败页面
+                    let bootConnectVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "bootconnected") as! BootConnectedVC
+                    bootConnectVC.isSuccess = false
+                    bootConnectVC.bandName = self.connectName
+                    self.navigationController?.show(bootConnectVC, sender: true)
+                }
+                
                 let angelManager = AngelManager.share()
                 angelManager?.setBind(true){
                     success in
                     DispatchQueue.main.async {
+                        
+                        MapHunter.cancel(bandTask)
+                        
                         self.endLoading()
                         self.isConnecting = false
                         
