@@ -76,7 +76,7 @@ let recordStartColors: [RecordType: UIColor] = [
     .sport: modelStartColors[.sport]!,
     .sleep: modelStartColors[.sleep]!,
     .weight: modelStartColors[.mindBody]!,
-    .mood: .yellow,
+    .mood: modelStartColors[.heartrate]!,
     .bloodPressure: modelStartColors[.heartrate]!,
     .heartrate: modelStartColors[.heartrate]!
 ]
@@ -86,7 +86,7 @@ let recordEndColors: [RecordType: UIColor] = [
     .sport: modelStartColors[.sport]!.withAlphaComponent(0.2),
     .sleep: modelStartColors[.sleep]!.withAlphaComponent(0.2),
     .weight: modelStartColors[.mindBody]!.withAlphaComponent(0.2),
-    .mood: UIColor.yellow.withAlphaComponent(0.2),
+    .mood: modelStartColors[.heartrate]!,
     .bloodPressure: modelStartColors[.heartrate]!.withAlphaComponent(0.2),
     .heartrate: modelStartColors[.heartrate]!.withAlphaComponent(0.2)
 ]

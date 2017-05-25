@@ -407,6 +407,4 @@ class PathViewController: FunOriginViewController {
         premapVC.activeType = sporttype
         navigationController?.pushViewController(premapVC, animated: true)
     }
-    
-    
 }

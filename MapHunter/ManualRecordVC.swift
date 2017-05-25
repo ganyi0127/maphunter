@@ -43,7 +43,7 @@ class ManualRecordVC: UIViewController {
         return textField
     }()
     fileprivate lazy var moodImageView: UIImageView? = {
-        let imageViewFrame = CGRect(x: 16, y: view_size.height / 2 - view_size.width / 2 - 16, width: view_size.width - 16 * 2, height: view_size.width - 16 * 2)
+        let imageViewFrame = CGRect(x: 16, y: view_size.height / 2 - view_size.width / 2, width: view_size.width - 16 * 2, height: view_size.width - 16 * 2)
         let imageView: UIImageView = UIImageView(frame: imageViewFrame)
         imageView.image = UIImage(named: "resource/sporticons/mood/type_good")
         return imageView
@@ -77,14 +77,14 @@ class ManualRecordVC: UIViewController {
         return imageView
     }()
     fileprivate lazy var moodTipView: UIView? = {
-        let tipFrame = CGRect(x: view_size.width * 0.8, y: view_size.height / 2, width: view_size.width * 0.2, height: 1)
+        let tipFrame = CGRect(x: view_size.width * 0.8, y: view_size.height / 2 - 1, width: view_size.width * 0.2, height: 2)
         let tipView: UIView = UIView(frame: tipFrame)
         tipView.backgroundColor = .clear
-        let upFrame = CGRect(x: 0, y: -view_size.width * 0.2, width: view_size.width * 0.2, height: view_size.width * 0.2)
+        let upFrame = CGRect(x: view_size.width * 0.05, y: -view_size.width * 0.4, width: view_size.width * 0.1, height: view_size.width * 0.2)
         let up = UIImageView(frame: upFrame)
         up.image = UIImage(named: "resource/sporticons/mood/scrollup")
         tipView.addSubview(up)
-        let downFrame = CGRect(x: 0, y: 0, width: view_size.width * 0.2, height: view_size.width * 0.2)
+        let downFrame = CGRect(x: view_size.width * 0.05, y: view_size.width * 0.2, width: view_size.width * 0.1, height: view_size.width * 0.2)
         let down = UIImageView(frame: downFrame)
         down.image = UIImage(named: "resource/sporticons/mood/scrolldown")
         tipView.addSubview(down)
@@ -92,7 +92,7 @@ class ManualRecordVC: UIViewController {
         let label = UILabel(frame: labelFrame)
         label.textAlignment = .center
         label.text = "滑动"
-        label.textColor = wordColor
+        label.textColor = .white
         tipView.addSubview(label)
         return tipView
     }()

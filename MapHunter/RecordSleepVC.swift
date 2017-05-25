@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AngelFit
 class RecordSleepVC: ManualRecordVC {
     
     init(){

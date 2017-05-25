@@ -9,6 +9,7 @@
 import UIKit
 import AngelFit
 import CoreBluetooth
+import AVFoundation
 let dataCubeSpacing: CGFloat = 6            //模块间距
 let dataCubeAspectRatio: CGFloat = 1.35     //模块宽高比
 class FirstCell: UITableViewCell {
@@ -111,7 +112,15 @@ class FirstCell: UITableViewCell {
         let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(swipe(gesture:)))
         rightSwipe.direction = .right
         contentView.addGestureRecognizer(rightSwipe)
+        
+//        let notif_volume = Notification.Name("AVSystemController_SystemVolumeDidChangeNotification")
+//        NotificationCenter.default.addObserver(self, selector: #selector(volumeChange(_:)), name: notif_volume, object: nil)
+//        UIApplication.shared.beginReceivingRemoteControlEvents()
     }
+    
+//    func volumeChange(_ notif: Notification){
+//        print("<notif> value: \(notif)")
+//    }
     
     private func createContents(){
         

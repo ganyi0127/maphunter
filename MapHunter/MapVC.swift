@@ -495,7 +495,7 @@ extension MapVC: MKMapViewDelegate{
     
     //MARK:更新显示区域时调用did
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        
+        mapView.reloadInputViews()
     }
     
     //MARK:添加大头针时调用(添加大头针动画)

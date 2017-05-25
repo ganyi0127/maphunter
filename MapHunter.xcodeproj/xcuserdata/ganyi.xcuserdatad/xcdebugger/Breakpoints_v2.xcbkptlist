@@ -102,11 +102,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../angelfit/AngelFit/APIList/AngelManager.swift"
-            timestampString = "516159950.466687"
+            timestampString = "517305011.881531"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1338"
-            endingLineNumber = "1338"
+            startingLineNumber = "1337"
+            endingLineNumber = "1337"
             landmarkName = "setSynchronizationHealthData(_:closure:)"
             landmarkType = "7">
             <Locations>
@@ -448,11 +448,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../angelfit/AngelFit/APIList/AngelManager.swift"
-            timestampString = "516159950.466687"
+            timestampString = "517305011.881531"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "432"
-            endingLineNumber = "432"
+            startingLineNumber = "431"
+            endingLineNumber = "431"
             landmarkName = "setBind(_:closure:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -464,11 +464,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../angelfit/AngelFit/APIList/AngelManager.swift"
-            timestampString = "516159950.466687"
+            timestampString = "517305011.881531"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "389"
-            endingLineNumber = "389"
+            startingLineNumber = "388"
+            endingLineNumber = "388"
             landmarkName = "setBringMode(_:completed:closure:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -480,11 +480,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../angelfit/AngelFit/APIList/AngelManager.swift"
-            timestampString = "516159950.466687"
+            timestampString = "517305011.881531"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "398"
-            endingLineNumber = "398"
+            startingLineNumber = "397"
+            endingLineNumber = "397"
             landmarkName = "setBringMode(_:completed:closure:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -496,11 +496,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../angelfit/AngelFit/APIList/AngelManager.swift"
-            timestampString = "516159950.466687"
+            timestampString = "517305011.881531"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "405"
-            endingLineNumber = "405"
+            startingLineNumber = "404"
+            endingLineNumber = "404"
             landmarkName = "setBringMode(_:completed:closure:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -742,6 +742,22 @@
             startingLineNumber = "250"
             endingLineNumber = "250"
             landmarkName = "drawSportLevel(withProgressValue:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MapHunter/PathViewController.swift"
+            timestampString = "517291479.21755"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "405"
+            endingLineNumber = "405"
+            landmarkName = "pushMap()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
