@@ -16,10 +16,10 @@ class RecordSelector: UIView {
         var list = [Int]()
         var udWeight = userDefaults.integer(forKey: "weight")
         if udWeight == 0{
-            udWeight = 65
+            udWeight = 65 * 10000
         }
-        self.weightMin = CGFloat(udWeight / 10000 / 3)
-        self.weightMax = CGFloat(udWeight / 10000 * 3)
+        self.weightMin = CGFloat(udWeight / 3 / 10000)
+        self.weightMax = CGFloat(udWeight * 3 / 10000)
         (Int(self.weightMin!)..<Int(self.weightMax!)).forEach{
             i in
             list.append(i)
@@ -55,6 +55,7 @@ class RecordSelector: UIView {
     private var datePickerView: UIDatePicker?
     private var pickerView: UIPickerView?
     
+    var selectedValue: Any?
     var closure: ((_ type: RecordSubType, _ value: Any?)->())?     //返回是否合法
     
     
@@ -107,21 +108,67 @@ class RecordSelector: UIView {
             
             //设置默认值
             if type == .weightValue {
-                let udWeight = userDefaults.integer(forKey: "weight")
-                if udWeight != 0 {
-                    
-                    pickerView?.selectRow(udWeight / 10000, inComponent: 0, animated: true)
-                    pickerView?.selectRow(udWeight % 10000 / 1000, inComponent: 1, animated: true)
+                var udWeight: Int
+                if let localWeight = RecordTableView.weightValue {
+                    udWeight = localWeight
+                }else{
+                    udWeight = userDefaults.integer(forKey: "weight")
                 }
+                
+                if udWeight == 0 {
+                    udWeight = 65 * 10000
+                }
+                
+                selectedValue = udWeight
+                
+                var firstIndexFromDefaultWeight = userDefaults.integer(forKey: "weight")
+                if firstIndexFromDefaultWeight == 0{
+                    firstIndexFromDefaultWeight = 65 * 10000
+                }
+                
+                let firstIndex = Int(firstIndexFromDefaultWeight / 3 / 10000)
+                pickerView?.selectRow(udWeight / 10000 - firstIndex, inComponent: 0, animated: true)
+                pickerView?.selectRow(udWeight % 10000 / 1000, inComponent: 1, animated: true)
+                pickerView?.selectRow(0, inComponent: 2, animated: true)
             }else if type == .weightFat{
-                pickerView?.selectRow(20, inComponent: 0, animated: true)
+                var weightFat: Int = 20
+                if let localWeightFat = RecordTableView.weightFat {
+                    weightFat = localWeightFat
+                }
+                
+                pickerView?.selectRow(weightFat, inComponent: 0, animated: true)
+                selectedValue = weightFat
+                
             }else if type == .diastolicPressure {
-                pickerView?.selectRow(120, inComponent: 0, animated: true)
+                var diastolicPressure: Int = 120
+                if let localDiastolicPressure = RecordTableView.bloodDiastolicPressure{
+                    diastolicPressure = localDiastolicPressure
+                }
+                pickerView?.selectRow(diastolicPressure, inComponent: 0, animated: true)
+                selectedValue = diastolicPressure
             }else if type == .systolicPressure{
-                pickerView?.selectRow(80, inComponent: 0, animated: true)
+                var systolicPressure: Int = 80
+                if let localSystolicPressure = RecordTableView.bloodSystolicPressure{
+                    systolicPressure = localSystolicPressure
+                }
+                pickerView?.selectRow(systolicPressure, inComponent: 0, animated: true)
+                selectedValue = systolicPressure
+            }else if type == .heartrateActivityType{
+                var heartrateType: Int = 0
+                if let localHeartrateType = RecordTableView.heartrateType{
+                    heartrateType = localHeartrateType
+                }
+                selectedValue = heartrateType
             }else if type == .heartrateValue{
-                pickerView?.selectRow(70, inComponent: 0, animated: true)
+                let firstIndex: Int = 20
+                var heartrateValue: Int = 70 + firstIndex
+                if let localHeartrateValue = RecordTableView.heartrateValue {
+                    heartrateValue = localHeartrateValue
+                }
+                pickerView?.selectRow(heartrateValue - firstIndex, inComponent: 0, animated: true)
+                selectedValue = heartrateValue
             }
+            
         case .sportActivityType:
             //自定义选择器
             let pageContolHeight: CGFloat = 20
@@ -144,6 +191,8 @@ class RecordSelector: UIView {
                 collectionView?.allowsSelection = true
                 addSubview(collectionView!)
             }
+            
+            selectedValue = RecordTableView.sportType
             
             if pageControl == nil{
                 let pageControlFrame = CGRect(x: 0, y: frame.height - pageContolHeight, width: frame.width, height: pageContolHeight)
@@ -170,8 +219,25 @@ class RecordSelector: UIView {
                 addSubview(levelImageView!)
                 
                 //添加蒙版
-                drawSportLevel(withProgressValue: 0.5)
+                var sportLevel: CGFloat = 0.5
+                if let localSportLevel = RecordTableView.sportLevel{
+                    if localSportLevel == 0{
+                        sportLevel = 0.0
+                    }else if localSportLevel == 1{
+                        sportLevel = 0.15
+                    }else if localSportLevel == 2{
+                        sportLevel = 0.45
+                    }else if localSportLevel == 3{
+                        sportLevel = 0.75
+                    }else{
+                        sportLevel = 1
+                    }
+                }
+                drawSportLevel(withProgressValue: sportLevel)
+                selectedValue = sportLevel
             }
+            
+            
             //设置为强度背景
             if let sportType = RecordSelector.selectedSportType{
                 if let name = sportTypeNameMap[sportType]{
@@ -181,26 +247,82 @@ class RecordSelector: UIView {
                 }
             }
         case .sportStartDate:
+            
             datePickerView = UIDatePicker(frame: frame)
             datePickerView?.datePickerMode = .dateAndTime
             datePickerView?.addTarget(self, action: #selector(selectDate(sender:)), for: .valueChanged)
             datePickerView?.maximumDate = Date()
-            datePickerView?.minimumDate = Date(timeIntervalSinceNow: -2 * 60 * 60 * 24)     //两天前
+            datePickerView?.minimumDate = Date(timeIntervalSinceNow: -2 * 360 * 60 * 60 * 24)     //两年前
             addSubview(datePickerView!)
+            
+            var sportStartDate = Date()
+            if let localSportStartDate = RecordTableView.sportDate{
+                sportStartDate = localSportStartDate
+            }
+            datePickerView?.setDate(sportStartDate, animated: true)
+            selectedValue = sportStartDate
         case .sleepDate, .wakeDate, .weightDate, .pressureDate, .heartrateDate:
             datePickerView = UIDatePicker(frame: frame)
-            datePickerView?.datePickerMode = .dateAndTime
             datePickerView?.addTarget(self, action: #selector(selectDate(sender:)), for: .valueChanged)
             datePickerView?.maximumDate = Date()
-            datePickerView?.minimumDate = Date(timeIntervalSinceNow: -1 * 60 * 60 * 24)     //1天前
             addSubview(datePickerView!)
+            
+            var minDate = Date(timeInterval: -2 * 360 * 60 * 60 * 24, since: Date())
+            var date = Date()
+            if type == .sleepDate{
+                minDate = Date(timeIntervalSinceNow: -1 * 360 * 60 * 60 * 24)         //1年前
+                datePickerView?.datePickerMode = .dateAndTime
+                if let localSleepDate = RecordTableView.sleepDate{
+                    date = localSleepDate
+                }
+            }else if type == .wakeDate{
+                if let localSleepDate = RecordTableView.sleepDate{
+                    minDate = Date(timeInterval: 60, since: localSleepDate)         //入睡时间+一分钟
+                }else{
+                    minDate = Date()
+                }
+                datePickerView?.datePickerMode = .dateAndTime
+                if let localWakeDate = RecordTableView.wakeDate{
+                    date = localWakeDate
+                }
+            }else if type == .weightDate{
+                datePickerView?.datePickerMode = .date
+                if let localWeightDate = RecordTableView.weightDate{
+                    date = localWeightDate
+                }
+            }else if type == .pressureDate{
+                datePickerView?.datePickerMode = .date
+                if let localPressureDate = RecordTableView.bloodPressureDate{
+                    date = localPressureDate
+                }
+            }else if type == .heartrateDate{
+                datePickerView?.datePickerMode = .date
+                if let localHeartrateDate = RecordTableView.heartrateDate{
+                    date = localHeartrateDate
+                }
+            }
+            datePickerView?.minimumDate = minDate
+            datePickerView?.setDate(date, animated: true)
+            
+            selectedValue = date
         case .sportDuration:
             datePickerView = UIDatePicker(frame: frame)
             datePickerView?.datePickerMode = .countDownTimer
             datePickerView?.addTarget(self, action: #selector(selectDate(sender:)), for: .valueChanged)
-            datePickerView?.maximumDate = Date()
-            datePickerView?.minimumDate = Date(timeIntervalSinceNow: -1 * 60 * 60 * 24)     //24小时
             addSubview(datePickerView!)
+            
+            var countDownDuration: TimeInterval = 60
+            if let localSportDuration = RecordTableView.sportDuration{
+                countDownDuration = localSportDuration
+            }
+            if let localSportStartDate = RecordTableView.sportDate{
+                let duration = Date().timeIntervalSince(localSportStartDate)
+                if duration < countDownDuration{
+                    countDownDuration = duration
+                }
+            }
+            datePickerView?.countDownDuration = countDownDuration
+            selectedValue = countDownDuration
         default:
             break
         }
@@ -265,6 +387,10 @@ extension RecordSelector{
             let curLocation = touch.location(in: imageView)
             let currentProgressValue = (imageView.bounds.height - curLocation.y) / imageView.bounds.height
             drawSportLevel(withProgressValue: currentProgressValue)
+            
+            if let level = sportLevel, RecordSelector.selectedSportType != nil {
+                closure?(RecordSubType.sportLevel, level)
+            }
         }
     }
     
@@ -329,7 +455,7 @@ extension RecordSelector: UIPickerViewDelegate, UIPickerViewDataSource{
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch type as RecordSubType {
         case .weightFat:
-            return "\(weightFitDataList[row])"
+            return row == 0 ? "未知" : "\(weightFitDataList[row])"
         case .diastolicPressure:
             return "\(row)"
         case .systolicPressure:
@@ -353,10 +479,10 @@ extension RecordSelector: UIPickerViewDelegate, UIPickerViewDataSource{
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        var selectedValue: Any?
+        
         switch type as RecordSubType {
         case .weightFat:
-            selectedValue = weightFitDataList[row]
+            selectedValue = row == 0 ? nil : weightFitDataList[row]
         case .diastolicPressure:
             selectedValue = row
         case .systolicPressure:
@@ -458,8 +584,16 @@ extension RecordSelector: UICollectionViewDelegate, UICollectionViewDataSource, 
         if let sportType = SportType(rawValue: rawValue){
             cell.type = sportType
         }
-        
         return cell
+    }
+    
+    //获取记录
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let localSportType = RecordTableView.sportType{
+            if localSportType == (cell as! RecordCollectionCell).type{
+                cell.isSelected = true
+            }
+        }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

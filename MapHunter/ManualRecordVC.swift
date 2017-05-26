@@ -215,17 +215,31 @@ class ManualRecordVC: UIViewController {
                     self.recordTableView?.header?.leftDate = Date()
                     self.recordTableView?.header?.rightDate = Date()
                 case .heartrate:
-                    self.recordHeaderView?.heartrateDataList = [
-                        (date: Date(), heartrate: 65),
-                        (date: Date(), heartrate: 80),
-                        (date: Date(), heartrate: 93),
-                        (date: Date(), heartrate: 123),
-                        (date: Date(), heartrate: 153),
-                        (date: Date(), heartrate: 143),
-                        (date: Date(), heartrate: 103),
-                        (date: Date(), heartrate: 83),
-                        (date: Date(), heartrate: 79)
-                    ]
+                    if RecordTableView.heartrateType == 0{
+                        self.recordHeaderView?.heartrateDataList = [
+                            (date: Date(), heartrate: 65),
+                            (date: Date(), heartrate: 80),
+                            (date: Date(), heartrate: 93),
+                            (date: Date(), heartrate: 123),
+                            (date: Date(), heartrate: 153),
+                            (date: Date(), heartrate: 143),
+                            (date: Date(), heartrate: 103),
+                            (date: Date(), heartrate: 83),
+                            (date: Date(), heartrate: 79)
+                        ]
+                    }else{
+                        self.recordHeaderView?.heartrateDataList = [
+                            (date: Date(), heartrate: 125),
+                            (date: Date(), heartrate: 180),
+                            (date: Date(), heartrate: 193),
+                            (date: Date(), heartrate: 103),
+                            (date: Date(), heartrate: 53),
+                            (date: Date(), heartrate: 43),
+                            (date: Date(), heartrate: 03),
+                            (date: Date(), heartrate: 183),
+                            (date: Date(), heartrate: 179)
+                        ]
+                    }
                 default:
                     //身心状态不进行处理
                     break

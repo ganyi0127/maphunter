@@ -92,8 +92,19 @@ class RecordTableView: UIView {
     //需存储的数据
     static var sportType: SportType?
     static var sportLevel: Int?
+    static var sportDate: Date?
+    static var sportDuration: TimeInterval?
     static var sleepDate: Date?
     static var wakeDate: Date?
+    static var weightValue: Int?
+    static var weightDate: Date?
+    static var weightFat: Int?
+    static var bloodPressureDate: Date?
+    static var bloodDiastolicPressure: Int?
+    static var bloodSystolicPressure: Int?
+    static var heartrateType: Int?
+    static var heartrateValue: Int?
+    static var heartrateDate: Date?
     
     //MARK:- init ************************************************************************************
     init(withRecordType type: RecordType) {
@@ -189,13 +200,16 @@ class RecordTableView: UIView {
                 case .sportStartDate:
                     if let date = value as? Date{
                         self.header?.leftDate = date
+                        RecordTableView.sportDate = date
                     }else{
                         let defaultDate = Date(timeInterval: -30 * 60, since: Date())
+                        RecordTableView.sportDate = defaultDate
                         self.header?.leftDate = defaultDate
                     }
                 case .sportDuration:
                     if let duration = value as? TimeInterval, let header = self.header{
                         self.header?.rightDate = Date(timeInterval: duration, since: header.leftDate)
+                        RecordTableView.sportDuration = duration
                     }
                 case .sleepDate:
                     if let date = value as? Date{
@@ -216,47 +230,60 @@ class RecordTableView: UIView {
                         RecordTableView.wakeDate = defaultDate
                     }
                 case .weightValue:
-                    if let weight = value as? CGFloat{
+                    if let weight = value as? Int{
+                        RecordTableView.weightValue = weight
                     }
                 case .weightFat:
-                    if let fat = value as? CGFloat{
+                    if let fat = value as? Int{
+                        RecordTableView.weightFat = fat
                     }
                 case .weightDate:
                     if let date = value as? Date{
                         self.header?.leftDate = date
+                        RecordTableView.weightDate = date
                     }else{
                         let defaultDate = Date(timeInterval: -30 * 60, since: Date())
                         self.header?.leftDate = defaultDate
+                        RecordTableView.weightDate = defaultDate
                     }
                 case .diastolicPressure:
                     if let pressure = value as? Int{
+                        RecordTableView.bloodDiastolicPressure = pressure
                     }
                 case .systolicPressure:
                     if let pressure = value as? Int{
+                        RecordTableView.bloodSystolicPressure = pressure
                     }
                 case .pressureDate:
                     if let date = value as? Date{
+                        RecordTableView.bloodPressureDate = date
+                    }else{
+                        let defaultDate = Date()
+                        RecordTableView.bloodPressureDate = defaultDate
                     }
                 case .heartrateActivityType:
-                    if let sportType = value as? Int16{
+                    if let heartrateType = value as? Int{
+                        RecordTableView.heartrateType = heartrateType
                     }
                 case .heartrateValue:
                     if let heartrate = value as? Int{
+                        RecordTableView.heartrateValue = heartrate
                     }
                 case .heartrateDate:
                     if let date = value as? Date{
                         self.header?.leftDate = date
+                        RecordTableView.heartrateDate = date
                     }else{
                         let defaultDate = Date(timeInterval: -30 * 60, since: Date())
                         self.header?.leftDate = defaultDate
+                        RecordTableView.heartrateDate = defaultDate
                     }
                 default:
                     break
                 }
             }
         }
-        
-        
+                
         //添加头部
         header = RecordHeader(type: type!)
         addSubview(header!)

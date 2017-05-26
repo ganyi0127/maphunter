@@ -5,13 +5,22 @@
 //  Created by ganyi on 16/9/28.
 //  Copyright © 2016年 ganyi. All rights reserved.
 //
-/*
+/* old
 Type:运动类型(0x00:无， 0x01:走路， 0x02:跑步， 0x03:骑行，0x04:徒步， 0x05: 游泳， 0x06:爬山， 0x07:羽毛球， 0x08:其他， 0x09:健身， 0x0A:动感单车， 0x0B:椭圆机， 0x0C:跑步机， 0x0D:仰卧起坐， 0x0E:俯卧撑， 0x0F:哑铃， 0x10:举重， 0x11:健身操， 0x12:瑜伽， 0x13:跳绳， 0x14:乒乓球， 0x15:篮球， 0x16:足球 ， 0x17:排球， 0x18:网球， 0x19:高尔夫球， 0x1A:棒球， 0x1B:滑雪， 0x1C:轮滑，0x1D:跳舞) + (0x1E:划船, 0x1F:睡眠, 0x20:体重, 0x21:血压, 0x22:卡路里, 0x23:测量心率, 0x24:静息心率, 0x25:心情状态)
 */
+/* new
+ 0x00:无/unknown， 0x01:走路/walk， 0x02:跑步/run， 0x03:骑行/bike，0x04:徒步 /hike， 0x05:游泳/swim， 0x06:爬山/climb， 0x07:羽毛球/badminton， 0x08:其他 /other， 0x09:健身/workout， 0x0A:动感单车/spinning， 0x0B:椭圆机/elliptical， 0x0C:跑步机/treadmill， 0x0D:仰卧起坐/sit-ups， 0x0E:俯卧撑/push-up， 0x0F:哑
+ 铃/dumbbell， 0x10:举重/weights， 0x11:健身操/aerobic exercise， 0x12:瑜伽/yoga，
+ 
+ 37 / 43
+ FunSport 开发文档
+ 0x13:跳绳/rope skipping， 0x14:乒乓球/pingpong， 0x15:篮球/basketball， 0x16: 足球/soccer ， 0x17:排球/volleyball， 0x18:网球/tennis， 0x19:高尔夫球/golf， 0x1A:棒球/baseball， 0x1B:滑雪/ski， 0x1C:轮滑/skating，0x1D:跳舞/dance, 0x1F: 室内划船/roller machine, 0x20:普拉提/pilates, 0x21:交叉训练/cross train, 0x22: 有氧运动/cardio， 0x23:尊巴舞/Zumba, 0x24:广场舞/square dance, 0x25:平板支撑 /Plank
+ */
 import UIKit
 import AngelFit
 enum SportType: Int16{
     case none = 0x00
+    
     case walking
     case running
     case riding
@@ -43,6 +52,14 @@ enum SportType: Int16{
     case dancing
     case boating
     
+    //new add
+    case pilates
+    case crossTrain
+    case cardio
+    case zumba
+    case squareDance
+    case plank
+    
     case sleep
     case weight
     case bloodPressure
@@ -53,7 +70,7 @@ enum SportType: Int16{
 }
 
 let sportTypeNameMap: [SportType: String] = [
-    .none: "",
+    .none: "unknow",
     
     .walking: "walking",
     .running: "running",
@@ -85,6 +102,13 @@ let sportTypeNameMap: [SportType: String] = [
     .skating: "skating",
     .dancing: "dancing",
     .other: "other",
+    
+    .pilates: "pilates",
+    .crossTrain: "crossTrain",
+    .cardio: "cardio",
+    .zumba: "zumba",
+    .squareDance: "squareDance",
+    .plank: "plank",
     
     .sleep: "sleep",
     .weight: "weight",

@@ -46,7 +46,7 @@ class RecordHeaderView: UIView {
         }
         
         //添加小三角
-        let triangleFrame = CGRect(x: -8, y: 0, width: 11, height: 4)
+        let triangleFrame = CGRect(x: (dataWidth - 11) / 2, y: 0, width: 11, height: 4)
         let triangle = UIImageView(frame: triangleFrame)
         let triangleImage = UIImage(named: "resource/sporticons/mood/triangle")
         triangle.image = triangleImage
@@ -168,11 +168,6 @@ class RecordHeaderView: UIView {
     
     //MARK:- heartrate
     var heartrateDataList: [(date: Date, heartrate: Int)]?{
-        didSet{
-            updateHeartrate()
-        }
-    }
-    var staticHeartrateDataList: [(date: Date, heartrate: Int)]?{
         didSet{
             updateHeartrate()
         }

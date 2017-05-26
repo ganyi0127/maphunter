@@ -82,7 +82,8 @@ class RecordTabelViewCell: UIView {
                 if let date = value as? Date{
                     detailText = format.string(from: date)
                 }else{
-                    let defaultDate = Date(timeInterval: -30 * 60, since: Date())
+                    let defaultDate = Date()
+                    RecordTableView.sportDate = defaultDate
                     detailText = format.string(from: defaultDate)
                 }
             case .sportDuration:
@@ -90,6 +91,15 @@ class RecordTabelViewCell: UIView {
                     let hour = Int(duration) / (60 * 60)
                     let minute = (Int(duration) - hour * 60 * 60) / 60
                     detailText = "\(hour)小时\(minute)分钟"
+                    
+                    if let localSportStartDate = RecordTableView.sportDate{
+                        let constDuration = Date().timeIntervalSince(localSportStartDate)
+                        if constDuration < duration{
+                            detailLabel?.textColor = UIColor.red.withAlphaComponent(0.5)
+                        }else{
+                            detailLabel?.textColor = subWordColor
+                        }
+                    }
                 }else{
                     detailText = "-"
                 }
@@ -98,13 +108,15 @@ class RecordTabelViewCell: UIView {
                     detailText = format.string(from: date)
                 }else{
                     let defaultDate = Date(timeInterval: -30 * 60, since: Date())
+                    RecordTableView.sleepDate = defaultDate
                     detailText = format.string(from: defaultDate)
                 }
             case .wakeDate:
                 if let date = value as? Date{
                     detailText = format.string(from: date)
                 }else{
-                    let defaultDate = Date(timeInterval: -30 * 60, since: Date())
+                    let defaultDate = Date()
+                    RecordTableView.wakeDate = defaultDate
                     detailText = format.string(from: defaultDate)
                 }
             case .weightValue:
@@ -123,7 +135,8 @@ class RecordTabelViewCell: UIView {
                 if let date = value as? Date{
                     detailText = format.string(from: date)
                 }else{
-                    let defaultDate = Date(timeInterval: -30 * 60, since: Date())
+                    let defaultDate = Date()
+                    RecordTableView.weightDate = defaultDate
                     detailText = format.string(from: defaultDate)
                 }
             case .diastolicPressure:
@@ -142,7 +155,8 @@ class RecordTabelViewCell: UIView {
                 if let date = value as? Date{
                     detailText = format.string(from: date)
                 }else{
-                    let defaultDate = Date(timeInterval: -30 * 60, since: Date())
+                    let defaultDate = Date()
+                    RecordTableView.bloodPressureDate = defaultDate
                     detailText = format.string(from: defaultDate)
                 }
             case .heartrateActivityType:
@@ -161,7 +175,8 @@ class RecordTabelViewCell: UIView {
                 if let date = value as? Date{
                     detailText = format.string(from: date)
                 }else{
-                    let defaultDate = Date(timeInterval: -30 * 60, since: Date())
+                    let defaultDate = Date()
+                    RecordTableView.heartrateDate = defaultDate
                     detailText = format.string(from: defaultDate)
                 }
             default:
@@ -371,6 +386,7 @@ class RecordTabelViewCell: UIView {
                 selType, selValue in
                 self.value = selValue
             }
+            value = recordSelector?.selectedValue
             
             UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseInOut, animations: {
                 self.recordSelector?.alpha = 1
