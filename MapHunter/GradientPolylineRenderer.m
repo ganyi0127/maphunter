@@ -42,9 +42,12 @@
         float curVelo = velocity[i];
         
         if(curVelo>0.){
-            
-            curVelo = ((curVelo < [OCVariable share].v_min) ? [OCVariable share].v_min : (curVelo  > [OCVariable share].v_max) ? [OCVariable share].v_max : curVelo);
-            (*_hue)[i] = H_MIN + ((curVelo-[OCVariable share].v_min)*(H_MAX-H_MIN))/([OCVariable share].v_max-[OCVariable share].v_min);
+            if (curVelo < V_MIN){
+                curVelo = V_MIN;
+            }else if (curVelo > V_MAX){
+                curVelo = V_MAX;
+            }
+            (*_hue)[i] = H_MIN + ((curVelo - [OCVariable share].v_min) / ([OCVariable share].v_max - [OCVariable share].v_min)) * (H_MAX - H_MIN);
         }else{
             //暂停颜色
             (*_hue)[i] = 0.;
@@ -66,7 +69,7 @@
     }
     
     pthread_rwlock_wrlock(&rwLock);
-    self.path = path; //don't forget this line.
+    self.path = path; ///<— don't forget this line.
     pthread_rwlock_unlock(&rwLock);
 }
 
@@ -75,9 +78,7 @@
     //put this blok into the canDraw method cause problem
     CGRect pointsRect = CGPathGetBoundingBox(self.path);
     CGRect mapRectCG = [self rectForMapRect:mapRect];
-    if (!CGRectIntersectsRect(pointsRect, mapRectCG)){
-        return;
-    }
+    if (!CGRectIntersectsRect(pointsRect, mapRectCG))return;
     CGContextSetLineCap(context, kCGLineCapRound);
     CGContextSetLineJoin(context, kCGLineJoinRound);
     UIColor* pcolor,*ccolor;
@@ -109,8 +110,8 @@
             //跑步渐变
             ccolor = [UIColor colorWithHue:hues[i] saturation:1.0f brightness:1.0f alpha:1.0f];
             if (i==0){
-                pcolor = [UIColor colorWithHue:hues[i] saturation:1.0f brightness:1.0f alpha:1.0f];
                 CGPathMoveToPoint(path, nil, point.x, point.y);
+                pcolor = [UIColor colorWithCGColor:ccolor.CGColor];
             } else {
                 CGPoint prevPoint = [self pointForMapPoint:polyline.points[i-1]];
                 CGPathMoveToPoint(path, nil, prevPoint.x, prevPoint.y);
@@ -141,6 +142,7 @@
                 CGContextRestoreGState(context);
                 pcolor = [UIColor colorWithCGColor:ccolor.CGColor];
             }
+
         }
     }
 }

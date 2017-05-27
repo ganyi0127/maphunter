@@ -248,16 +248,11 @@ class MapVC: UIViewController {
                     let velcity: Float = interval == 0 ? 0 : Float(subDistance / interval)
                     //当前坐标点
                     let curCoordinate = CLLocationCoordinate2D(latitude: trackItem.latitude, longitude: trackItem.longtitude)
-                    if historyOverlay == nil{
-                        //获取第一个坐标点
-                        let firstCoordinate = CLLocationCoordinate2D(latitude: trackItems[0].latitude, longitude: trackItems[0].longtitude)
-                        historyOverlay = GradientPolylineOverlay(start: firstCoordinate,
-                                                                 end: curCoordinate,
-                                                                 startVelcity: preVelcity,
-                                                                 endVelcity: velcity)
-                    }else{
-                        historyOverlay?.add(curCoordinate, velcity: velcity)
-                    }
+                    
+                    //获取第一个坐标点
+                    let firstCoordinate = CLLocationCoordinate2D(latitude: trackItems[0].latitude, longitude: trackItems[0].longtitude)
+                    historyOverlay = GradientPolylineOverlay(start: firstCoordinate, endStart: curCoordinate, startVelocity: preVelcity, endVelocity: velcity)
+                    
                     preVelcity = velcity
                     mapView.add(historyOverlay!, level: .aboveLabels)
                 }
@@ -806,6 +801,7 @@ extension MapVC: CLLocationManagerDelegate{
                     debugPrint(currentLocationList)
                     
                     //优化路径绘制
+                    /*
                     if mapView.overlays.count > 50{
                         trackOverlay = nil
                         mapView.removeOverlays(mapView.overlays)
@@ -829,15 +825,15 @@ extension MapVC: CLLocationManagerDelegate{
                         }
                         mapView.add(trackOverlay!, level: .aboveLabels)
                     }else{
-                        //绘制路径
-                        trackOverlay = GradientPolylineOverlay(start: currentLocationList[0],
-                                                               end: currentLocationList[1],
-                                                               startVelcity: startVelcity,
-                                                               endVelcity: endVelcity)
-                        mapView.add(trackOverlay!, level: .aboveLabels)
                     }
+                     */
                     
-                    debugPrint("mapViewOverLayCount: \(mapView.overlays.count)")
+                    //绘制路径
+                    
+                    trackOverlay = GradientPolylineOverlay(start: currentLocationList[0], endStart: currentLocationList[1], startVelocity: startVelcity, endVelocity: endVelcity)
+                    mapView.add(trackOverlay!, level: .aboveLabels)
+                    
+                    debugPrint("mapViewOverLayCount: \(mapView.overlays.count) \n startVel: \(startVelcity), endVel: \(endVelcity)")
                 }
             }
         }
