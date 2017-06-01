@@ -7,7 +7,7 @@
 //
 
 import Foundation
-let originMainSubMenuButtonSize = CGSize(width: 88, height: 88)
+let originMainSubMenuButtonSize = CGSize(width: view_size.width / 3, height: view_size.width / 3)
 let initMainSubMenuButtonSize = CGSize(width: 1, height: 1)
 class MainSubMenuButton: UIButton {
     
@@ -21,8 +21,8 @@ class MainSubMenuButton: UIButton {
     
     //MARK:- init
     init(index: Int) {
-        originFrame = CGRect(origin: CGPoint(x: view_size.width / 2 - originMainSubMenuButtonSize.width / 2 + CGFloat(index % 3 - 1) * 88,
-                                             y: view_size.height - 49 * 6 + CGFloat(index / 3) * 88),
+        originFrame = CGRect(origin: CGPoint(x: view_size.width / 2 - originMainSubMenuButtonSize.width / 2 + CGFloat(index % 3 - 1) * originMainSubMenuButtonSize.width,
+                                             y: view_size.height - originMainSubMenuButtonSize.height * 3 + CGFloat(index / 3) * originMainSubMenuButtonSize.height),
                              size: originMainSubMenuButtonSize)
         initFrame = CGRect(origin: CGPoint(x: view_size.width / 2 - originMainSubMenuButtonSize.width / 2,
                                            y: view_size.height + originMainSubMenuButtonSize.height / 2),
@@ -40,8 +40,11 @@ class MainSubMenuButton: UIButton {
     }
     
     private func config(){
+        
         if let i = index {
-            setImage(UIImage(named: "resource/submenuicon/\(i)")?.transfromImage(size: CGSize(width: 48, height: 48)), for: .normal)
+            let scaleTransform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+            let imageSize = originMainSubMenuButtonSize.applying(scaleTransform)
+            setImage(UIImage(named: "resource/submenuicon/\(i)")?.transfromImage(size: imageSize), for: .normal)
             tag = i
         }
     }
@@ -70,7 +73,7 @@ class MainSubMenuButton: UIButton {
         }
         
         let pos0 = CGPoint(x: view_size.width / 2, y: view_size.height + originFrm.height / 2)
-        let pos2 = CGPoint(x: view_size.width / 2 + CGFloat(i % 3 - 1) * 88, y: view_size.height - 49 * 6 + CGFloat(i / 3) * 88)
+        let pos2 = CGPoint(x: originFrm.origin.x + originMainSubMenuButtonSize.width / 2, y: originFrm.origin.y + originMainSubMenuButtonSize.height / 2)
         let pos1 = CGPoint(x: pos2.x - (pos2.x - pos0.x) * 0.05, y: pos2.y + (pos2.y - pos0.y) * 0.05)
         
         //动画

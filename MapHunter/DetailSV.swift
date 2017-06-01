@@ -1,90 +1,41 @@
 //
-//  DetailBack.swift
+//  DetaiSV.swift
 //  MapHunter
 //
-//  Created by ganyi on 2016/12/22.
-//  Copyright © 2016年 ganyi. All rights reserved.
+//  Created by ganyi on 2017/6/1.
+//  Copyright © 2017年 ganyi. All rights reserved.
 //
 
 import Foundation
 import AngelFit
-import CoreData
-let edgeWidth = view_size.width * 0.025 //边宽
-class DetailBack: UIView {
-    fileprivate var type: DataCubeType!         //类型
+
+let edgeWidth: CGFloat = 8 //边宽
+let detailTopHeight: CGFloat = view_size.width / 2
+let detailCenterHeight: CGFloat = 88
+let detailRadius: CGFloat = 10
+
+//模块数据代理
+protocol DetailDelegate {
+    func detailTopData(closure: @escaping ([CGFloat])->())
+    func detailHeartrateOffset(closure: @escaping ([CGFloat])->())
+    func detailSleepBeginTime() -> Date
+    func detailWeightDates() -> [Date]
     
-    var detailTop: DetailTop?       //top view
-    var closure: (()->())?          //统一回调
+    //添加总览数据
+    func detailTotalValue() -> CGFloat
+    func detailLeftValue() -> CGFloat
+    func detailRightValue() -> CGFloat
+}
+
+class DetailSV: UIScrollView {
+    fileprivate var type: DataCubeType!
     
-    private var dataViewTypeMap = [DetailDataViewType: DetailDataView]()
-    private var dataViewTypeList = [DetailDataViewType](){
-        didSet{
-            dataViewTypeList.enumerated().forEach(){
-                index, dataViewType in
-                
-                //移除已有数据
-                if let view = dataViewTypeMap[dataViewType] {
-                    view.removeFromSuperview()
-                    dataViewTypeMap[dataViewType] = nil
-                }
-                
-                //添加数据view
-                let detailDataView = DetailDataView(detailDataViewType: dataViewType)
-                detailDataView.frame.origin = CGPoint(x: CGFloat(index % 2) * self.frame.width / 2,
-                                                      y: detailTop!.frame.height + CGFloat(index / 2) * detailDataView.frame.height)
-                //获取数据
-                //运动
-//                case totalTime
-//                case activityTime
-//                case restTime
-//                case totalCalorie
-//                case activityCalorie
-//                case restCalorie
-//                
-//                //睡眠
-//                case deepSleep
-//                case lightSleep
-//                case sleepTime
-//                case quiteSleep
-//                case wakeTime
-//                case wakeCount
-//                
-//                //体重
-//                case weightStartTime
-//                case weightDelta
-                let coredataHandler = CoreDataHandler.share()
-                if let macaddress = AngelManager.share()?.macAddress{
-                    let userId = UserManager.share().userId
-                    let sportdataList = coredataHandler.selectSportData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
-                    if let sportdata = sportdataList.first{
-                        switch dataViewType {
-                        case .activityCalorie:
-                            detailDataView.value = CGFloat(sportdata.totalCal)
-                        case .activityTime:
-                            detailDataView.value = CGFloat(sportdata.totalActiveTime)
-                        case .restTime:
-                            detailDataView.value = 123
-                        default:
-                            detailDataView.value = 0
-                        }
-                    }
-                }
-                detailDataView.closure = {
-                    self.closure?()
-                }
-                dataViewTypeMap[dataViewType] = detailDataView
-                addSubview(detailDataView)
-            }
-        }
-    }
+    var detailBottom: DetailBottom!
+    var detailCenter: DetailCenter!
+    var detailTop: DetailTopBase!
     
-    
-    //MARK:- init
-    init(detailType: DataCubeType){
-        let frame = CGRect(x: edgeWidth,
-                           y: view_size.width / 2,
-                           width: view_size.width - edgeWidth * 2,
-                           height: view_size.height * 2)
+    init(detailType: DataCubeType, date: Date) {
+        let frame = CGRect(x: 0, y: 0, width: view_size.width, height: view_size.height)
         super.init(frame: frame)
         
         type = detailType
@@ -98,43 +49,83 @@ class DetailBack: UIView {
     }
     
     private func config(){
-        //绘制渐变
-        let gradient = CAGradientLayer()
-        gradient.frame = bounds
-        gradient.locations = [0.2, 0.8]
-        gradient.startPoint = CGPoint(x: 1, y: 0)
-        gradient.endPoint = CGPoint(x: 1, y: 1)
-        gradient.colors = [UIColor.white.cgColor, UIColor.white.cgColor]
-        gradient.cornerRadius = 10
-        layer.addSublayer(gradient)
         
-        //添加top
-        detailTop = DetailTop(detailType: type)
-        detailTop?.delegate = self
-        addSubview(detailTop!)
+        self.showsVerticalScrollIndicator = true
+        
+        delegate = self
     }
     
     private func createContents(){
         
-        //数据展示
-        switch type as DataCubeType {
-        case .sport:
-            dataViewTypeList = [.totalTime, .totalCalorie, .activityTime, .activityCalorie, .restTime, .restCalorie]
-        case .heartrate:
-            dataViewTypeList = []
-        case .sleep:
-            dataViewTypeList = [.deepSleep, .quiteSleep, .lightSleep, .wakeTime, .sleepTime, .wakeCount]
-        case .mindBody:
-            dataViewTypeList = [.weightStartTime, .weightDelta]
+        //添加底部面板
+        detailBottom = DetailBottom(detailType: type)
+        detailBottom.delegate = self
+        addSubview(detailBottom)
+        contentSize = CGSize(width: view_size.width, height: detailBottom.frame.origin.y + detailBottom.frame.height)
+        
+        //添加顶部面板
+        if type == .sport{
+            detailTop = SportDetailTop()
+        }else if type == .sleep{
+            detailTop = SleepDetailTop()
+        }else if type == .heartrate{
+            detailTop = HeartrateDetailTop()
+        }else{
+            detailTop = MindbodyDetailTop()
         }
+        detailTop.delegate = self
+        addSubview(detailTop)
         
-        //趋势
+        //添加中部面板
+        detailCenter = DetailCenter(detailType: type)
+        detailCenter.delegate = self
+        addSubview(detailCenter)
+    }
+}
+
+//MARK:- 触摸事件
+extension DetailSV{
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        detailTop.currentTouchesBegan(touches)
+        isScrollEnabled = false
+    }
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        detailTop.currentTouchesMoved(touches)
+        isScrollEnabled = false
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        detailTop.currentTouchesEnded(touches)
+        isScrollEnabled = true
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        isScrollEnabled = true
+    }
+}
+
+//MARK:- scroll delegate
+extension DetailSV: UIScrollViewDelegate{
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let offsetY = scrollView.contentOffset.y
+        if offsetY < (detailBottom.frame.origin.y - 64) / 2 {
+            scrollView.setContentOffset(CGPoint(x: 0, y: -66), animated: true)
+        }else if offsetY < detailBottom.frame.origin.y - 64 {
+            scrollView.setContentOffset(CGPoint(x: 0, y: detailBottom.frame.origin.y - 66), animated: true)
+        }
     }
 }
 
 //MARK:- 数据代理
-extension DetailBack: DetailTopDelegate{
+extension DetailSV: DetailDelegate{
     func detailTopData(closure: @escaping ([CGFloat])->()) {
         switch type as DataCubeType  {
         case .sport:
@@ -169,7 +160,7 @@ extension DetailBack: DetailTopDelegate{
             //心率数据
             var result = [CGFloat]()
             let angelManager = AngelManager.share()
-            DispatchQueue.global().async {                
+            DispatchQueue.global().async {
                 angelManager?.getHeartRateData(nil, date: selectDate, offset: 0){
                     heartRateDataList in
                     guard let heartRateData = heartRateDataList.last else{
@@ -255,7 +246,7 @@ extension DetailBack: DetailTopDelegate{
     
     //获取睡眠开始时间
     func detailSleepBeginTime() -> Date {
-
+        
         let angelManager = AngelManager.share()
         guard let macaddress = angelManager?.macAddress else {
             return Date()

@@ -399,7 +399,8 @@ class RecordTabelViewCell: UIView {
            
             self.recordSelector?.alpha = 0
             self.recordSelector?.frame = CGRect(x: 0, y: self.frame.height, width: self.frame.width, height: 1)
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+            
+            UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
                 self.contentView?.alpha = 0
                 self.contentView?.frame = CGRect(x: 0, y: self.frame.height, width: self.frame.width, height: 1)
                 
@@ -434,6 +435,16 @@ extension RecordTabelViewCell{
     
     //点击结束
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        click(sender: arrowButton!)
+        if cellType == .sportLevel {
+            if let touch = touches.first{
+                let location = touch.location(in: self)
+                let y = location.y
+                if y < 44{
+                    click(sender: arrowButton!)
+                }
+            }
+        }else{
+            click(sender: arrowButton!)
+        }
     }
 }

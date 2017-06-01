@@ -11,23 +11,23 @@ import Foundation
 //睡眠类型标示位
 let sleepTypeBit: Int16 = 1000
 
-//模块数据代理
-protocol DetailTopDelegate {
-    func detailTopData(closure: @escaping ([CGFloat])->())
-    func detailHeartrateOffset(closure: @escaping ([CGFloat])->())
-    func detailSleepBeginTime() -> Date
-    func detailWeightDates() -> [Date]
-    
-    //添加总览数据
-    func detailTotalValue() -> CGFloat
-    func detailLeftValue() -> CGFloat
-    func detailRightValue() -> CGFloat
-}
+////模块数据代理
+//protocol DetailTopDelegate {
+//    func detailTopData(closure: @escaping ([CGFloat])->())
+//    func detailHeartrateOffset(closure: @escaping ([CGFloat])->())
+//    func detailSleepBeginTime() -> Date
+//    func detailWeightDates() -> [Date]
+//    
+//    //添加总览数据
+//    func detailTotalValue() -> CGFloat
+//    func detailLeftValue() -> CGFloat
+//    func detailRightValue() -> CGFloat
+//}
 
 class DetailTop: UIView {
     fileprivate var type: DataCubeType!
     
-    var delegate: DetailTopDelegate?
+    var delegate: DetailDelegate?
     
     //main value
     private var value: CGFloat = 0{

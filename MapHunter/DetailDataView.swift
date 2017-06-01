@@ -17,9 +17,11 @@ enum DetailDataViewType{
     case restCalorie
     
     //睡眠
+    case heartrate
     case deepSleep
     case lightSleep
     case sleepTime
+    case sleepState
     case quiteSleep
     case wakeTime
     case wakeCount
@@ -72,8 +74,12 @@ class DetailDataView: UIView {
                 return
             case .wakeCount:
                 unit = "次"
+            case .heartrate:
+                unit = "次／分钟"
             case .weightDelta:
                 unit = "Kg"
+            case .sleepState:
+                unit = ""
             default:
                 unit = "大卡"
             }
@@ -165,6 +171,9 @@ class DetailDataView: UIView {
         case .restCalorie:
             firstLabelStr = "休息消耗量"
             iconName = "resource/dataicon/restcalorie"
+        case .heartrate:
+            firstLabelStr = "静息心率"
+            iconName = "resource/dataicon/heartrate"
         case .deepSleep:
             firstLabelStr = "深度睡眠"
             iconName = "resource/dataicon/deepsleep"
@@ -174,6 +183,9 @@ class DetailDataView: UIView {
         case .sleepTime:
             firstLabelStr = "入睡"
             iconName = "resource/dataicon/sleeptime"
+        case .sleepState:
+            firstLabelStr = "睡眠质量"
+            iconName = "resource/dataicon/sleepstate"
         case .quiteSleep:
             firstLabelStr = "快速动眼睡眠"
             iconName = "resource/dataicon/quitesleep"
@@ -189,6 +201,8 @@ class DetailDataView: UIView {
         case .weightDelta:
             firstLabelStr = "目标距离差距"
             iconName = "resource/dataicon/weightdelta"
+        default:
+            break
         }
         
         //image icon

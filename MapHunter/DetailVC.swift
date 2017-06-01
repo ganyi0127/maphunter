@@ -1,16 +1,18 @@
 //
-//  DetailViewController.swift
+//  DetailVC.swift
 //  MapHunter
 //
-//  Created by YiGan on 30/11/2016.
-//  Copyright © 2016 ganyi. All rights reserved.
+//  Created by ganyi on 2017/5/31.
+//  Copyright © 2017年 ganyi. All rights reserved.
 //
 
-import UIKit
-class DetailViewController: UIViewController {
+import Foundation
+class DetailVC: UIViewController {
     
     private var type: DataCubeType!     //类型
     private var date: Date!             //日期
+    
+    var detailSV: DetailSV!
     
     
     //MARK:- init
@@ -47,8 +49,7 @@ class DetailViewController: UIViewController {
     }
     
     private func config(){
-        view.backgroundColor = .clear
-        
+        view.backgroundColor = .clear        
         
         //绘制渐变
         let gradient = CAGradientLayer()
@@ -62,35 +63,27 @@ class DetailViewController: UIViewController {
         view.layer.addSublayer(gradient)
         
         //添加scrollView
-        /*
-        let detailScrollView = DetailScrollView(detailType: type, date: date)
-        detailScrollView.detailBack.detailTop?.closure = {
+        detailSV = DetailSV(detailType: type, date: date)
+        detailSV.detailCenter.closure = {
             //点击模块回调
             let targetSettingVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "targetsetting")
             self.present(targetSettingVC, animated: true, completion: nil)
         }
-        detailScrollView.detailBack.detailTop?.editClosure = {
+        detailSV.detailCenter.editClosure = {
             //点击编辑回调
             let weightEditVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "weightedit")
             self.navigationController?.show(weightEditVC, sender: nil)
         }
-        detailScrollView.detailBack.closure = {
+        detailSV.detailBottom.closure = {
             //点击数据view回调
             let introduceVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "introduce") as! IntroduceVC
             introduceVC.type = self.type
             self.navigationController?.show(introduceVC, sender: nil)
         }
-        view.addSubview(detailScrollView)
-         */
+        view.addSubview(detailSV)
     }
     
     private func createContents(){
-        
-    }
-}
-
-extension DetailViewController{
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
     }
 }

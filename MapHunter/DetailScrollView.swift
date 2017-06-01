@@ -10,7 +10,7 @@ import Foundation
 class DetailScrollView: UIScrollView {
     fileprivate var type: DataCubeType!
     
-    var detailBack: DetailBack!
+    var detailBottom: DetailBottom!
     
     init(detailType: DataCubeType, date: Date) {
         let frame = CGRect(x: 0, y: 0, width: view_size.width, height: view_size.height)
@@ -36,18 +36,20 @@ class DetailScrollView: UIScrollView {
     private func createContents(){
         
         //添加back
-        detailBack = DetailBack(detailType: type)
-        addSubview(detailBack)
-        contentSize = CGSize(width: view_size.width, height: detailBack.frame.origin.y + detailBack.frame.height)
+        detailBottom = DetailBottom(detailType: type)
+        addSubview(detailBottom)
+        contentSize = CGSize(width: view_size.width, height: detailBottom.frame.origin.y + detailBottom.frame.height)
     }
 }
 
+/*
 extension DetailScrollView{
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     
         detailBack.detailTop?.currentTouchesBegan(touches)
         isScrollEnabled = false
     }
+    
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         detailBack.detailTop?.currentTouchesMoved(touches)
@@ -65,6 +67,7 @@ extension DetailScrollView{
         isScrollEnabled = true
     }
 }
+ */
 
 extension DetailScrollView: UIScrollViewDelegate{
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -73,10 +76,10 @@ extension DetailScrollView: UIScrollViewDelegate{
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let offsetY = scrollView.contentOffset.y
-        if offsetY < (detailBack.frame.origin.y - 66) / 2 {
+        if offsetY < (detailBottom.frame.origin.y - 66) / 2 {
             scrollView.setContentOffset(CGPoint(x: 0, y: -66), animated: true)
-        }else if offsetY < detailBack.frame.origin.y - 66 {
-            scrollView.setContentOffset(CGPoint(x: 0, y: detailBack.frame.origin.y - 66), animated: true)
+        }else if offsetY < detailBottom.frame.origin.y - 66 {
+            scrollView.setContentOffset(CGPoint(x: 0, y: detailBottom.frame.origin.y - 66), animated: true)
         }
     }
 }

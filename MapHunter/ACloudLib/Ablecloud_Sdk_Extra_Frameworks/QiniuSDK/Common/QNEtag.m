@@ -53,7 +53,7 @@
         ret[0] = 0x96;
         CC_SHA1(pblocksSha1, (CC_LONG)CC_SHA1_DIGEST_LENGTH * count, ret + 1);
     }
-
+    
     return [QNUrlSafeBase64 encodeData:retData];
 }
 

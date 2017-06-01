@@ -37,8 +37,35 @@ class RecordTableView: UIView {
     var isOpen = false {
         didSet{
             openClosure?(type, isOpen)
+            //重新排列cell位置
+            var signIndex: Int?
+            self.subCells.enumerated().forEach{
+                index, cell in
+                
+                if signIndex == nil{
+                    
+                    //判断是否有已点击的cell，标记之后，以下cell从底部开始排列
+                    if let selType = self.selectedSubType{
+                        if selType == cell.cellType{
+                            signIndex = index
+                            cell.isOpen = true
+                        }else{
+                            cell.isOpen = false
+                        }
+                    }else{
+                        cell.isOpen = false
+                    }
+                    
+                    //正序
+                    cell.frame.origin.y = cell.frame.height * CGFloat(index)
+                }else{
+                    //反序
+                    cell.isOpen = false
+                    cell.frame.origin.y = self.frame.height - cell.frame.height * CGFloat(self.subCells.count - index)
+                }
+            }
             //动画
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+            UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
                 
                 //self移动到顶部
                 self.frame.origin.y = self.isOpen ? self.openOriginY : self.closeOriginY
@@ -46,33 +73,6 @@ class RecordTableView: UIView {
                 //隐藏头部
                 self.header?.alpha = self.isOpen ? 0 : 1
                 
-                //重新排列cell位置
-                var signIndex: Int?
-                self.subCells.enumerated().forEach{
-                    index, cell in
-                    
-                    if signIndex == nil{
-                        
-                        //判断是否有已点击的cell，标记之后，以下cell从底部开始排列
-                        if let selType = self.selectedSubType{
-                            if selType == cell.cellType{
-                                signIndex = index
-                                cell.isOpen = true
-                            }else{
-                                cell.isOpen = false
-                            }
-                        }else{
-                            cell.isOpen = false
-                        }
-                        
-                        //正序
-                        cell.frame.origin.y = cell.frame.height * CGFloat(index)
-                    }else{
-                        //反序
-                        cell.isOpen = false
-                        cell.frame.origin.y = self.frame.height - cell.frame.height * CGFloat(self.subCells.count - index)
-                    }
-                }
                 
                 //footer移动到底部
                 let lastCell = self.subCells.last!

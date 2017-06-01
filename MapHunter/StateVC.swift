@@ -492,8 +492,8 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
                         dataCubeType in
                         
                         //进入详情页面
-                        let detaiViewController = DetailViewController(detailType: dataCubeType, date: selectDate)
-                        self.navigationController?.show(detaiViewController, sender: cell)
+                        let detailVC = DetailVC(detailType: dataCubeType, date: selectDate)
+                        self.navigationController?.show(detailVC, sender: cell)
                     }
                 case 1:
                     cell = CalendarCell(reuseIdentifier: identifier)

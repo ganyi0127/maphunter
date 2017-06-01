@@ -158,6 +158,7 @@ class RecordSelector: UIView {
                 if let localHeartrateType = RecordTableView.heartrateType{
                     heartrateType = localHeartrateType
                 }
+                pickerView?.selectRow(heartrateType, inComponent: 0, animated: true)
                 selectedValue = heartrateType
             }else if type == .heartrateValue{
                 let firstIndex: Int = 20
@@ -205,14 +206,18 @@ class RecordSelector: UIView {
             }
         case .sportLevel:
             //自定义选择器
-            let backImageView = UIImageView(frame: frame)
+            let length: CGFloat = min(self.bounds.width, self.bounds.height) * 0.7
+            let imageFrame = CGRect(x: (self.bounds.width - length) / 2, y: (self.bounds.height - length) / 2, width: length, height: length)
+            
+            let backImageView = UIImageView(frame: imageFrame)
             backImageView.backgroundColor = .white
             backImageView.tintColor = separatorColor
             addSubview(backImageView)
             
+            //backImageView.isUserInteractionEnabled = true
             
             if levelImageView == nil{
-                levelImageView = UIImageView(frame: frame)
+                levelImageView = UIImageView(frame: imageFrame)
                 levelImageView?.isUserInteractionEnabled = true
                 levelImageView?.backgroundColor = .white
                 levelImageView?.tintColor = defaut_color
@@ -234,9 +239,9 @@ class RecordSelector: UIView {
                     }
                 }
                 drawSportLevel(withProgressValue: sportLevel)
-                selectedValue = sportLevel
             }
             
+            selectedValue = sportLevel
             
             //设置为强度背景
             if let sportType = RecordSelector.selectedSportType{
@@ -345,7 +350,7 @@ class RecordSelector: UIView {
         
         //绘制
         if levelMaskView == nil {
-            levelMaskView = UIView(frame: levelImageView!.frame)
+            levelMaskView = UIView(frame: levelImageView!.bounds)
             levelMaskView?.backgroundColor = .white
             addSubview(levelMaskView!)
             levelImageView?.mask = levelMaskView
@@ -597,7 +602,6 @@ extension RecordSelector: UICollectionViewDelegate, UICollectionViewDataSource, 
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        
         pageControl?.currentPage = Int(scrollView.contentOffset.x) / Int(frame.width) //indexPath.row
     }
     
@@ -649,6 +653,7 @@ extension RecordSelector: UICollectionViewDelegate, UICollectionViewDataSource, 
             if let cellType = cell.type{
                 closure?(type, cellType)
             }
+            collectionView.reloadData()
         }
     }
     

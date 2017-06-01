@@ -94,7 +94,7 @@ class RecordHeaderView: UIView {
     
     //MARK:- sport
     private lazy var sportImageView: UIImageView? = {
-        let length: CGFloat = min(self.bounds.width, self.bounds.height) * 0.8
+        let length: CGFloat = min(self.bounds.width, self.bounds.height) * 0.75
         let imageFrame = CGRect(x: (self.bounds.width - length) / 2, y: (self.bounds.height - length) / 2, width: length, height: length)
         let imageView = UIImageView(frame: imageFrame)
         imageView.image = UIImage(named: "resource/sporticons/bigicon/none")?.transfromImage(size: imageFrame.size)

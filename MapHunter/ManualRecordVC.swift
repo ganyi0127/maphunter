@@ -60,6 +60,14 @@ class ManualRecordVC: UIViewController {
         list.append(("Totally Done", UIImage(named: "resource/sporticons/mood/type_totallydone")))
         return list
     }()
+    fileprivate lazy var moodTitleLabel: UILabel? = {
+        let labelFrame = CGRect(x: view_size.width / 2 - 60, y: 8, width: 120, height: 24)
+        let label: UILabel = UILabel(frame: labelFrame)
+        label.text = "HOW DO YOU FEEL?"
+        label.textColor = .white
+        label.textAlignment = .center
+        return label
+    }()
     fileprivate lazy var moodPrivateButton: UIButton? = {
         let buttonLength: CGFloat = 64
         let buttonFrame = CGRect(x: 0, y: self.view.frame.height - self.moodTypeTextField!.frame.height - buttonLength, width: buttonLength, height: buttonLength)
@@ -286,6 +294,7 @@ class ManualRecordVC: UIViewController {
             view.addSubview(moodBackground!)
             view.addSubview(moodTipView!)
             view.addSubview(moodImageView!)
+            view.addSubview(moodTitleLabel!)
             view.addSubview(moodPrivateButton!)
             view.addSubview(moodTypeTextField!)
         }
@@ -349,8 +358,8 @@ extension ManualRecordVC{
             
             let location = touch.location(in: view)
             let y = location.y
-            let height = view.frame.height - moodTypeTextField!.frame.height
-            let index = Int(y) / (Int(height) / moodImageList.count)
+            let height = moodImageView!.frame.height //view.frame.height - moodTypeTextField!.frame.height
+            let index = Int(y - moodImageView!.frame.origin.y) / (Int(height) / moodImageList.count)
             if index < moodImageList.count {
                 moodImageView?.image = moodImageList[index].image
                 moodTypeTextField?.text = moodImageList[index].text
