@@ -441,7 +441,7 @@ class DetailTop: UIView {
         }
         
         //获取数据
-        del.detailTopData{
+        del.sportData{
             result in
             
             var dataList = result

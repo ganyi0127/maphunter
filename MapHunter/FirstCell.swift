@@ -254,6 +254,32 @@ class FirstCell: UITableViewCell {
             }
         }
         
+        //读取睡眠
+        angelManager?.getSleepData{
+            sleepDataList in
+            guard let sleepData = sleepDataList.last else{
+                return
+            }
+            let count = sleepData.sleepItemCount
+            var sleepItemList = [SleepItem]()
+            
+            //获取起床时间
+            let calendar = Calendar.current
+            var components = calendar.dateComponents([.hour, .minute], from: selectDate)
+            components.hour = Int(sleepData.endTimeHour)
+            components.minute = Int(sleepData.endTimeMinute)
+            guard let date = calendar.date(from: components) else{
+                return
+            }
+            
+            DispatchQueue.main.async {
+                var data = DataCubeData()
+                data.value1 = CGFloat(sleepData.totalMinute)
+                data.value2 = 1
+                self.sleepDataCube.data = data
+            }
+        }
+        
         //更新体重目标
 //        if let user = CoreDataHandler.share().selectUser(userId: UserManager.share().userId){
 //            var data = DataCubeData()

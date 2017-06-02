@@ -34,7 +34,7 @@ class SportDetailTop: DetailTopBase {
         }
         
         //获取数据
-        del.detailTopData{
+        del.sportData{
             result in
             
             var tmpResult = result
@@ -70,8 +70,7 @@ class SportDetailTop: DetailTopBase {
             self.headCount = headCount                                                  //存储有效head offset
             
             let dataListCount = tmpResult.count                                         //数据数量
-            var rectWidth = (self.bounds.size.width - detailRadius * 2) / CGFloat(dataListCount)        //柱状图宽度
-            let detailBackOriginY = self.frame.height                                   //柱状图高度
+            let rectWidth = (self.bounds.size.width - detailRadius * 2) / CGFloat(dataListCount)        //柱状图宽度
             
             //数据起始结束文字
             var beginText = ""
@@ -85,7 +84,7 @@ class SportDetailTop: DetailTopBase {
                 maxData = 100
             }
             
-            let rectHeight = detailBackOriginY * 0.6    //柱状图高度
+            let rectHeight = self.frame.height * 0.6    //柱状图高度
             //绘制柱状图
             tmpResult.enumerated().forEach(){
                 index, data in
@@ -205,6 +204,10 @@ extension SportDetailTop{
             let x = detailRadius + CGFloat(dataIndex) * dataWidth
             let newFrame = CGRect(x: x, y: self.selectedView.frame.origin.y, width: dataWidth, height: self.selectedView.frame.height)
             self.selectedView.frame = newFrame
+            
+            //改变小三角x位置
+            self.triangleView.frame.origin.x = dataWidth / 2 - self.triangleView.frame.width / 2
+            
             
             //改变layer宽度
             if let oldLayers = self.selectedView.layer.sublayers?.filter({$0.name == "layer"}){

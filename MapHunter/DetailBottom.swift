@@ -54,20 +54,54 @@ class DetailBottom: UIView {
                 let coredataHandler = CoreDataHandler.share()
                 if let macaddress = AngelManager.share()?.macAddress{
                     let userId = UserManager.share().userId
-                    let sportdataList = coredataHandler.selectSportData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
-                    if let sportdata = sportdataList.first{
-                        switch dataViewType {
-                        case .activityCalorie:
-                            detailDataView.value = CGFloat(sportdata.totalCal)
-                        case .activityTime:
-                            detailDataView.value = CGFloat(sportdata.totalActiveTime)
-                        case .restTime:
-                            detailDataView.value = 123
-                        default:
-                            detailDataView.value = 0
+                    if self.type == .sport {                   //运动
+                        let sportdataList = coredataHandler.selectSportData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+                        if let sportdata = sportdataList.first{
+                            switch dataViewType {
+                            case .totalTime:
+                                detailDataView.value = CGFloat(sportdata.totalActiveTime)
+                            case .totalCalorie:
+                                detailDataView.value = CGFloat(sportdata.totalCal)
+                            case .activityTime:
+                                detailDataView.value = CGFloat(sportdata.totalActiveTime)
+                            case .activityCalorie:
+                                detailDataView.value = CGFloat(sportdata.totalCal)
+                            case .restTime:
+                                detailDataView.value = 123
+                            case .restCalorie:
+                                detailDataView.value = 123
+                            default:
+                                detailDataView.value = 0
+                            }
+                        }
+                    }else if self.type == .sleep{               //睡眠
+                        let sleepDataList = coredataHandler.selectSleepData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+                        if let sleepData = sleepDataList.first{
+                            switch dataViewType {
+                            case .heartrate:
+                                detailDataView.value = 70
+                            case .sleepState:
+                                detailDataView.value = CGFloat(sleepData.faultingState)
+                            case .deepSleep:
+                                detailDataView.value = CGFloat(sleepData.deepSleepMinute * 60)
+                            case .quiteSleep:
+                                detailDataView.value = 0
+                            case .lightSleep:
+                                detailDataView.value = CGFloat(sleepData.lightSleepMinute * 60)
+                            case .wakeTime:
+                                detailDataView.value = CGFloat(sleepData.totalMinute - sleepData.lightSleepMinute - sleepData.deepSleepMinute) * 60
+                            case .sleepTime:
+                                detailDataView.value = CGFloat(sleepData.totalMinute * 60)
+                            case .wakeCount:
+                                detailDataView.value = CGFloat(sleepData.wakeCount)
+                            default:
+                                detailDataView.value = 0
+                            }
                         }
                     }
                 }
+                
+                //回调
                 detailDataView.closure = {
                     self.closure?()
                 }

@@ -34,7 +34,19 @@ class DetailTopBase: UIView {
         self.selectedLabel.frame.origin.x = dataWidth / 2 - 40
         selectedView.addSubview(self.selectedLabel)
         
+        //添加小三角
+        
+        selectedView.addSubview(self.triangleView)
+        
         return selectedView
+    }()
+    //小三角
+    lazy var triangleView: UIImageView = {
+        let triangleFrame = CGRect(x: 0, y: self.selectedLabel.bounds.height, width: 11, height: 4)
+        let triangle = UIImageView(frame: triangleFrame)
+        let triangleImage = UIImage(named: "resource/sporticons/mood/triangle")
+        triangle.image = triangleImage
+        return triangle
     }()
     //显示选择数据值
     lazy var selectedLabel: UILabel = {
@@ -42,7 +54,7 @@ class DetailTopBase: UIView {
         selectedLabel.tag = 0
         selectedLabel.font = fontSmall
         
-        var labelFrame = CGRect(x: self.frame.width / 2 - 40, y: detailTopHeight / 2, width: 80, height: 34)
+        var labelFrame = CGRect(x: self.frame.width / 2 - 40, y: 0, width: 80, height: 34)
         selectedLabel.frame = labelFrame
         selectedLabel.layer.backgroundColor = UIColor.white.cgColor
         selectedLabel.textColor = .black
@@ -83,6 +95,9 @@ class DetailTopBase: UIView {
     fileprivate var type: DataCubeType!
     
     
+    var detailCenter: DetailCenter{
+        return (self.superview as! DetailSV).detailCenter
+    }
     var delegate: DetailDelegate?
     var closure: (()->())?
     
@@ -138,13 +153,5 @@ extension DetailTopBase{
     
     func currentTouchesEnded(_ touches: Set<UITouch>){
         
-    }
-    
-    //MARK:- 时间计算
-    func getNewHourAndMinute(hour: Int, minute: Int, deltaMinute: Int) -> (hour: Int, minute: Int){
-        let newHour = (minute + deltaMinute) / 60
-        let resultMinute = (minute + deltaMinute) % 60
-        let resultHour = (hour + newHour) % 24
-        return (resultHour, resultMinute)
     }
 }

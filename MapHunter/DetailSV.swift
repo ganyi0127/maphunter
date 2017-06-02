@@ -16,10 +16,17 @@ let detailRadius: CGFloat = 10
 
 //模块数据代理
 protocol DetailDelegate {
-    func detailTopData(closure: @escaping ([CGFloat])->())
+    //sport
+    func sportData(closure: @escaping ([CGFloat])->())
+    func sportActivities() -> [Track]
+    
+    //sleep
+    func sleepData(withSleepClosure sleepClosure: @escaping (Date, [(Int, Int)])->(), heartrateClosure: @escaping ([(Int, Int)])->())             //睡眠开始时间, [(睡眠类型，睡眠分钟数)]
+//    func sleepHeartrate(closure: @escaping ([(Int, Int)])->())                //根据睡眠开始与结束时间获取范围内心率: [偏移分钟数, 心率值]
+    
     func detailHeartrateOffset(closure: @escaping ([CGFloat])->())
-    func detailSleepBeginTime() -> Date
     func detailWeightDates() -> [Date]
+    
     
     //添加总览数据
     func detailTotalValue() -> CGFloat
@@ -126,7 +133,7 @@ extension DetailSV: UIScrollViewDelegate{
 
 //MARK:- 数据代理
 extension DetailSV: DetailDelegate{
-    func detailTopData(closure: @escaping ([CGFloat])->()) {
+    func sportData(closure: @escaping ([CGFloat])->()) {
         switch type as DataCubeType  {
         case .sport:
             //运动数据
@@ -183,30 +190,7 @@ extension DetailSV: DetailDelegate{
                 }
             }
         case .sleep:
-            //睡眠数据
-            var result = [CGFloat]()
-            let angelManager = AngelManager.share()
-            angelManager?.getSleepData{
-                sleepDataList in
-                guard let sleepData = sleepDataList.last else{
-                    closure(result)
-                    return
-                }
-                
-                let sleepItems = sleepData.sleepItem
-                var sleepItemList = [SleepItem]()
-                sleepItems?.forEach{
-                    item in
-                    sleepItemList.append(item as! SleepItem)
-                }
-                sleepItemList = sleepItemList.sorted{$0.id < $1.id}
-                result = sleepItemList.map{CGFloat($0.sleepStatus) * CGFloat(sleepTypeBit) + CGFloat($0.durations)}
-                debugPrint("sleep result list:", result)
-                
-                DispatchQueue.main.async {
-                    closure(result)
-                }
-            }
+            break
         case .mindBody:
             //身心状态数据
             var result = [CGFloat]()
@@ -216,6 +200,69 @@ extension DetailSV: DetailDelegate{
                 result.append(data)
             }
             closure(result)
+        }
+    }
+    
+    func sportActivities() -> [Track] {
+        return []
+    }
+    
+    func sleepData(withSleepClosure sleepClosure: @escaping (Date, [(Int, Int)]) -> (), heartrateClosure: @escaping ([(Int, Int)]) -> ()) {
+        
+        //睡眠数据
+        var result = [(Int, Int)]()
+        let angelManager = AngelManager.share()
+        angelManager?.getSleepData{
+            sleepDataList in
+            guard let sleepData = sleepDataList.last else{
+                return
+            }
+            let sleepItems = sleepData.sleepItem
+            let count = sleepData.sleepItemCount
+            var sleepItemList = [SleepItem]()
+            sleepItems?.forEach{
+                item in
+                if (item as! SleepItem).id < count{
+                    sleepItemList.append(item as! SleepItem)
+                }
+            }
+            sleepItemList = sleepItemList.sorted{$0.id < $1.id}
+            
+            result = sleepItemList.map{(Int($0.sleepStatus), Int($0.durations))}
+            debugPrint("sleep result list:", result)
+            
+            //获取起床时间
+            let calendar = Calendar.current
+            var components = calendar.dateComponents([.hour, .minute], from: selectDate)
+            components.hour = Int(sleepData.endTimeHour)
+            components.minute = Int(sleepData.endTimeMinute)
+            guard let date = calendar.date(from: components) else{
+                return
+            }
+            
+            angelManager?.getHeartRateData(nil, date: selectDate, offset: 0){
+                heartRateDataList in
+                guard let heartRateData = heartRateDataList.last else{
+                    return
+                }
+                
+                let heartRateItems = heartRateData.heartRateItem
+                var heartRateList = [HeartRateItem]()
+                heartRateItems?.forEach{
+                    item in
+                    heartRateList.append(item as! HeartRateItem)
+                }
+                heartRateList = heartRateList.sorted{$0.id < $1.id}
+                result = heartRateList.map{(Int($0.offset), Int($0.data))}
+                debugPrint("heartrate offset list:", result)
+                DispatchQueue.main.async {
+                    heartrateClosure(result)
+                }
+            }
+            
+            DispatchQueue.main.async {
+                sleepClosure(date, result)
+            }
         }
     }
     
@@ -242,28 +289,6 @@ extension DetailSV: DetailDelegate{
                 closure(result)
             }
         }
-    }
-    
-    //获取睡眠开始时间
-    func detailSleepBeginTime() -> Date {
-        
-        let angelManager = AngelManager.share()
-        guard let macaddress = angelManager?.macAddress else {
-            return Date()
-        }
-        let coredataHandle = CoreDataHandler.share()
-        let userId = UserManager.share().userId
-        let sleepDataList = coredataHandle.selectSleepData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
-        if let sleepData = sleepDataList.first{
-            let calendar = Calendar.current
-            var components = calendar.dateComponents([.hour, .minute], from: selectDate)
-            components.hour = Int(sleepData.startTimeHour)
-            components.minute = Int(sleepData.startTimeMinute)
-            if let date = calendar.date(from: components){
-                return date
-            }
-        }
-        return Date()
     }
     
     //获取日期数组
@@ -327,7 +352,7 @@ extension DetailSV: DetailDelegate{
         case .sleep:
             let sleepDataList = coredataHandle.selectSleepData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
             if let sleepData = sleepDataList.first{
-                return CGFloat(sleepData.deepSleepMinute)
+                return CGFloat(sleepData.totalMinute)
             }
         default:
             return 0

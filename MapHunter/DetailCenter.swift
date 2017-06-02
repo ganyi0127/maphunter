@@ -9,23 +9,26 @@
 import Foundation
 class DetailCenter: UIView {
     //main value
-    var value: CGFloat = 0{
+    var value: CGFloat? {
         didSet{
+            guard let v = value else {
+                return
+            }
             var unit: String
             var text: String
             switch type as DataCubeType {
             case .sport:
                 unit = "%"
-                text = "\(Int16(value / 10000 * 100))" + unit
+                text = "\(Int16(v / 10000 * 100))" + unit
             case .heartrate:
                 unit = "Bmp"
-                text = "\(Int16(value))" + unit
+                text = "\(Int16(v))" + unit
             case .sleep:
                 unit = "%"
-                text = "\(Int16(value / 10000 * 100))" + unit
+                text = "\(Int16(v / 10000 * 100))" + unit
             case .mindBody:
                 unit = "Kg"
-                text = "\(Int16(value))" + unit
+                text = "\(Int16(v))" + unit
             }
             
             let mainAttributedString = NSMutableAttributedString(string: text,
@@ -38,18 +41,21 @@ class DetailCenter: UIView {
             valueLabel.attributedText = mainAttributedString
         }
     }
-    var leftValue: CGFloat = 0{
+    var leftValue: CGFloat? {
         didSet{
+            guard let v = leftValue else {
+                return
+            }
             var unit: String
             var text: String
             switch type as DataCubeType {
             case .sport:
                 unit = "步"
-                text = "\(Int16(leftValue))" + unit
+                text = "\(Int16(v))" + unit
             case .sleep:
                 unit = "分钟"
-                let hour = Int16(leftValue) / 60
-                let minute = Int16(leftValue) % 60
+                let hour = Int16(v) / 60
+                let minute = Int16(v) % 60
                 let minuteStr = "\(minute)"
                 text = "\(hour)小时" + minuteStr + "分钟"
                 
@@ -72,18 +78,21 @@ class DetailCenter: UIView {
             leftLabel.attributedText = mainAttributedString
         }
     }
-    var rightValue: CGFloat = 0{
+    var rightValue: CGFloat? {
         didSet{
+            guard let v = rightValue else {
+                return
+            }
             var unit: String
             var text: String
             switch type as DataCubeType {
             case .sport:
-                if rightValue > 1000 {
+                if v > 1000 {
                     unit = "公里"
-                    text = "\(rightValue / 1000)" + unit
+                    text = "\(v / 1000)" + unit
                 }else{
                     unit = "米"
-                    text = "\(rightValue)" + unit
+                    text = "\(v)" + unit
                 }
             default:
                 unit = ""
@@ -157,7 +166,7 @@ class DetailCenter: UIView {
         shapeLayer.fillColor = nil
         shapeLayer.strokeColor = UIColor.white.withAlphaComponent(0.5).cgColor
         shapeLayer.lineWidth = 2
-        shapeLayer.strokeEnd = self.value / 10000
+        shapeLayer.strokeEnd = self.value ?? 0 / 10000
         return shapeLayer
     }()
     
@@ -231,6 +240,22 @@ class DetailCenter: UIView {
         gradient.shadowOpacity = 0.5
         gradient.masksToBounds = false
         layer.addSublayer(gradient)
+        
+        //插图
+        var name = ""
+        if type == DataCubeType.sport{
+            name = "resource/cube/sport_center"
+        }else if type == DataCubeType.heartrate{
+            name = "resource/cube/heartrate_center"
+        }else if type == DataCubeType.sleep{
+            name = "resource/cube/sleep_center"
+        }else{
+            name = "resource/cube/mindbody_center"
+        }
+        let imageView = UIImageView(frame: bounds)
+        imageView.image = UIImage(named: name)
+        imageView.clipsToBounds = true
+        addSubview(imageView)
         
         //添加点击事件
         isUserInteractionEnabled = true

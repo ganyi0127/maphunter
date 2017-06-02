@@ -21,6 +21,6 @@ class HeartrateDetailTop: DetailTopBase {
     }
     
     override func createContents() {
-        super.createContents()
+        
     }
 }

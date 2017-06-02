@@ -216,7 +216,6 @@
 		BE7248301ECBEC36008099B7 /* BootRegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE72482F1ECBEC36008099B7 /* BootRegisterVC.swift */; };
 		BE7248321ECC0783008099B7 /* RecordSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7248311ECC0783008099B7 /* RecordSelector.swift */; };
 		BE7319FD1E0B7D9B002BDF2D /* DetailScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7319FC1E0B7D9B002BDF2D /* DetailScrollView.swift */; };
-		BE7319FF1E0B7F00002BDF2D /* DetailTop.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7319FE1E0B7F00002BDF2D /* DetailTop.swift */; };
 		BE731A011E0B8958002BDF2D /* DetailBottom.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE731A001E0B8958002BDF2D /* DetailBottom.swift */; };
 		BE731A031E0B8CD1002BDF2D /* DetailDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE731A021E0B8CD1002BDF2D /* DetailDataView.swift */; };
 		BE743BE01DAA1D25002AC282 /* CellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE743BDF1DAA1D25002AC282 /* CellExtension.swift */; };
@@ -2658,7 +2657,6 @@
 				BE576FFF1E25DD55006BAD1C /* RecommendRouteViewController.swift in Sources */,
 				BE0DD8CC1EA6FD6E00574139 /* ESPTouchTask.m in Sources */,
 				BE8685551E30C7CD00EBEBED /* ViewControllerExtension.swift in Sources */,
-				BE7319FF1E0B7F00002BDF2D /* DetailTop.swift in Sources */,
 				BECD4F1D1EA1C4CA00C9136C /* InfoHeightView.swift in Sources */,
 				BE0DD8CB1EA6FD6E00574139 /* ESPTouchResult.m in Sources */,
 				BE3DB3291E963D4F001CA7AF /* BootScanCell.swift in Sources */,
