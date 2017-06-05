@@ -137,6 +137,7 @@
 		BE0DD8E21EA6FD6E00574139 /* libAbleCloudLib_simulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE0DD7E41EA6FD6E00574139 /* libAbleCloudLib_simulator.a */; };
 		BE0DD8F81EA702C600574139 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0DD8F71EA702C600574139 /* Reachability.swift */; };
 		BE0DD8FA1EA7081800574139 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0DD8F91EA7081800574139 /* NetworkManager.swift */; };
+		BE118D701EE55E86009DD90A /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE118D6F1EE55E86009DD90A /* DateExtension.swift */; };
 		BE198C131E793A4200B11A90 /* ScanCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE198C121E793A3F00B11A90 /* ScanCell.swift */; };
 		BE1C366D1D93725000AB4370 /* RootTBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1C366C1D93725000AB4370 /* RootTBC.swift */; };
 		BE1C36701D93745500AB4370 /* NavigationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1C366F1D93745500AB4370 /* NavigationExtension.swift */; };
@@ -635,6 +636,7 @@
 		BE0DD8851EA6FD6E00574139 /* ACWifiLinkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACWifiLinkManager.h; sourceTree = "<group>"; };
 		BE0DD8F71EA702C600574139 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Reachability.swift; path = ../Reachability.swift; sourceTree = "<group>"; };
 		BE0DD8F91EA7081800574139 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		BE118D6F1EE55E86009DD90A /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		BE198C121E793A3F00B11A90 /* ScanCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanCell.swift; sourceTree = "<group>"; };
 		BE1C366C1D93725000AB4370 /* RootTBC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootTBC.swift; sourceTree = "<group>"; };
 		BE1C366F1D93745500AB4370 /* NavigationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationExtension.swift; sourceTree = "<group>"; };
@@ -1903,6 +1905,7 @@
 				32C3E6331E0A694E00D34A74 /* AlertExtension.swift */,
 				BE8685951E334F7700EBEBED /* CustomSheet.swift */,
 				BE94BAC01E49CE7D005DD8E4 /* ColorExtension.swift */,
+				BE118D6F1EE55E86009DD90A /* DateExtension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -1913,6 +1916,13 @@
 				BE1C36721D93763900AB4370 /* ItemButton.swift */,
 			);
 			name = Buttons;
+			sourceTree = "<group>";
+		};
+		BE1F14EA1EE4EE48007A96A8 /* 选择某天模块 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "选择某天模块";
 			sourceTree = "<group>";
 		};
 		BE2DC9DC1D9210A300978C97 = {
@@ -2043,6 +2053,7 @@
 				BE33292D1EDEC2D400B39093 /* DetailVC.swift */,
 				BE33292F1EDFB01E00B39093 /* DetailSV.swift */,
 				BE3329311EDFB10800B39093 /* 面板 */,
+				BE1F14EA1EE4EE48007A96A8 /* 选择某天模块 */,
 			);
 			name = "new子模块";
 			sourceTree = "<group>";
@@ -2812,6 +2823,7 @@
 				BE0DD8CE1EA6FD6E00574139 /* ESPUDPSocketClient.m in Sources */,
 				BE0DD89C1EA6FD6E00574139 /* GCDAsyncSocket.m in Sources */,
 				BEDF4F691D98BBD700E98D63 /* CustomAnnotationView.swift in Sources */,
+				BE118D701EE55E86009DD90A /* DateExtension.swift in Sources */,
 				BE0DD8C41EA6FD6E00574139 /* EasyLinkForAXZWifiLink.m in Sources */,
 				BE0DD8AE1EA6FD6E00574139 /* QNHijackingDetectWrapper.m in Sources */,
 				BEDF4F721D99033000E98D63 /* LabelExtension.swift in Sources */,

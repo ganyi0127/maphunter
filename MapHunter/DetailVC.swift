@@ -10,15 +10,16 @@ import Foundation
 class DetailVC: UIViewController {
     
     private var type: DataCubeType!     //类型
-    private var date: Date!             //日期
+    private var date: Date?             //日期
     
     var detailSV: DetailSV!
     
-    
+    private var isDetail = false
     //MARK:- init
-    init(detailType: DataCubeType, date: Date){
+    init(detailType: DataCubeType, date: Date?, isDetail: Bool){
         super.init(nibName: nil, bundle: nil)
         
+        self.isDetail = isDetail
         type = detailType
         self.date = date
         
@@ -34,7 +35,7 @@ class DetailVC: UIViewController {
         //显示日期
         let formatter = DateFormatter()
         formatter.dateFormat = "yyy-MM-dd"
-        let dateStr = formatter.string(from: date!)
+        let dateStr = formatter.string(from: date ?? selectDate)
         let todayStr = formatter.string(from: Date())
         
         if dateStr == todayStr {
@@ -63,7 +64,7 @@ class DetailVC: UIViewController {
         view.layer.addSublayer(gradient)
         
         //添加scrollView
-        detailSV = DetailSV(detailType: type, date: date)
+        detailSV = DetailSV(detailType: type, date: date, isDetail: isDetail)
         detailSV.detailCenter.closure = {
             //点击模块回调
             let targetSettingVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "targetsetting")

@@ -36,7 +36,7 @@ class DetailScrollView: UIScrollView {
     private func createContents(){
         
         //添加back
-        detailBottom = DetailBottom(detailType: type)
+        detailBottom = DetailBottom(detailType: type, isDetail: false)
         addSubview(detailBottom)
         contentSize = CGSize(width: view_size.width, height: detailBottom.frame.origin.y + detailBottom.frame.height)
     }
@@ -69,6 +69,7 @@ extension DetailScrollView{
 }
  */
 
+//MARK:- scrollView delegate
 extension DetailScrollView: UIScrollViewDelegate{
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         
@@ -83,3 +84,5 @@ extension DetailScrollView: UIScrollViewDelegate{
         }
     }
 }
+
+//MARK:- 日期tableView delegate

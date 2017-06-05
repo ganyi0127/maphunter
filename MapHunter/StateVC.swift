@@ -492,7 +492,7 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
                         dataCubeType in
                         
                         //进入详情页面
-                        let detailVC = DetailVC(detailType: dataCubeType, date: selectDate)
+                        let detailVC = DetailVC(detailType: dataCubeType, date: nil, isDetail: true)
                         self.navigationController?.show(detailVC, sender: cell)
                     }
                 case 1:

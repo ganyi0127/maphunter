@@ -36,16 +36,21 @@ protocol DetailDelegate {
 
 class DetailSV: UIScrollView {
     fileprivate var type: DataCubeType!
+    fileprivate var date: Date?
     
     var detailBottom: DetailBottom!
     var detailCenter: DetailCenter!
     var detailTop: DetailTopBase!
     
-    init(detailType: DataCubeType, date: Date) {
+    private var isDetail = false
+    
+    init(detailType: DataCubeType, date: Date?, isDetail: Bool) {
         let frame = CGRect(x: 0, y: 0, width: view_size.width, height: view_size.height)
         super.init(frame: frame)
         
+        self.isDetail = isDetail
         type = detailType
+        self.date = date
         
         config()
         createContents()
@@ -65,7 +70,7 @@ class DetailSV: UIScrollView {
     private func createContents(){
         
         //添加底部面板
-        detailBottom = DetailBottom(detailType: type)
+        detailBottom = DetailBottom(detailType: type, isDetail: isDetail)
         detailBottom.delegate = self
         addSubview(detailBottom)
         contentSize = CGSize(width: view_size.width, height: detailBottom.frame.origin.y + detailBottom.frame.height)
@@ -134,13 +139,15 @@ extension DetailSV: UIScrollViewDelegate{
 //MARK:- 数据代理
 extension DetailSV: DetailDelegate{
     func sportData(closure: @escaping ([CGFloat])->()) {
+        let angelManager = AngelManager.share()
+        let selDate = date ?? selectDate
+        
         switch type as DataCubeType  {
         case .sport:
             //运动数据
             var result = [CGFloat]()
             
-            let angelManager = AngelManager.share()
-            angelManager?.getSportData(nil, date: selectDate, offset: 0){
+            angelManager?.getSportData(nil, date: selDate, offset: 0){
                 sportDataList in
                 guard let sportData = sportDataList.last else{
                     return
@@ -166,9 +173,9 @@ extension DetailSV: DetailDelegate{
         case .heartrate:
             //心率数据
             var result = [CGFloat]()
-            let angelManager = AngelManager.share()
+            
             DispatchQueue.global().async {
-                angelManager?.getHeartRateData(nil, date: selectDate, offset: 0){
+                angelManager?.getHeartRateData(nil, date: selDate, offset: 0){
                     heartRateDataList in
                     guard let heartRateData = heartRateDataList.last else{
                         return
@@ -212,6 +219,8 @@ extension DetailSV: DetailDelegate{
         //睡眠数据
         var result = [(Int, Int)]()
         let angelManager = AngelManager.share()
+        let selDate = date ?? selectDate
+        
         angelManager?.getSleepData{
             sleepDataList in
             guard let sleepData = sleepDataList.last else{
@@ -240,7 +249,7 @@ extension DetailSV: DetailDelegate{
                 return
             }
             
-            angelManager?.getHeartRateData(nil, date: selectDate, offset: 0){
+            angelManager?.getHeartRateData(nil, date: selDate, offset: 0){
                 heartRateDataList in
                 guard let heartRateData = heartRateDataList.last else{
                     return
@@ -270,7 +279,9 @@ extension DetailSV: DetailDelegate{
         //心率数据
         var result = [CGFloat]()
         let angelManager = AngelManager.share()
-        angelManager?.getHeartRateData(nil, date: selectDate, offset: 0){
+        let selDate = date ?? selectDate
+        
+        angelManager?.getHeartRateData(nil, date: selDate, offset: 0){
             heartRateDataList in
             guard let heartRateData = heartRateDataList.last else{
                 return
@@ -314,19 +325,21 @@ extension DetailSV: DetailDelegate{
         }
         let coredataHandle = CoreDataHandler.share()
         let userId = UserManager.share().userId
+        let selDate = date ?? selectDate
+        
         switch type as DataCubeType {
         case .sport:
-            let sportDataList = coredataHandle.selectSportData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+            let sportDataList = coredataHandle.selectSportData(userId: userId, withMacAddress: macaddress, withDate: selDate, withDayRange: 0)
             if let sportData = sportDataList.first{
                 return CGFloat(sportData.totalStep)
             }
         case .heartrate:
-            let heartrateDataList = coredataHandle.selectHeartRateData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+            let heartrateDataList = coredataHandle.selectHeartRateData(userId: userId, withMacAddress: macaddress, withDate: selDate, withDayRange: 0)
             if let heartrateData = heartrateDataList.first{
                 return CGFloat(heartrateData.silentHeartRate)
             }
         case .sleep:
-            let sleepDataList = coredataHandle.selectSleepData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+            let sleepDataList = coredataHandle.selectSleepData(userId: userId, withMacAddress: macaddress, withDate: selDate, withDayRange: 0)
             if let sleepData = sleepDataList.first{
                 return CGFloat(sleepData.deepSleepMinute)
             }
@@ -343,14 +356,16 @@ extension DetailSV: DetailDelegate{
         }
         let coredataHandle = CoreDataHandler.share()
         let userId = UserManager.share().userId
+        let selDate = date ?? selectDate
+        
         switch type as DataCubeType {
         case .sport:
-            let sportDataList = coredataHandle.selectSportData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+            let sportDataList = coredataHandle.selectSportData(userId: userId, withMacAddress: macaddress, withDate: selDate, withDayRange: 0)
             if let sportData = sportDataList.first{
                 return CGFloat(sportData.totalStep)
             }
         case .sleep:
-            let sleepDataList = coredataHandle.selectSleepData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+            let sleepDataList = coredataHandle.selectSleepData(userId: userId, withMacAddress: macaddress, withDate: selDate, withDayRange: 0)
             if let sleepData = sleepDataList.first{
                 return CGFloat(sleepData.totalMinute)
             }
@@ -362,6 +377,8 @@ extension DetailSV: DetailDelegate{
     
     func detailRightValue() -> CGFloat {
         let angelManager = AngelManager.share()
+        let selDate = date ?? selectDate
+        
         guard let macaddress = angelManager?.macAddress else {
             return 0
         }
@@ -369,7 +386,7 @@ extension DetailSV: DetailDelegate{
         let userId = UserManager.share().userId
         switch type as DataCubeType {
         case .sport:
-            let sportDataList = coredataHandle.selectSportData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+            let sportDataList = coredataHandle.selectSportData(userId: userId, withMacAddress: macaddress, withDate: selDate, withDayRange: 0)
             if let sportData = sportDataList.first{
                 return CGFloat(sportData.totalDistance)
             }
