@@ -1509,6 +1509,7 @@ public final class AngelManager: NSObject {
             }
             
             let items = heartRateData.items
+            //heartRateData.items_count
             //let length = MemoryLayout<ble_sync_heart_rate_item>.size
             (0..<96).forEach(){
                 i in

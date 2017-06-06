@@ -66,14 +66,14 @@ class HaTip: UITableViewCell {
     }
     
     private func config(){
-        backgroundColor = timeColor
+        //backgroundColor = timeColor
     }
     
     private func createContents(){
         
         let scrollFrame = CGRect(x: view_size.width / 2 - hatip_width / 2, y: 4, width: hatip_width, height: hatip_height)
         scrollView = UIScrollView(frame: scrollFrame)
-        scrollView?.backgroundColor = timeColor
+        scrollView?.backgroundColor = .clear
         scrollView?.isPagingEnabled = true
         scrollView?.showsVerticalScrollIndicator = false
         scrollView?.showsHorizontalScrollIndicator = false
@@ -82,6 +82,7 @@ class HaTip: UITableViewCell {
         
         let pageControlFrame = CGRect(x: 0, y: scrollFrame.origin.y + scrollFrame.height, width: contentView.frame.width, height: 20)
         pageControl = UIPageControl(frame: pageControlFrame)
+        pageControl?.backgroundColor = .clear
         pageControl?.currentPage = 0
         pageControl?.currentPageIndicatorTintColor = UIColor.gray
         pageControl?.pageIndicatorTintColor = UIColor.lightGray

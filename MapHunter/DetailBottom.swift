@@ -179,7 +179,7 @@ class DetailBottom: UIView {
     fileprivate var thisWeek = [Any]()
     fileprivate var lastWeek = [Any]()
     private var tableView: UITableView?
-    private var tableViewY: CGFloat = view_size.height / 2
+    private var tableViewY: CGFloat = view_size.width * 0.2 * 4 + detailCenterHeight
     private var tableViewHeight: CGFloat = 0
     fileprivate let weekStrList = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"]
     private func createContents(){

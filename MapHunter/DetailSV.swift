@@ -217,7 +217,7 @@ extension DetailSV: DetailDelegate{
     func sleepData(withSleepClosure sleepClosure: @escaping (Date, [(Int, Int)]) -> (), heartrateClosure: @escaping ([(Int, Int)]) -> ()) {
         
         //睡眠数据
-        var result = [(Int, Int)]()
+        var sleepResult = [(Int, Int)]()
         let angelManager = AngelManager.share()
         let selDate = date ?? selectDate
         
@@ -237,8 +237,8 @@ extension DetailSV: DetailDelegate{
             }
             sleepItemList = sleepItemList.sorted{$0.id < $1.id}
             
-            result = sleepItemList.map{(Int($0.sleepStatus), Int($0.durations))}
-            debugPrint("sleep result list:", result)
+            sleepResult = sleepItemList.map{(Int($0.sleepStatus), Int($0.durations))}
+            debugPrint("sleep result list:", sleepResult)
             
             //获取起床时间
             let calendar = Calendar.current
@@ -249,6 +249,11 @@ extension DetailSV: DetailDelegate{
                 return
             }
             
+            DispatchQueue.main.async {
+                sleepClosure(date, sleepResult)
+            }
+            
+            var heartrateResult = [(Int, Int)]()
             angelManager?.getHeartRateData(nil, date: selDate, offset: 0){
                 heartRateDataList in
                 guard let heartRateData = heartRateDataList.last else{
@@ -262,15 +267,11 @@ extension DetailSV: DetailDelegate{
                     heartRateList.append(item as! HeartRateItem)
                 }
                 heartRateList = heartRateList.sorted{$0.id < $1.id}
-                result = heartRateList.map{(Int($0.offset), Int($0.data))}
-                debugPrint("heartrate offset list:", result)
+                heartrateResult = heartRateList.map{(Int($0.offset), Int($0.data))}
+                debugPrint("heartrate offset list:", heartrateResult)
                 DispatchQueue.main.async {
-                    heartrateClosure(result)
+                    heartrateClosure(heartrateResult)
                 }
-            }
-            
-            DispatchQueue.main.async {
-                sleepClosure(date, result)
             }
         }
     }

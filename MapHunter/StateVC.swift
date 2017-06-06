@@ -439,7 +439,21 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0
+        if section == 0 {
+            return 0
+        }
+        return 49
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if section == 0 {
+            return nil
+        }
+        
+        let footerFrame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 49)
+        let footer = UIView(frame: footerFrame)
+        footer.backgroundColor = defaultColor
+        return footer
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

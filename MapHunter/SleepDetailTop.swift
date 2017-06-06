@@ -13,7 +13,8 @@ class SleepDetailTop: DetailTopBase {
     fileprivate var wakeHour = 0
     fileprivate var wakeMinute = 0
     fileprivate var sleepDuration = 0
-    fileprivate var dataList = [(type: Int, minutes: Int)]()
+    fileprivate var sleepDataList = [(type: Int, minutes: Int)]()
+    fileprivate var heartrateDataList = [(offset: Int, heartrate: Int)]()
     
     fileprivate let heartrateButtonLength: CGFloat = 44
     private lazy var heartrateButton: UIButton = {
@@ -25,6 +26,14 @@ class SleepDetailTop: DetailTopBase {
         button.addTarget(self, action: #selector(self.clickHeartrate(sender:)), for: .touchUpInside)
         return button
     }()
+    fileprivate var heartrateView = UIView()
+    fileprivate var isHeartrateShow = false{
+        didSet{
+            heartrateButton.isSelected = isHeartrateShow
+            
+            heartrateView.isHidden = !isHeartrateShow
+        }
+    }
     
     //睡眠说明文字
     fileprivate lazy var tipLabel: UILabel = {
@@ -104,14 +113,18 @@ class SleepDetailTop: DetailTopBase {
         
         addSubview(tipLabel)
         addSubview(heartrateButton)
+        addSubview(heartrateView)
+        
+        isHeartrateShow = false
     }
     
     @objc private func clickHeartrate(sender: UIButton){
-        sender.isSelected = !sender.isSelected
+        isHeartrateShow = !isHeartrateShow
     }
     
     override func createContents() {
         
+        //处理数据
         delegate?.sleepData(withSleepClosure: {
             wakeDate, result in
             
@@ -121,7 +134,7 @@ class SleepDetailTop: DetailTopBase {
             //隐藏empty label
             self.emptyLabel.isHidden = true
             
-            self.dataList = tmpResult                                   //存储有效数据
+            self.sleepDataList = tmpResult                                   //存储有效数据
             
             let dataListCount = tmpResult.count                         //数据数量
             
@@ -244,6 +257,51 @@ class SleepDetailTop: DetailTopBase {
             self.addSubview(self.selectedView)
         }, heartrateClosure: {
             heartrateDataList in
+            //0:offset 1:heartrate
+            
+            self.heartrateDataList = heartrateDataList
+            
+            //获取最大值与最小值
+            guard let maxHeartrate = heartrateDataList.sorted(by: {$0.1 > $1.1}).first, let minHeartrate = heartrateDataList.sorted(by: {$0.1 < $1.1}).first else{
+                return
+            }
+            
+            var offsetX: CGFloat = self.heartrateButtonLength                   //计算数据x坐标值
+            let rectHeight = self.frame.height * 0.6                            //总高度
+            let circleRadius: CGFloat = 8                                       //圆点半径
+            
+            //偏移
+            var offset = 0
+            let totalOffset = heartrateDataList.reduce(0){$0 + $1.0}
+            
+            let bezier = UIBezierPath()
+            heartrateDataList.enumerated().forEach{
+                index, element in
+                
+                let rate = CGFloat(element.1 - minHeartrate.1) / CGFloat(maxHeartrate.1 - minHeartrate.1)
+                let x = CGFloat(offset) / CGFloat(totalOffset) * (self.frame.width - self.heartrateButtonLength - detailRadius)
+                let y = (self.bounds.height - rectHeight) + rectHeight * (1 - rate) - circleRadius
+                offset += element.0
+                offsetX += CGFloat(x)
+                
+                let heartratePoint = CGPoint(x: x + self.heartrateButtonLength, y: y)
+                if index == 0{
+                    bezier.move(to: heartratePoint)
+                }else{
+                    let prePoint = bezier.currentPoint
+                    let cornerPoint = CGPoint(x: prePoint.x, y: y)
+                    bezier.addLine(to: cornerPoint)
+                    bezier.addLine(to: heartratePoint)
+                }
+            }
+            
+            let shapeLayer = CAShapeLayer()
+            shapeLayer.path = bezier.cgPath
+            shapeLayer.lineWidth = 1
+            shapeLayer.fillColor = nil
+            shapeLayer.strokeColor = UIColor.white.cgColor
+            self.heartrateView.layer.addSublayer(shapeLayer)
+            self.bringSubview(toFront: self.heartrateView)
         })
     }
 }
@@ -254,7 +312,7 @@ extension SleepDetailTop{
             return
         }
         
-        guard !dataList.isEmpty else{
+        guard !sleepDataList.isEmpty else{
             return
         }        
 
@@ -272,102 +330,157 @@ extension SleepDetailTop{
         
         selectedView.isHidden = false
         
-        var preOffsetX: CGFloat = 0
-        var width: CGFloat = 0
-        var offsetX: CGFloat = 0
-        
-        var dataIndex = 0
-        for i in 0..<dataList.count{
-            let data = dataList[i]
-            let minutes = Int16(data.minutes)
+        if isHeartrateShow {    //心率数据
             
-            preOffsetX = offsetX
-            
-            width = (bounds.size.width - detailRadius - heartrateButtonLength) * CGFloat(minutes) / CGFloat(sleepDuration)
-            offsetX += width
-            
-            dataIndex = i
-            if offsetX + heartrateButtonLength >= location.x{
-                break
+            let dataWidth = (bounds.size.width - detailRadius - heartrateButtonLength) / CGFloat(heartrateDataList.count)
+            var dataIndex = Int((location.x - heartrateButtonLength) / dataWidth)
+            guard dataIndex < heartrateDataList.count, dataIndex >= 0 else{
+                return
             }
-        }
-        
-        //改变layer宽度
-        let labels = selectedView.subviews.filter(){$0.isKind(of: UILabel.self)}
-        if let label = labels.last{
+            
+            //改变显示view x轴位置
             UIView.animate(withDuration: 0.3){
-                
                 self.selectedView.isHidden = false
-                let x = self.heartrateButtonLength + preOffsetX
+                let x = self.heartrateButtonLength + CGFloat(dataIndex) * dataWidth - 1
+                let width: CGFloat = 2
                 let newFrame = CGRect(x: x, y: self.selectedView.frame.origin.y, width: width, height: self.selectedView.frame.height)
                 self.selectedView.frame = newFrame
                 
                 //改变小三角x位置
                 self.triangleView.frame.origin.x = width / 2 - self.triangleView.frame.width / 2
-
+                
                 
                 if let oldLayers = self.selectedView.layer.sublayers?.filter({$0.name == "layer"}){
                     if let last = oldLayers.last{
                         last.frame = self.selectedView.bounds
                     }
                 }
-                
-                var posX = (width - label.frame.width) / 2
-                let convertX = self.convert(CGPoint(x: posX, y: 0), from: self.selectedView).x
-                if convertX < 0{
-                    posX = self.convert(.zero, to: self.selectedView).x
-                }else if convertX + label.frame.width > self.bounds.width{
-                    posX = self.convert(CGPoint(x: self.bounds.width - label.frame.width, y: 0), to: self.selectedView).x
+            }
+            
+            //改变label位置
+            let labels = selectedView.subviews.filter(){$0.isKind(of: UILabel.self)}
+            labels.forEach(){
+                label in
+                UIView.animate(withDuration: 0.3){
+                    
+                    if label.tag == 0{
+                        
+                        var posX: CGFloat = (self.selectedView.bounds.width - label.bounds.width) / 2
+                        let convertX = self.convert(CGPoint(x: posX, y: 0), from: self.selectedView).x
+                        if convertX < 0{
+                            posX = self.convert(.zero, to: self.selectedView).x
+                        }else if convertX + label.frame.width > self.bounds.width{
+                            posX = self.convert(CGPoint(x: self.bounds.width - label.frame.width, y: 0), to: self.selectedView).x
+                        }
+                        label.frame.origin.x = posX
+                    }
                 }
-                label.frame.origin.x = posX
             }
-        }
-        
-        //设置显示值 selected view
-        var subStartMinute: Int = 0
-        var subEndMinute: Int = 0
-        for i in 0..<dataList.count{
-            let data = dataList[i]
-            if i >= dataIndex{
-                subEndMinute = subStartMinute + dataList[dataIndex].minutes
-                break
+            
+            //设置显示值 selected view
+            let data = heartrateDataList[dataIndex]
+            let heartrate = data.heartrate
+            selectedLabel.text = "\(heartrate)" + "次／分钟" + "\n静止心率"
+            
+        }else{                  //睡眠数据
+            
+            var preOffsetX: CGFloat = 0
+            var width: CGFloat = 0
+            var offsetX: CGFloat = 0
+            
+            var dataIndex = 0
+            for i in 0..<sleepDataList.count{
+                let data = sleepDataList[i]
+                let minutes = Int16(data.minutes)
+                
+                preOffsetX = offsetX
+                
+                width = (bounds.size.width - detailRadius - heartrateButtonLength) * CGFloat(minutes) / CGFloat(sleepDuration)
+                offsetX += width
+                
+                dataIndex = i
+                if offsetX + heartrateButtonLength >= location.x{
+                    break
+                }
             }
-            subStartMinute += data.minutes
-        }
-        
-        let startDate = Date(timeInterval: TimeInterval(subStartMinute) * 60, since: sleepDate)
-        let startComponents = Calendar.current.dateComponents([.hour, .minute], from: startDate)
-        let startHour = startComponents.hour!
-        let startMinute = startComponents.minute!
-        let startHourStr = startHour < 10 ? "0\(startHour)" : "\(startHour)"
-        let startMinuteStr = startMinute < 10 ? "0\(startMinute)" : "\(startMinute)"
-        let startStr = startHourStr + ":" + startMinuteStr
-        
-        let endDate = Date(timeInterval: TimeInterval(subEndMinute) * 60, since: sleepDate)
-        let endComponents = Calendar.current.dateComponents([.hour, .minute], from: endDate)
-        let endHour = endComponents.hour!
-        let endMinute = endComponents.minute!
-        let endHourStr = endHour < 10 ? "0\(endHour)" : "\(endHour)"
-        let endMinuteStr = endMinute < 10 ? "0\(endMinute)" : "\(endMinute)"
-        let endStr = endHourStr + ":" + endMinuteStr
-        
-        var typeStr: String = ""
-        if dataIndex < dataList.count{
-            let typeIndex = dataList[dataIndex].type
-            switch typeIndex{
-            case 0x00:
-                typeStr = "快速眼动"
-            case 0x01:
-                typeStr = "清醒"
-            case 0x02:
-                typeStr = "浅睡"
-            case 0x03:
-                typeStr = "深睡"
-            default:
-                typeStr = ""
+            
+            //改变layer宽度
+            let labels = selectedView.subviews.filter(){$0.isKind(of: UILabel.self)}
+            if let label = labels.last{
+                UIView.animate(withDuration: 0.3){
+                    
+                    self.selectedView.isHidden = false
+                    let x = self.heartrateButtonLength + preOffsetX
+                    let newFrame = CGRect(x: x, y: self.selectedView.frame.origin.y, width: width, height: self.selectedView.frame.height)
+                    self.selectedView.frame = newFrame
+                    
+                    //改变小三角x位置
+                    self.triangleView.frame.origin.x = width / 2 - self.triangleView.frame.width / 2
+                    
+                    
+                    if let oldLayers = self.selectedView.layer.sublayers?.filter({$0.name == "layer"}){
+                        if let last = oldLayers.last{
+                            last.frame = self.selectedView.bounds
+                        }
+                    }
+                    
+                    var posX = (width - label.frame.width) / 2
+                    let convertX = self.convert(CGPoint(x: posX, y: 0), from: self.selectedView).x
+                    if convertX < 0{
+                        posX = self.convert(.zero, to: self.selectedView).x
+                    }else if convertX + label.frame.width > self.bounds.width{
+                        posX = self.convert(CGPoint(x: self.bounds.width - label.frame.width, y: 0), to: self.selectedView).x
+                    }
+                    label.frame.origin.x = posX
+                }
             }
+            
+            //设置显示值 selected view
+            var subStartMinute: Int = 0
+            var subEndMinute: Int = 0
+            for i in 0..<sleepDataList.count{
+                let data = sleepDataList[i]
+                if i >= dataIndex{
+                    subEndMinute = subStartMinute + sleepDataList[dataIndex].minutes
+                    break
+                }
+                subStartMinute += data.minutes
+            }
+            
+            let startDate = Date(timeInterval: TimeInterval(subStartMinute) * 60, since: sleepDate)
+            let startComponents = Calendar.current.dateComponents([.hour, .minute], from: startDate)
+            let startHour = startComponents.hour!
+            let startMinute = startComponents.minute!
+            let startHourStr = startHour < 10 ? "0\(startHour)" : "\(startHour)"
+            let startMinuteStr = startMinute < 10 ? "0\(startMinute)" : "\(startMinute)"
+            let startStr = startHourStr + ":" + startMinuteStr
+            
+            let endDate = Date(timeInterval: TimeInterval(subEndMinute) * 60, since: sleepDate)
+            let endComponents = Calendar.current.dateComponents([.hour, .minute], from: endDate)
+            let endHour = endComponents.hour!
+            let endMinute = endComponents.minute!
+            let endHourStr = endHour < 10 ? "0\(endHour)" : "\(endHour)"
+            let endMinuteStr = endMinute < 10 ? "0\(endMinute)" : "\(endMinute)"
+            let endStr = endHourStr + ":" + endMinuteStr
+            
+            var typeStr: String = ""
+            if dataIndex < sleepDataList.count{
+                let typeIndex = sleepDataList[dataIndex].type
+                switch typeIndex{
+                case 0x00:
+                    typeStr = "快速眼动"
+                case 0x01:
+                    typeStr = "清醒"
+                case 0x02:
+                    typeStr = "浅睡"
+                case 0x03:
+                    typeStr = "深睡"
+                default:
+                    typeStr = ""
+                }
+            }
+            selectedLabel.text = startStr + "~" + endStr + "\n" + typeStr
         }
-        selectedLabel.text = startStr + "~" + endStr + "\n" + typeStr
     }
     
     override func currentTouchesEnded(_ touches: Set<UITouch>){
