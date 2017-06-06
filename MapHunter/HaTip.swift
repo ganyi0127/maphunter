@@ -66,7 +66,7 @@ class HaTip: UITableViewCell {
     }
     
     private func config(){
-        //backgroundColor = timeColor
+        backgroundColor = timeColor
     }
     
     private func createContents(){

@@ -452,7 +452,7 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
         
         let footerFrame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 49)
         let footer = UIView(frame: footerFrame)
-        footer.backgroundColor = defaultColor
+        footer.backgroundColor = timeColor
         return footer
     }
     
@@ -582,6 +582,11 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             
             thirdCell.track = track                                                             //所有数据
             thirdCell.trackViewHeight = (track.trackItems?.count ?? 0) <= 1 ? 0 : trackItemsHeight     //设置附加高度
+            thirdCell.closure = {
+                trk in
+                let trackVC = TrackVC(with: trk)
+                self.navigationController?.show(trackVC, sender: nil)
+            }
         }
         
         return cell!
@@ -598,6 +603,14 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
         if newY <= 100 || initFresh{
             oldY = 0
             navigationController?.setTabbar(hidden: false)
+            return
+        }
+        
+        //禁止上滑回弹
+        if newY > scrollView.contentSize.height - scrollView.bounds.height{
+            newY = scrollView.contentSize.height - scrollView.bounds.height
+            scrollView.setContentOffset(CGPoint(x: 0, y: newY), animated: false)
+            oldY = newY
             return
         }
         

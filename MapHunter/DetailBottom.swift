@@ -393,7 +393,7 @@ extension DetailBottom: UITableViewDelegate, UITableViewDataSource{
             let minute = sleepData.totalMinute
             let detailText = "\(minute)分钟"
             let mutableAttributed = NSMutableAttributedString(string: detailText, attributes: [NSFontAttributeName: fontMiddle, NSForegroundColorAttributeName: subWordColor])
-            mutableAttributed.addAttributes([NSFontAttributeName: fontSmall], range: NSMakeRange(detailText.characters.count - 1, 1))
+            mutableAttributed.addAttributes([NSFontAttributeName: fontSmall], range: NSMakeRange(detailText.characters.count - 2, 2))
             cell.detailTextLabel?.attributedText = mutableAttributed
         }
         return cell

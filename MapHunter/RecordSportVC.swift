@@ -28,8 +28,7 @@ class RecordSportVC: ManualRecordVC {
     //MARK:- 存储
     override func accept(sender: UIButton) {
         
-        //存储操作
-        
+        //存储操作        
         super.accept(sender: sender)
     }
 }

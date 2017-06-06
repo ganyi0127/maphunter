@@ -191,6 +191,10 @@ extension UINavigationController: UINavigationControllerDelegate{
         //模版
         if fromVC.isKind(of: StateVC.self) || toVC.isKind(of: StateVC.self) {
             
+            if fromVC.isKind(of: TrackVC.self) || toVC.isKind(of: TrackVC.self) {
+                return nil
+            }
+            
             if operation == .push{
                 return StatePushController()
             }

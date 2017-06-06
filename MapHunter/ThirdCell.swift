@@ -336,7 +336,9 @@ class ThirdCell: UITableViewCell {
     //底图渐变
     let gradient = CAGradientLayer()
     
-    
+    //点击回调
+    private var tap: UITapGestureRecognizer?
+    var closure: ((Track)->())?
     
     //MARK:- init ************************************************************
     override func didMoveToSuperview() {
@@ -345,8 +347,23 @@ class ThirdCell: UITableViewCell {
         config()
     }
     
+    deinit {
+        if let t = tap {
+            removeGestureRecognizer(t)
+        }
+    }
+    
     private func config(){
-        
+        tap = UITapGestureRecognizer(target: self, action: #selector(click(tapRecognizer:)))
+        tap?.numberOfTapsRequired = 1
+        tap?.numberOfTouchesRequired = 1
+        addGestureRecognizer(tap!)
+    }
+    
+    @objc private func click(tapRecognizer: UITapGestureRecognizer){
+        if let trk = track {
+            closure?(trk)
+        }
     }
     
     private func createContents(){
