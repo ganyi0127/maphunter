@@ -141,6 +141,10 @@
 		BE118D731EE6879C009DD90A /* TrackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE118D721EE6879C009DD90A /* TrackVC.swift */; };
 		BE118D751EE6966E009DD90A /* TrackSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE118D741EE6966E009DD90A /* TrackSV.swift */; };
 		BE118D781EE69E6C009DD90A /* TrackBottom.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE118D771EE69E6C009DD90A /* TrackBottom.swift */; };
+		BE118D7D1EE793CC009DD90A /* TrackTopBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE118D7C1EE793CC009DD90A /* TrackTopBase.swift */; };
+		BE118D801EE79453009DD90A /* SleepTrackTop.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE118D7F1EE79453009DD90A /* SleepTrackTop.swift */; };
+		BE118D821EE79556009DD90A /* SportTrackTop.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE118D811EE79556009DD90A /* SportTrackTop.swift */; };
+		BE118D841EE79E0D009DD90A /* TrackDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE118D831EE79E0D009DD90A /* TrackDataView.swift */; };
 		BE198C131E793A4200B11A90 /* ScanCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE198C121E793A3F00B11A90 /* ScanCell.swift */; };
 		BE1C366D1D93725000AB4370 /* RootTBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1C366C1D93725000AB4370 /* RootTBC.swift */; };
 		BE1C36701D93745500AB4370 /* NavigationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1C366F1D93745500AB4370 /* NavigationExtension.swift */; };
@@ -643,6 +647,10 @@
 		BE118D721EE6879C009DD90A /* TrackVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackVC.swift; sourceTree = "<group>"; };
 		BE118D741EE6966E009DD90A /* TrackSV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackSV.swift; sourceTree = "<group>"; };
 		BE118D771EE69E6C009DD90A /* TrackBottom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackBottom.swift; sourceTree = "<group>"; };
+		BE118D7C1EE793CC009DD90A /* TrackTopBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackTopBase.swift; sourceTree = "<group>"; };
+		BE118D7F1EE79453009DD90A /* SleepTrackTop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SleepTrackTop.swift; sourceTree = "<group>"; };
+		BE118D811EE79556009DD90A /* SportTrackTop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SportTrackTop.swift; sourceTree = "<group>"; };
+		BE118D831EE79E0D009DD90A /* TrackDataView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackDataView.swift; sourceTree = "<group>"; };
 		BE198C121E793A3F00B11A90 /* ScanCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanCell.swift; sourceTree = "<group>"; };
 		BE1C366C1D93725000AB4370 /* RootTBC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootTBC.swift; sourceTree = "<group>"; };
 		BE1C366F1D93745500AB4370 /* NavigationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationExtension.swift; sourceTree = "<group>"; };
@@ -1900,9 +1908,21 @@
 		BE118D761EE69E51009DD90A /* 面板 */ = {
 			isa = PBXGroup;
 			children = (
+				BE118D7E1EE793D3009DD90A /* track顶部视图 */,
 				BE118D771EE69E6C009DD90A /* TrackBottom.swift */,
+				BE118D831EE79E0D009DD90A /* TrackDataView.swift */,
 			);
 			name = "面板";
+			sourceTree = "<group>";
+		};
+		BE118D7E1EE793D3009DD90A /* track顶部视图 */ = {
+			isa = PBXGroup;
+			children = (
+				BE118D7C1EE793CC009DD90A /* TrackTopBase.swift */,
+				BE118D811EE79556009DD90A /* SportTrackTop.swift */,
+				BE118D7F1EE79453009DD90A /* SleepTrackTop.swift */,
+			);
+			name = "track顶部视图";
 			sourceTree = "<group>";
 		};
 		BE198C111E793A1B00B11A90 /* 扫描 */ = {
@@ -2665,6 +2685,7 @@
 				BE80F8EC1EB048DB00604D72 /* TipView.swift in Sources */,
 				BE0DD8B11EA6FD6E00574139 /* QNResolvUtil.m in Sources */,
 				BE0DD8A21EA6FD6E00574139 /* QNEtag.m in Sources */,
+				BE118D801EE79453009DD90A /* SleepTrackTop.swift in Sources */,
 				BE0DD8B61EA6FD6E00574139 /* QNResponseInfo.m in Sources */,
 				BE0DD8B21EA6FD6E00574139 /* QNTxtResolver.m in Sources */,
 				BE198C131E793A4200B11A90 /* ScanCell.swift in Sources */,
@@ -2744,6 +2765,7 @@
 				BEB248EC1D9BD91A00C9F9ED /* IconView.swift in Sources */,
 				BE3E74801E9E185600D571BB /* BootBluetooth.swift in Sources */,
 				BE41E6761E8D074100387B59 /* SexVC.swift in Sources */,
+				BE118D821EE79556009DD90A /* SportTrackTop.swift in Sources */,
 				BE0DD8B81EA6FD6E00574139 /* QNUserAgent.m in Sources */,
 				BE0DD88B1EA6FD6E00574139 /* AFURLRequestSerialization.m in Sources */,
 				32C3E62B1E09121800D34A74 /* MePopController.swift in Sources */,
@@ -2787,6 +2809,7 @@
 				BEDF4F351D93910E00E98D63 /* Configure.swift in Sources */,
 				32D4129E1DEEC4C0008EE637 /* DetailViewController.swift in Sources */,
 				BE0DD8971EA6FD6E00574139 /* CKCache.m in Sources */,
+				BE118D7D1EE793CC009DD90A /* TrackTopBase.swift in Sources */,
 				BE576FF11E248CFE006BAD1C /* FunVC.swift in Sources */,
 				BE5770051E25E3B7006BAD1C /* FunOriginViewController.swift in Sources */,
 				BE3329381EDFED2900B39093 /* SportDetailTop.swift in Sources */,
@@ -2799,6 +2822,7 @@
 				BECD4F1B1EA1C4A400C9136C /* InfoSexView.swift in Sources */,
 				BEDF4F3D1D9393F800E98D63 /* HealthVC.swift in Sources */,
 				BE6455D41EA4C83B00C8A416 /* NotifyApplehealthVC.swift in Sources */,
+				BE118D841EE79E0D009DD90A /* TrackDataView.swift in Sources */,
 				BE0DD8AB1EA6FD6E00574139 /* QNRecord.m in Sources */,
 				BE86854F1E2F6EF200EBEBED /* PathMaptypeSettingVC.swift in Sources */,
 				BE0DD8941EA6FD6E00574139 /* UIProgressView+AFNetworking.m in Sources */,

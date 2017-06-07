@@ -126,12 +126,28 @@ extension DetailSV: UIScrollViewDelegate{
         
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        let detailVC = viewController() as! DetailVC
+        let y = scrollView.contentOffset.y
+        if y > 0 {
+            detailVC.navigationController?.navigationBar.tintColor = subWordColor
+            detailVC.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: subWordColor]
+            detailVC.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+
+        }else{
+            detailVC.navigationController?.navigationBar.tintColor = .white
+            detailVC.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white]
+            detailVC.navigationController?.setNavigation(hidden: true)
+        }
+    }
+    
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let offsetY = scrollView.contentOffset.y
         if offsetY < (detailBottom.frame.origin.y - 64) / 2 {
-            scrollView.setContentOffset(CGPoint(x: 0, y: -66), animated: true)
+            scrollView.setContentOffset(CGPoint(x: 0, y: -64), animated: true)
         }else if offsetY < detailBottom.frame.origin.y - 64 {
-            scrollView.setContentOffset(CGPoint(x: 0, y: detailBottom.frame.origin.y - 66), animated: true)
+            scrollView.setContentOffset(CGPoint(x: 0, y: detailBottom.frame.origin.y - 64), animated: true)
         }
     }
 }

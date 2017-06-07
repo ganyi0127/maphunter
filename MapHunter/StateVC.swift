@@ -207,12 +207,10 @@ class StateVC: UIViewController {
         let peripheral = PeripheralManager.share().currentPeripheral
         guard peripheral != nil else {
             DispatchQueue.main.async {
-//                control.attributedTitle = NSAttributedString(string: "手环未绑定")
                 self.navigationTitle = "手环未绑定"
-
+                
                 _ = delay(1){
                     self.initFresh = false
-//                    self.endSynchronization()
                 }
             }
             return
@@ -220,7 +218,7 @@ class StateVC: UIViewController {
         
         guard peripheral?.state == CBPeripheralState.connected  else {
             DispatchQueue.main.async {
-//                control.attributedTitle = NSAttributedString(string: "手环未连接")
+                
                 self.navigationTitle = "手环未连接"
                 _ = delay(1){
                     self.initFresh = false
@@ -240,7 +238,10 @@ class StateVC: UIViewController {
         
         navigationTitle = "同步数据"
         
-        let angelManager = AngelManager.share()
+        guard let angelManager = AngelManager.share() else{
+            initFresh = false
+            return
+        }
         //初始化设置用户信息
         let userInfoModel = UserInfoModel()
         userInfoModel.birthDay = 27
@@ -249,14 +250,17 @@ class StateVC: UIViewController {
         userInfoModel.gender = 1
         userInfoModel.height = 172
         userInfoModel.weight = 65
-        angelManager?.setUserInfo(userInfoModel){_ in}
+        angelManager.setUserInfo(userInfoModel){_ in}
         
-        let satanManager = SatanManager.share()
+        guard let satanManager = SatanManager.share() else{
+            initFresh = false
+            return
+        }
         
         //同步数据
-        satanManager?.getSynchronizationActiveCount(angelManager?.macAddress){
+        satanManager.getSynchronizationActiveCount(angelManager.macAddress){
             count in
-            angelManager?.setSynchronizationHealthData{
+            angelManager.setSynchronizationHealthData{
                 complete, progress in
                 DispatchQueue.main.async {
                     var message: String
@@ -270,7 +274,7 @@ class StateVC: UIViewController {
                         
                         //同步时间轴
                         if count > 0{
-                            satanManager?.setSynchronizationActiveData{
+                            satanManager.setSynchronizationActiveData{
                                 complete, progress, timeout in
                                 DispatchQueue.main.async {
                                     guard !timeout else{
@@ -327,6 +331,8 @@ class StateVC: UIViewController {
     
     //MARK:- 接收连接状态
     @objc func receiveConnectedMessage(notify: Notification?){
+        
+        initFresh = false
         
         //更新日期 获取calendarCell
         let indexPath = IndexPath(row: 1, section: 0)

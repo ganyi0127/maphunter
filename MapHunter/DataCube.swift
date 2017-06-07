@@ -26,6 +26,8 @@ class DataCube: UIView {
     
     fileprivate var type: DataCubeType!          //CUBE类型 运动、心率、睡眠、体重
     
+    private let radius: CGFloat = 4
+    
     //显示第一个lable
     private lazy var firstLabel: UILabel = {
         let frame = CGRect(x: 4, y: 8, width: self.frame.width, height: self.frame.height * 0.2)
@@ -303,11 +305,13 @@ class DataCube: UIView {
     
     //睡眠完成图片
     private lazy var sleepFinishedImageView: UIImageView = {
-        let imageView = UIImageView(frame: self.bounds)
+        let imageView: UIImageView = UIImageView(frame: self.bounds)
         if let image = UIImage(named: "resource/cube/sleep_finished"){
             imageView.image = image
         }
         imageView.isHidden = true
+        imageView.layer.cornerRadius = self.radius
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -412,7 +416,7 @@ class DataCube: UIView {
             imageName = "weight"
         }
         
-        let radius = frame.size.width * 0.05
+        
         
         //绘制背景渐变
         let gradient = CAGradientLayer()

@@ -12,12 +12,14 @@ import AngelFit
 class TrackSV: UIScrollView {
     fileprivate var track: Track!
     
-    var detailBottom: DetailBottom!
-    var detailCenter: DetailCenter!
-    var detailTop: DetailTopBase!
+    var trackBottom: TrackBottom!
+    var trackTop: TrackTopBase!
     
     private var isDetail = false
     
+    
+    
+    //MARK:-init****************************************************************
     init(with track: Track) {
         let frame = CGRect(x: 0, y: 0, width: view_size.width, height: view_size.height)
         super.init(frame: frame)
@@ -40,57 +42,55 @@ class TrackSV: UIScrollView {
     }
     
     private func createContents(){
-        /*
         //添加底部面板
-        detailBottom = DetailBottom(detailType: type, isDetail: isDetail)
-        detailBottom.delegate = self
-        addSubview(detailBottom)
-        contentSize = CGSize(width: view_size.width, height: detailBottom.frame.origin.y + detailBottom.frame.height)
+        trackBottom = TrackBottom(with: track)
+        addSubview(trackBottom)
+        contentSize = CGSize(width: view_size.width, height: trackBottom.frame.origin.y + trackBottom.frame.height)
         
         //添加顶部面板
-        if type == .sport{
-            detailTop = SportDetailTop()
-        }else if type == .sleep{
-            detailTop = SleepDetailTop()
-        }else if type == .heartrate{
-            detailTop = HeartrateDetailTop()
-        }else{
-            detailTop = MindbodyDetailTop()
+        let sportType = SportType(rawValue: track.type)!
+        switch sportType {
+        case .weight:
+            break
+        case .calorie:
+            break
+        case .sleep:
+            trackTop = SleepTrackTop(with: track)
+        case .badminton, .skipping:
+            break
+        default:
+            trackTop = SportTrackTop(with: track)
         }
-        detailTop.delegate = self
-        addSubview(detailTop)
+        addSubview(trackTop)
         
-        //添加中部面板
-        detailCenter = DetailCenter(detailType: type)
-        detailCenter.delegate = self
-        addSubview(detailCenter)
-         */
+        //添加评论面板
+        
     }
 }
 
 //MARK:- 触摸事件
 extension TrackSV{
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        
-//        detailTop.currentTouchesBegan(touches)
-//        isScrollEnabled = false
-//    }
-//    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        
-//        detailTop.currentTouchesMoved(touches)
-//        isScrollEnabled = false
-//    }
-//    
-//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        
-//        detailTop.currentTouchesEnded(touches)
-//        isScrollEnabled = true
-//    }
-//    
-//    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        
-//        isScrollEnabled = true
-//    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        trackTop.currentTouchesBegan(touches)
+        isScrollEnabled = false
+    }
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        trackTop.currentTouchesMoved(touches)
+        isScrollEnabled = false
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        trackTop.currentTouchesEnded(touches)
+        isScrollEnabled = true
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        isScrollEnabled = true
+    }
 }
 
 //MARK:- scroll delegate
@@ -99,12 +99,28 @@ extension TrackSV: UIScrollViewDelegate{
         
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        let trackVC = viewController() as! TrackVC
+        let y = scrollView.contentOffset.y
+        if y > 0 {
+            trackVC.navigationController?.navigationBar.tintColor = subWordColor
+            trackVC.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: subWordColor]
+            trackVC.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+            
+        }else{
+            trackVC.navigationController?.navigationBar.tintColor = .white
+            trackVC.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white]
+            trackVC.navigationController?.setNavigation(hidden: true)
+        }
+    }
+    
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let offsetY = scrollView.contentOffset.y
-        if offsetY < (detailBottom.frame.origin.y - 64) / 2 {
-            scrollView.setContentOffset(CGPoint(x: 0, y: -66), animated: true)
-        }else if offsetY < detailBottom.frame.origin.y - 64 {
-            scrollView.setContentOffset(CGPoint(x: 0, y: detailBottom.frame.origin.y - 66), animated: true)
+        if offsetY < (trackBottom.frame.origin.y - 64) / 2 {
+            scrollView.setContentOffset(CGPoint(x: 0, y: -64), animated: true)
+        }else if offsetY < trackBottom.frame.origin.y - 64 {
+            scrollView.setContentOffset(CGPoint(x: 0, y: trackBottom.frame.origin.y - 64), animated: true)
         }
     }
 }
