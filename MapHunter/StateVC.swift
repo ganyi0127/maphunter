@@ -604,6 +604,12 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             return
         }
         
+        //判断+号按钮是否打开
+        let rootTBC = self.tabBarController as! RootTBC
+        guard !rootTBC.menuButtonFlag else {
+            return
+        }
+        
         newY = scrollView.contentOffset.y
         
         if newY <= 100 || initFresh{

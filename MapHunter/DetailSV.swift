@@ -44,6 +44,8 @@ class DetailSV: UIScrollView {
     
     private var isDetail = false
     
+    fileprivate var detailVC: DetailVC?
+    
     init(detailType: DataCubeType, date: Date?, isDetail: Bool) {
         let frame = CGRect(x: 0, y: 0, width: view_size.width, height: view_size.height)
         super.init(frame: frame)
@@ -54,6 +56,10 @@ class DetailSV: UIScrollView {
         
         config()
         createContents()
+    }
+    
+    override func didMoveToSuperview() {
+        detailVC = viewController() as? DetailVC
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -128,17 +134,16 @@ extension DetailSV: UIScrollViewDelegate{
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        let detailVC = viewController() as! DetailVC
         let y = scrollView.contentOffset.y
         if y > 0 {
-            detailVC.navigationController?.navigationBar.tintColor = subWordColor
-            detailVC.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: subWordColor]
-            detailVC.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+            detailVC?.navigationController?.navigationBar.tintColor = subWordColor
+            detailVC?.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: subWordColor]
+            detailVC?.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
 
         }else{
-            detailVC.navigationController?.navigationBar.tintColor = .white
-            detailVC.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white]
-            detailVC.navigationController?.setNavigation(hidden: true)
+            detailVC?.navigationController?.navigationBar.tintColor = .white
+            detailVC?.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white]
+            detailVC?.navigationController?.setNavigation(hidden: true)
         }
     }
     

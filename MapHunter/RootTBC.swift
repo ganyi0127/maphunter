@@ -29,7 +29,7 @@ class RootTBC: UITabBarController {
     }()
     
     //展开按钮
-    private var menuButtonFlag: Bool = false{
+    var menuButtonFlag: Bool = false{
         didSet{
             let key = "rotation"
             

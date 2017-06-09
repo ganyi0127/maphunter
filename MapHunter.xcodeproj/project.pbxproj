@@ -35,6 +35,7 @@
 		32D4129E1DEEC4C0008EE637 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4129D1DEEC4C0008EE637 /* DetailViewController.swift */; };
 		32E238AB1DFA996E001969AE /* OCVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E238AA1DFA996E001969AE /* OCVariable.swift */; };
 		32E238AF1DFE2C9B001969AE /* DataCube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E238AE1DFE2C9B001969AE /* DataCube.swift */; };
+		BE0372591EE8DEF5000B2F4A /* TrackChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0372581EE8DEF5000B2F4A /* TrackChartView.swift */; };
 		BE0DD4F61EA5B0CB00574139 /* FindPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0DD4F51EA5B0CB00574139 /* FindPasswordVC.swift */; };
 		BE0DD4F81EA5B11700574139 /* ConfirmPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0DD4F71EA5B11700574139 /* ConfirmPasswordVC.swift */; };
 		BE0DD4FA1EA5ECA800574139 /* AgreementVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0DD4F91EA5ECA800574139 /* AgreementVC.swift */; };
@@ -356,6 +357,7 @@
 		32D4129D1DEEC4C0008EE637 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		32E238AA1DFA996E001969AE /* OCVariable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCVariable.swift; sourceTree = "<group>"; };
 		32E238AE1DFE2C9B001969AE /* DataCube.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCube.swift; sourceTree = "<group>"; };
+		BE0372581EE8DEF5000B2F4A /* TrackChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackChartView.swift; sourceTree = "<group>"; };
 		BE0DD4F51EA5B0CB00574139 /* FindPasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindPasswordVC.swift; sourceTree = "<group>"; };
 		BE0DD4F71EA5B11700574139 /* ConfirmPasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmPasswordVC.swift; sourceTree = "<group>"; };
 		BE0DD4F91EA5ECA800574139 /* AgreementVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgreementVC.swift; sourceTree = "<group>"; };
@@ -1910,6 +1912,7 @@
 			children = (
 				BE118D7E1EE793D3009DD90A /* track顶部视图 */,
 				BE118D771EE69E6C009DD90A /* TrackBottom.swift */,
+				BE0372581EE8DEF5000B2F4A /* TrackChartView.swift */,
 				BE118D831EE79E0D009DD90A /* TrackDataView.swift */,
 			);
 			name = "面板";
@@ -2763,6 +2766,7 @@
 				BE0DD88C1EA6FD6E00574139 /* AFURLResponseSerialization.m in Sources */,
 				BE8685421E29C74200EBEBED /* PremapVC.swift in Sources */,
 				BEB248EC1D9BD91A00C9F9ED /* IconView.swift in Sources */,
+				BE0372591EE8DEF5000B2F4A /* TrackChartView.swift in Sources */,
 				BE3E74801E9E185600D571BB /* BootBluetooth.swift in Sources */,
 				BE41E6761E8D074100387B59 /* SexVC.swift in Sources */,
 				BE118D821EE79556009DD90A /* SportTrackTop.swift in Sources */,

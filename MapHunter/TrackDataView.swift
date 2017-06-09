@@ -9,6 +9,7 @@
 import Foundation
 enum TrackDataViewType{
     //运动
+    case step               //步数
     case activityTime       //活动时长
     case stride             //步幅
     case level              //强度
@@ -63,8 +64,20 @@ class TrackDataView: UIView {
                 }
                 secondLabel?.attributedText = mainAttributedString
                 return
+            case .step:
+                unit = ""
+            case .stride:
+                unit = ""
             case .level:
                 unit = ""
+                let sportLevel = Int16(value!)
+                secondLabel?.font = fontSmall
+                if sportLevel == 1{
+                    secondLabel?.text = "非常吃力"
+                }else {
+                    secondLabel?.text = "一般般"
+                }
+                return
             case .sleepState:
                 unit = ""
             default:
@@ -141,6 +154,9 @@ class TrackDataView: UIView {
         var firstLabelStr: String
         var iconName: String
         switch type as TrackDataViewType {
+        case .step:
+            firstLabelStr = "步"
+            iconName = "resource/dataicon/stride"
         case .activityTime:
             firstLabelStr = "最长活动时间"
             iconName = "resource/dataicon/activitytime"

@@ -17,7 +17,7 @@ class TrackSV: UIScrollView {
     
     private var isDetail = false
     
-    
+    fileprivate var trackVC: TrackVC?
     
     //MARK:-init****************************************************************
     init(with track: Track) {
@@ -28,6 +28,10 @@ class TrackSV: UIScrollView {
         
         config()
         createContents()
+    }
+    
+    override func didMoveToSuperview() {
+        trackVC = viewController() as? TrackVC
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -101,17 +105,16 @@ extension TrackSV: UIScrollViewDelegate{
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        let trackVC = viewController() as! TrackVC
         let y = scrollView.contentOffset.y
         if y > 0 {
-            trackVC.navigationController?.navigationBar.tintColor = subWordColor
-            trackVC.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: subWordColor]
-            trackVC.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+            trackVC?.navigationController?.navigationBar.tintColor = subWordColor
+            trackVC?.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: subWordColor]
+            trackVC?.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
             
         }else{
-            trackVC.navigationController?.navigationBar.tintColor = .white
-            trackVC.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white]
-            trackVC.navigationController?.setNavigation(hidden: true)
+            trackVC?.navigationController?.navigationBar.tintColor = .white
+            trackVC?.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white]
+            trackVC?.navigationController?.setNavigation(hidden: true)
         }
     }
     
