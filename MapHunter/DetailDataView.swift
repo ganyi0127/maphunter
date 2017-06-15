@@ -27,8 +27,10 @@ enum DetailDataViewType{
     case wakeCount
     
     //身心状态
-    case weightStartTime
-    case weightDelta
+    case resetStateDuration
+    case highStateDuration
+    case middleStateDuration
+    case lowStateDuration
 }
 class DetailDataView: UIView {
     
@@ -41,7 +43,7 @@ class DetailDataView: UIView {
             var text: String
             var unit: String
             switch type as DetailDataViewType {
-            case .totalTime, .activityTime, .restTime, .deepSleep, .lightSleep, .sleepTime, .quiteSleep, .wakeTime, .weightStartTime:
+            case .totalTime, .activityTime, .restTime, .deepSleep, .lightSleep, .sleepTime, .quiteSleep, .wakeTime, .resetStateDuration, .highStateDuration, .middleStateDuration, .lowStateDuration:
                 unit = "分钟"
                 
                 let hour = Int16(value!) / 3600
@@ -76,8 +78,6 @@ class DetailDataView: UIView {
                 unit = "次"
             case .heartrate:
                 unit = "次／分钟"
-            case .weightDelta:
-                unit = "Kg"
             case .sleepState:
                 unit = ""
             default:
@@ -195,12 +195,18 @@ class DetailDataView: UIView {
         case .wakeCount:
             firstLabelStr = "醒来次数"
             iconName = "resource/dataicon/wakecount"
-        case .weightStartTime:
-            firstLabelStr = "减重起始时间"
-            iconName = "resource/dataicon/weightstarttime"
-        case .weightDelta:
-            firstLabelStr = "目标距离差距"
-            iconName = "resource/dataicon/weightdelta"
+        case .resetStateDuration:
+            firstLabelStr = "休息"
+            iconName = "resource/dataicon/resetstate"
+        case .highStateDuration:
+            firstLabelStr = "高"
+            iconName = "resource/dataicon/highstate"
+        case .middleStateDuration:
+            firstLabelStr = "中"
+            iconName = "resource/dataicon/middlestate"
+        case .lowStateDuration:
+            firstLabelStr = "低"
+            iconName = "resource/dataicon/lowstate"
         default:
             break
         }

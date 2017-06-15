@@ -30,7 +30,7 @@ class TrackBottom: UIView {
                 let detailDataView = TrackDataView(with: dataViewType)
                 detailDataView.frame.origin = CGPoint(x: CGFloat(index % 2) * self.frame.width / 2,
                                                       y: detailCenterHeight + CGFloat(index / 2) * detailDataView.frame.height)
- 
+                
                 //获取数据
                 if self.sportType == .sleep{               //睡眠
                     switch dataViewType {

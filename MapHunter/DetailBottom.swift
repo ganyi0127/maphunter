@@ -193,7 +193,7 @@ class DetailBottom: UIView {
         case .sleep:
             dataViewTypeList = [.heartrate, .sleepState, .deepSleep, .quiteSleep, .lightSleep, .wakeTime, .sleepTime, .wakeCount]
         case .mindBody:
-            dataViewTypeList = [.weightStartTime, .weightDelta]
+            dataViewTypeList = [.resetStateDuration, .lowStateDuration, .middleStateDuration, .highStateDuration]
         }
         
         if isDetail{        //当前选择日

@@ -28,6 +28,11 @@ class IntroduceVC: UIViewController {
         createContents()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        
+        navigationController?.setNavigation(hidden: true)
+    }
+    
     private func config(){
         
         navigationItem.hidesBackButton = true

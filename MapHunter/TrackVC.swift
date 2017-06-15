@@ -67,7 +67,7 @@ class TrackVC: UIViewController {
         //显示日期
         let formatter = DateFormatter()
         formatter.dateFormat = "yyy-MM-dd"
-
+        
         let dateStr = formatter.string(from: track.date! as Date)
         let todayStr = formatter.string(from: Date())
         
