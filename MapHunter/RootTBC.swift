@@ -183,7 +183,7 @@ class RootTBC: UITabBarController {
         
         config()
         createContents()
-    }
+    }    
     
     private func config(){
         

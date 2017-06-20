@@ -102,6 +102,7 @@ class StateVC: UIViewController {
         
         //设置返回navigation back
         
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -118,7 +119,7 @@ class StateVC: UIViewController {
     private func config(){
         
         //初始化当前选择的日期
-        selectDate = Date()
+        //selectDate = Date()
         
         //清除顶部空白区域
         automaticallyAdjustsScrollViewInsets = false
@@ -615,6 +616,13 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
         if newY <= 100 || initFresh{
             oldY = 0
             navigationController?.setTabbar(hidden: false)
+            
+            //禁止上滑回弹
+            if newY > scrollView.contentSize.height - scrollView.bounds.height{
+                newY = scrollView.contentSize.height - scrollView.bounds.height
+                scrollView.setContentOffset(CGPoint(x: 0, y: newY), animated: false)
+                oldY = newY
+            }
             return
         }
         

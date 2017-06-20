@@ -34,6 +34,9 @@ let userDefaults = UserDefaults.standard
 //当前选择的日期
 var selectDate = Date()
 
+//当天日期
+var preToday = Date()
+
 //运动数据颜色
 struct SportColor{
     static let running = UIColor(red: 249 / 255, green: 107 / 255, blue: 30 / 255, alpha: 1)

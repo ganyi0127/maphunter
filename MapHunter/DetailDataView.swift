@@ -26,6 +26,13 @@ enum DetailDataViewType{
     case wakeTime
     case wakeCount
     
+    //心肺功能
+    case averageBloodPressure
+    case maxBloodPressure
+    case averageHeartrate
+    case restHeartrate
+    case maxHeartrate
+    
     //身心状态
     case resetStateDuration
     case highStateDuration
@@ -76,10 +83,12 @@ class DetailDataView: UIView {
                 return
             case .wakeCount:
                 unit = "次"
-            case .heartrate:
+            case .heartrate, .averageHeartrate, .restHeartrate, .maxHeartrate:
                 unit = "次／分钟"
             case .sleepState:
                 unit = ""
+            case .averageBloodPressure, .maxBloodPressure:
+                unit = "mmHg"
             default:
                 unit = "大卡"
             }
@@ -195,6 +204,21 @@ class DetailDataView: UIView {
         case .wakeCount:
             firstLabelStr = "醒来次数"
             iconName = "resource/dataicon/wakecount"
+        case .averageBloodPressure:
+            firstLabelStr = "平均血压"
+            iconName = "resource/dataicon/averagebloodpressure"
+        case .maxBloodPressure:
+            firstLabelStr = "最大血压"
+            iconName = "resource/dataicon/maxbloodpressure"
+        case .averageHeartrate:
+            firstLabelStr = "平均心率"
+            iconName = "resource/dataicon/averageheartrate"
+        case .restHeartrate:
+            firstLabelStr = "静息心率"
+            iconName = "resource/dataicon/restheartrate"
+        case .maxHeartrate:
+            firstLabelStr = "最大心率"
+            iconName = "resource/dataicon/maxheartrate"
         case .resetStateDuration:
             firstLabelStr = "休息"
             iconName = "resource/dataicon/resetstate"

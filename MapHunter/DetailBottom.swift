@@ -98,6 +98,8 @@ class DetailBottom: UIView {
                                 detailDataView.value = 0
                             }
                         }
+                    }else if self.type == .heartrate{
+                        detailDataView.value = 123
                     }
                 }
                 
@@ -189,7 +191,7 @@ class DetailBottom: UIView {
         case .sport:
             dataViewTypeList = [.totalTime, .totalCalorie, .activityTime, .activityCalorie, .restTime, .restCalorie]
         case .heartrate:
-            dataViewTypeList = []
+            dataViewTypeList = [.averageBloodPressure, .maxBloodPressure, .averageHeartrate, .restHeartrate, .maxHeartrate]
         case .sleep:
             dataViewTypeList = [.heartrate, .sleepState, .deepSleep, .quiteSleep, .lightSleep, .wakeTime, .sleepTime, .wakeCount]
         case .mindBody:

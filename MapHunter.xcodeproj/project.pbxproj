@@ -138,6 +138,7 @@
 		BE0DD8E21EA6FD6E00574139 /* libAbleCloudLib_simulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE0DD7E41EA6FD6E00574139 /* libAbleCloudLib_simulator.a */; };
 		BE0DD8F81EA702C600574139 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0DD8F71EA702C600574139 /* Reachability.swift */; };
 		BE0DD8FA1EA7081800574139 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0DD8F91EA7081800574139 /* NetworkManager.swift */; };
+		BE113BA01EF923CE00E5D91E /* SubSportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE113B9F1EF923CE00E5D91E /* SubSportVC.swift */; };
 		BE118D701EE55E86009DD90A /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE118D6F1EE55E86009DD90A /* DateExtension.swift */; };
 		BE118D731EE6879C009DD90A /* TrackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE118D721EE6879C009DD90A /* TrackVC.swift */; };
 		BE118D751EE6966E009DD90A /* TrackSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE118D741EE6966E009DD90A /* TrackSV.swift */; };
@@ -645,6 +646,7 @@
 		BE0DD8851EA6FD6E00574139 /* ACWifiLinkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACWifiLinkManager.h; sourceTree = "<group>"; };
 		BE0DD8F71EA702C600574139 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Reachability.swift; path = ../Reachability.swift; sourceTree = "<group>"; };
 		BE0DD8F91EA7081800574139 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		BE113B9F1EF923CE00E5D91E /* SubSportVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubSportVC.swift; sourceTree = "<group>"; };
 		BE118D6F1EE55E86009DD90A /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		BE118D721EE6879C009DD90A /* TrackVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackVC.swift; sourceTree = "<group>"; };
 		BE118D741EE6966E009DD90A /* TrackSV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackSV.swift; sourceTree = "<group>"; };
@@ -1968,6 +1970,7 @@
 		BE1F14EA1EE4EE48007A96A8 /* 选择某天模块 */ = {
 			isa = PBXGroup;
 			children = (
+				BE113B9F1EF923CE00E5D91E /* SubSportVC.swift */,
 			);
 			name = "选择某天模块";
 			sourceTree = "<group>";
@@ -2709,6 +2712,7 @@
 				BE0DD89E1EA6FD6E00574139 /* QN_GTM_Base64.m in Sources */,
 				BE0DD8C81EA6FD6E00574139 /* ESPDatumCode.m in Sources */,
 				BE118D731EE6879C009DD90A /* TrackVC.swift in Sources */,
+				BE113BA01EF923CE00E5D91E /* SubSportVC.swift in Sources */,
 				BE731A011E0B8958002BDF2D /* DetailBottom.swift in Sources */,
 				BE0DD8A91EA6FD6E00574139 /* QNDomain.m in Sources */,
 				BEB2490B1D9E46BD00C9F9ED /* CellCube.swift in Sources */,

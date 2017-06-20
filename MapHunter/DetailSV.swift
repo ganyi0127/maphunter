@@ -22,11 +22,12 @@ protocol DetailDelegate {
     
     //sleep
     func sleepData(withSleepClosure sleepClosure: @escaping (Date, [(Int, Int)])->(), heartrateClosure: @escaping ([(Int, Int)])->())             //睡眠开始时间, [(睡眠类型，睡眠分钟数)]
-//    func sleepHeartrate(closure: @escaping ([(Int, Int)])->())                //根据睡眠开始与结束时间获取范围内心率: [偏移分钟数, 心率值]
     
-    func detailHeartrateOffset(closure: @escaping ([CGFloat])->())
-    func detailWeightDates() -> [Date]
+    //heartrate & bloodpressure
+    func heartrateAndBloodpressure(withHeartrateClosure heartrateClosure: @escaping ([(Int, Int)])->(), bloodPressureClosure: @escaping ([(Date, Int, Int)])->())
     
+    //mindbody
+    func mindbodyData(closure: @escaping ([Int])->())                //身心健康数据
     
     //添加总览数据
     func detailTotalValue() -> CGFloat
@@ -81,7 +82,12 @@ class DetailSV: UIScrollView {
         addSubview(detailBottom)
         contentSize = CGSize(width: view_size.width, height: detailBottom.frame.origin.y + detailBottom.frame.height)
         
-        //添加顶部面板
+        //添加中部面板 1
+        detailCenter = DetailCenter(detailType: type)
+        detailCenter.delegate = self
+        addSubview(detailCenter)
+        
+        //添加顶部面板 2
         if type == .sport{
             detailTop = SportDetailTop()
         }else if type == .sleep{
@@ -93,11 +99,6 @@ class DetailSV: UIScrollView {
         }
         detailTop.delegate = self
         addSubview(detailTop)
-        
-        //添加中部面板
-        detailCenter = DetailCenter(detailType: type)
-        detailCenter.delegate = self
-        addSubview(detailCenter)
     }
 }
 
@@ -193,30 +194,7 @@ extension DetailSV: DetailDelegate{
             
         case .heartrate:
             //心率数据
-            var result = [CGFloat]()
-            
-            DispatchQueue.global().async {
-                angelManager?.getHeartRateData(nil, date: selDate, offset: 0){
-                    heartRateDataList in
-                    guard let heartRateData = heartRateDataList.last else{
-                        return
-                    }
-                    
-                    let heartRateItems = heartRateData.heartRateItem
-                    var heartRateList = [HeartRateItem]()
-                    heartRateItems?.forEach{
-                        item in
-                        heartRateList.append(item as! HeartRateItem)
-                    }
-                    heartRateList = heartRateList.sorted{$0.id < $1.id}
-                    result = heartRateList.map{CGFloat($0.data)}
-                    debugPrint("heartrate result list:", result)
-                    
-                    DispatchQueue.main.async {
-                        closure(result)
-                    }
-                }
-            }
+            break
         case .sleep:
             break
         case .mindBody:
@@ -297,46 +275,78 @@ extension DetailSV: DetailDelegate{
         }
     }
     
-    func detailHeartrateOffset(closure: @escaping ([CGFloat]) -> ()) {
-        //心率数据
-        var result = [CGFloat]()
+    func heartrateAndBloodpressure(withHeartrateClosure heartrateClosure: @escaping ([(Int, Int)]) -> (), bloodPressureClosure: @escaping ([(Date, Int, Int)]) -> ()) {
+        var result = [(Int, Int)]()
         let angelManager = AngelManager.share()
         let selDate = date ?? selectDate
         
-        angelManager?.getHeartRateData(nil, date: selDate, offset: 0){
-            heartRateDataList in
-            guard let heartRateData = heartRateDataList.last else{
-                return
-            }
+        DispatchQueue.global().async {
+            let heartrateResult: [(Int, Int)] = [
+                (offset: 5, heartrate: 65),
+                (offset: 5, heartrate: 80),
+                (offset: 5, heartrate: 93),
+                (offset: 6, heartrate: 123),
+                (offset: 5, heartrate: 153),
+                (offset: 5, heartrate: 143),
+                (offset: 6, heartrate: 103),
+                (offset: 5, heartrate: 83),
+                (offset: 5, heartrate: 79)
+            ]
             
-            let heartRateItems = heartRateData.heartRateItem
-            var heartRateList = [HeartRateItem]()
-            heartRateItems?.forEach{
-                item in
-                heartRateList.append(item as! HeartRateItem)
-            }
-            heartRateList = heartRateList.sorted{$0.id < $1.id}
-            result = heartRateList.map{CGFloat($0.offset)}
-            debugPrint("heartrate offset list:", result)
+            let bloodPressureResult: [(Date, Int, Int)] = [
+                (date: Date(), diastolic: 120, systolic: 80),
+                (date: Date(), diastolic: 200, systolic: 180),
+                (date: Date(), diastolic: 80, systolic: 20),
+                (date: Date(), diastolic: 50, systolic: 39),
+                (date: Date(), diastolic: 244, systolic: 187),
+                (date: Date(), diastolic: 250, systolic: 199),
+                (date: Date(), diastolic: 50, systolic: 93),
+                (date: Date(), diastolic: 40, systolic: 70),
+                (date: Date(), diastolic: 170, systolic: 80),
+                (date: Date(), diastolic: 140, systolic: 111),
+                (date: Date(), diastolic: 135, systolic: 102),
+                (date: Date(), diastolic: 120, systolic: 100),
+                (date: Date(), diastolic: 120, systolic: 80),
+                (date: Date(), diastolic: 90, systolic: 70),
+                (date: Date(), diastolic: 70, systolic: 50)
+            ]
             DispatchQueue.main.async {
-                closure(result)
+                heartrateClosure(heartrateResult)
+                bloodPressureClosure(bloodPressureResult)
             }
+            /*
+             angelManager?.getHeartRateData(nil, date: selDate, offset: 0){
+             heartRateDataList in
+             guard let heartRateData = heartRateDataList.last else{
+             return
+             }
+             
+             let heartRateItems = heartRateData.heartRateItem
+             var heartRateList = [HeartRateItem]()
+             heartRateItems?.forEach{
+             item in
+             heartRateList.append(item as! HeartRateItem)
+             }
+             heartRateList = heartRateList.sorted{$0.id < $1.id}
+             result = heartRateList.map{(Int($0.offset), Int($0.data))}
+             debugPrint("heartrate result list:", result)
+             
+             DispatchQueue.main.async {
+             heartrateClosure(result)
+             }
+             }
+             */
         }
     }
     
-    //获取日期数组
-    func detailWeightDates() -> [Date] {
-        var result = [Date]()
-        var date: Date = Date()
-        result.append(date)
-        (0..<6).forEach(){
-            i in
-            let random = Double(arc4random_uniform(5)) + 1
-            let newDate = Date(timeInterval: -60 * 60 * 24 * random, since: date)
-            date = newDate
-            result.append(newDate)
+    func mindbodyData(closure: @escaping ([Int]) -> ()) {
+        
+        var result = [Int]()
+        for i in (0..<240){
+            let value = Int(arc4random_uniform(100))
+            result.append(value)
         }
-        return result.reversed()
+        closure(result)
     }
     
     //总览数据

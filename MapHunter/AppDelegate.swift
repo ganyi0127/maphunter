@@ -151,6 +151,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //进入前台
         debugPrint("__will enter foreground")
         
+        
+        //判断跨天问题
+        if !preToday.isToday(){
+            preToday = Date()
+            selectDate = Date()
+            application.reloadInputViews()
+        }
+        
         application.applicationIconBadgeNumber = 0          //设置提示图标数量为0
         LocalNotification.cancelAllLocalNotifications()
     }

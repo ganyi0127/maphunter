@@ -27,7 +27,7 @@ class DetailCenter: UIView {
                 unit = "%"
                 text = "\(Int16(v / 10000 * 100))" + unit
             case .mindBody:
-                unit = "Kg"
+                unit = ""
                 text = "\(Int16(v))" + unit
             }
             
@@ -310,6 +310,20 @@ class DetailCenter: UIView {
             
             //添加编辑按钮
             addSubview(weightEditButton)
+            
+            //绘制进度
+            layer.addSublayer(progressLayer)
+        case .heartrate:
+            //左右标签
+            addSubview(leftLabel)
+            addSubview(rightLabel)
+            
+            //绘制进度
+            layer.addSublayer(progressLayer)
+        case .mindBody:
+            //左右标签
+            addSubview(leftLabel)
+            addSubview(rightLabel)
             
             //绘制进度
             layer.addSublayer(progressLayer)
