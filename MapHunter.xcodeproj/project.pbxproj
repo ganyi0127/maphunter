@@ -139,6 +139,8 @@
 		BE0DD8F81EA702C600574139 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0DD8F71EA702C600574139 /* Reachability.swift */; };
 		BE0DD8FA1EA7081800574139 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0DD8F91EA7081800574139 /* NetworkManager.swift */; };
 		BE113BA01EF923CE00E5D91E /* SubSportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE113B9F1EF923CE00E5D91E /* SubSportVC.swift */; };
+		BE113BA21EF928EB00E5D91E /* SubTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE113BA11EF928EB00E5D91E /* SubTableView.swift */; };
+		BE113BA41EF92A8200E5D91E /* SubTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE113BA31EF92A8200E5D91E /* SubTableViewCell.swift */; };
 		BE118D701EE55E86009DD90A /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE118D6F1EE55E86009DD90A /* DateExtension.swift */; };
 		BE118D731EE6879C009DD90A /* TrackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE118D721EE6879C009DD90A /* TrackVC.swift */; };
 		BE118D751EE6966E009DD90A /* TrackSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE118D741EE6966E009DD90A /* TrackSV.swift */; };
@@ -647,6 +649,8 @@
 		BE0DD8F71EA702C600574139 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Reachability.swift; path = ../Reachability.swift; sourceTree = "<group>"; };
 		BE0DD8F91EA7081800574139 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		BE113B9F1EF923CE00E5D91E /* SubSportVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubSportVC.swift; sourceTree = "<group>"; };
+		BE113BA11EF928EB00E5D91E /* SubTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubTableView.swift; sourceTree = "<group>"; };
+		BE113BA31EF92A8200E5D91E /* SubTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubTableViewCell.swift; sourceTree = "<group>"; };
 		BE118D6F1EE55E86009DD90A /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		BE118D721EE6879C009DD90A /* TrackVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackVC.swift; sourceTree = "<group>"; };
 		BE118D741EE6966E009DD90A /* TrackSV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackSV.swift; sourceTree = "<group>"; };
@@ -1971,6 +1975,8 @@
 			isa = PBXGroup;
 			children = (
 				BE113B9F1EF923CE00E5D91E /* SubSportVC.swift */,
+				BE113BA11EF928EB00E5D91E /* SubTableView.swift */,
+				BE113BA31EF92A8200E5D91E /* SubTableViewCell.swift */,
 			);
 			name = "选择某天模块";
 			sourceTree = "<group>";
@@ -2718,6 +2724,7 @@
 				BEB2490B1D9E46BD00C9F9ED /* CellCube.swift in Sources */,
 				BE94BAC11E49CE7D005DD8E4 /* ColorExtension.swift in Sources */,
 				32CCE7131E02321E008AAB8C /* ViewExtension.swift in Sources */,
+				BE113BA41EF92A8200E5D91E /* SubTableViewCell.swift in Sources */,
 				BE4BFEA01E15141A00F3FE91 /* MiddlePopController.swift in Sources */,
 				BE576FFF1E25DD55006BAD1C /* RecommendRouteViewController.swift in Sources */,
 				BE0DD8CC1EA6FD6E00574139 /* ESPTouchTask.m in Sources */,
@@ -2906,6 +2913,7 @@
 				BE0DD8931EA6FD6E00574139 /* UIImageView+AFNetworking.m in Sources */,
 				BE3DB3271E963CFA001CA7AF /* BootScanVC.swift in Sources */,
 				BE4BFE9C1E150FD200F3FE91 /* IntroduceVC.swift in Sources */,
+				BE113BA21EF928EB00E5D91E /* SubTableView.swift in Sources */,
 				BE72482B1ECBE10E008099B7 /* RecordFooter.swift in Sources */,
 				32C3E6341E0A694E00D34A74 /* AlertExtension.swift in Sources */,
 				BE41E67A1E8D097400387B59 /* ActiveForcesVC.swift in Sources */,
