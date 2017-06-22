@@ -43,7 +43,7 @@ extension UINavigationController: UINavigationControllerDelegate{
         
         //设置title
         navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: font_name, size: 17)!,
-                                             NSForegroundColorAttributeName: UIColor(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1)]
+                                             NSForegroundColorAttributeName: wordColor]
         
         
         navigationBar.backgroundColor = defaultColor

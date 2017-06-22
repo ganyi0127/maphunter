@@ -24,7 +24,7 @@ class SportDetailTop: DetailTopBase {
     }
     
     override func config() {
-        super.config()
+        super.config()        
     }
     
     override func createContents() {

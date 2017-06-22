@@ -22,7 +22,7 @@ class SubTableView: UITableView {
     //MARK:-init********************************************************************************************************
     init(withType: DataCubeType) {
         let frame = CGRect(x: edgeWidth, y: detailTopHeight, width: view_size.width - edgeWidth * 2, height: view_size.height - detailTopHeight - edgeWidth)
-        super.init(frame: frame, style: .grouped)
+        super.init(frame: frame, style: .plain)
         
         config()
         createContents()
@@ -36,12 +36,15 @@ class SubTableView: UITableView {
         layer.cornerRadius = detailRadius
         
         register(SubTableViewCell.self, forCellReuseIdentifier: "cell")
+        backgroundColor = timeColor
         delegate = self
         dataSource = self
     }
     
     private func createContents(){
-        
+        for _ in 0..<2{
+            loadNewData()
+        }
     }
     
     //MARK:-加载新数据
@@ -71,10 +74,17 @@ extension SubTableView: UITableViewDelegate, UITableViewDataSource{
         return 7
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let format = "yyy-M-d"
+        let startStr = startDate.formatString(with: format)
+        let endStr = startDate.offset(with: 7).formatString(with: format)
+        return startStr + " ~ " + endStr
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = indexPath.section
         let row = indexPath.row
-        let identifier = "cell"
+        let identifier = "\(section)_\(row)"
         
         var cell = tableView.dequeueReusableCell(withIdentifier: identifier)
         if cell == nil {

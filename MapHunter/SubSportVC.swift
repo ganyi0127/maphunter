@@ -10,6 +10,7 @@ import Foundation
 class SubSportVC: UIViewController {
     
     private var date: Date!
+    private var subTableView: SubTableView?
     
     //MARK:-init******************************************************************************************************************
     init(withDate date: Date){
@@ -26,10 +27,14 @@ class SubSportVC: UIViewController {
     }
     
     private func config(){
+        view.backgroundColor = .red
         
+        automaticallyAdjustsScrollViewInsets = false
     }
     
     private func createContents(){
         
-    }
+        subTableView = SubTableView(withType: .sport)
+        view.addSubview(subTableView!)
+    }    
 }

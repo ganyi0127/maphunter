@@ -43,6 +43,14 @@ class DetailVC: UIViewController {
         }else{
             navigationItem.title = dateStr
         }
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        //test
+        let subSportVC = SubSportVC(withDate: date ?? Date())
+        navigationController?.show(subSportVC, sender: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -82,6 +90,7 @@ class DetailVC: UIViewController {
             self.navigationController?.show(introduceVC, sender: nil)
         }
         view.addSubview(detailSV)
+        
     }
     
     private func createContents(){
