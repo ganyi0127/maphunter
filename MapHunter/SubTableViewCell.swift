@@ -8,6 +8,9 @@
 
 import Foundation
 class SubTableViewCell: UITableViewCell {
+    
+    var date = Date()
+    
     init(with identifier: String?){
         super.init(style: .value1, reuseIdentifier: identifier)
     }

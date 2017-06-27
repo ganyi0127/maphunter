@@ -32,7 +32,7 @@ class DetailVC: UIViewController {
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white]
         
-        //显示日期
+        //显示日期        
         let formatter = DateFormatter()
         formatter.dateFormat = "yyy-MM-dd"
         let dateStr = formatter.string(from: date ?? selectDate)
@@ -43,14 +43,11 @@ class DetailVC: UIViewController {
         }else{
             navigationItem.title = dateStr
         }
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         
-        //test
-        let subSportVC = SubSportVC(withDate: date ?? Date())
-        navigationController?.show(subSportVC, sender: nil)
+
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -88,6 +85,22 @@ class DetailVC: UIViewController {
             let introduceVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "introduce") as! IntroduceVC
             introduceVC.type = self.type
             self.navigationController?.show(introduceVC, sender: nil)
+        }
+        detailSV.detailBottom.additionalClosure = {
+            cellType in
+            //点击附加cell回调
+            switch cellType {
+            case .exercise:     //锻炼
+                let subSport0VC = SubSport0VC(withDate: self.date ?? Date())
+                subSport0VC.subTableView?.layer.cornerRadius = detailRadius
+                self.navigationController?.show(subSport0VC, sender: nil)
+            case .stepTarget:   //步数目标
+                let subSport1VC = SubSport1VC(withDate: self.date ?? Date())
+                subSport1VC.subTableView?.layer.cornerRadius = detailRadius
+                self.navigationController?.show(subSport1VC, sender: nil)
+            default:
+                break
+            }
         }
         view.addSubview(detailSV)
         

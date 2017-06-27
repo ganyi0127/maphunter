@@ -136,16 +136,18 @@ extension DetailSV: UIScrollViewDelegate{
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let y = scrollView.contentOffset.y
-        if y > 0 {
-            detailVC?.navigationController?.navigationBar.tintColor = subWordColor
-            detailVC?.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: subWordColor]
-            detailVC?.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-
-        }else{
-            detailVC?.navigationController?.navigationBar.tintColor = .white
-            detailVC?.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white]
-            detailVC?.navigationController?.setNavigation(hidden: true)
-        }
+        UIView.animate(withDuration: 0.3, animations: {
+            if y > 0 {
+                self.detailVC?.navigationController?.navigationBar.tintColor = subWordColor
+                self.detailVC?.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: subWordColor]
+                self.detailVC?.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+                
+            }else{
+                self.detailVC?.navigationController?.navigationBar.tintColor = .white
+                self.detailVC?.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white]
+                self.detailVC?.navigationController?.setNavigation(hidden: true)
+            }
+        })
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
@@ -289,26 +291,32 @@ extension DetailSV: DetailDelegate{
                 (offset: 5, heartrate: 153),
                 (offset: 5, heartrate: 143),
                 (offset: 6, heartrate: 103),
+                (offset: 15, heartrate: 83),
+                (offset: 5, heartrate: 93),
+                (offset: 8, heartrate: 123),
+                (offset: 5, heartrate: 153),
+                (offset: 5, heartrate: 143),
+                (offset: 6, heartrate: 103),
                 (offset: 5, heartrate: 83),
                 (offset: 5, heartrate: 79)
             ]
             
             let bloodPressureResult: [(Date, Int, Int)] = [
-                (date: Date(), diastolic: 120, systolic: 80),
-                (date: Date(), diastolic: 200, systolic: 180),
+                (date: Date(), diastolic: 150, systolic: 80),
+                (date: Date(), diastolic: 250, systolic: 180),
                 (date: Date(), diastolic: 80, systolic: 20),
-                (date: Date(), diastolic: 50, systolic: 39),
+                (date: Date(), diastolic: 90, systolic: 39),
                 (date: Date(), diastolic: 244, systolic: 187),
                 (date: Date(), diastolic: 250, systolic: 199),
                 (date: Date(), diastolic: 50, systolic: 93),
                 (date: Date(), diastolic: 40, systolic: 70),
                 (date: Date(), diastolic: 170, systolic: 80),
-                (date: Date(), diastolic: 140, systolic: 111),
-                (date: Date(), diastolic: 135, systolic: 102),
-                (date: Date(), diastolic: 120, systolic: 100),
-                (date: Date(), diastolic: 120, systolic: 80),
-                (date: Date(), diastolic: 90, systolic: 70),
-                (date: Date(), diastolic: 70, systolic: 50)
+                (date: Date(), diastolic: 240, systolic: 111),
+                (date: Date(), diastolic: 235, systolic: 102),
+                (date: Date(), diastolic: 220, systolic: 100),
+                (date: Date(), diastolic: 160, systolic: 80),
+                (date: Date(), diastolic: 190, systolic: 70),
+                (date: Date(), diastolic: 170, systolic: 50)
             ]
             DispatchQueue.main.async {
                 heartrateClosure(heartrateResult)

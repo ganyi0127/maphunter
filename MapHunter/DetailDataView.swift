@@ -38,6 +38,14 @@ enum DetailDataViewType{
     case highStateDuration
     case middleStateDuration
     case lowStateDuration
+    
+    //子类型（长条自定义cell）
+    enum Additional {
+        case exercise           //锻炼
+        case stepTarget         //每小时步数
+        case restHeartrate      //静息心率
+        case bloodPressureTrend //90天血压趋势
+    }
 }
 class DetailDataView: UIView {
     

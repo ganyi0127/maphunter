@@ -10,7 +10,7 @@ import Foundation
 import AngelFit
 class SubTableView: UITableView {
     
-    
+    var type: DataCubeType!
     var startDate = Date()      //开始日期
     fileprivate var dataList = [(date: Date, value: Any)](){
         didSet{
@@ -20,9 +20,13 @@ class SubTableView: UITableView {
     
     
     //MARK:-init********************************************************************************************************
-    init(withType: DataCubeType) {
-        let frame = CGRect(x: edgeWidth, y: detailTopHeight, width: view_size.width - edgeWidth * 2, height: view_size.height - detailTopHeight - edgeWidth)
+    init(withType type: DataCubeType) {
+        let frame = CGRect(x: edgeWidth, y: detailTopHeight + navigation_height! + 20,
+                           width: view_size.width - edgeWidth * 2,
+                           height: view_size.height - (detailTopHeight + navigation_height! + 20) - edgeWidth)
         super.init(frame: frame, style: .plain)
+        
+        self.type = type
         
         config()
         createContents()
@@ -33,10 +37,11 @@ class SubTableView: UITableView {
     }
     
     private func config(){
-        layer.cornerRadius = detailRadius
+        //layer.cornerRadius = detailRadius
         
         register(SubTableViewCell.self, forCellReuseIdentifier: "cell")
         backgroundColor = timeColor
+       
         delegate = self
         dataSource = self
     }
@@ -74,6 +79,12 @@ extension SubTableView: UITableViewDelegate, UITableViewDataSource{
         return 7
     }
     
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = .white
+        header.contentView.backgroundColor = modelEndColors[type]
+    }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let format = "yyy-M-d"
         let startStr = startDate.formatString(with: format)
@@ -90,6 +101,7 @@ extension SubTableView: UITableViewDelegate, UITableViewDataSource{
         if cell == nil {
             cell = SubTableViewCell(with: identifier)
         }
+        cell?.accessoryType = .disclosureIndicator
         
         let subTableViewCell = cell as! SubTableViewCell
         let data = dataList[section * 7 + row]
@@ -97,13 +109,36 @@ extension SubTableView: UITableViewDelegate, UITableViewDataSource{
         let value = data.value
         
         
-        
+        subTableViewCell.date = date
         subTableViewCell.textLabel?.text = date.weekdayString()
         subTableViewCell.detailTextLabel?.text = "\(value)"
         return subTableViewCell
+    }    
+    
+    //上拉下拉
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        var newY = scrollView.contentOffset.y
+        
+        //禁止下拉
+        if newY < 0{
+            newY = 0
+            scrollView.setContentOffset(CGPoint(x: 0, y: newY), animated: false)
+            return
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let section = indexPath.section
+        let row = indexPath.row
         
+        let cell = tableView.cellForRow(at: indexPath) as! SubTableViewCell
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let date = cell.date
+
+        //进入详情页面
+        let detailVC = DetailVC(detailType: type, date: date, isDetail: false)
+        viewController()?.navigationController?.show(detailVC, sender: nil)
     }
 }

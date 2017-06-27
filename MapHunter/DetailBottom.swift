@@ -98,8 +98,25 @@ class DetailBottom: UIView {
                                 detailDataView.value = 0
                             }
                         }
-                    }else if self.type == .heartrate{
+                    }else if self.type == .heartrate{           //心肺功能
                         detailDataView.value = 123
+                    }else if self.type == .mindBody{            //身心状态
+                        switch dataViewType {
+                        case .resetStateDuration:
+                            resetStateDurationValue = 12
+                            detailDataView.value = resetStateDurationValue
+                        case .lowStateDuration:
+                            lowStateDurationValue = 34
+                            detailDataView.value = lowStateDurationValue
+                        case .middleStateDuration:
+                            middleStateDurationValue = 45
+                            detailDataView.value = middleStateDurationValue
+                        case .highStateDuration:
+                            highStateDurationValue = 99
+                            detailDataView.value = highStateDurationValue
+                        default:
+                            break
+                        }
                     }
                 }
                 
@@ -112,18 +129,67 @@ class DetailBottom: UIView {
             }
         }
     }
+    private var resetStateDurationValue: CGFloat = 10
+    private var lowStateDurationValue: CGFloat = 20
+    private var middleStateDurationValue: CGFloat = 30
+    private var highStateDurationValue: CGFloat = 40
+    
+    //附加cell
+    private var dataViewTypeAdditionalList: [DetailDataViewType.Additional]! {
+        didSet{
+            guard let list = dataViewTypeAdditionalList else {
+                return
+            }
+            
+            list.enumerated().forEach{
+                index, type in
+                let detailDataCell = DetailDataCell(with: type)
+                let y = CGFloat(lroundf(Float(dataViewTypeList.count) / 2)) * view_size.width * 0.2 + detailCenterHeight + CGFloat(index) * detailDataCell.bounds.height
+                detailDataCell.frame.origin = CGPoint(x: 0, y: y)
+                
+                
+                //获取数据
+                let coredataHandler = CoreDataHandler.share()
+                if let macaddress = AngelManager.share()?.macAddress{
+                    let userId = UserManager.share().userId
+                    
+                    //获取数据。。。
+                    
+                    switch type {
+                    case .exercise:
+                        detailDataCell.value = (58, 4)                                              //锻炼总分钟数，锻炼次数
+                    case .stepTarget:
+                        detailDataCell.value = [250, 123, 456, 123, 324, 786, 12, 456, 876]         //9小时内每小时步数
+                    case .restHeartrate:
+                        detailDataCell.value = (60, 67)                                             //静息心率，30天平均心率
+                    case .bloodPressureTrend:
+                        detailDataCell.value = (1, 105, 65)                                         //血压趋势类型，平均舒张压，平均收缩压
+                    default:
+                        break
+                    }
+                }
+                
+                detailDataCell.closure = {
+                    cellType in
+                    self.additionalClosure?(cellType)
+                }
+                addSubview(detailDataCell)
+            }
+        }
+    }
     
     private var isDetail = false
     
     var delegate: DetailDelegate?
-    var closure: (()->())?          //统一回调
+    var closure: (()->())?                                  //统一回调
+    var additionalClosure: ((DetailDataViewType.Additional)->())? //附加回调
     
     //MARK:- init
     init(detailType: DataCubeType, isDetail: Bool){
         let frame = CGRect(x: edgeWidth,
                            y: detailTopHeight,
                            width: view_size.width - edgeWidth * 2,
-                           height: isDetail ? view_size.height * 2 : view_size.height - detailTopHeight - edgeWidth)
+                           height: isDetail ? view_size.height * 2 : view_size.height + subHeight - detailTopHeight - edgeWidth)
         super.init(frame: frame)
         
         self.isDetail = isDetail
@@ -149,7 +215,7 @@ class DetailBottom: UIView {
         frame = CGRect(x: edgeWidth,
                        y: detailTopHeight,
                        width: view_size.width - edgeWidth * 2,
-                       height: isDetail ? tableViewY + tableViewHeight : view_size.height - detailTopHeight - edgeWidth)
+                       height: isDetail ? tableViewY + tableViewHeight : tableViewY + subHeight)
         
         detailSV.reloadInputViews()
         
@@ -160,9 +226,7 @@ class DetailBottom: UIView {
         gradient?.removeFromSuperlayer()
         //绘制渐变
         gradient = CAGradientLayer()
-        gradient?.frame = CGRect(x: 0, y: 0,
-                                 width: view_size.width - edgeWidth * 2,
-                                 height: isDetail ? tableViewY + tableViewHeight : view_size.height - detailTopHeight - edgeWidth)
+        gradient?.frame = bounds
         gradient?.locations = [0.2, 0.8]
         gradient?.startPoint = CGPoint(x: 1, y: 0)
         gradient?.endPoint = CGPoint(x: 1, y: 1)
@@ -178,28 +242,32 @@ class DetailBottom: UIView {
          */
     }
     
-    fileprivate var thisWeek = [Any]()
-    fileprivate var lastWeek = [Any]()
     private var tableView: UITableView?
     private var tableViewY: CGFloat = view_size.width * 0.2 * 4 + detailCenterHeight
     private var tableViewHeight: CGFloat = 0
-    fileprivate let weekStrList = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"]
+    private var subHeight: CGFloat = 0
     private func createContents(){
         
         //数据展示
         switch type as DataCubeType {
         case .sport:
             dataViewTypeList = [.totalTime, .totalCalorie, .activityTime, .activityCalorie, .restTime, .restCalorie]
+            dataViewTypeAdditionalList = [.exercise, .stepTarget]
         case .heartrate:
             dataViewTypeList = [.averageBloodPressure, .maxBloodPressure, .averageHeartrate, .restHeartrate, .maxHeartrate]
+            dataViewTypeAdditionalList = [.restHeartrate]
         case .sleep:
             dataViewTypeList = [.heartrate, .sleepState, .deepSleep, .quiteSleep, .lightSleep, .wakeTime, .sleepTime, .wakeCount]
+            dataViewTypeAdditionalList = []
         case .mindBody:
             dataViewTypeList = [.resetStateDuration, .lowStateDuration, .middleStateDuration, .highStateDuration]
+            dataViewTypeAdditionalList = []
         }
         
+        tableViewY = CGFloat(lroundf(Float(dataViewTypeList.count) / 2)) * view_size.width * 0.2 + detailCenterHeight + CGFloat(dataViewTypeAdditionalList.count) * 44
+        
         if isDetail{        //当前选择日
-            
+            /*
             //趋势
             guard let angleManager = AngelManager.share() else{
                 return
@@ -223,7 +291,7 @@ class DetailBottom: UIView {
             }
             
             //创建tableview
-            tableViewY = CGFloat(lroundf(Float(dataViewTypeList.count) / 2)) * view_size.width * 0.2 + detailCenterHeight
+            tableViewY = CGFloat(lroundf(Float(dataViewTypeList.count) / 2)) * view_size.width * 0.2 + detailCenterHeight + CGFloat(dataViewTypeAdditionalList.count) * 44
             tableViewHeight = 44 * CGFloat(1 + weekday + 1 + lastWeek.count)
             let tableViewFrame = CGRect(x: 0, y: tableViewY, width: bounds.width, height: tableViewHeight)
             tableView = UITableView(frame: tableViewFrame, style: .grouped)
@@ -232,10 +300,122 @@ class DetailBottom: UIView {
             tableView?.delegate = self
             tableView?.dataSource = self
             addSubview(tableView!)
+             */
+            
+            let subTableView = SubTableView(withType: type)
+            subTableView.startDate = selectDate
+            subTableView.type = type
+            subTableView.frame = CGRect(x: 0, y: tableViewY, width: subTableView.bounds.width, height: subTableView.bounds.height)
+            tableViewHeight = subTableView.bounds.height
+            addSubview(subTableView)
+        }else{
+            if type == .mindBody{   //身心状态
+                //添加扇形图
+                subHeight = view_size.width * 0.75
+                
+                let labelFrame = CGRect(x: 0, y: tableViewY + edgeWidth, width: bounds.width, height: 17)
+                let label = UILabel(frame: labelFrame)
+                label.text = "状态百分比"
+                label.font = fontMiddle
+                label.textColor = wordColor
+                label.textAlignment = .center
+                addSubview(label)
+                
+                //设置常量
+                let circleColors = [UIColor.blue.withAlphaComponent(0.5),
+                                    UIColor.yellow.withAlphaComponent(0.5),
+                                    UIColor.orange.withAlphaComponent(0.5),
+                                    UIColor.red.withAlphaComponent(0.5)]
+                let values = [resetStateDurationValue, lowStateDurationValue, middleStateDurationValue, highStateDurationValue]
+                
+                //设置贝塞尔属性
+                let centerPoint = CGPoint(x: bounds.width * 0.6 / 2, y: tableViewY + edgeWidth + labelFrame.height + (subHeight - labelFrame.height) / 2)
+                let radius = (subHeight - labelFrame.height) / 2 / 2
+                
+                //绘制圆圈
+                var startAngle: CGFloat = -.pi / 2
+                let totalValue = values.reduce(0){$0 + $1}
+                if totalValue != 0{
+                    for (index, value) in values.enumerated(){
+                        let endAngle = value / totalValue * .pi * 2 + startAngle
+                        
+                        let bezier = UIBezierPath(arcCenter: centerPoint, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
+                        
+                        startAngle = endAngle
+                        
+                        let shapeLayer = CAShapeLayer()
+                        shapeLayer.path = bezier.cgPath
+                        shapeLayer.fillColor = nil
+                        shapeLayer.strokeColor = circleColors[index].cgColor
+                        shapeLayer.lineWidth = 8
+                        layer.addSublayer(shapeLayer)
+                    }
+                }
+                
+                //添加圆圈中央文字
+                let centerLabelFrame = CGRect(x: centerPoint.x - radius, y: centerPoint.y - radius, width: radius * 2, height: radius * 2)
+                let centerLabel = UILabel(frame: centerLabelFrame)
+                centerLabel.numberOfLines = 0
+                centerLabel.textAlignment = .center
+                
+                let unitString = "整体压力水平"
+                let text = "\(Int(totalValue))\n" + unitString
+                let attributedString = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: fontBig, NSForegroundColorAttributeName: wordColor])
+                attributedString.addAttributes([NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: subWordColor], range: NSMakeRange(text.characters.count - unitString.characters.count, unitString.characters.count))
+                centerLabel.attributedText = attributedString
+                addSubview(centerLabel)
+                
+                //创建图片
+                func getImage(_ pressureType: Int) -> UIImage{
+                    
+                    let v = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+                    v.layer.cornerRadius = v.frame.height / 2
+                    v.backgroundColor = circleColors[pressureType]
+                    
+                    UIGraphicsBeginImageContextWithOptions(CGSize(width: 17, height: 17), false, UIScreen.main.scale)
+                    let ctx = UIGraphicsGetCurrentContext()!
+                    v.layer.render(in: ctx)
+                    let image = UIGraphicsGetImageFromCurrentImageContext()
+                    UIGraphicsEndImageContext()
+                    return image!
+                }
+                
+                //添加标注
+                let texts = ["休息", "低压", "中压", "高压"]
+                let startY = tableViewY + edgeWidth + labelFrame.height + (subHeight - labelFrame.height) / 2 - radius
+                for (index, value) in values.enumerated(){
+                    
+                    let tipLabelFrame = CGRect(x: bounds.width * 0.6, y: startY + (radius * 2 - 17) * CGFloat(index) / CGFloat(values.count - 1), width: bounds.width * 0.4, height: 17)
+                    let tipLabel: UILabel = UILabel(frame: tipLabelFrame)
+                    tipLabel.font = fontSmall
+                    tipLabel.textColor = subWordColor
+                    tipLabel.textAlignment = .center
+                    tipLabel.backgroundColor = .clear
+                    
+                    //添加图片混排
+                    let text = texts[index] + " \(Int(value / totalValue * 100))%"
+                    let attributedString = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: fontSmall])
+                    let length = fontSmall.pointSize * 1
+                    let imageSize = CGSize(width: length, height: length)
+                    let imageBounds = CGRect(x: 0, y: length / 2 - tipLabelFrame.height / 2, width: length, height: length)
+                    let endIndex: Int = 0       //插入位置
+                    let startAttach = NSTextAttachment()
+                    startAttach.bounds = imageBounds
+                    startAttach.image = getImage(index)
+                    
+                    let startAttributed = NSAttributedString(attachment: startAttach)
+                    attributedString.insert(startAttributed, at: endIndex)
+                    tipLabel.attributedText = attributedString
+                    
+                    addSubview(tipLabel)
+                }
+                
+            }
         }
     }
 }
 
+/*
 //MARK:- 日期tableView delegate
 extension DetailBottom: UITableViewDelegate, UITableViewDataSource{
     
@@ -328,10 +508,9 @@ extension DetailBottom: UITableViewDelegate, UITableViewDataSource{
                     endDate = (lastWeek.last! as! SleepData).date! as Date
                 }
                 
-                let format = DateFormatter()
-                format.dateFormat = "M月d日"
-                let startStr = format.string(from: startDate)
-                let endStr = format.string(from: endDate)
+                let formatStr = "M月d日"
+                let startStr = startDate.formatString(with: formatStr)
+                let endStr = endDate.formatString(with: formatStr)
                 
                 titleLabel.text = startStr + "~" + endStr
                 //步数
@@ -372,8 +551,7 @@ extension DetailBottom: UITableViewDelegate, UITableViewDataSource{
             if date.isToday() {
                 cell.textLabel?.text = "今天"
             }else{
-                let weekday = calendar.component(.weekday, from: date)
-                cell.textLabel?.text = weekStrList[weekday - 1]
+                cell.textLabel?.text = date.weekdayString()
             }
             
             let step = sportData.totalStep
@@ -419,3 +597,4 @@ extension DetailBottom: UITableViewDelegate, UITableViewDataSource{
         viewController()?.navigationController?.show(detailVC, sender: nil)
     }
 }
+*/

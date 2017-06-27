@@ -112,9 +112,9 @@ class MindbodyDetailTop: DetailTopBase {
                 let anim = CABasicAnimation(keyPath: "transform.scale.y")
                 anim.fromValue = 0
                 anim.toValue = 1 //data / maxData
-                anim.duration = 0.2
+                anim.duration = 0.15
                 let time = self.layer.convertTime(CACurrentMediaTime(), from: nil)       //马赫时间
-                anim.beginTime = time + TimeInterval(index) * 0.01
+                anim.beginTime = time + TimeInterval(index) * 0.005
                 anim.fillMode = kCAFillModeBoth
                 anim.isRemovedOnCompletion = false
                 anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)

@@ -122,23 +122,20 @@ class HeartrateDetailTop: DetailTopBase {
                 return
             }
             
-            var offsetX: CGFloat = 0                                 //计算数据x坐标值
-            
             //偏移
             var offset = 0
             self.headCount = heartrateDataList.first!.0
             self.tailCount = heartrateDataList.last!.0
-            let totalOffset = heartrateDataList.reduce(0, {$0 + $1.0}) - self.headCount
+            let totalOffset = heartrateDataList.reduce(0, {$0 + $1.0}) //- self.headCount - self.tailCount
             
             let bezier = UIBezierPath()
             heartrateDataList.enumerated().forEach{
                 index, element in
                 
+                offset += element.0
                 let rate = CGFloat(element.1 - minHeartrate.1) / CGFloat(maxHeartrate.1 - minHeartrate.1)
                 let x = CGFloat(offset) / CGFloat(totalOffset) * (self.frame.width - detailRadius * 2)
                 let y = (self.bounds.height - rectHeight) + rectHeight * (1 - rate) - circleRadius
-                offset += element.0
-                offsetX += CGFloat(x)
                 
                 let heartratePoint = CGPoint(x: x + detailRadius, y: y)
                 if index == 0{
@@ -158,6 +155,15 @@ class HeartrateDetailTop: DetailTopBase {
             shapeLayer.strokeColor = UIColor.white.cgColor
             self.heartrateView.layer.addSublayer(shapeLayer)
             self.bringSubview(toFront: self.heartrateView)
+            
+            //动画
+            let anim = CABasicAnimation(keyPath: "strokeEnd")
+            anim.fromValue = 0
+            anim.toValue = 1
+            anim.duration = 1
+            anim.fillMode = kCAFillModeBoth
+            anim.isRemovedOnCompletion = true
+            shapeLayer.add(anim, forKey: nil)
         }, bloodPressureClosure: {
             bloodPressureResult in
             
@@ -310,16 +316,35 @@ extension HeartrateDetailTop{
         
         if isHeartrateShow {    //心率数据
             
-            let dataWidth = (bounds.size.width - detailRadius * 2) / CGFloat(heartrateDataList.count)
-            var dataIndex = Int((location.x - detailRadius) / dataWidth)
-            guard dataIndex < heartrateDataList.count, dataIndex >= 0 else{
+            let list = heartrateDataList
+            guard !list.isEmpty else {
                 return
             }
+            
+            let totalOffset = list.reduce(0, {$0 + $1.offset})
+            var dataIndex = -1
+            var offset = 0
+            
+            while (bounds.width - detailRadius * 2) * CGFloat(offset) / CGFloat(totalOffset) < (location.x - detailRadius) {
+                dataIndex += 1
+                if dataIndex < list.count {
+                    offset += list[dataIndex].offset                    
+                }else{
+                    return
+                }
+            }
+
+            guard dataIndex < list.count, dataIndex >= 0 else{
+                return
+            }
+            
+            //计算修正后x轴位置
+            let x = (bounds.width - detailRadius * 2) * CGFloat(offset) / CGFloat(totalOffset) + detailRadius - 1
+            
             
             //改变显示view x轴位置
             UIView.animate(withDuration: 0.3){
                 self.selectedView.isHidden = false
-                let x = detailRadius + CGFloat(dataIndex) * dataWidth - 1
                 let width: CGFloat = 2
                 let newFrame = CGRect(x: x, y: self.selectedView.frame.origin.y, width: width, height: self.selectedView.frame.height)
                 self.selectedView.frame = newFrame

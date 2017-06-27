@@ -21,8 +21,21 @@ class DetailCenter: UIView {
                 unit = "%"
                 text = "\(Int16(v / 10000 * 100))" + unit
             case .heartrate:
-                unit = "Bmp"
-                text = "\(Int16(v))" + unit
+                unit = ""
+                text = ""
+                
+                let bezierRadius = bounds.size.height - 4
+                let bezierRect = CGRect(x: bounds.size.width / 2 - bezierRadius / 2,
+                                        y: bounds.size.height / 2 - bezierRadius / 2,
+                                        width: bezierRadius,
+                                        height: bezierRadius)
+                let imageView = UIImageView(frame: bezierRect)
+                if let image = UIImage(named: "resource/datamodelicon/heartrate"){
+                    imageView.image = image.transfromImage(size: CGSize(width: bezierRadius, height: bezierRadius * image.size.height / image.size.width))
+                }
+                imageView.contentMode = UIViewContentMode.center
+                addSubview(imageView)
+                break
             case .sleep:
                 unit = "%"
                 text = "\(Int16(v / 10000 * 100))" + unit
