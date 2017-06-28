@@ -308,15 +308,18 @@ class SleepDetailTop: DetailTopBase {
 
 extension SleepDetailTop{
     override func currentTouchesBegan(_ touches: Set<UITouch>) {
-        guard touches.first != nil else {
+        guard let touch = touches.first else {
+            return
+        }
+        
+        let location = touch.location(in: self)
+        guard location.y < detailTopHeight else {
             return
         }
         
         guard !sleepDataList.isEmpty else{
             return
-        }        
-
-        
+        }
         
         currentTouchesMoved(touches)
     }
@@ -327,6 +330,9 @@ extension SleepDetailTop{
         }
         
         let location = touch.location(in: self)
+        guard location.y < detailTopHeight else {
+            return
+        }
         
         selectedView.isHidden = false
         

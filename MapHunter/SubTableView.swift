@@ -56,7 +56,7 @@ class SubTableView: UITableView {
     func loadNewData(){
         var newDateList = [Date]()
         for i in 0..<7 {
-            let date = startDate.offset(with: i + 1 + dataList.count)
+            let date = startDate.offset(with: -i + dataList.count)
             newDateList.append(date)
         }
         

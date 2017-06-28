@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--趣玩-->
+        <scene sceneID="CPi-UU-8be">
+            <objects>
+                <navigationController storyboardIdentifier="map" id="O3P-Si-e6w" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="趣玩" id="hJW-RC-nOD"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="9uk-nc-XZc">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="ENF-Py-swm" kind="relationship" relationship="rootViewController" id="7AE-cf-xcg"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mto-P0-F7Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-626" y="58"/>
+        </scene>
+        <!--PlayVC-->
+        <scene sceneID="LFz-c7-0Wd">
+            <objects>
+                <viewController id="ENF-Py-swm" customClass="PlayVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ZEH-po-aEr"/>
+                        <viewControllerLayoutGuide type="bottom" id="PFV-tN-ToD"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jSd-41-poL">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="YBY-x9-5bU">
+                                <rect key="frame" x="8" y="72" width="359" height="538"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oJ2-0t-HWf" userLabel="户外运动" customClass="OutdoorView" customModule="MapHunter" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="359" height="128.5"/>
+                                        <color key="backgroundColor" red="0.83848741319444442" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gAw-pl-1YO" userLabel="室内运动" customClass="IndoorView" customModule="MapHunter" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="136.5" width="359" height="128.5"/>
+                                        <color key="backgroundColor" red="1" green="0.85994466145833337" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LdA-CS-8Ka" userLabel="运动寻宝" customClass="HuntingView" customModule="MapHunter" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="273" width="359" height="128.5"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="0.88096788194444442" alpha="1" colorSpace="calibratedRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bhH-Xx-bNh" userLabel="挑战" customClass="DekaronView" customModule="MapHunter" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="409.5" width="359" height="128.5"/>
+                                        <color key="backgroundColor" red="0.90399848090277779" green="0.87771267361111116" blue="0.796630859375" alpha="1" colorSpace="calibratedRGB"/>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="oJ2-0t-HWf" firstAttribute="height" secondItem="gAw-pl-1YO" secondAttribute="height" id="8Zt-BP-zaZ"/>
+                                    <constraint firstItem="oJ2-0t-HWf" firstAttribute="height" secondItem="bhH-Xx-bNh" secondAttribute="height" id="L3e-RU-Ctd"/>
+                                    <constraint firstItem="oJ2-0t-HWf" firstAttribute="height" secondItem="LdA-CS-8Ka" secondAttribute="height" id="myh-9l-vfR"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="YBY-x9-5bU" firstAttribute="top" secondItem="ZEH-po-aEr" secondAttribute="bottom" constant="8" id="17w-0d-hpm"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="YBY-x9-5bU" secondAttribute="leading" constant="8" id="T89-yI-EWN"/>
+                            <constraint firstItem="PFV-tN-ToD" firstAttribute="top" secondItem="YBY-x9-5bU" secondAttribute="bottom" constant="8" id="xO9-OO-hjI"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="YBY-x9-5bU" secondAttribute="trailing" constant="-8" id="zOs-07-658"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="fVT-cZ-Scv"/>
+                    <connections>
+                        <outlet property="dekaronView" destination="bhH-Xx-bNh" id="Gif-Vb-G87"/>
+                        <outlet property="huntingView" destination="LdA-CS-8Ka" id="YLC-EI-22L"/>
+                        <outlet property="indoorView" destination="gAw-pl-1YO" id="CzD-EJ-ngN"/>
+                        <outlet property="outdoorView" destination="oJ2-0t-HWf" id="eGu-ew-Anf"/>
+                        <segue destination="k3c-A0-pgI" kind="show" identifier="outdoor" id="BPn-lg-C3b"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a4y-Qd-3Ri" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="245.59999999999999" y="56.221889055472268"/>
+        </scene>
+        <!--PrepareVC-->
+        <scene sceneID="fN6-If-9dS">
+            <objects>
+                <viewController id="k3c-A0-pgI" customClass="PrepareVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ngf-JF-ULI"/>
+                        <viewControllerLayoutGuide type="bottom" id="AYM-UL-y2s"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xf9-kH-cmF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Th6-dk-NcU">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                            </mapView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rfz-gh-pJO">
+                                <rect key="frame" x="0.0" y="400" width="375" height="267"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ukv-c2-meb">
+                                        <rect key="frame" x="153.5" y="100" width="67" height="67"/>
+                                        <color key="backgroundColor" red="0.96821206810000005" green="0.4010783732" blue="0.00068032217680000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="ukv-c2-meb" secondAttribute="height" multiplier="1:1" id="RYv-pl-lAa"/>
+                                        </constraints>
+                                        <state key="normal" title="start">
+                                            <color key="titleColor" red="1" green="1" blue="0.88096788189999997" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="start:" destination="k3c-A0-pgI" eventType="touchUpInside" id="YwA-DA-gVc"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ohb-BN-NyW">
+                                        <rect key="frame" x="93.5" y="175" width="187.5" height="30"/>
+                                        <state key="normal" title="设定单次目标&gt;">
+                                            <color key="titleColor" red="0.96821206810000005" green="0.4010783732" blue="0.00068032217680000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="ukv-c2-meb" firstAttribute="height" secondItem="rfz-gh-pJO" secondAttribute="height" multiplier="1/4" id="3p2-RQ-TAG"/>
+                                    <constraint firstItem="ohb-BN-NyW" firstAttribute="centerX" secondItem="rfz-gh-pJO" secondAttribute="centerX" id="DCc-St-WxM"/>
+                                    <constraint firstItem="ukv-c2-meb" firstAttribute="centerY" secondItem="rfz-gh-pJO" secondAttribute="centerY" id="KY6-na-0am"/>
+                                    <constraint firstItem="ohb-BN-NyW" firstAttribute="width" secondItem="rfz-gh-pJO" secondAttribute="width" multiplier="1/2" id="avq-Pu-eBA"/>
+                                    <constraint firstItem="ohb-BN-NyW" firstAttribute="top" secondItem="ukv-c2-meb" secondAttribute="bottom" constant="8" id="dWS-Px-jqC"/>
+                                    <constraint firstItem="ukv-c2-meb" firstAttribute="centerX" secondItem="rfz-gh-pJO" secondAttribute="centerX" id="j8F-BD-FqY"/>
+                                </constraints>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="resource/map/gps/high.png" translatesAutoresizingMaskIntoConstraints="NO" id="6W3-RF-YC9">
+                                <rect key="frame" x="16" y="72" width="62.5" height="23"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="Th6-dk-NcU" secondAttribute="trailing" constant="-16" id="3yM-aV-i8f"/>
+                            <constraint firstItem="6W3-RF-YC9" firstAttribute="width" secondItem="6W3-RF-YC9" secondAttribute="height" multiplier="11:4" id="AWk-wQ-rjT"/>
+                            <constraint firstItem="rfz-gh-pJO" firstAttribute="height" secondItem="xf9-kH-cmF" secondAttribute="height" multiplier="1/2.5" id="L9f-Ng-iZt"/>
+                            <constraint firstItem="Th6-dk-NcU" firstAttribute="top" secondItem="ngf-JF-ULI" secondAttribute="bottom" id="awk-pp-xBz"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="rfz-gh-pJO" secondAttribute="trailing" constant="-16" id="bDp-1h-fEg"/>
+                            <constraint firstItem="6W3-RF-YC9" firstAttribute="top" secondItem="ngf-JF-ULI" secondAttribute="bottom" constant="8" id="cTC-Jh-yqM"/>
+                            <constraint firstItem="AYM-UL-y2s" firstAttribute="top" secondItem="Th6-dk-NcU" secondAttribute="bottom" id="dIJ-BS-c8E"/>
+                            <constraint firstItem="Th6-dk-NcU" firstAttribute="leading" secondItem="xf9-kH-cmF" secondAttribute="leadingMargin" constant="-16" id="f9V-dy-X0H"/>
+                            <constraint firstItem="rfz-gh-pJO" firstAttribute="leading" secondItem="xf9-kH-cmF" secondAttribute="leadingMargin" constant="-16" id="kvS-lh-WDi"/>
+                            <constraint firstItem="AYM-UL-y2s" firstAttribute="top" secondItem="rfz-gh-pJO" secondAttribute="bottom" constant="-49" id="peS-RB-hGn"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="6W3-RF-YC9" secondAttribute="leading" id="rLo-5r-N1Q"/>
+                            <constraint firstItem="6W3-RF-YC9" firstAttribute="width" secondItem="xf9-kH-cmF" secondAttribute="width" multiplier="1/6" id="uUE-KG-ROM"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="gpsImageView" destination="6W3-RF-YC9" id="DdF-dw-2fv"/>
+                        <outlet property="mapView" destination="Th6-dk-NcU" id="08b-ns-qfb"/>
+                        <outlet property="singleTargetButton" destination="ohb-BN-NyW" id="y5T-UY-Q9i"/>
+                        <outlet property="startButton" destination="ukv-c2-meb" id="kmU-D8-A9F"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2TM-7D-41n" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1205.5999999999999" y="-630.13493253373315"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="resource/map/gps/high.png" width="16" height="16"/>
+    </resources>
+</document>

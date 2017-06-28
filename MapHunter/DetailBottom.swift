@@ -307,7 +307,7 @@ class DetailBottom: UIView {
             subTableView.type = type
             subTableView.frame = CGRect(x: 0, y: tableViewY, width: subTableView.bounds.width, height: subTableView.bounds.height)
             tableViewHeight = subTableView.bounds.height
-            addSubview(subTableView)
+            addSubview(subTableView)            
         }else{
             if type == .mindBody{   //身心状态
                 //添加扇形图

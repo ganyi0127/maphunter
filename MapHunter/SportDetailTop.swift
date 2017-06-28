@@ -91,7 +91,7 @@ class SportDetailTop: DetailTopBase {
                 
                 let rate = data / maxData
                 let bezier = UIBezierPath(roundedRect: CGRect(x: CGFloat(index) * rectWidth + detailRadius + rectWidth * 0.1,
-                                                              y: self.frame.height - rectHeight + cornerRadius + rectHeight * (1 - rate),
+                                                              y: self.frame.height - rectHeight + cornerRadius * 0 + rectHeight * (1 - rate),
                                                               width: rectWidth * 0.8,
                                                               height: rectHeight * rate),
                                           cornerRadius: cornerRadius)
@@ -167,11 +167,15 @@ extension SportDetailTop{
             return
         }
         
+        let location = touch.location(in: self)
+        guard location.y < detailTopHeight else {
+            return
+        }
+        
         guard !dataList.isEmpty else{
             return
         }
         
-        let location = touch.location(in: self)
         let dataWidth = (bounds.size.width - detailRadius * 2) / CGFloat(dataList.count)
         let dataIndex = Int((location.x - detailRadius) / dataWidth)
         guard dataIndex < dataList.count, dataIndex >= 0 else{
@@ -189,6 +193,10 @@ extension SportDetailTop{
         }
         
         let location = touch.location(in: self)
+        guard location.y < detailTopHeight else {
+            return
+        }
+        
         let dataWidth = (bounds.size.width - detailRadius * 2) / CGFloat(dataList.count)
         let dataIndex = Int((location.x - detailRadius) / dataWidth)
         guard dataIndex < dataList.count, dataIndex >= 0 else{

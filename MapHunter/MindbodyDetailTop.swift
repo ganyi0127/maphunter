@@ -172,11 +172,15 @@ extension MindbodyDetailTop{
             return
         }
         
+        let location = touch.location(in: self)
+        guard location.y < detailTopHeight else {
+            return
+        }
+        
         guard !dataList.isEmpty else{
             return
         }
         
-        let location = touch.location(in: self)
         let dataWidth = (bounds.size.width - detailRadius * 2) / CGFloat(dataList.count)
         let dataIndex = Int((location.x - detailRadius) / dataWidth)
         guard dataIndex < dataList.count, dataIndex >= 0 else{
@@ -194,6 +198,10 @@ extension MindbodyDetailTop{
         }
         
         let location = touch.location(in: self)
+        guard location.y < detailTopHeight else {
+            return
+        }
+        
         let dataWidth = (bounds.size.width - detailRadius * 2) / CGFloat(dataList.count)
         let dataIndex = Int((location.x - detailRadius) / dataWidth)
         guard dataIndex < dataList.count, dataIndex >= 0 else{

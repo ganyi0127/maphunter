@@ -183,7 +183,19 @@ class RootTBC: UITabBarController {
         
         config()
         createContents()
-    }    
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //载入趣玩(覆盖之前的趣玩)
+        let playVC = UIStoryboard(name: "Map", bundle: Bundle.main).instantiateViewController(withIdentifier: "map")
+        viewControllers?[1] = playVC        
+        let height: CGFloat = 49 / 2 //tabBar.backgroundImage!.size.height / 2
+        let itemSize = CGSize(width: height, height: height)
+        tabBar.items?[1].image = UIImage(named: "resource/tabbar/map")?.transfromImage(size: itemSize)?.withRenderingMode(.alwaysOriginal)
+        tabBar.items?[1].selectedImage = UIImage(named: "resource/tabbar/map_selected")?.transfromImage(size: itemSize)?.withRenderingMode(.alwaysOriginal)
+    }
     
     private func config(){
         
@@ -222,6 +234,7 @@ class RootTBC: UITabBarController {
     
     private func createContents(){
         
+        //添加主按钮
         tabBar.addSubview(menuButton)
         menuButtonFlag = false
         

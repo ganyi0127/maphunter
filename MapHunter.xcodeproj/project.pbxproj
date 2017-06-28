@@ -192,6 +192,8 @@
 		BE41E6761E8D074100387B59 /* SexVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE41E6751E8D074100387B59 /* SexVC.swift */; };
 		BE41E6781E8D089F00387B59 /* JobVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE41E6771E8D089F00387B59 /* JobVC.swift */; };
 		BE41E67A1E8D097400387B59 /* ActiveForcesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE41E6791E8D097400387B59 /* ActiveForcesVC.swift */; };
+		BE43A6E31F02629900D5BBAC /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE43A6E21F02629900D5BBAC /* Map.storyboard */; };
+		BE43A6E61F0338DE00D5BBAC /* PlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE43A6E51F0338DE00D5BBAC /* PlayVC.swift */; };
 		BE4BFE931E14F5EB00F3FE91 /* DetailInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE921E14F5EB00F3FE91 /* DetailInfoVC.swift */; };
 		BE4BFE961E14F89B00F3FE91 /* TargetSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE951E14F89B00F3FE91 /* TargetSettingVC.swift */; };
 		BE4BFE981E1502F300F3FE91 /* BottomPushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BFE971E1502F300F3FE91 /* BottomPushController.swift */; };
@@ -247,6 +249,12 @@
 		BE8685511E309B6F00EBEBED /* PathShareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8685501E309B6F00EBEBED /* PathShareVC.swift */; };
 		BE8685551E30C7CD00EBEBED /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8685541E30C7CD00EBEBED /* ViewControllerExtension.swift */; };
 		BE8685961E334F7700EBEBED /* CustomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8685951E334F7700EBEBED /* CustomSheet.swift */; };
+		BE8FCAD91F034DEF00F8A6D2 /* OutdoorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8FCAD81F034DEF00F8A6D2 /* OutdoorView.swift */; };
+		BE8FCADB1F034E6D00F8A6D2 /* IndoorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8FCADA1F034E6D00F8A6D2 /* IndoorView.swift */; };
+		BE8FCADD1F034E9400F8A6D2 /* HuntingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8FCADC1F034E9400F8A6D2 /* HuntingView.swift */; };
+		BE8FCADF1F034EAE00F8A6D2 /* DekaronView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8FCADE1F034EAE00F8A6D2 /* DekaronView.swift */; };
+		BE8FCAE11F034F0800F8A6D2 /* EntranceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8FCAE01F034F0800F8A6D2 /* EntranceView.swift */; };
+		BE8FCAE31F038D1100F8A6D2 /* PrepareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8FCAE21F038D1100F8A6D2 /* PrepareVC.swift */; };
 		BE94BABD1E4858B7005DD8E4 /* ScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE94BABC1E4858B7005DD8E4 /* ScanVC.swift */; };
 		BE94BABF1E487866005DD8E4 /* BindingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE94BABE1E487866005DD8E4 /* BindingVC.swift */; };
 		BE94BAC11E49CE7D005DD8E4 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE94BAC01E49CE7D005DD8E4 /* ColorExtension.swift */; };
@@ -710,6 +718,8 @@
 		BE41E6751E8D074100387B59 /* SexVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SexVC.swift; sourceTree = "<group>"; };
 		BE41E6771E8D089F00387B59 /* JobVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JobVC.swift; sourceTree = "<group>"; };
 		BE41E6791E8D097400387B59 /* ActiveForcesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveForcesVC.swift; sourceTree = "<group>"; };
+		BE43A6E21F02629900D5BBAC /* Map.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
+		BE43A6E51F0338DE00D5BBAC /* PlayVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayVC.swift; sourceTree = "<group>"; };
 		BE4BFE921E14F5EB00F3FE91 /* DetailInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailInfoVC.swift; sourceTree = "<group>"; };
 		BE4BFE951E14F89B00F3FE91 /* TargetSettingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetSettingVC.swift; sourceTree = "<group>"; };
 		BE4BFE971E1502F300F3FE91 /* BottomPushController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomPushController.swift; sourceTree = "<group>"; };
@@ -765,6 +775,12 @@
 		BE8685501E309B6F00EBEBED /* PathShareVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathShareVC.swift; sourceTree = "<group>"; };
 		BE8685541E30C7CD00EBEBED /* ViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
 		BE8685951E334F7700EBEBED /* CustomSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSheet.swift; sourceTree = "<group>"; };
+		BE8FCAD81F034DEF00F8A6D2 /* OutdoorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutdoorView.swift; sourceTree = "<group>"; };
+		BE8FCADA1F034E6D00F8A6D2 /* IndoorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndoorView.swift; sourceTree = "<group>"; };
+		BE8FCADC1F034E9400F8A6D2 /* HuntingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HuntingView.swift; sourceTree = "<group>"; };
+		BE8FCADE1F034EAE00F8A6D2 /* DekaronView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DekaronView.swift; sourceTree = "<group>"; };
+		BE8FCAE01F034F0800F8A6D2 /* EntranceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntranceView.swift; sourceTree = "<group>"; };
+		BE8FCAE21F038D1100F8A6D2 /* PrepareVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrepareVC.swift; sourceTree = "<group>"; };
 		BE94BABC1E4858B7005DD8E4 /* ScanVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanVC.swift; sourceTree = "<group>"; };
 		BE94BABE1E487866005DD8E4 /* BindingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BindingVC.swift; sourceTree = "<group>"; };
 		BE94BAC01E49CE7D005DD8E4 /* ColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
@@ -2337,6 +2353,18 @@
 			name = Setting;
 			sourceTree = "<group>";
 		};
+		BE8FCAD71F034DC200F8A6D2 /* 入口按钮 */ = {
+			isa = PBXGroup;
+			children = (
+				BE8FCAE01F034F0800F8A6D2 /* EntranceView.swift */,
+				BE8FCAD81F034DEF00F8A6D2 /* OutdoorView.swift */,
+				BE8FCADA1F034E6D00F8A6D2 /* IndoorView.swift */,
+				BE8FCADC1F034E9400F8A6D2 /* HuntingView.swift */,
+				BE8FCADE1F034EAE00F8A6D2 /* DekaronView.swift */,
+			);
+			name = "入口按钮";
+			sourceTree = "<group>";
+		};
 		BE94BABB1E484C71005DD8E4 /* recommendRoute */ = {
 			isa = PBXGroup;
 			children = (
@@ -2445,6 +2473,10 @@
 		BEDF4F361D93937C00E98D63 /* 地图 */ = {
 			isa = PBXGroup;
 			children = (
+				BE43A6E21F02629900D5BBAC /* Map.storyboard */,
+				BE43A6E51F0338DE00D5BBAC /* PlayVC.swift */,
+				BE8FCAE21F038D1100F8A6D2 /* PrepareVC.swift */,
+				BE8FCAD71F034DC200F8A6D2 /* 入口按钮 */,
 				BE576FF01E248CFE006BAD1C /* FunVC.swift */,
 				BE576FF91E25BC6B006BAD1C /* Contents */,
 				BE2DC9EA1D9210A300978C97 /* MapVC.swift */,
@@ -2656,6 +2688,7 @@
 				BE6455C01EA4BDE200C8A416 /* Notify.storyboard in Resources */,
 				BECD4F121EA1C24400C9136C /* Info.storyboard in Resources */,
 				3267D0511DF7E7B40060B9C2 /* resource in Resources */,
+				BE43A6E31F02629900D5BBAC /* Map.storyboard in Resources */,
 				BE2DC9F61D9210A300978C97 /* LaunchScreen.storyboard in Resources */,
 				BE2DC9F31D9210A300978C97 /* Assets.xcassets in Resources */,
 				BE2DC9EE1D9210A300978C97 /* Main.storyboard in Resources */,
@@ -2700,6 +2733,7 @@
 				BE0DD8A01EA6FD6E00574139 /* QNAsyncRun.m in Sources */,
 				BE0DD89B1EA6FD6E00574139 /* CKNullCache.m in Sources */,
 				327383721E00F4A000767708 /* StatePopController.swift in Sources */,
+				BE8FCADD1F034E9400F8A6D2 /* HuntingView.swift in Sources */,
 				BE80F8EC1EB048DB00604D72 /* TipView.swift in Sources */,
 				BE0DD8B11EA6FD6E00574139 /* QNResolvUtil.m in Sources */,
 				BE0DD8A21EA6FD6E00574139 /* QNEtag.m in Sources */,
@@ -2720,12 +2754,14 @@
 				BE0DD8B71EA6FD6E00574139 /* QNSessionManager.m in Sources */,
 				32C5726E1DDAA7C500CEC5EB /* GradientPolylineRenderer.m in Sources */,
 				BE0DD8CF1EA6FD6E00574139 /* ESPUDPSocketServer.m in Sources */,
+				BE43A6E61F0338DE00D5BBAC /* PlayVC.swift in Sources */,
 				BE0DD8911EA6FD6E00574139 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				BE0DD89E1EA6FD6E00574139 /* QN_GTM_Base64.m in Sources */,
 				BE0DD8C81EA6FD6E00574139 /* ESPDatumCode.m in Sources */,
 				BE118D731EE6879C009DD90A /* TrackVC.swift in Sources */,
 				BE113BA01EF923CE00E5D91E /* SubSport0VC.swift in Sources */,
 				BE731A011E0B8958002BDF2D /* DetailBottom.swift in Sources */,
+				BE8FCAD91F034DEF00F8A6D2 /* OutdoorView.swift in Sources */,
 				BE0DD8A91EA6FD6E00574139 /* QNDomain.m in Sources */,
 				BEB2490B1D9E46BD00C9F9ED /* CellCube.swift in Sources */,
 				BE94BAC11E49CE7D005DD8E4 /* ColorExtension.swift in Sources */,
@@ -2737,6 +2773,7 @@
 				BE8685551E30C7CD00EBEBED /* ViewControllerExtension.swift in Sources */,
 				BECD4F1D1EA1C4CA00C9136C /* InfoHeightView.swift in Sources */,
 				BE0DD8CB1EA6FD6E00574139 /* ESPTouchResult.m in Sources */,
+				BE8FCAE11F034F0800F8A6D2 /* EntranceView.swift in Sources */,
 				BE3DB3291E963D4F001CA7AF /* BootScanCell.swift in Sources */,
 				BE6055931E7B81AB00039CA0 /* FunctableCell.swift in Sources */,
 				BE0DD8B51EA6FD6E00574139 /* QNIP.m in Sources */,
@@ -2792,6 +2829,7 @@
 				32C3E62B1E09121800D34A74 /* MePopController.swift in Sources */,
 				BE0DD8A41EA6FD6E00574139 /* QNPHAssetFile.m in Sources */,
 				BE0DD8DF1EA6FD6E00574139 /* NSObject+YYModel.m in Sources */,
+				BE8FCAE31F038D1100F8A6D2 /* PrepareVC.swift in Sources */,
 				32E238AB1DFA996E001969AE /* OCVariable.swift in Sources */,
 				BE576FFB1E25BC85006BAD1C /* FunItems.swift in Sources */,
 				BE0DD8961EA6FD6E00574139 /* UIWebView+AFNetworking.m in Sources */,
@@ -2836,6 +2874,7 @@
 				BE3329381EDFED2900B39093 /* SportDetailTop.swift in Sources */,
 				BE6455C41EA4C00700C8A416 /* NotifyLocalNotifyVC.swift in Sources */,
 				BE7248321ECC0783008099B7 /* RecordSelector.swift in Sources */,
+				BE8FCADB1F034E6D00F8A6D2 /* IndoorView.swift in Sources */,
 				BE3E74841E9E212D00D571BB /* BootConnectedVC.swift in Sources */,
 				BE1F53491DC2FE7900EAD9BA /* Time.swift in Sources */,
 				BED2AD9C1EC44754002A1837 /* RecordSportVC.swift in Sources */,
@@ -2847,6 +2886,7 @@
 				BE0DD8AB1EA6FD6E00574139 /* QNRecord.m in Sources */,
 				BE86854F1E2F6EF200EBEBED /* PathMaptypeSettingVC.swift in Sources */,
 				BE0DD8941EA6FD6E00574139 /* UIProgressView+AFNetworking.m in Sources */,
+				BE8FCADF1F034EAE00F8A6D2 /* DekaronView.swift in Sources */,
 				BE1F14E51EDFEE4E007A96A8 /* SleepDetailTop.swift in Sources */,
 				BE7319FD1E0B7D9B002BDF2D /* DetailScrollView.swift in Sources */,
 				BE0DD8951EA6FD6E00574139 /* UIRefreshControl+AFNetworking.m in Sources */,

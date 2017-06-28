@@ -294,7 +294,12 @@ class HeartrateDetailTop: DetailTopBase {
 
 extension HeartrateDetailTop{
     override func currentTouchesBegan(_ touches: Set<UITouch>) {
-        guard touches.first != nil else {
+        guard let touch = touches.first else {
+            return
+        }
+        
+        let location = touch.location(in: self)
+        guard location.y < detailTopHeight else {
             return
         }
         
@@ -311,6 +316,9 @@ extension HeartrateDetailTop{
         }
         
         let location = touch.location(in: self)
+        guard location.y < detailTopHeight else {
+            return
+        }        
         
         selectedView.isHidden = false
         

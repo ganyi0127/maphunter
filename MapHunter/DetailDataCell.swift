@@ -125,10 +125,10 @@ class DetailDataCell: UIView {
         topSeparator.alpha = 0.1
         addSubview(topSeparator)
         
-        let bottomSeparator = UIView(frame: CGRect(x: 0, y: bounds.height - 1, width: bounds.width, height: 1))
-        bottomSeparator.backgroundColor = subWordColor
-        bottomSeparator.alpha = 0.1
-        addSubview(bottomSeparator)
+//        let bottomSeparator = UIView(frame: CGRect(x: 0, y: bounds.height - 1, width: bounds.width, height: 1))
+//        bottomSeparator.backgroundColor = subWordColor
+//        bottomSeparator.alpha = 0.1
+//        addSubview(bottomSeparator)
         
         //初始化点击事件
         tap = UITapGestureRecognizer(target: self, action: #selector(click(recongnizer:)))
@@ -186,8 +186,10 @@ class DetailDataCell: UIView {
         addSubview(leftLabel!)
         
         //disclosureIndicator 右箭头
-        let indicatorFrame = CGRect(x: bounds.width - bounds.height, y: 0, width: bounds.height, height: bounds.height)
-        let indicator = UIActivityIndicatorView(frame: indicatorFrame)
+        let indicatorSize = CGSize(width: 14, height: 14)
+        let indicatorFrame = CGRect(x: bounds.width - bounds.height + (bounds.height - indicatorSize.width) / 2, y: (bounds.height - indicatorSize.height) / 2, width: indicatorSize.width, height: indicatorSize.height)
+        let indicator = UIImageView(frame: indicatorFrame)
+        indicator.image = UIImage(named: "resource/dataicon/indicator")
         addSubview(indicator)
     }
 }
