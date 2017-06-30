@@ -22,6 +22,7 @@ class PlayVC: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         navigationController?.navigationBar.topItem?.title = "趣玩"
     }
@@ -34,12 +35,10 @@ class PlayVC: UIViewController {
         indoorView.closure = clickView(_:)
         huntingView.closure = clickView(_:)
         dekaronView.closure = clickView(_:)
-        
-        
     }
     
     private func createContents(){
-        
+                
     }
     
     //MARK:-点击回调

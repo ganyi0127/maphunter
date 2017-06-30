@@ -213,7 +213,7 @@ class PremapVC: UIViewController {
     
     
     
-    //MARK:- init -
+    //MARK:- init*********************************************************************************************************
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -609,6 +609,25 @@ extension PremapVC: CAAnimationDelegate{
                     //移除数据库创建的路径
                     //satanManager?.resetTrack()
                     satanManager?.delegate = nil
+                    
+                    var track: Track?
+                    
+                    //获取轨迹
+                    if let macAddress = AngelManager.share()?.macAddress{
+                        let userId = UserManager.share().userId
+                        track = CoreDataHandler.share().selectTrack(userId: userId, withMacAddress: macAddress, withDate: Date(), withDayRange: -1).last
+                    }
+                    
+                    //返回上级页面
+                    if let viewControllers = self.navigationController?.viewControllers{
+                        let count = viewControllers.count
+                        if count >= 2{
+                            let vc = viewControllers[count - 2]
+                            if let prepareVC = vc as? PrepareVC{
+                                prepareVC.track = track
+                            }
+                        }
+                    }
                     _ = self.navigationController?.popViewController(animated: true)
                 }
                 let continueAction = UIAlertAction(title: "继续运动", style: .default){

@@ -188,13 +188,21 @@ class RootTBC: UITabBarController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //载入趣玩(覆盖之前的趣玩)
-        let playVC = UIStoryboard(name: "Map", bundle: Bundle.main).instantiateViewController(withIdentifier: "map")
-        viewControllers?[1] = playVC        
+        //设置item大小
         let height: CGFloat = 49 / 2 //tabBar.backgroundImage!.size.height / 2
         let itemSize = CGSize(width: height, height: height)
+        
+        //载入趣玩(覆盖之前的趣玩)
+        let playVC = UIStoryboard(name: "Map", bundle: Bundle.main).instantiateViewController(withIdentifier: "map")
+        viewControllers?[1] = playVC
         tabBar.items?[1].image = UIImage(named: "resource/tabbar/map")?.transfromImage(size: itemSize)?.withRenderingMode(.alwaysOriginal)
         tabBar.items?[1].selectedImage = UIImage(named: "resource/tabbar/map_selected")?.transfromImage(size: itemSize)?.withRenderingMode(.alwaysOriginal)
+        
+        //发现
+        let discoverVC = UIStoryboard(name: "Discover", bundle: Bundle.main).instantiateViewController(withIdentifier: "discover")
+        viewControllers?[3] = discoverVC
+        tabBar.items?[3].image = UIImage(named: "resource/tabbar/health")?.transfromImage(size: itemSize)?.withRenderingMode(.alwaysOriginal)
+        tabBar.items?[3].selectedImage = UIImage(named: "resource/tabbar/health_selected")?.transfromImage(size: itemSize)?.withRenderingMode(.alwaysOriginal)
     }
     
     private func config(){

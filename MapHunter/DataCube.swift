@@ -129,9 +129,9 @@ class DataCube: UIView {
                                 let fourthMutableAttributed = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: fontSmall])
                                 
                                 //添加图片混排
-                                let length = fontSmall.pointSize * 2
-                                let imageSize = CGSize(width: length, height: length)
-                                let imageBounds = CGRect(x: 0, y: length / 4 - length / 2, width: length, height: length)
+                                let length = fontSmall.pointSize
+                                let imageSize = CGSize(width: fourthLabel.frame.height, height: fourthLabel.frame.height)
+                                let imageBounds = CGRect(x: 0, y: -fourthLabel.frame.height / 4, width: fourthLabel.frame.height, height: fourthLabel.frame.height)
                                 
                                 let attach = NSTextAttachment()
                                 if let imageName = sportTypeNameMap[sportType]{

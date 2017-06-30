@@ -8,8 +8,8 @@
 
 import Foundation
 //类型子按钮
-enum ActiveSportType{
-    case walking
+enum ActiveSportType: Int{
+    case walking = 0
     case hiking
     case running
     case riding

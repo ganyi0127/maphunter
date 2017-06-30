@@ -150,11 +150,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/PremapVC.swift"
-            timestampString = "513593401.768937"
+            timestampString = "520421994.973855"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "726"
-            endingLineNumber = "726">
+            startingLineNumber = "745"
+            endingLineNumber = "745">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -196,11 +196,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/PremapVC.swift"
-            timestampString = "513593401.768937"
+            timestampString = "520421994.973855"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "775"
-            endingLineNumber = "775">
+            startingLineNumber = "794"
+            endingLineNumber = "794">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -210,11 +210,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/PremapVC.swift"
-            timestampString = "513593401.768937"
+            timestampString = "520421994.973855"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "748"
-            endingLineNumber = "748">
+            startingLineNumber = "767"
+            endingLineNumber = "767">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -224,11 +224,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/RootTBC.swift"
-            timestampString = "520307807.606557"
+            timestampString = "520505777.566082"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "315"
-            endingLineNumber = "315"
+            startingLineNumber = "323"
+            endingLineNumber = "323"
             landmarkName = "satanManager(didUpdateState:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -240,11 +240,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/RootTBC.swift"
-            timestampString = "520307807.606557"
+            timestampString = "520505777.566082"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "342"
-            endingLineNumber = "342"
+            startingLineNumber = "350"
+            endingLineNumber = "350"
             landmarkName = "satanManagerDistanceByLocation(withBleDistance:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -256,11 +256,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/RootTBC.swift"
-            timestampString = "520307807.606557"
+            timestampString = "520505777.566082"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "349"
-            endingLineNumber = "349"
+            startingLineNumber = "357"
+            endingLineNumber = "357"
             landmarkName = "satanManager(didSwitchingReplyCalories:distance:step:curHeartrate:heartrateSerial:available:heartrateValue:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -304,11 +304,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/PremapVC.swift"
-            timestampString = "513593401.768937"
+            timestampString = "520421994.973855"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "639"
-            endingLineNumber = "639"
+            startingLineNumber = "658"
+            endingLineNumber = "658"
             landmarkName = "map(gps:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -469,8 +469,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "388"
             endingLineNumber = "388"
-            landmarkName = "setBringMode(_:completed:closure:)"
-            landmarkType = "7">
+            landmarkName = "AngelManager"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
