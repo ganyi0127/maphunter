@@ -154,6 +154,19 @@ extension UINavigationController: UINavigationControllerDelegate{
         navigationBar.setBackgroundImage(image, for: .default)
     }
     
+    public func setNavigationOpacity(opacity flag: Bool){
+        if flag{
+            navigationBar.tintColor = subWordColor
+            navigationBar.titleTextAttributes = [NSFontAttributeName: fontMiddle, NSForegroundColorAttributeName: subWordColor]
+            navigationBar.setBackgroundImage(nil, for: .default)
+            setNavigation(hidden: false)
+        }else{
+            navigationBar.tintColor = .white
+            navigationBar.titleTextAttributes = [NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white]
+            setNavigation(hidden: true)
+        }
+    }
+    
     //MARK:- 控制tabbar显示与隐藏
     public func setTabbar(hidden flag: Bool){
         

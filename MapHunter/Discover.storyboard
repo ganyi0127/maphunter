@@ -45,7 +45,7 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="y1A-21-le9" customClass="DiscoverCell" customModule="MapHunter" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="y1A-21-le9" id="ygP-Vt-pEl">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
@@ -102,6 +102,149 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TeE-lP-his" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-127.2" y="121.88905547226388"/>
+        </scene>
+        <!--WeeklyVC-->
+        <scene sceneID="Bvn-dh-PQ4">
+            <objects>
+                <viewController storyboardIdentifier="weekly" id="42U-iY-R9q" customClass="WeeklyVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Fi4-fx-qHW"/>
+                        <viewControllerLayoutGuide type="bottom" id="7hV-fm-H9k"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="K3P-Li-6Dx">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zeu-SI-DLr">
+                                <rect key="frame" x="0.0" y="-44" width="375" height="760"/>
+                                <connections>
+                                    <outlet property="delegate" destination="42U-iY-R9q" id="inx-DD-CQx"/>
+                                </connections>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="7hV-fm-H9k" firstAttribute="top" secondItem="Zeu-SI-DLr" secondAttribute="bottom" constant="-49" id="LhG-Ys-vu7"/>
+                            <constraint firstItem="Zeu-SI-DLr" firstAttribute="leading" secondItem="K3P-Li-6Dx" secondAttribute="leadingMargin" constant="-16" id="PKN-EI-OXY"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Zeu-SI-DLr" secondAttribute="trailing" constant="-16" id="QMX-Ho-afO"/>
+                            <constraint firstItem="Zeu-SI-DLr" firstAttribute="top" secondItem="Fi4-fx-qHW" secondAttribute="bottom" constant="-64" id="fdg-s4-0RD"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="scrollView" destination="Zeu-SI-DLr" id="Z1q-iy-o6Y"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sdy-WH-noO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="704.79999999999995" y="121.88905547226388"/>
+        </scene>
+        <!--Weekly Sport MainVC-->
+        <scene sceneID="WWN-ik-080">
+            <objects>
+                <viewController storyboardIdentifier="sportmain" id="ipb-FB-fcO" customClass="WeeklySportMainVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="F38-Jd-LJS"/>
+                        <viewControllerLayoutGuide type="bottom" id="hqu-3U-nXY"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wrB-3M-HYh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kIz-2m-YAT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1583" y="122"/>
+        </scene>
+        <!--Weekly Sleep MainVC-->
+        <scene sceneID="vsG-b1-i3z">
+            <objects>
+                <viewController storyboardIdentifier="sleepmain" id="pzx-JW-EZj" customClass="WeeklySleepMainVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wmH-Ia-P5w"/>
+                        <viewControllerLayoutGuide type="bottom" id="Com-Nd-PDJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tnl-vx-yhc">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PBj-9D-FGA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3282" y="122"/>
+        </scene>
+        <!--Weekly Sleep ViceVC-->
+        <scene sceneID="0dS-ya-5Cr">
+            <objects>
+                <viewController storyboardIdentifier="sleepvice" id="BaP-Qa-8uz" customClass="WeeklySleepViceVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="7aO-qF-oPq"/>
+                        <viewControllerLayoutGuide type="bottom" id="nth-Yy-t9A"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8ig-L9-RAg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mun-ys-UR6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4092" y="122"/>
+        </scene>
+        <!--Weekly Heartrate MainVC-->
+        <scene sceneID="txJ-GC-kl4">
+            <objects>
+                <viewController storyboardIdentifier="heartratemain" id="WOb-hA-8uX" customClass="WeeklyHeartrateMainVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6yg-Bn-tmj"/>
+                        <viewControllerLayoutGuide type="bottom" id="sa0-B8-J4A"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7qK-1O-Igc">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eAm-39-ZFp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4916" y="122"/>
+        </scene>
+        <!--Weekly Heartrate ViceVC-->
+        <scene sceneID="0oJ-ie-3gp">
+            <objects>
+                <viewController storyboardIdentifier="heartratevice" id="Xr8-f1-HCK" customClass="WeeklyHeartrateViceVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gcK-Dd-UIK"/>
+                        <viewControllerLayoutGuide type="bottom" id="7wz-M0-D4P"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ata-0e-Hjf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IVJ-PF-ZES" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5721" y="122"/>
+        </scene>
+        <!--Weekly Sport ViceVC-->
+        <scene sceneID="a9f-Jj-z5p">
+            <objects>
+                <viewController storyboardIdentifier="sportvice" id="q0d-Hx-o7j" customClass="WeeklySportViceVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="BYJ-mB-GzF"/>
+                        <viewControllerLayoutGuide type="bottom" id="jgH-mb-Ff2"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5di-J1-gDd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PjB-NW-oVD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2367" y="122"/>
         </scene>
     </scenes>
 </document>

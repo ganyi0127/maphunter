@@ -56,9 +56,9 @@ let default_color2 = UIColor(colorHex: 0xffc09e)                                
 let defaultColor = UIColor.white                                                            //navigation颜色
 let separatorColor = UIColor(colorHex: 0xd9d9d9)                                            //分割线颜色
 let timeColor = UIColor(colorHex: 0xF0F0f0)                                                 //时间轴主颜色
-let lightWordColor = UIColor(red: 217 / 255, green: 217 / 255, blue: 217 / 255, alpha: 1)   //高亮文字颜色
-let subWordColor = UIColor(red: 100 / 255, green: 100 / 255, blue: 100 / 255, alpha: 1)     //灰文字颜色颜色
-let wordColor = UIColor(red: 50 / 255, green: 50 / 255, blue: 50 / 255, alpha: 1)           //文字颜色
+let lightWordColor = UIColor(colorHex: 0xB4B4B4)                                            //高亮文字颜色
+let subWordColor = UIColor(colorHex: 0x5E5E5E)                                              //灰文字颜色颜色
+let wordColor = UIColor(colorHex: 0x181818)                                                 //文字颜色
 
 //MARK:- 模块起始颜色
 let modelStartColors: [DataCubeType: UIColor] = [

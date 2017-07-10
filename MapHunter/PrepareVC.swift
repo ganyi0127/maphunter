@@ -24,6 +24,8 @@ class PrepareVC: UIViewController {
     @IBOutlet weak var finishedContainerView: UIView!
     private weak var finishedVC: FinishedVC?
     
+    private var settingButtonItem: UIBarButtonItem? = nil
+    
     //@IBInspectable var circleRadius: CGFloat = 1
     
     //判断是否有轨迹图
@@ -116,6 +118,20 @@ class PrepareVC: UIViewController {
         //初始化运动类型选项
         selectedPage = 0
         scrollView?.setContentOffset(.zero, animated: true)
+        
+        //添加设置按钮
+        if settingButtonItem == nil{
+            let img = UIImage(named: "resource/map/setting")
+
+            let settingFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
+            let button = UIButton(type: UIButtonType.roundedRect)
+            button.frame = settingFrame
+            button.setImage(img, for: .normal)
+            button.addTarget(self, action: #selector(setting(_:)), for: .touchUpInside)
+            
+            settingButtonItem = UIBarButtonItem(customView: button)
+            navigationItem.rightBarButtonItem = settingButtonItem
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -135,7 +151,6 @@ class PrepareVC: UIViewController {
         mapView.userTrackingMode = MKUserTrackingMode.followWithHeading    //当前地图跟踪模式
         mapView.mapType = MKMapType.standard //普通地图
         mapView.showsUserLocation = true
-        
     }
     
     private func createContents(){
@@ -164,7 +179,7 @@ class PrepareVC: UIViewController {
     }
     
     //MARK:-设置
-    @IBAction func setting(_ sender: Any) {
+    @objc private func setting(_ sender: Any) {
         pushSetting()
     }
     

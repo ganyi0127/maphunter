@@ -189,13 +189,7 @@
                             <constraint firstItem="6W3-RF-YC9" firstAttribute="width" secondItem="xf9-kH-cmF" secondAttribute="width" multiplier="1/6" id="uUE-KG-ROM"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="28Z-rN-HOU">
-                        <barButtonItem key="rightBarButtonItem" title="设置" id="i0M-6L-w6c">
-                            <connections>
-                                <action selector="setting:" destination="k3c-A0-pgI" id="Ww6-GM-6aE"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="28Z-rN-HOU"/>
                     <connections>
                         <outlet property="backView" destination="rfz-gh-pJO" id="ioj-Fx-es9"/>
                         <outlet property="circleView" destination="RaK-mx-tcM" id="owg-vr-YEY"/>
@@ -215,6 +209,10 @@
         <scene sceneID="80N-xk-Twb">
             <objects>
                 <viewController id="cb7-jM-vtP" customClass="FinishedVC" customModule="MapHunter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Gqz-3m-1dy"/>
+                        <viewControllerLayoutGuide type="bottom" id="cjR-zo-Cwy"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="pzb-ss-zSb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="267"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

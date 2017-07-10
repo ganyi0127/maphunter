@@ -159,6 +159,12 @@
 		BE1F14E71EDFEE94007A96A8 /* HeartrateDetailTop.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1F14E61EDFEE94007A96A8 /* HeartrateDetailTop.swift */; };
 		BE1F14E91EDFEEFA007A96A8 /* MindbodyDetailTop.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1F14E81EDFEEFA007A96A8 /* MindbodyDetailTop.swift */; };
 		BE1F53491DC2FE7900EAD9BA /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1F53481DC2FE7900EAD9BA /* Time.swift */; };
+		BE1FF6881F13335E0097ABF0 /* WeeklyMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1FF6871F13335D0097ABF0 /* WeeklyMainVC.swift */; };
+		BE1FF68A1F1333E50097ABF0 /* WeeklyViceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1FF6891F1333E50097ABF0 /* WeeklyViceVC.swift */; };
+		BE1FF68C1F1370C70097ABF0 /* WeeklySleepViceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1FF68B1F1370C70097ABF0 /* WeeklySleepViceVC.swift */; };
+		BE1FF68E1F1370DF0097ABF0 /* WeeklySleepMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1FF68D1F1370DF0097ABF0 /* WeeklySleepMainVC.swift */; };
+		BE1FF6901F1371060097ABF0 /* WeeklyHeartrateMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1FF68F1F1371060097ABF0 /* WeeklyHeartrateMainVC.swift */; };
+		BE1FF6921F1371240097ABF0 /* WeeklyHeartrateViceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1FF6911F1371240097ABF0 /* WeeklyHeartrateViceVC.swift */; };
 		BE2DC9E91D9210A300978C97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2DC9E81D9210A300978C97 /* AppDelegate.swift */; };
 		BE2DC9EB1D9210A300978C97 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2DC9EA1D9210A300978C97 /* MapVC.swift */; };
 		BE2DC9EE1D9210A300978C97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE2DC9EC1D9210A300978C97 /* Main.storyboard */; };
@@ -215,6 +221,8 @@
 		BE5770091E28D6DB006BAD1C /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5770081E28D6DA006BAD1C /* Setting.swift */; };
 		BE5CB3511ECD38A60062499C /* RecordCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5CB3501ECD38A60062499C /* RecordCollectionCell.swift */; };
 		BE5CB3541ECD97F70062499C /* RecordHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5CB3531ECD97F70062499C /* RecordHeaderView.swift */; };
+		BE5DAC861F13208C00557A00 /* WeeklySportMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5DAC851F13208C00557A00 /* WeeklySportMainVC.swift */; };
+		BE5DAC881F1320AE00557A00 /* WeeklySportViceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5DAC871F1320AE00557A00 /* WeeklySportViceVC.swift */; };
 		BE6055931E7B81AB00039CA0 /* FunctableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6055921E7B81AB00039CA0 /* FunctableCell.swift */; };
 		BE6055951E7BC5A100039CA0 /* Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6055941E7BC5A100039CA0 /* Loading.swift */; };
 		BE6455BB1EA47C8A00C8A416 /* InfoSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6455BA1EA47C8A00C8A416 /* InfoSelector.swift */; };
@@ -298,7 +306,7 @@
 		BED368A11EB9B869004BCDE1 /* SynProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED368A01EB9B869004BCDE1 /* SynProgress.swift */; };
 		BEDF4F351D93910E00E98D63 /* Configure.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDF4F341D93910E00E98D63 /* Configure.swift */; };
 		BEDF4F3B1D9393BC00E98D63 /* StateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDF4F3A1D9393BC00E98D63 /* StateVC.swift */; };
-		BEDF4F3D1D9393F800E98D63 /* HealthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDF4F3C1D9393F800E98D63 /* HealthVC.swift */; };
+		BEDF4F3D1D9393F800E98D63 /* WeeklyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDF4F3C1D9393F800E98D63 /* WeeklyVC.swift */; };
 		BEDF4F3F1D93942E00E98D63 /* MeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDF4F3E1D93942E00E98D63 /* MeVC.swift */; };
 		BEDF4F561D96217A00E98D63 /* SpriteData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDF4F551D96217A00E98D63 /* SpriteData.swift */; };
 		BEDF4F691D98BBD700E98D63 /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDF4F681D98BBD700E98D63 /* CustomAnnotationView.swift */; };
@@ -683,6 +691,12 @@
 		BE1F14E61EDFEE94007A96A8 /* HeartrateDetailTop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartrateDetailTop.swift; sourceTree = "<group>"; };
 		BE1F14E81EDFEEFA007A96A8 /* MindbodyDetailTop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MindbodyDetailTop.swift; sourceTree = "<group>"; };
 		BE1F53481DC2FE7900EAD9BA /* Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
+		BE1FF6871F13335D0097ABF0 /* WeeklyMainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeeklyMainVC.swift; sourceTree = "<group>"; };
+		BE1FF6891F1333E50097ABF0 /* WeeklyViceVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeeklyViceVC.swift; sourceTree = "<group>"; };
+		BE1FF68B1F1370C70097ABF0 /* WeeklySleepViceVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeeklySleepViceVC.swift; sourceTree = "<group>"; };
+		BE1FF68D1F1370DF0097ABF0 /* WeeklySleepMainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeeklySleepMainVC.swift; sourceTree = "<group>"; };
+		BE1FF68F1F1371060097ABF0 /* WeeklyHeartrateMainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeeklyHeartrateMainVC.swift; sourceTree = "<group>"; };
+		BE1FF6911F1371240097ABF0 /* WeeklyHeartrateViceVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeeklyHeartrateViceVC.swift; sourceTree = "<group>"; };
 		BE2DC9E51D9210A300978C97 /* MapHunter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapHunter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE2DC9E81D9210A300978C97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE2DC9EA1D9210A300978C97 /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
@@ -744,6 +758,8 @@
 		BE5770081E28D6DA006BAD1C /* Setting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		BE5CB3501ECD38A60062499C /* RecordCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordCollectionCell.swift; sourceTree = "<group>"; };
 		BE5CB3531ECD97F70062499C /* RecordHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordHeaderView.swift; sourceTree = "<group>"; };
+		BE5DAC851F13208C00557A00 /* WeeklySportMainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeeklySportMainVC.swift; sourceTree = "<group>"; };
+		BE5DAC871F1320AE00557A00 /* WeeklySportViceVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeeklySportViceVC.swift; sourceTree = "<group>"; };
 		BE6055921E7B81AB00039CA0 /* FunctableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctableCell.swift; sourceTree = "<group>"; };
 		BE6055941E7BC5A100039CA0 /* Loading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loading.swift; sourceTree = "<group>"; };
 		BE6455BA1EA47C8A00C8A416 /* InfoSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoSelector.swift; sourceTree = "<group>"; };
@@ -829,7 +845,7 @@
 		BED368A01EB9B869004BCDE1 /* SynProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynProgress.swift; sourceTree = "<group>"; };
 		BEDF4F341D93910E00E98D63 /* Configure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configure.swift; sourceTree = "<group>"; };
 		BEDF4F3A1D9393BC00E98D63 /* StateVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateVC.swift; sourceTree = "<group>"; };
-		BEDF4F3C1D9393F800E98D63 /* HealthVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthVC.swift; sourceTree = "<group>"; };
+		BEDF4F3C1D9393F800E98D63 /* WeeklyVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeeklyVC.swift; sourceTree = "<group>"; };
 		BEDF4F3E1D93942E00E98D63 /* MeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeVC.swift; sourceTree = "<group>"; };
 		BEDF4F551D96217A00E98D63 /* SpriteData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteData.swift; sourceTree = "<group>"; };
 		BEDF4F681D98BBD700E98D63 /* CustomAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAnnotationView.swift; sourceTree = "<group>"; };
@@ -2277,6 +2293,22 @@
 			name = "顶部视图";
 			sourceTree = "<group>";
 		};
+		BE5DAC841F131B9400557A00 /* 周报 */ = {
+			isa = PBXGroup;
+			children = (
+				BEDF4F3C1D9393F800E98D63 /* WeeklyVC.swift */,
+				BE1FF6871F13335D0097ABF0 /* WeeklyMainVC.swift */,
+				BE1FF6891F1333E50097ABF0 /* WeeklyViceVC.swift */,
+				BE5DAC851F13208C00557A00 /* WeeklySportMainVC.swift */,
+				BE5DAC871F1320AE00557A00 /* WeeklySportViceVC.swift */,
+				BE1FF68D1F1370DF0097ABF0 /* WeeklySleepMainVC.swift */,
+				BE1FF68B1F1370C70097ABF0 /* WeeklySleepViceVC.swift */,
+				BE1FF68F1F1371060097ABF0 /* WeeklyHeartrateMainVC.swift */,
+				BE1FF6911F1371240097ABF0 /* WeeklyHeartrateViceVC.swift */,
+			);
+			name = "周报";
+			sourceTree = "<group>";
+		};
 		BE60558D1E7A957000039CA0 /* 设备 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2520,7 +2552,7 @@
 				BE8FCAE81F06441C00F8A6D2 /* Discover.storyboard */,
 				BE8FCAE61F0643EB00F8A6D2 /* DiscoverVC.swift */,
 				BE8FCAEA1F06471A00F8A6D2 /* DiscoverCell.swift */,
-				BEDF4F3C1D9393F800E98D63 /* HealthVC.swift */,
+				BE5DAC841F131B9400557A00 /* 周报 */,
 			);
 			name = "发现";
 			sourceTree = "<group>";
@@ -2733,6 +2765,7 @@
 				BE0DD8FA1EA7081800574139 /* NetworkManager.swift in Sources */,
 				BE8685961E334F7700EBEBED /* CustomSheet.swift in Sources */,
 				BE503E3A1E9F634A00C5A3FE /* BootOtherCell.swift in Sources */,
+				BE5DAC861F13208C00557A00 /* WeeklySportMainVC.swift in Sources */,
 				BE8685401E28DFF100EBEBED /* DefaultVC.swift in Sources */,
 				BE0DD8B01EA6FD6E00574139 /* QNResolver.m in Sources */,
 				BE72482C1ECBE10E008099B7 /* RecordHeader.swift in Sources */,
@@ -2741,6 +2774,7 @@
 				BE3DB3241E9624A1001CA7AF /* BootCell.swift in Sources */,
 				BED2ADA21EC4479A002A1837 /* RecordMoodVC.swift in Sources */,
 				BEDF4F6B1D98FB3800E98D63 /* TopView.swift in Sources */,
+				BE1FF68C1F1370C70097ABF0 /* WeeklySleepViceVC.swift in Sources */,
 				32D4129B1DEEB6EF008EE637 /* DetailView.swift in Sources */,
 				32C3E6201E07E3CA00D34A74 /* MeCell1.swift in Sources */,
 				BE0DD8A01EA6FD6E00574139 /* QNAsyncRun.m in Sources */,
@@ -2751,6 +2785,7 @@
 				BE0DD8B11EA6FD6E00574139 /* QNResolvUtil.m in Sources */,
 				BE0DD8A21EA6FD6E00574139 /* QNEtag.m in Sources */,
 				BE118D801EE79453009DD90A /* SleepTrackTop.swift in Sources */,
+				BE1FF68A1F1333E50097ABF0 /* WeeklyViceVC.swift in Sources */,
 				BE0DD8B61EA6FD6E00574139 /* QNResponseInfo.m in Sources */,
 				BE0DD8B21EA6FD6E00574139 /* QNTxtResolver.m in Sources */,
 				BE198C131E793A4200B11A90 /* ScanCell.swift in Sources */,
@@ -2785,6 +2820,7 @@
 				BE0DD8CC1EA6FD6E00574139 /* ESPTouchTask.m in Sources */,
 				BE8685551E30C7CD00EBEBED /* ViewControllerExtension.swift in Sources */,
 				BECD4F1D1EA1C4CA00C9136C /* InfoHeightView.swift in Sources */,
+				BE1FF68E1F1370DF0097ABF0 /* WeeklySleepMainVC.swift in Sources */,
 				BE0DD8CB1EA6FD6E00574139 /* ESPTouchResult.m in Sources */,
 				BE8FCAE11F034F0800F8A6D2 /* EntranceView.swift in Sources */,
 				BE3DB3291E963D4F001CA7AF /* BootScanCell.swift in Sources */,
@@ -2803,6 +2839,7 @@
 				BE6455CA1EA4C4F600C8A416 /* NotifyLocationVC.swift in Sources */,
 				BED368A11EB9B869004BCDE1 /* SynProgress.swift in Sources */,
 				BE33292E1EDEC2D400B39093 /* DetailVC.swift in Sources */,
+				BE5DAC881F1320AE00557A00 /* WeeklySportViceVC.swift in Sources */,
 				BE0DD8CA1EA6FD6E00574139 /* ESPTouchGenerator.m in Sources */,
 				BE6455BB1EA47C8A00C8A416 /* InfoSelector.swift in Sources */,
 				BE0DD8981EA6FD6E00574139 /* CKCacheContent.m in Sources */,
@@ -2880,6 +2917,7 @@
 				BE8685471E2F5C4300EBEBED /* PathCell0.swift in Sources */,
 				BE4BFE9E1E15140400F3FE91 /* MiddlePushController.swift in Sources */,
 				BEDF4F351D93910E00E98D63 /* Configure.swift in Sources */,
+				BE1FF6921F1371240097ABF0 /* WeeklyHeartrateViceVC.swift in Sources */,
 				32D4129E1DEEC4C0008EE637 /* DetailViewController.swift in Sources */,
 				BE0DD8971EA6FD6E00574139 /* CKCache.m in Sources */,
 				BE118D7D1EE793CC009DD90A /* TrackTopBase.swift in Sources */,
@@ -2892,9 +2930,10 @@
 				BE3E74841E9E212D00D571BB /* BootConnectedVC.swift in Sources */,
 				BE1F53491DC2FE7900EAD9BA /* Time.swift in Sources */,
 				BED2AD9C1EC44754002A1837 /* RecordSportVC.swift in Sources */,
+				BE1FF6881F13335E0097ABF0 /* WeeklyMainVC.swift in Sources */,
 				BE0DD8BF1EA6FD6E00574139 /* QNUpToken.m in Sources */,
 				BECD4F1B1EA1C4A400C9136C /* InfoSexView.swift in Sources */,
-				BEDF4F3D1D9393F800E98D63 /* HealthVC.swift in Sources */,
+				BEDF4F3D1D9393F800E98D63 /* WeeklyVC.swift in Sources */,
 				BE6455D41EA4C83B00C8A416 /* NotifyApplehealthVC.swift in Sources */,
 				BE118D841EE79E0D009DD90A /* TrackDataView.swift in Sources */,
 				BE0DD8AB1EA6FD6E00574139 /* QNRecord.m in Sources */,
@@ -2930,6 +2969,7 @@
 				BE308E201EB87F4B0096B84E /* TipAlertUnlike.swift in Sources */,
 				BE3329331EDFBB3800B39093 /* DetailCenter.swift in Sources */,
 				BEDF4F771D9909ED00E98D63 /* TopScrollView.swift in Sources */,
+				BE1FF6901F1371060097ABF0 /* WeeklyHeartrateMainVC.swift in Sources */,
 				BE6ACD851DBC583C006C4471 /* TopScrollDelegate.swift in Sources */,
 				BE5CB3511ECD38A60062499C /* RecordCollectionCell.swift in Sources */,
 				BED2ADA41EC447AA002A1837 /* RecordBloodPressureVC.swift in Sources */,

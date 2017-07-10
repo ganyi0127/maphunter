@@ -14,10 +14,16 @@ class DiscoverVC: UIViewController {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         navigationController?.navigationBar.topItem?.title = "发现"
+        navigationController?.setNavigationOpacity(opacity: true)
     }
 }
 
@@ -59,6 +65,29 @@ extension DiscoverVC: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let section = indexPath.section
+        let row = indexPath.row
         
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.setSelected(false, animated: true)
+        
+        switch section {
+        case 0:
+            break
+        case 1:
+            break
+        case 2:
+            if row == 0{
+                if let weeklyVC = storyboard?.instantiateViewController(withIdentifier: "weekly"){
+                    navigationController?.pushViewController(weeklyVC, animated: true)
+                }
+            }else{
+                
+            }
+        case 3:
+            break
+        default:
+            break
+        }
     }
 }

@@ -100,6 +100,7 @@ class TipView: UIView {
         textLabel?.textAlignment = .left
         textLabel?.font = fontSmall
         textLabel?.isEditable = false
+        textLabel?.isSelectable = false
         textLabel?.isScrollEnabled = false
         addSubview(textLabel!)
         

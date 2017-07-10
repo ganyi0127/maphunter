@@ -27,11 +27,14 @@ extension Date{
     
     //获取星期字符串
     func weekdayString() -> String{
-        let calendar = Calendar.current
-        let weekday = calendar.component(.weekday, from: self)
-        
         let list = ["周日","周一","周二","周三","周四","周五","周六"]        
-        return list[weekday - 1]
+        return list[weekday() - 1]
+    }
+    
+    //获取星期 1234567
+    func weekday() -> Int{
+        let calendar = Calendar.current
+        return calendar.component(.weekday, from: self)
     }
     
     //偏移
