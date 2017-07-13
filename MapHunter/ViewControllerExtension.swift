@@ -19,12 +19,15 @@ extension UIViewController{
     }
     
     func didReceiveCurrentWarning(){
+        /*
+         当发生内存警告，不需要进行操作，系统将自动进行回收(手动置空将出现错误)
         debugPrint("memory warning: \(self)")
         if view.window == nil || !isViewLoaded{
             view = nil
         }
         debugPrint("<clear>memory warning: \(self)")
         //if self.isViewLoaded && view.window != nil
+         */
     }
     
     //loading实现
@@ -47,7 +50,7 @@ extension UIViewController{
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
             loading?.alpha = 0
         }, completion: {
-            _ in
+            _ in            
             loading?.alpha = 1
             loading?.removeFromSuperview()
             loading = nil

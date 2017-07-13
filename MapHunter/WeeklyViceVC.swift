@@ -11,7 +11,8 @@ class WeeklyViceVC: UIViewController {
     
     var view0: UIView!
     var view1: UIView!
-    
+    var subViewHeight: CGFloat = 0
+    var subViewWidth: CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,8 +24,8 @@ class WeeklyViceVC: UIViewController {
     func config(){
         
         let topHeight: CGFloat = 64
-        let subViewWidth = view_size.width - edgeWidth * 2
-        let subViewHeight = (view_size.height - topHeight - edgeWidth * 4) / 2
+        subViewWidth = view_size.width - edgeWidth * 2
+        subViewHeight = (view_size.height - topHeight - edgeWidth * 4) / 2
         
         let frame0 = CGRect(x: edgeWidth, y: topHeight + edgeWidth, width: subViewWidth, height: subViewHeight)
         view0 = UIView(frame: frame0)

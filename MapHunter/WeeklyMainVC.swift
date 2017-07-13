@@ -10,17 +10,23 @@ import Foundation
 let weeklyRadius: CGFloat = 8
 class WeeklyMainVC: UIViewController {
     
+    let topHeight: CGFloat = 64
     var mainSeparatorY: CGFloat = 0
     var mainViewHeight: CGFloat = 0
     var subViewHeight: CGFloat = 0
     
+    //主颜色
     var color = UIColor.clear
     
     //分割线
-    var separator: CAShapeLayer?
+    private var separator: CAShapeLayer?
     
+    private var nameLabel: UILabel?
+    private var rankLabel: UILabel?
+    private var likeLabel: UILabel?
+    
+    //MARK:-init************************************************************
     override func viewDidLoad() {
-        super.viewDidLoad()
         
         config()
         createContents()
@@ -59,7 +65,6 @@ class WeeklyMainVC: UIViewController {
             return bezier.cgPath
         }
         
-        let topHeight: CGFloat = 64
         
         subViewHeight = view_size.height * 0.125
         mainViewHeight = view_size.height - topHeight - subViewHeight - edgeWidth * 4

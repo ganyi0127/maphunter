@@ -12,18 +12,29 @@ class DiscoverVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        config()
+        createContents()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        navigationController?.setNavigationOpacity(opacity: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         navigationController?.navigationBar.topItem?.title = "发现"
-        navigationController?.setNavigationOpacity(opacity: true)
+    }
+    
+    private func config(){
+        automaticallyAdjustsScrollViewInsets = false
+    }
+    
+    private func createContents(){
+        
     }
 }
 
@@ -77,12 +88,14 @@ extension DiscoverVC: UITableViewDelegate, UITableViewDataSource{
         case 1:
             break
         case 2:
-            if row == 0{
+            if row == 0{    //健康周报
                 if let weeklyVC = storyboard?.instantiateViewController(withIdentifier: "weekly"){
                     navigationController?.pushViewController(weeklyVC, animated: true)
                 }
-            }else{
-                
+            }else{          //排行榜
+                if let rankVC = storyboard?.instantiateViewController(withIdentifier: "rank"){
+                    navigationController?.pushViewController(rankVC, animated: true)
+                }
             }
         case 3:
             break

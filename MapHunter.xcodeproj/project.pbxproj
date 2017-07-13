@@ -165,6 +165,8 @@
 		BE1FF68E1F1370DF0097ABF0 /* WeeklySleepMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1FF68D1F1370DF0097ABF0 /* WeeklySleepMainVC.swift */; };
 		BE1FF6901F1371060097ABF0 /* WeeklyHeartrateMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1FF68F1F1371060097ABF0 /* WeeklyHeartrateMainVC.swift */; };
 		BE1FF6921F1371240097ABF0 /* WeeklyHeartrateViceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1FF6911F1371240097ABF0 /* WeeklyHeartrateViceVC.swift */; };
+		BE1FF6941F146EC30097ABF0 /* RankVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1FF6931F146EC30097ABF0 /* RankVC.swift */; };
+		BE1FF6971F1474910097ABF0 /* RankCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1FF6961F1474910097ABF0 /* RankCell.swift */; };
 		BE2DC9E91D9210A300978C97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2DC9E81D9210A300978C97 /* AppDelegate.swift */; };
 		BE2DC9EB1D9210A300978C97 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2DC9EA1D9210A300978C97 /* MapVC.swift */; };
 		BE2DC9EE1D9210A300978C97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE2DC9EC1D9210A300978C97 /* Main.storyboard */; };
@@ -697,6 +699,8 @@
 		BE1FF68D1F1370DF0097ABF0 /* WeeklySleepMainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeeklySleepMainVC.swift; sourceTree = "<group>"; };
 		BE1FF68F1F1371060097ABF0 /* WeeklyHeartrateMainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeeklyHeartrateMainVC.swift; sourceTree = "<group>"; };
 		BE1FF6911F1371240097ABF0 /* WeeklyHeartrateViceVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeeklyHeartrateViceVC.swift; sourceTree = "<group>"; };
+		BE1FF6931F146EC30097ABF0 /* RankVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankVC.swift; sourceTree = "<group>"; };
+		BE1FF6961F1474910097ABF0 /* RankCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankCell.swift; sourceTree = "<group>"; };
 		BE2DC9E51D9210A300978C97 /* MapHunter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapHunter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE2DC9E81D9210A300978C97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE2DC9EA1D9210A300978C97 /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
@@ -2026,6 +2030,15 @@
 			name = "选择某天模块";
 			sourceTree = "<group>";
 		};
+		BE1FF6951F146EC60097ABF0 /* 排行榜 */ = {
+			isa = PBXGroup;
+			children = (
+				BE1FF6931F146EC30097ABF0 /* RankVC.swift */,
+				BE1FF6961F1474910097ABF0 /* RankCell.swift */,
+			);
+			name = "排行榜";
+			sourceTree = "<group>";
+		};
 		BE2DC9DC1D9210A300978C97 = {
 			isa = PBXGroup;
 			children = (
@@ -2553,6 +2566,7 @@
 				BE8FCAE61F0643EB00F8A6D2 /* DiscoverVC.swift */,
 				BE8FCAEA1F06471A00F8A6D2 /* DiscoverCell.swift */,
 				BE5DAC841F131B9400557A00 /* 周报 */,
+				BE1FF6951F146EC60097ABF0 /* 排行榜 */,
 			);
 			name = "发现";
 			sourceTree = "<group>";
@@ -2869,6 +2883,7 @@
 				BE41E6781E8D089F00387B59 /* JobVC.swift in Sources */,
 				BE0DD8921EA6FD6E00574139 /* UIButton+AFNetworking.m in Sources */,
 				BE0DD88C1EA6FD6E00574139 /* AFURLResponseSerialization.m in Sources */,
+				BE1FF6971F1474910097ABF0 /* RankCell.swift in Sources */,
 				BE8685421E29C74200EBEBED /* PremapVC.swift in Sources */,
 				BEB248EC1D9BD91A00C9F9ED /* IconView.swift in Sources */,
 				BE0372591EE8DEF5000B2F4A /* TrackChartView.swift in Sources */,
@@ -2923,6 +2938,7 @@
 				BE118D7D1EE793CC009DD90A /* TrackTopBase.swift in Sources */,
 				BE576FF11E248CFE006BAD1C /* FunVC.swift in Sources */,
 				BE5770051E25E3B7006BAD1C /* FunOriginViewController.swift in Sources */,
+				BE1FF6941F146EC30097ABF0 /* RankVC.swift in Sources */,
 				BE3329381EDFED2900B39093 /* SportDetailTop.swift in Sources */,
 				BE6455C41EA4C00700C8A416 /* NotifyLocalNotifyVC.swift in Sources */,
 				BE7248321ECC0783008099B7 /* RecordSelector.swift in Sources */,
