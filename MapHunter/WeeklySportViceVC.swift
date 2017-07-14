@@ -17,7 +17,7 @@ class WeeklySportViceVC: WeeklyViceVC {
     private var startY: CGFloat = 32 + 8
     private var endY = edgeWidth + 20
     private var startX = edgeWidth + 40
-    private var endX = edgeWidth
+    private var endX = edgeWidth + 12
     
     //小圆圈半径
     private let circleRadius: CGFloat = 3
@@ -122,6 +122,42 @@ class WeeklySportViceVC: WeeklyViceVC {
         subTitle1Label?.textAlignment = .center
         subTitle1Label?.font = fontSmall
         view1.addSubview(subTitle1Label!)
+        
+        //绘制标记
+        let colorLabelHeight: CGFloat = 12
+        let colorLabelWidth: CGFloat = 24
+        let colorViewHeight: CGFloat = 6
+        let colorViewWidth: CGFloat = 10
+        let colorLabelX = subViewWidth - edgeWidth - colorLabelWidth
+        let colorViewX = colorLabelX - edgeWidth - colorViewWidth
+        
+        let yellowFrame = CGRect(x: colorViewX, y: edgeWidth + (colorLabelHeight - colorViewHeight) / 2, width: colorViewWidth, height: colorViewHeight)
+        let yellowView = UIView(frame: yellowFrame)
+        yellowView.backgroundColor = .yellow
+        yellowView.layer.cornerRadius = 2
+        view1.addSubview(yellowView)
+        
+        let yellowLabelFrame = CGRect(x: colorLabelX, y: edgeWidth, width: colorLabelWidth, height: colorLabelHeight)
+        let yellowLabel = UILabel(frame: yellowLabelFrame)
+        yellowLabel.textAlignment = .center
+        yellowLabel.text = "本周"
+        yellowLabel.font = fontTiny
+        yellowLabel.textColor = .white
+        view1.addSubview(yellowLabel)
+        
+        let whiteFrame = CGRect(x: colorViewX, y: edgeWidth + colorLabelHeight + (colorLabelHeight - colorViewHeight) / 2, width: colorViewWidth, height: colorViewHeight)
+        let whiteView = UIView(frame: whiteFrame)
+        whiteView.backgroundColor = lightWordColor
+        whiteView.layer.cornerRadius = 2
+        view1.addSubview(whiteView)
+        
+        let whiteLabelFrame = CGRect(x: colorLabelX, y: edgeWidth + colorLabelHeight, width: colorLabelWidth, height: colorLabelHeight)
+        let whiteLabel = UILabel(frame: whiteLabelFrame)
+        whiteLabel.textAlignment = .center
+        whiteLabel.text = "上周"
+        whiteLabel.font = fontTiny
+        whiteLabel.textColor = .white
+        view1.addSubview(whiteLabel)
     }
     
     //MARK:-绘制曲线0(总步数/7*2为显示的数据)
@@ -320,7 +356,7 @@ class WeeklySportViceVC: WeeklyViceVC {
                 view1.addSubview(label1)
                 
                 //达标线
-                let label2Frame = CGRect(x: view_size.width - edgeWidth - startX, y: y - labelHeight - 1, width: startX, height: labelHeight)
+                let label2Frame = CGRect(x: subViewWidth - edgeWidth - startX, y: y - labelHeight - 1, width: startX, height: labelHeight)
                 let label2 = UILabel(frame: label2Frame)
                 label2.font = fontTiny
                 label2.textColor = UIColor.white.withAlphaComponent(0.5)
@@ -333,9 +369,9 @@ class WeeklySportViceVC: WeeklyViceVC {
         
         //颜色
         let thisColor = UIColor.yellow
-        let lastColor = UIColor.white
+        let lastColor = lightWordColor
         
-        startX = edgeWidth
+        startX = edgeWidth + 12
         
         //绘制数据线
         let weeklyBezier = UIBezierPath()
@@ -369,7 +405,7 @@ class WeeklySportViceVC: WeeklyViceVC {
             //绘制纵线
             let lineBezier = UIBezierPath()
             lineBezier.move(to: CGPoint(x: x, y: subViewHeight - endY))
-            lineBezier.addLine(to: CGPoint(x: x, y: max(thisY, lastY)))
+            lineBezier.addLine(to: CGPoint(x: x, y: min(thisY, lastY)))
             let line = CAShapeLayer()
             line.path = lineBezier.cgPath
             line.fillColor = nil
@@ -413,14 +449,6 @@ class WeeklySportViceVC: WeeklyViceVC {
             weeklyLabel.font = fontTiny
             weeklyLabel.textAlignment = .center
             view1.addSubview(weeklyLabel)
-            
-            let averageFrame = CGRect(x: x - labelWidth / 2, y: lastY - labelHeight, width: labelWidth, height: labelHeight)
-            let averageLabel = UILabel(frame: averageFrame)
-            averageLabel.text = "\(lastData)"
-            averageLabel.textColor = lastColor
-            averageLabel.font = fontTiny
-            averageLabel.textAlignment = .center
-            view1.addSubview(averageLabel)
         }
         
         //添加数据曲线

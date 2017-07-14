@@ -103,10 +103,12 @@ extension UINavigationController: UINavigationControllerDelegate{
                     viewController.navigationItem.rightBarButtonItem = heardItem
                 }else if viewController.isKind(of: MeVC.self){
                     //个人视图
-                    let image = UIImage(named: "resource/me/me_setting")
+                    /*
+                    let image = UIImage(named: "resource/me/me_edit")
                     let imageSize = CGSize(width: navigation_height! * 0.6, height: navigation_height! * 0.6)
                     let calenderBarButton = UIBarButtonItem(image: image?.transfromImage(size: imageSize), style: .done, target: viewController, action: #selector(MeVC.clickSetting(sender:)))
                     viewController.navigationItem.rightBarButtonItem = calenderBarButton
+                     */
                 }
             }
             

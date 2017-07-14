@@ -10,13 +10,10 @@ import UIKit
 class MeCell1: UITableViewCell {
     
     @IBOutlet weak var headImageView: UIImageView!
-    @IBOutlet weak var nickNameLabel: UILabel!
-    @IBOutlet weak var introduceLabel: UILabel!
     
-    @IBOutlet weak var minuteLabel: UILabel!
+    @IBOutlet weak var averageStepLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
-    @IBOutlet weak var calorieLabel: UILabel!
-    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var targetLabel: UILabel!
     
     //照片
     var headImage: UIImage?{
@@ -29,76 +26,55 @@ class MeCell1: UITableViewCell {
     }
     
     //用户名
-    var nickName: String = "NICK NAME"{
-        didSet{
-            //去除空格与回车
-            let str = nickName.trimmingCharacters(in: .whitespacesAndNewlines)
-            if str == "" {
-                nickNameLabel.text = "NICK NAME"
-            }else{
-                nickNameLabel.text = str
-            }
-        }
-    }
-    
-    //简介
-    var introduce: String = "运动宣言"{
-        didSet{
-            //去除空格与回车
-            let str = introduce.trimmingCharacters(in: .whitespacesAndNewlines)
-            if str == "" {
-                introduceLabel.text = "运动宣言"
-            }else{
-                introduceLabel.text = str
-            }
-        }
-    }
+//    var nickName: String = "NICK NAME"{
+//        didSet{
+//            //去除空格与回车
+//            let str = nickName.trimmingCharacters(in: .whitespacesAndNewlines)
+//            if str == "" {
+//                nickNameLabel.text = "NICK NAME"
+//            }else{
+//                nickNameLabel.text = str
+//            }
+//        }
+//    }
     
     //分钟数
-    var minutes: Int16 = 0{
+    var averageSteps: Int16 = 0{
         didSet{
-            if minutes > 0 {
-                minuteLabel.text = "\(minutes)"
-            }else{
-                minuteLabel.text = "0"
-            }
+            let title = "日均步数\n"
+            let text = title + "\(averageSteps)"
+            
+            let attributedString = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: fontMiddle, NSForegroundColorAttributeName: UIColor.white])
+            attributedString.addAttributes([NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white], range: NSMakeRange(0, title.characters.count))
+            averageStepLabel.attributedText = attributedString
         }
     }
     
     //次数
-    var count: Int16 = 0{
+    var actionCount: Int16 = 0{
         didSet{
-            if count > 0 {
-                countLabel.text = "\(count)"
-            }else{
-                countLabel.text = "0"
-            }
+            let title = "锻炼次数\n"
+            let text = title + "\(actionCount)"
+            
+            let attributedString = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: fontMiddle, NSForegroundColorAttributeName: UIColor.white])
+            attributedString.addAttributes([NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white], range: NSMakeRange(0, title.characters.count))
+            countLabel.attributedText = attributedString
         }
     }
     
     //卡路里
-    var calorie: Int16 = 0{
+    var targetCount: Int16 = 0{
         didSet{
-            if calorie > 0{
-                calorieLabel.text = "\(calorie)"
-            }else{
-                calorieLabel.text = "0"
-            }
+            let title = "达标天数\n"
+            let text = title + "\(targetCount)"
+            
+            let attributedString = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: fontMiddle, NSForegroundColorAttributeName: UIColor.white])
+            attributedString.addAttributes([NSFontAttributeName: fontSmall, NSForegroundColorAttributeName: UIColor.white], range: NSMakeRange(0, title.characters.count))
+            targetLabel.attributedText = attributedString
         }
     }
     
-    //距离
-    var distance: Int16 = 0{
-        didSet{
-            if distance > 0 {
-                distanceLabel.text = "\(distance)"
-            }else{
-                distanceLabel.text = "0"
-            }
-        }
-    }
-    
-    //MARK:- init
+    //MARK:-init*******************************************************************************************
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
         
@@ -112,6 +88,7 @@ class MeCell1: UITableViewCell {
         let maskLayer = CAShapeLayer()
         maskLayer.path = UIBezierPath(ovalIn: headImageView.bounds).cgPath
         headImageView.layer.mask = maskLayer
+        
     }
     
     private func config(){
@@ -124,6 +101,18 @@ class MeCell1: UITableViewCell {
         if responds(to: #selector(setter: MeCell1.preservesSuperviewLayoutMargins)) {
             preservesSuperviewLayoutMargins = false
         }
+        
+        //初始化
+        backgroundColor = defaut_color
+        
+        averageStepLabel.font = fontMiddle
+        averageStepLabel.textColor = .white
+        
+        countLabel.font = fontMiddle
+        countLabel.textColor = .white
+        
+        targetLabel.font = fontMiddle
+        targetLabel.textColor = .white        
     }
     
     private func createContents(){

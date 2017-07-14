@@ -167,6 +167,9 @@
 		BE1FF6921F1371240097ABF0 /* WeeklyHeartrateViceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1FF6911F1371240097ABF0 /* WeeklyHeartrateViceVC.swift */; };
 		BE1FF6941F146EC30097ABF0 /* RankVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1FF6931F146EC30097ABF0 /* RankVC.swift */; };
 		BE1FF6971F1474910097ABF0 /* RankCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1FF6961F1474910097ABF0 /* RankCell.swift */; };
+		BE1FF6991F185CF00097ABF0 /* Me.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE1FF6981F185CEC0097ABF0 /* Me.storyboard */; };
+		BE1FF69B1F1873BC0097ABF0 /* MeDeviceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1FF69A1F1873BC0097ABF0 /* MeDeviceCell.swift */; };
+		BE1FF69D1F1877650097ABF0 /* MeAdditionalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1FF69C1F1877650097ABF0 /* MeAdditionalCell.swift */; };
 		BE2DC9E91D9210A300978C97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2DC9E81D9210A300978C97 /* AppDelegate.swift */; };
 		BE2DC9EB1D9210A300978C97 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2DC9EA1D9210A300978C97 /* MapVC.swift */; };
 		BE2DC9EE1D9210A300978C97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE2DC9EC1D9210A300978C97 /* Main.storyboard */; };
@@ -701,6 +704,9 @@
 		BE1FF6911F1371240097ABF0 /* WeeklyHeartrateViceVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeeklyHeartrateViceVC.swift; sourceTree = "<group>"; };
 		BE1FF6931F146EC30097ABF0 /* RankVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankVC.swift; sourceTree = "<group>"; };
 		BE1FF6961F1474910097ABF0 /* RankCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankCell.swift; sourceTree = "<group>"; };
+		BE1FF6981F185CEC0097ABF0 /* Me.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Me.storyboard; sourceTree = "<group>"; };
+		BE1FF69A1F1873BC0097ABF0 /* MeDeviceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeDeviceCell.swift; sourceTree = "<group>"; };
+		BE1FF69C1F1877650097ABF0 /* MeAdditionalCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeAdditionalCell.swift; sourceTree = "<group>"; };
 		BE2DC9E51D9210A300978C97 /* MapHunter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapHunter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE2DC9E81D9210A300978C97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE2DC9EA1D9210A300978C97 /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
@@ -2574,11 +2580,14 @@
 		BEDF4F391D93939900E98D63 /* 个人 */ = {
 			isa = PBXGroup;
 			children = (
+				BE1FF6981F185CEC0097ABF0 /* Me.storyboard */,
 				BEDF4F3E1D93942E00E98D63 /* MeVC.swift */,
 				32C3E6281E090B4C00D34A74 /* MePushController.swift */,
 				32C3E62A1E09121800D34A74 /* MePopController.swift */,
 				32C3E61F1E07E3CA00D34A74 /* MeCell1.swift */,
 				32C3E6211E07E5CF00D34A74 /* MeCell2.swift */,
+				BE1FF69A1F1873BC0097ABF0 /* MeDeviceCell.swift */,
+				BE1FF69C1F1877650097ABF0 /* MeAdditionalCell.swift */,
 				32C3E6231E07E5F400D34A74 /* MeCell3.swift */,
 				32C3E62F1E092F4B00D34A74 /* 个人设置 */,
 				32C3E6251E09049100D34A74 /* 健康详情 */,
@@ -2745,6 +2754,7 @@
 			files = (
 				BE6455C01EA4BDE200C8A416 /* Notify.storyboard in Resources */,
 				BECD4F121EA1C24400C9136C /* Info.storyboard in Resources */,
+				BE1FF6991F185CF00097ABF0 /* Me.storyboard in Resources */,
 				3267D0511DF7E7B40060B9C2 /* resource in Resources */,
 				BE43A6E31F02629900D5BBAC /* Map.storyboard in Resources */,
 				BE2DC9F61D9210A300978C97 /* LaunchScreen.storyboard in Resources */,
@@ -2820,6 +2830,7 @@
 				BE0DD8911EA6FD6E00574139 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				BE0DD89E1EA6FD6E00574139 /* QN_GTM_Base64.m in Sources */,
 				BE0DD8C81EA6FD6E00574139 /* ESPDatumCode.m in Sources */,
+				BE1FF69D1F1877650097ABF0 /* MeAdditionalCell.swift in Sources */,
 				BE118D731EE6879C009DD90A /* TrackVC.swift in Sources */,
 				BE113BA01EF923CE00E5D91E /* SubSport0VC.swift in Sources */,
 				BE731A011E0B8958002BDF2D /* DetailBottom.swift in Sources */,
@@ -2936,6 +2947,7 @@
 				32D4129E1DEEC4C0008EE637 /* DetailViewController.swift in Sources */,
 				BE0DD8971EA6FD6E00574139 /* CKCache.m in Sources */,
 				BE118D7D1EE793CC009DD90A /* TrackTopBase.swift in Sources */,
+				BE1FF69B1F1873BC0097ABF0 /* MeDeviceCell.swift in Sources */,
 				BE576FF11E248CFE006BAD1C /* FunVC.swift in Sources */,
 				BE5770051E25E3B7006BAD1C /* FunOriginViewController.swift in Sources */,
 				BE1FF6941F146EC30097ABF0 /* RankVC.swift in Sources */,

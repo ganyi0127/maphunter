@@ -203,6 +203,12 @@ class RootTBC: UITabBarController {
         viewControllers?[3] = discoverVC
         tabBar.items?[3].image = UIImage(named: "resource/tabbar/health")?.transfromImage(size: itemSize)?.withRenderingMode(.alwaysOriginal)
         tabBar.items?[3].selectedImage = UIImage(named: "resource/tabbar/health_selected")?.transfromImage(size: itemSize)?.withRenderingMode(.alwaysOriginal)
+        
+        //我的
+        let meVC = UIStoryboard(name: "Me", bundle: Bundle.main).instantiateViewController(withIdentifier: "me")
+        viewControllers?[4] = meVC
+        tabBar.items?[4].image = UIImage(named: "resource/tabbar/me")?.transfromImage(size: itemSize)?.withRenderingMode(.alwaysOriginal)
+        tabBar.items?[4].selectedImage = UIImage(named: "resource/tabbar/me_selected")?.transfromImage(size: itemSize)?.withRenderingMode(.alwaysOriginal)
     }
     
     private func config(){

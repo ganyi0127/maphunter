@@ -34,21 +34,30 @@ class MeCell3: UITableViewCell {
         var imageName: String
         var titleString: String
         switch type as MeCell3Type {
-        case .device:
-            imageName = "me_device"
-            titleString = "绑定设备"
         case .target:
             imageName = "me_target"
             titleString = "目标设定"
-        case .applehealth:
-            imageName = "me_applehealth"
-            titleString = "连接苹果健康"
+        case .family:
+            imageName = "me_family"
+            titleString = "家人"
+        case .friend:
+            imageName = "me_friend"
+            titleString = "朋友"
+        case .setting:
+            imageName = "me_setting"
+            titleString = "设置"
+        case .more:
+            imageName = "me_more"
+            titleString = "更多"
+        default:
+            imageName = ""
+            titleString = ""
         }
 
         //设置icon
         let imageViewFrame = CGRect(x: 10, y: 10, width: 24, height: 24)
         let imageView = UIImageView(frame: imageViewFrame)
-        let image = UIImage(named: "resource/me/\(imageName)")
+        let image = UIImage(named: "resource/me/\(imageName)")?.transfromImage(size: CGSize(width: 34, height: 34))
         imageView.image = image
         contentView.addSubview(imageView)
         
@@ -56,7 +65,7 @@ class MeCell3: UITableViewCell {
         let labelFrame = CGRect(x: 54, y: 10, width: frame.size.width / 2, height: 24)
         let label = UILabel(frame: labelFrame)
         label.text = titleString
-        label.textColor = wordColor
+        label.textColor = subWordColor
         label.font = fontSmall
         label.textAlignment = .left
         contentView.addSubview(label)

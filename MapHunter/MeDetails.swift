@@ -9,9 +9,12 @@
 import UIKit
 import HealthKit
 enum MeCell3Type: Int{
-    case device = 0
-    case target
-    case applehealth
+    case target = 0
+    case family
+    case friend
+    case setting
+    case more 
+    case additional
 }
 
 //目前该类仅适用于 苹果健康
@@ -65,48 +68,11 @@ class MeDetails: UIViewController {
     
     private func createContents(){
         switch type as MeCell3Type {
-        case .device:
-            break
         case .target:
             break
-        case .applehealth:
-//            //判断当前设备是否支持HeathKit
-//            if HKHealthStore.isHealthDataAvailable() {
-//                // 1. Set the types you want to read from HK Store
-//                let healthKitTypesToRead: Set<HKObjectType> = [
-//                    HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.dateOfBirth)!,
-//                    HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.bloodType)!,
-//                    HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.biologicalSex)!,
-//                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!,
-//                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)!,
-//                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)!,
-//                    HKObjectType.workoutType()
-//                ]
-//                
-//                // 2. Set the types you want to write to HK Store
-//                let healthKitTypesToWrite: Set<HKObjectType> = [
-//                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMassIndex)!,
-//                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!,
-//                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)!,
-//                    HKQuantityType.workoutType()
-//                ]
-//                
-//                //请求
-//                healthStore.requestAuthorization(toShare: nil, read: healthKitTypesToWrite) {
-//                    success, error in
-//                    guard success else{
-//                        if let err = error {
-//                            debugPrint("error: \(err)")
-//                        }
-//                        return
-//                    }
-//                    
-//                    debugPrint("同意获取write数据")
-//                }
-//            }else{
-//                debugPrint("设备不支持HealthKit")
-//            }
-            
+        case .family:
+            break
+        case .friend:
             //添加苹果健康图
             if let image = UIImage(named: "resource/me/me_health"){
                 let imageFrame = CGRect(x: 0, y: 64, width: view_size.width, height: view_size.width * image.size.height / image.size.width)
@@ -114,7 +80,12 @@ class MeDetails: UIViewController {
                 imageView.image = image
                 view.addSubview(imageView)
             }
-            
+        case .setting:
+            break
+        case .more:
+            break
+        default:
+            break
         }
     }
     
