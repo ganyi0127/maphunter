@@ -18,7 +18,7 @@ let detailRadius: CGFloat = 10
 protocol DetailDelegate {
     //sport
     func sportData(closure: @escaping ([CGFloat])->())
-    func sportActivities() -> [Track]
+    func sportActivities() -> [EachTrainningData]
     
     //sleep
     func sleepData(withSleepClosure sleepClosure: @escaping (Date, [(Int, Int)])->(), heartrateClosure: @escaping ([(Int, Int)])->())             //睡眠开始时间, [(睡眠类型，睡眠分钟数)]
@@ -177,16 +177,16 @@ extension DetailSV: DetailDelegate{
                     return
                 }
                 
-                let sportItems = sportData.sportItem
+                let sportItems = sportData.sportEverydayDataItemList
                 debugPrint("sportItems count:", sportItems?.count ?? 0)
-                var sportList = [SportItem]()
+                var sportList = [SportEverydayDataItem]()
                 sportItems?.forEach{
                     item in
-                    sportList.append(item as! SportItem)
+                    sportList.append(item as! SportEverydayDataItem)
                 }
                 sportList = sportList.sorted{$0.id < $1.id}
-                result = sportList.map{CGFloat($0.sportCount)}
-                print(sportData.totalStep, "total")
+                result = sportList.map{CGFloat($0.steps)}
+                print(sportData.totalSteps, "total")
                 debugPrint("sport result list:", result)
                 
                 DispatchQueue.main.async {
@@ -211,7 +211,7 @@ extension DetailSV: DetailDelegate{
         }
     }
     
-    func sportActivities() -> [Track] {
+    func sportActivities() -> [EachTrainningData] {
         return []
     }
     
@@ -227,25 +227,25 @@ extension DetailSV: DetailDelegate{
             guard let sleepData = sleepDataList.last else{
                 return
             }
-            let sleepItems = sleepData.sleepItem
-            let count = sleepData.sleepItemCount
-            var sleepItemList = [SleepItem]()
+            let sleepItems = sleepData.sleepEverydayDataItemList
+            let count = Int16(sleepData.itemsCount)
+            var sleepItemList = [SleepEverydayDataItem]()
             sleepItems?.forEach{
                 item in
-                if (item as! SleepItem).id < count{
-                    sleepItemList.append(item as! SleepItem)
+                if (item as! SleepEverydayDataItem).id < count{
+                    sleepItemList.append(item as! SleepEverydayDataItem)
                 }
             }
             sleepItemList = sleepItemList.sorted{$0.id < $1.id}
             
-            sleepResult = sleepItemList.map{(Int($0.sleepStatus), Int($0.durations))}
+            sleepResult = sleepItemList.map{(Int($0.status), Int($0.durationsMinute))}
             debugPrint("sleep result list:", sleepResult)
             
             //获取起床时间
             let calendar = Calendar.current
             var components = calendar.dateComponents([.hour, .minute], from: selectDate)
-            components.hour = Int(sleepData.endTimeHour)
-            components.minute = Int(sleepData.endTimeMinute)
+            components.hour = Int(sleepData.endedHour)
+            components.minute = Int(sleepData.endedMinute)
             guard let date = calendar.date(from: components) else{
                 return
             }
@@ -261,14 +261,14 @@ extension DetailSV: DetailDelegate{
                     return
                 }
                 
-                let heartRateItems = heartRateData.heartRateItem
-                var heartRateList = [HeartRateItem]()
+                let heartRateItems = heartRateData.heartRateEverydayItemList
+                var heartRateList = [HeartRateEverydayDataItem]()
                 heartRateItems?.forEach{
                     item in
-                    heartRateList.append(item as! HeartRateItem)
+                    heartRateList.append(item as! HeartRateEverydayDataItem)
                 }
                 heartRateList = heartRateList.sorted{$0.id < $1.id}
-                heartrateResult = heartRateList.map{(Int($0.offset), Int($0.data))}
+                heartrateResult = heartRateList.map{(Int($0.toLastMinutes), Int($0.value))}
                 debugPrint("heartrate offset list:", heartrateResult)
                 DispatchQueue.main.async {
                     heartrateClosure(heartrateResult)
@@ -350,7 +350,7 @@ extension DetailSV: DetailDelegate{
     func mindbodyData(closure: @escaping ([Int]) -> ()) {
         
         var result = [Int]()
-        for i in (0..<240){
+        for _ in (0..<240){
             let value = Int(arc4random_uniform(100))
             result.append(value)
         }
@@ -360,7 +360,7 @@ extension DetailSV: DetailDelegate{
     //总览数据
     func detailTotalValue() -> CGFloat {
         let angelManager = AngelManager.share()
-        guard let macaddress = angelManager?.macAddress else {
+        guard let accessoryId = angelManager?.accessoryId else {
             return 0
         }
         let coredataHandle = CoreDataHandler.share()
@@ -369,19 +369,19 @@ extension DetailSV: DetailDelegate{
         
         switch type as DataCubeType {
         case .sport:
-            let sportDataList = coredataHandle.selectSportData(userId: userId, withMacAddress: macaddress, withDate: selDate, withDayRange: 0)
+            let sportDataList = coredataHandle.selectSportEverydayDataList(withAccessoryId: accessoryId, byUserId: userId, withDate: selDate, withCDHRange: CDHRange.day)
             if let sportData = sportDataList.first{
-                return CGFloat(sportData.totalStep)
+                return CGFloat(sportData.totalSteps)
             }
         case .heartrate:
-            let heartrateDataList = coredataHandle.selectHeartRateData(userId: userId, withMacAddress: macaddress, withDate: selDate, withDayRange: 0)
+            let heartrateDataList = coredataHandle.selectHeartRateEverydayDataList(withAccessoryId: accessoryId, byUserId: userId, withDate: selDate, withCDHRange: CDHRange.day)
             if let heartrateData = heartrateDataList.first{
                 return CGFloat(heartrateData.silentHeartRate)
             }
         case .sleep:
-            let sleepDataList = coredataHandle.selectSleepData(userId: userId, withMacAddress: macaddress, withDate: selDate, withDayRange: 0)
+            let sleepDataList = coredataHandle.selectSleepEverydayDataList(withAccessoryId: accessoryId, byUserId: userId, withDate: selDate, withCDHRange: CDHRange.day)
             if let sleepData = sleepDataList.first{
-                return CGFloat(sleepData.deepSleepMinute)
+                return CGFloat(sleepData.deepSleepMinutes)
             }
         case .mindBody:
             return 0
@@ -391,7 +391,7 @@ extension DetailSV: DetailDelegate{
     
     func detailLeftValue() -> CGFloat {
         let angelManager = AngelManager.share()
-        guard let macaddress = angelManager?.macAddress else {
+        guard let accessoryId = angelManager?.accessoryId else {
             return 0
         }
         let coredataHandle = CoreDataHandler.share()
@@ -400,14 +400,14 @@ extension DetailSV: DetailDelegate{
         
         switch type as DataCubeType {
         case .sport:
-            let sportDataList = coredataHandle.selectSportData(userId: userId, withMacAddress: macaddress, withDate: selDate, withDayRange: 0)
+            let sportDataList = coredataHandle.selectSportEverydayDataList(withAccessoryId: accessoryId, byUserId: userId, withDate: selDate, withCDHRange: CDHRange.day)
             if let sportData = sportDataList.first{
-                return CGFloat(sportData.totalStep)
+                return CGFloat(sportData.totalSteps)
             }
         case .sleep:
-            let sleepDataList = coredataHandle.selectSleepData(userId: userId, withMacAddress: macaddress, withDate: selDate, withDayRange: 0)
+            let sleepDataList = coredataHandle.selectSleepEverydayDataList(withAccessoryId: accessoryId, byUserId: userId, withDate: selDate, withCDHRange: CDHRange.day)
             if let sleepData = sleepDataList.first{
-                return CGFloat(sleepData.totalMinute)
+                return CGFloat(sleepData.totalMinutes)
             }
         default:
             return 0
@@ -419,16 +419,16 @@ extension DetailSV: DetailDelegate{
         let angelManager = AngelManager.share()
         let selDate = date ?? selectDate
         
-        guard let macaddress = angelManager?.macAddress else {
+        guard let accessoryId = angelManager?.accessoryId else {
             return 0
         }
         let coredataHandle = CoreDataHandler.share()
         let userId = UserManager.share().userId
         switch type as DataCubeType {
         case .sport:
-            let sportDataList = coredataHandle.selectSportData(userId: userId, withMacAddress: macaddress, withDate: selDate, withDayRange: 0)
+            let sportDataList = coredataHandle.selectSportEverydayDataList(withAccessoryId: accessoryId, byUserId: userId, withDate: selDate, withCDHRange: CDHRange.day)
             if let sportData = sportDataList.first{
-                return CGFloat(sportData.totalDistance)
+                return CGFloat(sportData.totalDistances)
             }
         default:
             return 0

@@ -29,7 +29,7 @@ class PrepareVC: UIViewController {
     //@IBInspectable var circleRadius: CGFloat = 1
     
     //判断是否有轨迹图
-    var track: Track?{
+    var track: EachTrainningData?{
         didSet{
             print(track == nil ? "无轨迹" : "有轨迹")
             //绘制轨迹线
@@ -48,18 +48,18 @@ class PrepareVC: UIViewController {
             view.bringSubview(toFront: scrollView!)
             
             //添加结束内容
-            finishedVC?.duration = track?.durations
-            finishedVC?.distance = track?.distance
+            finishedVC?.duration = track?.durationS
+            finishedVC?.distance = track?.distances100TimesM
             finishedVC?.caloria = track?.calories
             finishedVC?.count = 1
-            if let durations = track?.durations, let distance = track?.distance{
+            if let durations = track?.durationS, let distance = track?.distances100TimesM{
                 if distance == 0{
                     finishedVC?.pace = 0
                 }else{                    
-                    finishedVC?.pace = Double(durations) / distance
+                    finishedVC?.pace = Double(durations) / Double(distance)
                 }
             }
-            finishedVC?.heartrate = track?.avgrageHeartrate
+            finishedVC?.heartrate = track?.averageHeartRate
             //绘制轨迹
         }
     }

@@ -112,14 +112,14 @@ class DataCube: UIView {
                 //显示fourthLabel 判断是否有过运动详情
                 //获取运动信息_日期为当前选择日
                 if let angelManager = AngelManager.share() {
-                    if let macaddress = angelManager.macAddress {
+                    if let accessoryId = angelManager.accessoryId {
                         let userId = UserManager.share().userId
-                        let tracks = CoreDataHandler.share().selectTrack(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+                        let tracks = CoreDataHandler.share().selectEachTrainningDataList(withAccessoryId: accessoryId, byUserId: userId, withDate: selectDate, withCDHRange: CDHRange.day)
                         if !tracks.isEmpty {
                             //默认获取当天数据，tracks个数>=0
                             let calorie = tracks.reduce(0){$0 + $1.calories}
                             let count = Int16(tracks.count)
-                            let distance = tracks.reduce(0){$0 + Int16($1.distance)}
+                            let distance = tracks.reduce(0){$0 + Int16($1.distances100TimesM)}
                             let minutes = tracks.reduce(0){$0 + $1.aerobicMinutes}
                             let typeRawvalue = tracks.first?.type
                             

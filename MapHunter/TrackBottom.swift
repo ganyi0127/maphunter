@@ -10,7 +10,7 @@ import Foundation
 import AngelFit
 import CoreData
 class TrackBottom: UIView {
-    fileprivate var track: Track!
+    fileprivate var track: EachTrainningData!
     fileprivate var sportType: SportType!         //类型
     
     //详情数据视图
@@ -48,7 +48,7 @@ class TrackBottom: UIView {
                 } else {
                     switch dataViewType {
                     case .step:
-                        detailDataView.value = CGFloat(track.step)
+                        detailDataView.value = CGFloat(track.steps)
                     case .activityTime:
                         detailDataView.value = CGFloat(track.aerobicMinutes)
                     case .totalCalorie:
@@ -326,7 +326,7 @@ class TrackBottom: UIView {
     
     
     //MARK:- init************************************************************************************************
-    init(with track: Track){
+    init(with track: EachTrainningData){
         let frame = CGRect(x: edgeWidth,
                            y: detailTopHeight,
                            width: view_size.width - edgeWidth * 2,
@@ -437,9 +437,9 @@ class TrackBottom: UIView {
             centerValue = nil
             rightValue = Int(track.aerobicMinutes)
         default:
-            leftValue = Int(track.step)
-            centerValue = Int(track.distance)
-            rightValue = Int(track.distance)
+            leftValue = Int(track.steps)
+            centerValue = Int(track.distances100TimesM)
+            rightValue = Int(track.distances100TimesM)
         }        
     }
     

@@ -610,12 +610,12 @@ extension PremapVC: CAAnimationDelegate{
                     //satanManager?.resetTrack()
                     satanManager?.delegate = nil
                     
-                    var track: Track?
+                    var track: EachTrainningData?
                     
                     //获取轨迹
-                    if let macAddress = AngelManager.share()?.macAddress{
+                    if let macAddress = AngelManager.share()?.accessoryId{
                         let userId = UserManager.share().userId
-                        track = CoreDataHandler.share().selectTrack(userId: userId, withMacAddress: macAddress, withDate: Date(), withDayRange: -1).last
+                        track = CoreDataHandler.share().selectEachTrainningDataList(withAccessoryId: macAddress, byUserId: userId, withDate: Date(), withDayOffset: -1).last
                     }
                     
                     //返回上级页面

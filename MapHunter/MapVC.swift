@@ -80,7 +80,7 @@ var globalLocationManager: CLLocationManager = { () -> CLLocationManager in
 class MapVC: UIViewController {
     
     //历史记录路径
-    var historyTrack: Track?
+    var historyTrack: EachTrainningData?
     
     weak var delegate: MapDelegate?
     
@@ -215,24 +215,24 @@ class MapVC: UIViewController {
         //如果路径不为空 则绘制路径 否则开始定位
         if let track = historyTrack{
             //历史路径
-            let step = track.step
+            let step = track.steps
             let calorie = track.calories
             let aerobicMinutes = track.aerobicMinutes
-            let avgrageHeartrate = track.avgrageHeartrate
+            let avgrageHeartrate = track.averageHeartRate
             let burnFatMinutes = track.burnFatMinutes
             let date = track.date
-            let distance = track.distance
-            let durations = track.durations
+            let distance = track.distances100TimesM
+            let durations = track.durationS
             let limitMinutes = track.limitMinutes
-            let maxHeartrate = track.maxHeartrate
+            let maxHeartrate = track.maxHeartRate
             let type = track.type
-            let trackHeartrateItems = track.trackHeartrateItems?.sortedArray(using: [NSSortDescriptor(key: "id", ascending: true)]) as! [TrackHeartrateItem]
-            let trackItems = track.trackItems?.sortedArray(using: [NSSortDescriptor(key: "date", ascending: true)]) as! [TrackItem]
+            let trackHeartrateItems = track.heartRateActivityItems?.sortedArray(using: [NSSortDescriptor(key: "id", ascending: true)]) as! [EachTrainningHeartRateItem]
+            let trackItems = track.gpsLoggerItems?.sortedArray(using: [NSSortDescriptor(key: "date", ascending: true)]) as! [EachTrainningGPSLoggerItem]
             var historyOverlay: GradientPolylineOverlay?
             var preVelcity: Float = 0
             trackItems.enumerated().forEach{
                 index, trackItem in
-                
+                /*
                 //获取间隔
                 let interval = trackItem.interval
                 //获取距离
@@ -256,6 +256,7 @@ class MapVC: UIViewController {
                     preVelcity = velcity
                     mapView.add(historyOverlay!, level: .aboveLabels)
                 }
+                 */
             }
         }else{
             //正常定位

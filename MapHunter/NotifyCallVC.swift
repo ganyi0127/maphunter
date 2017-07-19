@@ -61,6 +61,7 @@ class NotifyCallVC: UIViewController {
 
         debugPrint("MacAddress: \(String(describing: macaddress))")
         
+        /*
         beginLoading(byTitle: "正在请求来电提醒权限")
         angelManager?.setCallRemind(true, delay: 1){
             success in
@@ -72,6 +73,9 @@ class NotifyCallVC: UIViewController {
                 //保存是否已开启来电提醒
             }
         }
+         */
+        nextButton.isEnabled = true
+        
         userDefaults.set(true, forKey: "callnotified")
     }
         

@@ -20,7 +20,7 @@ class TrackChartView: UIView {
     private var trackChartViewType: TrackChartViewType!
     
     //input value
-    var track: Track?{
+    var track: EachTrainningData?{
         didSet{
             guard let trk = track else {
                 return
@@ -51,7 +51,7 @@ class TrackChartView: UIView {
             }else if trackChartViewType == .activityHeartrate{                  //更新活动心率
                 
                 //更新平均心率值
-                let avgrageHeartrate = trk.avgrageHeartrate
+                let avgrageHeartrate = trk.averageHeartRate
                 
                 let avgrageHeartrateStr = "\(avgrageHeartrate)"
                 let unitStr = "Bmp"
@@ -62,9 +62,9 @@ class TrackChartView: UIView {
                 avgrageHeartrateLabel?.attributedText = subMutableAttribute
                 
                 //绘制心率曲线
-                let heartrateList = trk.trackHeartrateItems?.sortedArray(using: [NSSortDescriptor(key: "id", ascending: true)]) as! [TrackHeartrateItem]
+                let heartrateList = trk.heartRateActivityItems?.sortedArray(using: [NSSortDescriptor(key: "id", ascending: true)]) as! [EachTrainningHeartRateItem]
                 
-                let sortHeartrateList = heartrateList.sorted{$0.data < $1.data}
+                let sortHeartrateList = heartrateList.sorted{$0.value < $1.value}
 //                guard let maxHeartrate = sortHeartrateList.last?.data, let minHeartrate = sortHeartrateList.first?.data else{
 //                    return
 //                }
@@ -140,7 +140,7 @@ class TrackChartView: UIView {
                 frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: newHeight)
                 
                 //获取最高配速
-                let sortPace = trk.trackItems?.sortedArray(using: [NSSortDescriptor(key: "date", ascending: true)]) as! [TrackItem]
+                let sortPace = trk.gpsLoggerItems?.sortedArray(using: [NSSortDescriptor(key: "date", ascending: true)]) as! [EachTrainningGPSLoggerItem]
                 let maxPace: CGFloat = 6.45      //6分45秒
                 
                 //绘制配速

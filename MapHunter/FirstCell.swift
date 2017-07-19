@@ -140,11 +140,12 @@ class FirstCell: UITableViewCell {
             sleepDataList in
             let sumDuring = sleepDataList.reduce(0, {
                 result, sleepData -> CGFloat in
-                var duringHour = sleepData.endTimeHour - sleepData.startTimeHour
+                var duringHour = sleepData.totalMinutes / 60
+                
                 if duringHour < 0{
                     duringHour += 24
                 }
-                var duringMinute = sleepData.endTimeMinute - sleepData.startTimeMinute
+                var duringMinute = sleepData.totalMinutes % 60
                 if duringMinute < 0{
                     duringHour -= 1
                     duringMinute += 60
@@ -159,9 +160,9 @@ class FirstCell: UITableViewCell {
         addSubview(sleepDataCube)
         
         //获取体重数据
-        if let user = CoreDataHandler.share().selectUser(userId: UserManager.share().userId){
-            data.value1 = CGFloat(user.currentWeight)
-            data.value2 = CGFloat(user.goalWeight)
+        if let user = CoreDataHandler.share().currentUser(){
+            data.value1 = CGFloat(12)
+            data.value2 = CGFloat(user.goal!.weight10000TimesKG)
         }
         mindBodyDataCube.data = data
         addSubview(mindBodyDataCube)
@@ -221,8 +222,8 @@ class FirstCell: UITableViewCell {
         //获取目标步数,目标睡眠
         let coredataHandler = CoreDataHandler.share()
         let userId = UserManager.share().userId
-        if let user = coredataHandler.selectUser(userId: userId){
-            goalStep = UInt32(user.goalStep)
+        if let user = coredataHandler.currentUser(){
+            goalStep = UInt32(user.goal!.steps)
         }
         
         //实时数据api
@@ -260,21 +261,21 @@ class FirstCell: UITableViewCell {
             guard let sleepData = sleepDataList.last else{
                 return
             }
-            let count = sleepData.sleepItemCount
-            var sleepItemList = [SleepItem]()
+            let count = sleepData.itemsCount
+            var sleepItemList = [SleepEverydayDataItem]()
             
             //获取起床时间
             let calendar = Calendar.current
             var components = calendar.dateComponents([.hour, .minute], from: selectDate)
-            components.hour = Int(sleepData.endTimeHour)
-            components.minute = Int(sleepData.endTimeMinute)
+            components.hour = Int(sleepData.endedHour)
+            components.minute = Int(sleepData.endedMinute)
             guard let date = calendar.date(from: components) else{
                 return
             }
             
             DispatchQueue.main.async {
                 var data = DataCubeData()
-                data.value1 = CGFloat(sleepData.totalMinute)
+                data.value1 = CGFloat(sleepData.totalMinutes)
                 data.value2 = 1
                 self.sleepDataCube.data = data
             }

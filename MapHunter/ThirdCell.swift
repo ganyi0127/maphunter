@@ -147,7 +147,7 @@ class ThirdCell: UITableViewCell {
     var trackViewHeight: CGFloat = 0
     
     //数据
-    var track: Track?{
+    var track: EachTrainningData?{
         didSet{
             guard let trk = track else {
                 return
@@ -178,8 +178,8 @@ class ThirdCell: UITableViewCell {
             }
             
             //显示值
-            let hour = trk.durations / (60 * 60)
-            let minute = (trk.durations - hour * 60 * 60) / 60
+            let hour = trk.durationS / (60 * 60)
+            let minute = (trk.durationS - hour * 60 * 60) / 60
             switch self.type {
             case .walking:
                 titleLabel.text = "走路\(hour)小时\(minute)分钟"
@@ -218,14 +218,14 @@ class ThirdCell: UITableViewCell {
             detailLabel.text = "消耗卡路里\(trk.calories)kcal"
             
             //绘制路径或步数
-            guard let items = trk.trackItems, items.count > 1 else{
+            guard let items = trk.gpsLoggerItems, items.count > 1 else{
                 //无法绘制轨迹的情况下，绘制步数
-                let steps = trk.step
+                let steps = trk.steps
                 return
             }
             
-            let trackHeartrateItems = trk.trackHeartrateItems?.sortedArray(using: [NSSortDescriptor(key: "id", ascending: true)]) as! [TrackHeartrateItem]
-            let trackItems = trk.trackItems?.sortedArray(using: [NSSortDescriptor(key: "date", ascending: true)]) as! [TrackItem]
+            let trackHeartrateItems = trk.heartRateActivityItems?.sortedArray(using: [NSSortDescriptor(key: "id", ascending: true)]) as! [EachTrainningHeartRateItem]
+            let trackItems = trk.gpsLoggerItems?.sortedArray(using: [NSSortDescriptor(key: "date", ascending: true)]) as! [EachTrainningGPSLoggerItem]
             
             //轨迹尺寸范围
             let trackX: CGFloat = 8
@@ -338,7 +338,7 @@ class ThirdCell: UITableViewCell {
     
     //点击回调
     private var tap: UITapGestureRecognizer?
-    var closure: ((Track)->())?
+    var closure: ((EachTrainningData)->())?
     
     //MARK:- init ************************************************************
     override func didMoveToSuperview() {

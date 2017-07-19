@@ -141,14 +141,14 @@ extension MeVC: UITableViewDelegate, UITableViewDataSource{
             
             //获取运动信息_日期为当前选择日
             if let angelManager = AngelManager.share() {
-                if let macaddress = angelManager.macAddress {
+                if let accessoryId = angelManager.accessoryId {
                     let userId = UserManager.share().userId
-                    let tracks = CoreDataHandler.share().selectTrack(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+                    let tracks = CoreDataHandler.share().selectEachTrainningDataList(withAccessoryId: accessoryId, byUserId: userId, withDate: selectDate, withCDHRange: CDHRange.day)
                     if !tracks.isEmpty {
                         //默认获取当天数据，tracks个数>=0
-                        meCell1.averageSteps = tracks.reduce(0){$0 + $1.calories}       //日均步数
+                        meCell1.averageSteps = tracks.reduce(0){$0 + Int16($1.calories)}       //日均步数
                         meCell1.actionCount = Int16(tracks.count)                       //活动次数
-                        meCell1.targetCount = tracks.reduce(0){$0 + Int16($1.distance)} //达标次数
+                        meCell1.targetCount = tracks.reduce(0){$0 + Int16($1.distances100TimesM)} //达标次数
                     }
                 }
             }

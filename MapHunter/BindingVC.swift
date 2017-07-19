@@ -19,7 +19,7 @@ class BindingVC: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     //MARK:- 功能列表
-    fileprivate var funcTable: FuncTable?{
+    fileprivate var funcTable: DeviceFunction?{
         didSet{
             guard let ft = funcTable else {
                 return
@@ -28,7 +28,7 @@ class BindingVC: UIViewController {
             
             //获取functable成员变量
             var outCount:UInt32 = 0
-            let propertyList = class_copyPropertyList(FuncTable.self, &outCount)
+            let propertyList = class_copyPropertyList(DeviceFunction.self, &outCount)
             
             for i in 0..<Int(outCount) {
                 let property = propertyList![i]
@@ -129,7 +129,7 @@ class BindingVC: UIViewController {
             
             DispatchQueue.main.async {
                 var dateStr = "~"
-                if let date = existDevice.synDate{
+                if let date = existDevice.lastSyncTime{
                     //获取日期格式
                     let formatter = DateFormatter()
                     formatter.dateFormat = "yyy-MM-dd hh:mm"
@@ -137,7 +137,7 @@ class BindingVC: UIViewController {
                 }
                 self.synchroDateLabel.text = "上次同步时间: " + dateStr
                 self.versionLabel.text = "固件版本: v\(existDevice.version)"
-                self.energyLabel.text = "电池容量: \(existDevice.battLevel)%"
+                self.energyLabel.text = "电池容量: \(existDevice.batteryLevel)%"
 //                self.funcTable = existDevice.funcTable
             }
         }

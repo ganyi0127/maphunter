@@ -173,13 +173,13 @@ class TargetSettingVC: UIViewController {
         //初始化设置
         let userId = UserManager.share().userId
         let coredataHandler = CoreDataHandler.share()
-        if let user = coredataHandler.selectUser(userId: userId){
-            stepValue = user.goalStep
+        if let goal = coredataHandler.currentUser()?.goal{
+            stepValue = goal.steps
             stepSlider.setValue(Float(stepValue), animated: true)
-            weightValue = user.goalWeight
+            weightValue = Float(goal.weight10000TimesKG)
             weightSlider.setValue(weightValue, animated: true)
-            sleepTime = (hour: user.sleepHour, minute: user.sleepMinute)
-            wakeTime = (hour: user.wakeHour, minute: user.wakeMinute)
+            sleepTime = (hour: goal.sleepMinutes / 60, minute: goal.sleepMinutes % 60)
+            wakeTime = (hour: 7, minute: 20)
         }else{
             sleepTime = (hour: 23, minute: 0)
             wakeTime = (hour: 7, minute: 0)
@@ -221,13 +221,17 @@ class TargetSettingVC: UIViewController {
     //MARK:- 确定按钮
     @IBAction func acceptSetting(_ sender: UIButton) {
         let coredataHandler = CoreDataHandler.share()
-        let user = coredataHandler.selectUser(userId: UserManager.share().userId)
-        user?.sleepHour = sleepTime.hour
-        user?.sleepMinute = sleepTime.minute
-        user?.wakeHour = wakeTime.hour
-        user?.wakeMinute = wakeTime.minute
-        user?.goalWeight = weightValue
-        user?.goalStep = stepValue
+        let user = coredataHandler.currentUser()
+//        user?.sleepHour = sleepTime.hour
+//        user?.sleepMinute = sleepTime.minute
+//        user?.wakeHour = wakeTime.hour
+//        user?.wakeMinute = wakeTime.minute
+//        user?.goalWeight = weightValue
+//        user?.goalStep = stepValue
+        user?.goal?.isSyncedServer = false
+        user?.goal?.steps = stepValue
+        user?.goal?.weight10000TimesKG = Int32(weightValue)
+        user?.goal?.sleepMinutes = sleepTime.hour * 60 + sleepTime.minute
         guard coredataHandler.commit() else{
             let alertController = UIAlertController(title: nil, message: "保存目标设置失败", preferredStyle: .alert)
             let cancel = UIAlertAction(title: "确定", style: .cancel){

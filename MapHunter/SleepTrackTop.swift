@@ -101,7 +101,7 @@ class SleepTrackTop: TrackTopBase {
                                UIColor(red: 29 / 255, green: 57 / 255, blue: 181 / 255, alpha: 1)]
     
     //MARK:-init*****************************************************************************
-    override init(with track: Track) {
+    override init(with track: EachTrainningData) {
         super.init(with: track)
     }
     

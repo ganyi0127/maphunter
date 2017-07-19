@@ -10,7 +10,7 @@ import Foundation
 import AngelFit
 class TrackVC: UIViewController {
     
-    private var track: Track!
+    private var track: EachTrainningData!
     
     fileprivate var trackSV: TrackSV!
     
@@ -50,7 +50,7 @@ class TrackVC: UIViewController {
     }()
     
     //MARK:-init************************************************************************************
-    init(with track: Track){
+    init(with track: EachTrainningData){
         super.init(nibName: nil, bundle: nil)
         
         self.track = track

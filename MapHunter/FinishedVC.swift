@@ -17,7 +17,7 @@ class FinishedVC: UIViewController {
     @IBOutlet weak var heartrateLabel: UILabel!
     
     //持续时间
-    var duration: Int16? {
+    var duration: Int32? {
         didSet{
             let value = duration ?? 0
             
@@ -38,9 +38,10 @@ class FinishedVC: UIViewController {
     }
     
     //距离
-    var distance: Double? {
+    var distance: Int32? {
         didSet{
-            let value = distance ?? 0
+            var value = distance ?? 0
+            value /= 100
             
             let unit = "km   "
             let text = String(format: "%.2f", value / 1000) + unit
@@ -63,7 +64,7 @@ class FinishedVC: UIViewController {
     }
     
     //卡路里
-    var caloria: Int16? {
+    var caloria: Int32? {
         didSet{
             let value = caloria ?? 0
             

@@ -50,7 +50,7 @@ class StateVC: UIViewController {
         }
     }
     //获取时间轴数据
-    fileprivate var trackList = [Track](){
+    fileprivate var trackList = [EachTrainningData](){
         didSet{
             tableView.reloadData()
         }
@@ -350,14 +350,14 @@ class StateVC: UIViewController {
             if let macaddress = angelManager.macAddress {
                 trackList.removeAll()
                 let userId = UserManager.share().userId
-                let tracks = CoreDataHandler.share().selectTrack(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0).sorted{
+                let tracks = CoreDataHandler.share().selectEachTrainningDataList(withAccessoryId: macaddress, byUserId: userId, withDate: selectDate, withCDHRange: CDHRange.day).sorted{
                     track1, track2 -> Bool in
                     let earlyDate = track1.date?.earlierDate(track2.date! as Date)
                     if earlyDate == track1.date as Date?{
                         return false
                     }
                     return true
-                }
+                }                
                 trackList.append(contentsOf: tracks)
             }
         }
@@ -482,13 +482,13 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
         }
         
         //需根据内容判断时间轴高度(是否包含步数，是否包含路径)
-        if let track: Track = trackList[row - 1] as? Track{
+        if let track: EachTrainningData = trackList[row - 1] as? EachTrainningData{
             //Type:运动类型(0x00:无， 0x01:走路， 0x02:跑步， 0x03:骑行，0x04:徒步， 0x05: 游泳， 0x06:爬山， 0x07:羽毛球， 0x08:其他， 0x09:健身， 0x0A:动感单车， 0x0B:椭圆机， 0x0C:跑步机， 0x0D:仰卧起坐， 0x0E:俯卧撑， 0x0F:哑铃， 0x10:举重， 0x11:健身操， 0x12:瑜伽， 0x13:跳绳， 0x14:乒乓球， 0x15:篮球， 0x16:足球 ， 0x17:排球， 0x18:网球， 0x19:高尔夫球， 0x1A:棒球， 0x1B:滑雪， 0x1C:轮滑，0x1D:跳舞)
             var value = StoryData()
             value.type = SportType(rawValue: track.type)!
-            value.heartRate = CGFloat(track.avgrageHeartrate)
+            value.heartRate = CGFloat(track.averageHeartRate)
             
-            if (track.trackItems?.count ?? 0) <= 1{
+            if !track.hasGPSLogger{
                 return thirdCellHeight                  //时间轴高度
             }
         }
@@ -528,14 +528,14 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
             switch indexPath.row {
             case 0:
                 //获取目标设定
-                if let user = CoreDataHandler.share().selectUser(userId: UserManager.share().userId){
-                    (cell as! FirstCell).goalStep = UInt32(user.goalStep)
+                if let goal = CoreDataHandler.share().currentUser()?.goal{
+                    (cell as! FirstCell).goalStep = UInt32(goal.steps)
                 }
                 
-                if let user = CoreDataHandler.share().selectUser(userId: UserManager.share().userId){
+                if let user = CoreDataHandler.share().currentUser(){
                     var data = DataCubeData()
-                    data.value1 = CGFloat(user.currentWeight)
-                    data.value2 = CGFloat(user.goalWeight)
+                    data.value1 = CGFloat(CoreDataHandler.share().selectWeightDataList(withUserId: UserManager.share().userId, withDate: Date()).last!.weight10000TimesKG)
+                    data.value2 = CGFloat(user.goal!.weight10000TimesKG)
                     (cell as! FirstCell).mindBodyDataCube.data = data
                 }
                 
@@ -576,19 +576,19 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
         cell = tableView.dequeueReusableCell(withIdentifier: "cell")
         let thirdCell = cell as! ThirdCell
         //添加数据 .sleep, .calorie, .weight 混合
-        if let track: Track = trackList[row - 1] as? Track{
+        if let track: EachTrainningData = trackList[row - 1] as? EachTrainningData{
             //Type:运动类型(0x00:无， 0x01:走路， 0x02:跑步， 0x03:骑行，0x04:徒步， 0x05: 游泳， 0x06:爬山， 0x07:羽毛球， 0x08:其他， 0x09:健身， 0x0A:动感单车， 0x0B:椭圆机， 0x0C:跑步机， 0x0D:仰卧起坐， 0x0E:俯卧撑， 0x0F:哑铃， 0x10:举重， 0x11:健身操， 0x12:瑜伽， 0x13:跳绳， 0x14:乒乓球， 0x15:篮球， 0x16:足球 ， 0x17:排球， 0x18:网球， 0x19:高尔夫球， 0x1A:棒球， 0x1B:滑雪， 0x1C:轮滑，0x1D:跳舞)
             var value = StoryData()
             value.type = SportType(rawValue: track.type)!
             value.date = track.date as Date? ?? Date()
-            value.hour = track.durations / (60 * 60)
-            value.minute = (track.durations - track.durations / (60 * 60)) / 60
+            value.hour = Int16(track.durationS / (60 * 60))
+            value.minute = Int16((track.durationS - track.durationS / Int32(60 * 60)) / Int32(60))
             value.calorie = CGFloat(track.calories)
-            value.heartRate = CGFloat(track.avgrageHeartrate)
+            value.heartRate = CGFloat(track.averageHeartRate)
             value.fat = CGFloat(track.burnFatMinutes)
             
             thirdCell.track = track                                                             //所有数据
-            thirdCell.trackViewHeight = (track.trackItems?.count ?? 0) <= 1 ? 0 : trackItemsHeight     //设置附加高度
+            thirdCell.trackViewHeight = track.hasGPSLogger ? trackItemsHeight : 0               //设置附加高度
             thirdCell.closure = {
                 trk in
                 let trackVC = TrackVC(with: trk)

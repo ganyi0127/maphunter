@@ -52,20 +52,20 @@ class DetailBottom: UIView {
                 
                 //获取数据
                 let coredataHandler = CoreDataHandler.share()
-                if let macaddress = AngelManager.share()?.macAddress{
+                if let accessoryId = AngelManager.share()?.accessoryId{
                     let userId = UserManager.share().userId
                     if self.type == .sport {                   //运动
-                        let sportdataList = coredataHandler.selectSportData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+                        let sportdataList = coredataHandler.selectSportEverydayDataList(withAccessoryId: accessoryId, byUserId: userId, withDate: selectDate, withCDHRange: CDHRange.day)
                         if let sportdata = sportdataList.first{
                             switch dataViewType {
                             case .totalTime:
-                                detailDataView.value = CGFloat(sportdata.totalActiveTime)
+                                detailDataView.value = CGFloat(sportdata.totalActiveTimeSeconds)
                             case .totalCalorie:
-                                detailDataView.value = CGFloat(sportdata.totalCal)
+                                detailDataView.value = CGFloat(sportdata.totalCalories)
                             case .activityTime:
-                                detailDataView.value = CGFloat(sportdata.totalActiveTime)
+                                detailDataView.value = CGFloat(sportdata.totalActiveTimeSeconds)
                             case .activityCalorie:
-                                detailDataView.value = CGFloat(sportdata.totalCal)
+                                detailDataView.value = CGFloat(sportdata.totalCalories)
                             case .restTime:
                                 detailDataView.value = 123
                             case .restCalorie:
@@ -75,7 +75,7 @@ class DetailBottom: UIView {
                             }
                         }
                     }else if self.type == .sleep{               //睡眠
-                        let sleepDataList = coredataHandler.selectSleepData(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0)
+                        let sleepDataList = coredataHandler.selectSleepEverydayDataList(withAccessoryId: accessoryId, byUserId: userId, withDate: selectDate, withCDHRange: CDHRange.day)
                         if let sleepData = sleepDataList.first{
                             switch dataViewType {
                             case .heartrate:
@@ -83,17 +83,17 @@ class DetailBottom: UIView {
                             case .sleepState:
                                 detailDataView.value = CGFloat(sleepData.faultingState)
                             case .deepSleep:
-                                detailDataView.value = CGFloat(sleepData.deepSleepMinute * 60)
+                                detailDataView.value = CGFloat(sleepData.deepSleepMinutes * 60)
                             case .quiteSleep:
                                 detailDataView.value = 0
                             case .lightSleep:
-                                detailDataView.value = CGFloat(sleepData.lightSleepMinute * 60)
+                                detailDataView.value = CGFloat(sleepData.lightSleepMinutes * 60)
                             case .wakeTime:
-                                detailDataView.value = CGFloat(sleepData.totalMinute - sleepData.lightSleepMinute - sleepData.deepSleepMinute) * 60
+                                detailDataView.value = CGFloat(sleepData.totalMinutes - sleepData.lightSleepMinutes - sleepData.deepSleepMinutes) * 60
                             case .sleepTime:
-                                detailDataView.value = CGFloat(sleepData.totalMinute * 60)
+                                detailDataView.value = CGFloat(sleepData.totalMinutes * 60)
                             case .wakeCount:
-                                detailDataView.value = CGFloat(sleepData.wakeCount)
+                                detailDataView.value = CGFloat(sleepData.awakeCount)
                             default:
                                 detailDataView.value = 0
                             }

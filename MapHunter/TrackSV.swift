@@ -10,7 +10,7 @@ import Foundation
 import AngelFit
 
 class TrackSV: UIScrollView {
-    fileprivate var track: Track!
+    fileprivate var track: EachTrainningData!
     
     var trackBottom: TrackBottom!
     var trackTop: TrackTopBase!
@@ -20,7 +20,7 @@ class TrackSV: UIScrollView {
     fileprivate var trackVC: TrackVC?
     
     //MARK:-init****************************************************************
-    init(with track: Track) {
+    init(with track: EachTrainningData) {
         let frame = CGRect(x: 0, y: 0, width: view_size.width, height: view_size.height)
         super.init(frame: frame)
         

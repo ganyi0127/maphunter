@@ -99,7 +99,7 @@ class TrackTopBase: UIView {
     
     
     //MARK:- init ********************************************************
-    init(with track: Track){
+    init(with track: EachTrainningData){
         let frame = CGRect(x: edgeWidth,
                            y: 0,
                            width: view_size.width - edgeWidth * 2,

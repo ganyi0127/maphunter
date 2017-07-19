@@ -10,7 +10,7 @@ import Foundation
 import AngelFit
 class SportTrackTop: TrackTopBase {
     
-    private var track: Track!
+    private var track: EachTrainningData!
     
     fileprivate var deltaMinute = 0
     fileprivate var headCount = 0
@@ -18,7 +18,7 @@ class SportTrackTop: TrackTopBase {
     
     
     //MARK:-init*******************************************************************************************
-    override init(with track: Track) {
+    override init(with track: EachTrainningData) {
         super.init(with: track)
         
         self.track = track

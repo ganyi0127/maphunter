@@ -11,7 +11,7 @@ import AngelFit
 class HistoryVC: UIViewController  {
     
     @IBOutlet weak var tableView: UITableView!
-    fileprivate var trackList = [Track](){
+    fileprivate var trackList = [EachTrainningData](){
         didSet{
             
         }
@@ -29,15 +29,15 @@ class HistoryVC: UIViewController  {
         
         let coredataHandler = CoreDataHandler.share()
         let userId = UserManager.share().userId
-        if let macaddress = AngelManager.share()?.macAddress{
-            let tracks = coredataHandler.selectTrack(userId: userId, withMacAddress: macaddress, withDate: selectDate, withDayRange: 0).sorted{
+        if let accessoryId = AngelManager.share()?.accessoryId{
+            let tracks = coredataHandler.selectEachTrainningDataList(withAccessoryId: accessoryId, byUserId: userId, withDate: selectDate, withCDHRange: CDHRange.day).sorted{
                 track1, track2 -> Bool in
                 let earlyDate = track1.date?.earlierDate(track2.date! as Date)
                 if earlyDate == track1.date as Date?{
                     return false
                 }
                 return true
-            }
+            }            
             trackList = tracks
         }
     }
@@ -78,7 +78,7 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource{
         let hourStr = "\(components.hour!)"
         let minuteStr = components.minute! < 10 ? "0\(components.minute!)" : "\(components.minute!)"
         cell?.textLabel?.text = hourStr + ":" + minuteStr + "____\(type)"
-        cell?.detailTextLabel?.text = track.trackItems?.count == 0 ? "无路径" : "坐标数:\(track.trackItems!.count) 心率数:\(track.trackHeartrateItems!.count)"
+        cell?.detailTextLabel?.text = track.hasGPSLogger ? "坐标数:\(track.gpsLoggerItems!.count) 心率数:\(track.heartRateActivityItems!.count)" : "无路径"
         return cell!
     }
     

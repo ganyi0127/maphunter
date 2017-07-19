@@ -234,14 +234,16 @@ extension TopView : TopScrollDelegate{
                 guard let sportData = sportDatas.first else{
                     return
                 }
-                step = CGFloat(sportData.totalStep)
+                step = CGFloat(sportData.totalSteps)
             }
         }
         
         let coredataHandler = CoreDataHandler.share()
         let userId = UserManager.share().userId
-        if let user = coredataHandler.selectUser(userId: userId){
-            goalStep = CGFloat(user.goalStep)
+        if let user = coredataHandler.currentUser(){
+            if let goal = user.goal{
+                goalStep = CGFloat(goal.steps)
+            }
         }
         
         return ([step, 60], [goalStep, 100])
