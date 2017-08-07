@@ -59,7 +59,7 @@ public final class AngelManager: NSObject {
         getMacAddressFromBand{
             errorCode, data in
             if errorCode == ErrorCode.success{
-                self.accessoryId = data
+                self.macAddress = data
                 
                 //初始化获取deviceId&type
                 self.getDeviceInfoFromBand{
@@ -184,8 +184,14 @@ public final class AngelManager: NSObject {
                 let tempMacAddress = macList.map(){String($0,radix:16)}.reduce(""){$0+$1}.uppercased()
                 
                 //保存macAddress
-                self.accessoryId = tempMacAddress
-                //_ = self.coredataHandler.insertDevice(withAccessoryId: tempAccessoryId, byUserId: UserManager.share().userId)
+                self.macAddress = tempMacAddress
+                if let deviceId = self.deviceId {
+                    
+                    let tempAccessoryId = "1" + tempMacAddress + deviceId
+                    self.accessoryId = tempAccessoryId
+                    _ = self.coredataHandler.insertDevice(withAccessoryId: tempAccessoryId, byUserId: UserManager.share().userId)
+                    _ = self.coredataHandler.commit()
+                }
                 
                 //保存macAddress到实例
                 print("1....", Unmanaged.passUnretained(self).toOpaque())
@@ -1372,7 +1378,7 @@ public final class AngelManager: NSObject {
             component.month = Int(month)
             component.year = Int(year)
             let optionDate = Calendar.current.date(from: component)       //日期
-            let id = userId
+            let id = self.accessoryId
             let itemCount = sportData.items_count
             let minuteDuration = sportData.head1.per_minute
             let minuteOffset = sportData.head1.minute_offset
@@ -1393,7 +1399,7 @@ public final class AngelManager: NSObject {
                 return
             }
             sport.date = realDate as NSDate
-            sport.objectId = Int64(id)
+            sport.objectId = id
             sport.sportItemCount = Int32(itemCount)
             sport.perMinute = Int32(minuteDuration)
             sport.offset = Int32(minuteOffset)
@@ -1421,7 +1427,7 @@ public final class AngelManager: NSObject {
                         sportItem.distancesM = Int16(item.distance)
                         sportItem.id = Int16(i)
                         sportItem.mode = Int16(item.mode)
-                        sportItem.steps = Int16(item.sport_count)
+                        sportItem.steps = Int16(item.sport_count)                       
                     }
                 }
             }
@@ -1447,7 +1453,7 @@ public final class AngelManager: NSObject {
             component.year = Int(year)
             
             let optionDate = Calendar.current.date(from: component)       //日期
-            let id = userId
+            let id = self.accessoryId
             let itemCount = sleepData.itmes_count
             let deepSleepCount = sleepData.head2.deep_sleep_count
             let deepSleepMinute = sleepData.head2.deep_sleep_minute
@@ -1535,7 +1541,7 @@ public final class AngelManager: NSObject {
             component.month = Int(month)
             component.year = Int(year)
             let optionDate = Calendar.current.date(from: component)       //日期
-            let id = userId
+            let id = self.accessoryId
             let itemCount = heartRateData.items_count
             let aerobicMinutes = heartRateData.head2.aerobic_mins
             let aerobicThreshld = heartRateData.head2.aerobic_threshold

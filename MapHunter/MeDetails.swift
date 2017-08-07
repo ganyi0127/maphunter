@@ -54,7 +54,7 @@ class MeDetails: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        navigationController?.navigationBar.topItem?.title = "苹果健康"
+        navigationController?.setNavigationOpacity(opacity: true)
     }
     
     private func config(){

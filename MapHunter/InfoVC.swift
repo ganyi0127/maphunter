@@ -10,6 +10,7 @@
 //3.在设置身高和体重的时候都可以修改公英制
 
 import Foundation
+import AngelFit
 enum InfoGender {      //性别
     case male       //男
     case female     //女
@@ -409,6 +410,7 @@ class InfoVC: UIViewController {
     
     //MARK:- 跳转到下一层
     @IBAction func next(_ sender: UIButton) {
+        
         //跳转到目标设置
         if let infoTargetVC = UIStoryboard(name: "Info", bundle: Bundle.main).instantiateViewController(withIdentifier: "infotarget") as? InfoTargetVC{
             navigationController?.show(infoTargetVC, sender: nil)

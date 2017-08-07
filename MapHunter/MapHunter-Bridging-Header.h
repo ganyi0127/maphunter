@@ -6,11 +6,6 @@
 #import "GradientPolylineOverlay.h"
 #import "GradientPolylineRenderer.h"
 
-//笨蛋后台
-#import "ACloudLib.h"
-#import "ACUserInfo.h"
-#import "ACAccountManager.h"
-
 //蒲公英
 #import <PgySDK/PgyManager.h>
 #import <PgyUpdate/PgyUpdateManager.h>

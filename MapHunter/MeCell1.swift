@@ -10,6 +10,7 @@ import UIKit
 class MeCell1: UITableViewCell {
     
     @IBOutlet weak var headImageView: UIImageView!
+    @IBOutlet weak var bgImageview: UIImageView!
     
     @IBOutlet weak var averageStepLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
@@ -89,6 +90,7 @@ class MeCell1: UITableViewCell {
         maskLayer.path = UIBezierPath(ovalIn: headImageView.bounds).cgPath
         headImageView.layer.mask = maskLayer
         
+        bgImageview.image = UIImage(named: "resource/me/functable/background")
     }
     
     private func config(){

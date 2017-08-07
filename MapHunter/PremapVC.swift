@@ -613,9 +613,9 @@ extension PremapVC: CAAnimationDelegate{
                     var track: EachTrainningData?
                     
                     //获取轨迹
-                    if let macAddress = AngelManager.share()?.accessoryId{
+                    if let accessoryId = AngelManager.share()?.accessoryId{
                         let userId = UserManager.share().userId
-                        track = CoreDataHandler.share().selectEachTrainningDataList(withAccessoryId: macAddress, byUserId: userId, withDate: Date(), withDayOffset: -1).last
+                        track = CoreDataHandler.share().selectEachTrainningDataList(withAccessoryId: accessoryId, byUserId: userId, withDate: Date(), withDayOffset: -1).last
                     }
                     
                     //返回上级页面

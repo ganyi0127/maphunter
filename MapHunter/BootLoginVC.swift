@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 import HealthKit
+import AngelFit
 class BootLoginVC: UIViewController {
     @IBOutlet weak var accountTextField: UITextField!   //账号输入
     @IBOutlet weak var passwordTextField: UITextField!  //密码输入
@@ -30,10 +31,10 @@ class BootLoginVC: UIViewController {
     @IBOutlet weak var thirdLoginButton2: UIButton!        //3
     
     
-    fileprivate let passwordMinLength = 6           //密码最小长度
+    fileprivate let passwordMinLength = 5           //密码最小长度
     fileprivate let passwordMaxLength = 20          //密码最大长度
     fileprivate let accountMinLength = 4            //账号最小长度
-    fileprivate let accountMaxLength = 32           //账号最大长度
+    fileprivate let accountMaxLength = 50           //账号最大长度
     
     //是否显示密码
     fileprivate var isShowPassword = false{
@@ -41,6 +42,8 @@ class BootLoginVC: UIViewController {
             passwordTextField.isSecureTextEntry = !isShowPassword
         }
     }
+    
+    fileprivate let networkHandler = NetworkHandler.share()
     
     //MARK:- init ******************************************************
     override func viewDidLoad() {
@@ -220,46 +223,42 @@ class BootLoginVC: UIViewController {
         //loading视图
         beginLoading()
         
+        let logonParam = NWHUserLogonParam()
+        logonParam.userId = account
+        logonParam.password = password
+        
         //登录
-        ACAccountManager.login(withUserInfo: accountTextField.text!, password: passwordTextField.text){
-            userinfo, error in
-            
+        networkHandler.user.logon(withParam: logonParam, closure: {
+            resultCode, message, data in
             DispatchQueue.main.async {
-                self.endLoading()       //停止loading
-                if let err = error {
-                    debugPrint("<login error> userinfo: \(String(describing: userinfo)), \(err)")
-                    self.tipLabel.text = "登录信息错误"
-                    let alert = UIAlertController(title: "测试登录错误", message: "\(err)", preferredStyle: .alert)
-                    let cancel = UIAlertAction(title: "关闭", style: .cancel, handler: nil)
-                    alert.addAction(cancel)
-                    self.present(alert, animated: true, completion: nil)
-                    return
-                }
-                
-                debugPrint("<login success> userinfo: \(String(describing: userinfo)), error: nil")
-                
-                userDefaults.set(account, forKey: "account")
-                userDefaults.set(password, forKey: "password")
-                
-                //登录到通知与提醒页面 判断
-                let notificationSettingTypes = UIApplication.shared.currentUserNotificationSettings?.types
-                let isNotification = userDefaults.bool(forKey: "notification")
-                let isAlreadyRequestAppleHealth = userDefaults.bool(forKey: "applehealth")
-                let locationStatus = CLLocationManager.authorizationStatus()
-                let isCallNotified = userDefaults.bool(forKey: "callnotified")
-                guard isNotification && isAlreadyRequestAppleHealth && !(locationStatus == .notDetermined) && isCallNotified else{
-                    if let notifyNavigationController = UIStoryboard(name: "Notify", bundle: Bundle.main).instantiateViewController(withIdentifier: "notifyroot") as? UINavigationController{
-                        self.present(notifyNavigationController, animated: true, completion: nil)
+                self.endLoading()
+                if resultCode == ResultCode.success {
+                    userDefaults.set(account, forKey: "account")
+                    userDefaults.set(password, forKey: "password")
+                    
+                    //登录到通知与提醒页面 判断
+                    let notificationSettingTypes = UIApplication.shared.currentUserNotificationSettings?.types
+                    let isNotification = userDefaults.bool(forKey: "notification")
+                    let isAlreadyRequestAppleHealth = userDefaults.bool(forKey: "applehealth")
+                    let locationStatus = CLLocationManager.authorizationStatus()
+                    let isCallNotified = userDefaults.bool(forKey: "callnotified")
+                    guard isNotification && isAlreadyRequestAppleHealth && !(locationStatus == .notDetermined) && isCallNotified else{
+                        if let notifyNavigationController = UIStoryboard(name: "Notify", bundle: Bundle.main).instantiateViewController(withIdentifier: "notifyroot") as? UINavigationController{
+                            self.present(notifyNavigationController, animated: true, completion: nil)
+                            return
+                        }
                         return
                     }
-                    return
+                    
+                    //跳转到主页
+                    let rootTBC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController() as! RootTBC
+                    self.present(rootTBC, animated: true, completion: nil)
+                }else {
+                    debugPrint("<logon error> message: \(message)")
+                    self.tipLabel.text = message
                 }
-                
-                //跳转到主页
-                let rootTBC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController() as! RootTBC
-                self.present(rootTBC, animated: true, completion: nil)
             }
-        }
+        })
     }
     
     //MARK:- 第三方登录

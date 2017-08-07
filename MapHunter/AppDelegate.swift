@@ -58,19 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     debugPrint("<nocal notification> dict: \(dict)")
                 }
             }
-        }
-        
-        //后台初始化
-        let id = ACloudLib.getMajorDomainId()       //获取产品id (930)
-        ACloudLib.setMajorDomain("i-doo", majorDomainId: 930)
-        if true{
-            //测试环境
-            ACloudLib.setMode(ACLoudLibMode.test, region: .china)
-        }else{
-            //正式环境
-            ACloudLib.setMode(.router, region: .china)
-        }
-        ACloudLib.setLogEnabled(true)
+        }                
         
         //崩溃处理
         //NSSetUncaughtExceptionHandler(customUncaughtExceptionHandler())
@@ -153,10 +141,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         //判断跨天问题
-        if !preToday.isToday(){
+        if !preToday.isToday() {
             preToday = Date()
             selectDate = Date()
             application.reloadInputViews()
+            
+            //查找并上传8000步数
+            let coredataHandler = CoreDataHandler.share()
+            if let accessoryId = AngelManager.share()?.accessoryId {
+                let userId = coredataHandler.mainUserId()
+                let sportEveryData = coredataHandler.selectSportEverydayData(withAccessoryId: accessoryId, byUserId: userId, withDate: preToday)
+                if let uid = userId{
+                    if let step = sportEveryData?.totalSteps {
+                        NetworkHandler.share().updateSteps(withUserId: uid, steps: Int(step), date: preToday, closure: {
+                            resultCode, message, data in
+                            print("<8000steps> resultCode: \(resultCode), message: \(message), data: \(data)")
+                        })
+                    }
+                }
+            }
         }
         
         application.applicationIconBadgeNumber = 0          //设置提示图标数量为0

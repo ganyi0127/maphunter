@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AngelFit
 class FindPasswordVC: UIViewController {
     
     @IBOutlet weak var accountSeparatorLine: UIView!        //线->账号
@@ -26,9 +27,11 @@ class FindPasswordVC: UIViewController {
     fileprivate let passwordMaxLength = 20          //密码最大长度
     fileprivate let verifyLenght = 6                //验证码长度
     fileprivate let accountMinLength = 4            //账号最小长度
-    fileprivate let accountMaxLength = 32           //账号最大长度
+    fileprivate let accountMaxLength = 50           //账号最大长度
     
     private var mailAddress: String?
+    
+    private let networkHandler = NetworkHandler.share()
     
     //MARK:- init ***************************************
     override func viewDidLoad() {
@@ -115,6 +118,20 @@ class FindPasswordVC: UIViewController {
         if isEmailLegal(emailString: accountTextField.text) {
             //存储该邮箱
             mailAddress = accountTextField.text
+            
+            //获取验证码
+            let verificationCodeParam = NWHUserVerificationCodeParam()
+            verificationCodeParam.email = mailAddress!
+            networkHandler.user.getVerificationCode(withParam: verificationCodeParam, closure: {
+                resultCode, message, data in
+                //回调
+                if resultCode == ResultCode.success{
+                    
+                }else {
+                    self.mailAddress = nil
+                }
+                self.tipLabel.text = message
+            })
         }
     }
     
@@ -147,14 +164,27 @@ class FindPasswordVC: UIViewController {
         //        beginLoading()
         
         //判断验证码是否正确
+        let confirmVerificationCodeParam = NWHUserConfirmVerificationCodeParam()
+        confirmVerificationCodeParam.userId = account
+        confirmVerificationCodeParam.code = verifyCode
+        networkHandler.user.confirmVerificationCode(withParam: confirmVerificationCodeParam, closure: {
+            resultCode, message, data in
+            
+            DispatchQueue.main.async {
+                if resultCode == ResultCode.success {
+                    //跳转到修改密码页面
+                    if let confirmPasswordVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "confirmpassword") as? ConfirmPasswordVC{
+                        confirmPasswordVC.account = account
+                        confirmPasswordVC.verifyCode = verifyCode
+                        self.navigationController?.show(confirmPasswordVC, sender: nil)
+                    }
+                    
+                }else {
+                    self.tipLabel.text = "验证码错误"
+                }
+            }
+        })
         
-        
-        //跳转到修改密码页面
-        if let confirmPasswordVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "confirmpassword") as? ConfirmPasswordVC{
-            confirmPasswordVC.account = account
-            confirmPasswordVC.verifyCode = ""
-            navigationController?.show(confirmPasswordVC, sender: nil)
-        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

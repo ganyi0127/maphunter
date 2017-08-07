@@ -25,7 +25,6 @@ class MeVC: UIViewController {
         //清除顶部空白区域
         automaticallyAdjustsScrollViewInsets = false
         
-        navigationController?.navigationBar.topItem?.title = "GanYi"
         
         //接收消息
         notiy.addObserver(self, selector: #selector(receiveConnectedMessage(notify:)), name: connected_notiy, object: nil)
@@ -44,6 +43,7 @@ class MeVC: UIViewController {
         super.viewWillAppear(animated)
         
         navigationController?.setNavigationOpacity(opacity: false)
+        navigationController?.navigationBar.topItem?.title = "nick name"
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -156,12 +156,12 @@ extension MeVC: UITableViewDelegate, UITableViewDataSource{
         }
         
         let identifier = "\(indexPath.section)_\(indexPath.row)"
-        cell = tableView.dequeueReusableCell(withIdentifier: identifier)
+        //cell = tableView.dequeueReusableCell(withIdentifier: identifier)
         if cell == nil {
             if section == 1 {
                 //判断是否有连接设备
                 if PeripheralManager.share().selectUUIDStringList().isEmpty {
-                    cell = MeCell3(type: .additional, reuseIdentifier: identifier)
+                    cell = MeAdditionalCell(reuseIdentifier: identifier)
                 }else{
                     if row == 0{    //设备
                         cell = MeDeviceCell(reuseIdentifier: identifier)
@@ -195,8 +195,8 @@ extension MeVC: UITableViewDelegate, UITableViewDataSource{
             }else{
                 if row == 0{
                     //查看设备
-                    let scanVC = storyboard?.instantiateViewController(withIdentifier: "scan") as! ScanVC
-                    navigationController?.pushViewController(scanVC, animated: true)
+                    let bindingVC = storyboard?.instantiateViewController(withIdentifier: "binding") as! BindingVC
+                    navigationController?.pushViewController(bindingVC, animated: true)
                 }else{
                     //添加设备
                     let scanVC = storyboard?.instantiateViewController(withIdentifier: "scan") as! ScanVC
@@ -224,8 +224,16 @@ extension MeVC: UITableViewDelegate, UITableViewDataSource{
                 navigationController?.pushViewController(settingViewController, animated: true)
             default:
                 let detailViewController = MeDetails(type: type)
+                detailViewController.navigationItem.title = "\(type)"
                 navigationController?.pushViewController(detailViewController, animated: true)
             }
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let y = scrollView.contentOffset.y
+        if y < 0 {
+            scrollView.setContentOffset(.zero, animated: false)
         }
     }
 }

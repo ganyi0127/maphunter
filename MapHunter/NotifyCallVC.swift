@@ -47,7 +47,7 @@ class NotifyCallVC: UIViewController {
         }
         
         let angelManager = AngelManager.share()
-        guard let macaddress = angelManager?.macAddress else{
+        guard let accessoryId = angelManager?.accessoryId else{
             endLoading()
             nextButton.isEnabled = true
             
@@ -59,7 +59,7 @@ class NotifyCallVC: UIViewController {
             return
         }
 
-        debugPrint("MacAddress: \(String(describing: macaddress))")
+        debugPrint("accessoryId: \(String(describing: accessoryId))")
         
         /*
         beginLoading(byTitle: "正在请求来电提醒权限")

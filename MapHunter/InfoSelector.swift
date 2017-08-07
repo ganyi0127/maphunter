@@ -192,12 +192,12 @@ class InfoSelector: UIView {
             var defaultWeightDot = 0
             let udWeight = userDefaults.integer(forKey: "weight")
             if udWeight != 0{
-                defaultWeight = Int(udWeight / 10000)
-                defaultWeightDot = lroundf(Float(udWeight % 10000) / 1000)
+                defaultWeight = Int(udWeight / 1000)
+                defaultWeightDot = lroundf(Float(udWeight % 1000) / 100)
             }
             
             let defaultInt = defaultWeight - weightRange.min
-            value1 = valueList1[defaultInt] * 10000 + valueDotList[defaultWeightDot] * 1000
+            value1 = valueList1[defaultInt] * 1000 + valueDotList[defaultWeightDot] * 100
             
             pickerView?.reloadAllComponents()
             pickerView?.selectRow(defaultInt, inComponent: 0, animated: true)
@@ -375,7 +375,7 @@ extension InfoSelector: UIPickerViewDelegate, UIPickerViewDataSource{
                 if row < valueList1.count{
                     let unitIndex = pickerView.selectedRow(inComponent: 2)      //获取公英制
                     let dotValue = pickerView.selectedRow(inComponent: 1)       //获取小数位
-                    let originValue = Int((Float(valueList1[row]) + Float(dotValue) / 10) * 10000)
+                    let originValue = Int((Float(valueList1[row]) + Float(dotValue) / 10) * 1000)
                     let value = unitIndex == 0 ? originValue : lroundf(Float(originValue) / 2.2046)
                     value1 = value
                 }
@@ -461,28 +461,28 @@ extension InfoSelector: UIPickerViewDelegate, UIPickerViewDataSource{
                 
                 //转换为当前数值
                 if row == 0{    //如果当前为公制，之前则为英制
-                    var newValue = lroundf((Float(valueList1[valueIndex]) + Float(valueDotList[dotIndex]) / 10) / 2.2046 * 10000)
+                    var newValue = lroundf((Float(valueList1[valueIndex]) + Float(valueDotList[dotIndex]) / 10) / 2.2046 * 1000)
                     
-                    if newValue < weightRange.min * 10000{
-                        newValue = weightRange.min * 10000
-                    }else if newValue > weightRange.max * 10000{
-                        newValue = weightRange.max * 10000
+                    if newValue < weightRange.min * 1000{
+                        newValue = weightRange.min * 1000
+                    }else if newValue > weightRange.max * 1000{
+                        newValue = weightRange.max * 1000
                     }
                     
-                    newIndex = newValue / 10000 - weightRange.min
-                    newDotIndex = (newValue % 10000) / 1000
+                    newIndex = newValue / 1000 - weightRange.min
+                    newDotIndex = (newValue % 1000) / 100
                 }else{          //如果当前为英制，之前则为公制
                     
                     var newValue = lroundf((Float(valueList1[valueIndex]) + Float(valueDotList[dotIndex]) / 10) * 2.2046 * 10000)
                     
-                    if newValue < lroundf(Float(weightRange.min) * 2.2046) * 10000{
-                        newValue = lroundf(Float(weightRange.min) * 2.2046) * 10000
-                    }else if newValue > lroundf(Float(weightRange.max) * 2.2046) * 10000{
-                        newValue = lroundf(Float(weightRange.max) * 2.2046) * 10000
+                    if newValue < lroundf(Float(weightRange.min) * 2.2046) * 1000{
+                        newValue = lroundf(Float(weightRange.min) * 2.2046) * 1000
+                    }else if newValue > lroundf(Float(weightRange.max) * 2.2046) * 1000{
+                        newValue = lroundf(Float(weightRange.max) * 2.2046) * 1000
                     }
                     
-                    newIndex = newValue / 10000 - lroundf(Float(weightRange.min) * 2.2046) 
-                    newDotIndex = (newValue % 10000) / 1000
+                    newIndex = newValue / 1000 - lroundf(Float(weightRange.min) * 2.2046)
+                    newDotIndex = (newValue % 1000) / 100
                 }
                 
                 

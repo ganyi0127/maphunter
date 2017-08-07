@@ -81,6 +81,13 @@ class StateVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let networkHandler = NetworkHandler.share()
+        let deviceId = AngelManager.share()?.accessoryId
+//        let userId = CoreDataHandler.share().mainUserId()  //"283925583@qq.com"//CoreDataHandler.share().currentUserId()
+        
+        if let userId = userDefaults.string(forKey: "account"), !userId.characters.isEmpty{
+            UserManager.share().userId = userId
+        }
     }
     
     override func awakeFromNib() {
@@ -347,10 +354,10 @@ class StateVC: UIViewController {
         
         //更新数据
         if let angelManager = AngelManager.share() {
-            if let macaddress = angelManager.macAddress {
+            if let accessoryId = angelManager.accessoryId {
                 trackList.removeAll()
                 let userId = UserManager.share().userId
-                let tracks = CoreDataHandler.share().selectEachTrainningDataList(withAccessoryId: macaddress, byUserId: userId, withDate: selectDate, withCDHRange: CDHRange.day).sorted{
+                let tracks = CoreDataHandler.share().selectEachTrainningDataList(withAccessoryId: accessoryId, byUserId: userId, withDate: selectDate, withCDHRange: CDHRange.day).sorted{
                     track1, track2 -> Bool in
                     let earlyDate = track1.date?.earlierDate(track2.date! as Date)
                     if earlyDate == track1.date as Date?{
@@ -534,7 +541,7 @@ extension StateVC: UITableViewDelegate, UITableViewDataSource{
                 
                 if let user = CoreDataHandler.share().currentUser(){
                     var data = DataCubeData()
-                    data.value1 = CGFloat(CoreDataHandler.share().selectWeightDataList(withUserId: UserManager.share().userId, withDate: Date()).last!.weight10000TimesKG)
+                    //data.value1 = CGFloat(CoreDataHandler.share().selectWeightDataList(withUserId: UserManager.share().userId, withDate: Date()).last!.weight10000TimesKG)
                     data.value2 = CGFloat(user.goal!.weight10000TimesKG)
                     (cell as! FirstCell).mindBodyDataCube.data = data
                 }

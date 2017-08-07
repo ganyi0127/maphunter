@@ -93,20 +93,78 @@ import Foundation
  @NSManaged public var sport4_dance: Bool
  @NSManaged public var main2_logIn: Bool
  */
-enum FunctableType{
-    case camera
+enum FunctableType: String {
+    case callRemind = "来电提醒"
+    case smartRemind = "智能提醒"
+    case longsitRemind = "走动提醒"
+    case alarm = "手环闹钟"
+    case silent = "勿扰模式"
+    case music = "音乐控制"
+    case camera = "遥控拍照"
+    case watchBG = "表盘设置"
+    case heartrate = "心率检测"
+    case activeMode = "活动模式"
+    case update = "固件升级"
+    case more = "更多"
 }
 
-//所有
-let functableList: [FunctableType] = [.camera]
-
-class FunctableCell: UICollectionViewCell {
+class FunctableCell: UITableViewCell {
  
-    var index: Int?{
+    var type: FunctableType?{
         didSet{
- 
+            guard let t = type else {
+                return
+            }
+            
+            var imageName: String
+            switch t {
+            case .callRemind:
+                imageName = "callremind"
+            case .smartRemind:
+                imageName = "smartremind"
+            case .longsitRemind:
+                imageName = "longsit"
+            case .alarm:
+                imageName = "alarm"
+            case .silent:
+                imageName = "silent"
+            case .music:
+                imageName = "music"
+            case .camera:
+                imageName = "camera"
+            case .watchBG:
+                imageName = "watchbg"
+            case .heartrate:
+                imageName = "heartrate"
+            case .activeMode:
+                imageName = "activemode"
+            case .update:
+                imageName = "update-0"
+            case .more:
+                imageName = "more"
+            default:
+                imageName = ""
+            }
+            
+            //设置图片
+            let image = UIImage(named: "resource/me/functable/" + imageName)
+            iconImageView.image = image
+            
+            //设置标题
+            let text = t.rawValue
+            titleLabel.font = fontMiddle
+            titleLabel.textColor = subWordColor
+            titleLabel.text = text
+            
+            //设置副标题
+            detailLabel.font = fontSmall
+            detailLabel.textColor = lightWordColor
+            detailLabel.text = "未开启"
         }
     }
+    @IBOutlet weak var iconImageView: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var detailLabel: UILabel!
  
     override func didMoveToSuperview() {
         

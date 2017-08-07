@@ -219,7 +219,7 @@ SWIFT_CLASS_NAMED("BloodPressureEverydayData")
 @property (nonatomic) int16_t avgDiastolicPressure;
 @property (nonatomic) int16_t avgSystolicPressure;
 @property (nonatomic, strong) NSDate * _Nullable date;
-@property (nonatomic) int64_t objectId;
+@property (nonatomic, copy) NSString * _Nullable objectId;
 @property (nonatomic) int16_t offset;
 @property (nonatomic, strong) NSSet * _Nullable bloodPressureEverydayDataItemList;
 @property (nonatomic, strong) Device * _Nullable device;
@@ -254,12 +254,21 @@ SWIFT_CLASS_NAMED("Device")
 - (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
 @end
 
+@class UserActivity;
 
 @interface Device (SWIFT_EXTENSION(AngelFit))
-- (void)addHeartRateEverydayDataListObject:(HeartRateEverydayData * _Nonnull)value;
-- (void)removeHeartRateEverydayDataListObject:(HeartRateEverydayData * _Nonnull)value;
-- (void)addHeartRateEverydayDataList:(NSSet * _Nonnull)values;
-- (void)removeHeartRateEverydayDataList:(NSSet * _Nonnull)values;
+- (void)addUserActivityListObject:(UserActivity * _Nonnull)value;
+- (void)removeUserActivityListObject:(UserActivity * _Nonnull)value;
+- (void)addUserActivityList:(NSSet * _Nonnull)values;
+- (void)removeUserActivityList:(NSSet * _Nonnull)values;
+@end
+
+
+@interface Device (SWIFT_EXTENSION(AngelFit))
+- (void)addSportEverydayDataListObject:(SportEverydayData * _Nonnull)value;
+- (void)removeSportEverydayDataListObject:(SportEverydayData * _Nonnull)value;
+- (void)addSportEverydayDataList:(NSSet * _Nonnull)values;
+- (void)removeSportEverydayDataList:(NSSet * _Nonnull)values;
 @end
 
 
@@ -272,19 +281,19 @@ SWIFT_CLASS_NAMED("Device")
 
 
 @interface Device (SWIFT_EXTENSION(AngelFit))
-- (void)addSportEverydayDataListObject:(SportEverydayData * _Nonnull)value;
-- (void)removeSportEverydayDataListObject:(SportEverydayData * _Nonnull)value;
-- (void)addSportEverydayDataList:(NSSet * _Nonnull)values;
-- (void)removeSportEverydayDataList:(NSSet * _Nonnull)values;
+- (void)addHeartRateEverydayDataListObject:(HeartRateEverydayData * _Nonnull)value;
+- (void)removeHeartRateEverydayDataListObject:(HeartRateEverydayData * _Nonnull)value;
+- (void)addHeartRateEverydayDataList:(NSSet * _Nonnull)values;
+- (void)removeHeartRateEverydayDataList:(NSSet * _Nonnull)values;
 @end
 
-@class UserActivity;
+@class EachTrainningData;
 
 @interface Device (SWIFT_EXTENSION(AngelFit))
-- (void)addUserActivityListObject:(UserActivity * _Nonnull)value;
-- (void)removeUserActivityListObject:(UserActivity * _Nonnull)value;
-- (void)addUserActivityList:(NSSet * _Nonnull)values;
-- (void)removeUserActivityList:(NSSet * _Nonnull)values;
+- (void)addEachTrainningDataListObject:(EachTrainningData * _Nonnull)value;
+- (void)removeEachTrainningDataListObject:(EachTrainningData * _Nonnull)value;
+- (void)addEachTrainningDataList:(NSSet * _Nonnull)values;
+- (void)removeEachTrainningDataList:(NSSet * _Nonnull)values;
 @end
 
 
@@ -302,15 +311,6 @@ SWIFT_CLASS_NAMED("Device")
 - (void)removeDeviceAlarmListObject:(DeviceAlarm * _Nonnull)value;
 - (void)addDeviceAlarmList:(NSSet * _Nonnull)values;
 - (void)removeDeviceAlarmList:(NSSet * _Nonnull)values;
-@end
-
-@class EachTrainningData;
-
-@interface Device (SWIFT_EXTENSION(AngelFit))
-- (void)addEachTrainningDataListObject:(EachTrainningData * _Nonnull)value;
-- (void)removeEachTrainningDataListObject:(EachTrainningData * _Nonnull)value;
-- (void)addEachTrainningDataList:(NSSet * _Nonnull)values;
-- (void)removeEachTrainningDataList:(NSSet * _Nonnull)values;
 @end
 
 @class DeviceAntiLostSetting;
@@ -339,6 +339,7 @@ SWIFT_CLASS_NAMED("Device")
 @property (nonatomic, copy) NSString * _Nullable showName;
 @property (nonatomic) int16_t type;
 @property (nonatomic) int32_t usageMinutes;
+@property (nonatomic, copy) NSString * _Nullable userId;
 @property (nonatomic, copy) NSString * _Nullable uuid;
 @property (nonatomic) int16_t version;
 @property (nonatomic, strong) NSSet * _Nullable bloodPressureEverydayDataList;
@@ -357,7 +358,6 @@ SWIFT_CLASS_NAMED("Device")
 @property (nonatomic, strong) NSSet * _Nullable heartRateEverydayDataList;
 @property (nonatomic, strong) NSSet * _Nullable sleepEverydayDataList;
 @property (nonatomic, strong) NSSet * _Nullable sportEverydayDataList;
-@property (nonatomic, strong) User * _Nullable user;
 @property (nonatomic, strong) NSSet * _Nullable userActivityList;
 @end
 
@@ -692,15 +692,6 @@ SWIFT_CLASS_NAMED("EachTrainningData")
 - (void)removeGpsLoggerItems:(NSSet * _Nonnull)values;
 @end
 
-@class EachTrainningHeartRateItem;
-
-@interface EachTrainningData (SWIFT_EXTENSION(AngelFit))
-- (void)addHeartRateActivityItemsObject:(EachTrainningHeartRateItem * _Nonnull)value;
-- (void)removeHeartRateActivityItemsObject:(EachTrainningHeartRateItem * _Nonnull)value;
-- (void)addHeartRateActivityItems:(NSSet * _Nonnull)values;
-- (void)removeHeartRateActivityItems:(NSSet * _Nonnull)values;
-@end
-
 @class EachTrainningStepItem;
 
 @interface EachTrainningData (SWIFT_EXTENSION(AngelFit))
@@ -708,6 +699,15 @@ SWIFT_CLASS_NAMED("EachTrainningData")
 - (void)removeStepPreMinuteItemsObject:(EachTrainningStepItem * _Nonnull)value;
 - (void)addStepPreMinuteItems:(NSSet * _Nonnull)values;
 - (void)removeStepPreMinuteItems:(NSSet * _Nonnull)values;
+@end
+
+@class EachTrainningHeartRateItem;
+
+@interface EachTrainningData (SWIFT_EXTENSION(AngelFit))
+- (void)addHeartRateActivityItemsObject:(EachTrainningHeartRateItem * _Nonnull)value;
+- (void)removeHeartRateActivityItemsObject:(EachTrainningHeartRateItem * _Nonnull)value;
+- (void)addHeartRateActivityItems:(NSSet * _Nonnull)values;
+- (void)removeHeartRateActivityItems:(NSSet * _Nonnull)values;
 @end
 
 
@@ -726,7 +726,7 @@ SWIFT_CLASS_NAMED("EachTrainningData")
 @property (nonatomic) int16_t limitMinutes;
 @property (nonatomic) int16_t mapSource;
 @property (nonatomic) int16_t maxHeartRate;
-@property (nonatomic) int64_t objectId;
+@property (nonatomic, copy) NSString * _Nullable objectId;
 @property (nonatomic, strong) NSDate * _Nullable startedAt;
 @property (nonatomic) int32_t steps;
 @property (nonatomic) int16_t stepsIntervalSeconds;
@@ -887,7 +887,7 @@ SWIFT_CLASS_NAMED("HeartRateEverydayData")
 @property (nonatomic, strong) NSDate * _Nullable date;
 @property (nonatomic) int16_t limitMinutes;
 @property (nonatomic) int16_t limitThreshold;
-@property (nonatomic) int64_t objectId;
+@property (nonatomic, copy) NSString * _Nullable objectId;
 @property (nonatomic) int16_t offset;
 @property (nonatomic) int16_t silentHeartRate;
 @property (nonatomic, strong) Device * _Nullable device;
@@ -924,8 +924,281 @@ SWIFT_CLASS_NAMED("MindBodyState")
 @interface MindBodyState (SWIFT_EXTENSION(AngelFit))
 @property (nonatomic, strong) NSDate * _Nullable date;
 @property (nonatomic) int16_t mindBodyState;
-@property (nonatomic) int64_t objectId;
+@property (nonatomic, copy) NSString * _Nullable objectId;
 @property (nonatomic, strong) User * _Nullable user;
+@end
+
+@class NWHDeviceParam;
+@class NWHDeviceStatusParam;
+@class NWHDeviceFunctableParam;
+@class NWHDeviceMsgParam;
+@class NWHDeviceErrorLogParam;
+
+SWIFT_CLASS("_TtC8AngelFit9NWHDevice")
+@interface NWHDevice : NSObject
++ (NWHDevice * _Nonnull)share SWIFT_WARN_UNUSED_RESULT;
+- (void)addWithParam:(NWHDeviceParam * _Nonnull)param closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)updateWithParam:(NWHDeviceParam * _Nonnull)param closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)recordStateWithParam:(NWHDeviceStatusParam * _Nonnull)param closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)recordFunctableWithParam:(NWHDeviceFunctableParam * _Nonnull)param closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)updateFunctableWithParam:(NWHDeviceFunctableParam * _Nonnull)param closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)recordMsgWithParam:(NWHDeviceMsgParam * _Nonnull)param closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)recordErrorWithParam:(NWHDeviceErrorLogParam * _Nonnull)param closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit22NWHDeviceErrorLogParam")
+@interface NWHDeviceErrorLogParam : NSObject
+@property (nonatomic, copy) NSString * _Nullable deviceId;
+@property (nonatomic, copy) NSDate * _Nullable errorTimestatmp;
+@property (nonatomic, copy) NSString * _Nullable errorType;
+@property (nonatomic, copy) NSString * _Nullable errorMessage;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit23NWHDeviceFunctableParam")
+@interface NWHDeviceFunctableParam : NSObject
+@property (nonatomic, copy) NSString * _Nullable deviceId;
+@property (nonatomic) BOOL havePedometer;
+@property (nonatomic) BOOL haveSleepMonitor;
+@property (nonatomic) BOOL haveTrainingTracking;
+@property (nonatomic) BOOL haveRealData;
+@property (nonatomic) BOOL haveOta;
+@property (nonatomic) BOOL haveHeartRateMonitor;
+@property (nonatomic) BOOL haveAncs;
+@property (nonatomic) BOOL haveTimeline;
+@property (nonatomic) BOOL haveLogin;
+@property (nonatomic) BOOL haveAlarm;
+@property (nonatomic) BOOL haveCameraControl;
+@property (nonatomic) BOOL havePlayMusicControl;
+@property (nonatomic) BOOL haveCallNotification;
+@property (nonatomic) BOOL haveCallContact;
+@property (nonatomic) BOOL haveCallNumber;
+@property (nonatomic) BOOL haveMsgNotification;
+@property (nonatomic) BOOL haveMsgContact;
+@property (nonatomic) BOOL haveMultiSport;
+@property (nonatomic) BOOL haveMsgNumber;
+@property (nonatomic) BOOL haveMsgContent;
+@property (nonatomic) BOOL haveLongSit;
+@property (nonatomic) BOOL haveAntiLost;
+@property (nonatomic) BOOL haveShortcutCall;
+@property (nonatomic) BOOL haveFindPhone;
+@property (nonatomic) BOOL haveShortcutReset;
+@property (nonatomic) BOOL haveWakeScreenOnWristRaise;
+@property (nonatomic) BOOL haveWeatherForecast;
+@property (nonatomic) BOOL isHeartRateMonitorSilent;
+@property (nonatomic) BOOL haveNotDisturbMode;
+@property (nonatomic) BOOL haveScreenDisplayMode;
+@property (nonatomic) BOOL haveHeartRateMonitorControl;
+@property (nonatomic) BOOL haveAllMsgNotification;
+@property (nonatomic) BOOL haveScreenDisplay180Rotate;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit17NWHDeviceMsgParam")
+@interface NWHDeviceMsgParam : NSObject
+@property (nonatomic, copy) NSString * _Nullable deviceId;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit14NWHDeviceParam")
+@interface NWHDeviceParam : NSObject
+@property (nonatomic, copy) NSString * _Nullable id;
+@property (nonatomic, copy) NSString * _Nullable macAddress;
+@property (nonatomic, copy) NSString * _Nullable uuid;
+@property (nonatomic, copy) NSString * _Nullable name;
+@property (nonatomic, copy) NSString * _Nullable showName;
+@property (nonatomic, copy) NSString * _Nullable batteryType;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit20NWHDeviceStatusParam")
+@interface NWHDeviceStatusParam : NSObject
+@property (nonatomic, copy) NSString * _Nullable deviceId;
+@property (nonatomic, copy) NSString * _Nullable batteryStatus;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class NWHLastSyncDateParam;
+@class NWHHeartrateAddParam;
+@class NWHEverydayDataPullParam;
+@class NWHStepAddParam;
+@class NWHSleepAddParam;
+@class NWHTrainingAddParam;
+
+SWIFT_CLASS("_TtC8AngelFit15NWHEverydayData")
+@interface NWHEverydayData : NSObject
++ (NWHEverydayData * _Nonnull)share SWIFT_WARN_UNUSED_RESULT;
+- (void)getLastSyncDateWithParam:(NWHLastSyncDateParam * _Nonnull)param closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)addEverydayHeartratesWithParam:(NSArray<NWHHeartrateAddParam *> * _Nonnull)params closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)pullEverydayHeartratesWithParam:(NWHEverydayDataPullParam * _Nonnull)param closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)addEverydayStepWithParam:(NSArray<NWHStepAddParam *> * _Nonnull)params closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)pullEverydayStepWithParam:(NWHEverydayDataPullParam * _Nonnull)param closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)addEverydaySleepWithParam:(NSArray<NWHSleepAddParam *> * _Nonnull)params closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)pullEverydaySleepWithParam:(NWHEverydayDataPullParam * _Nonnull)param closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)addEverydayTrainingWithParam:(NSArray<NWHTrainingAddParam *> * _Nonnull)params closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)pullEverydayTrainingWithParam:(NWHEverydayDataPullParam * _Nonnull)param closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit24NWHEverydayDataPullParam")
+@interface NWHEverydayDataPullParam : NSObject
+@property (nonatomic, copy) NSString * _Nullable deviceId;
+@property (nonatomic, copy) NSString * _Nullable userId;
+@property (nonatomic, copy) NSDate * _Nullable fromDate;
+@property (nonatomic, copy) NSDate * _Nullable endDate;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit20NWHHeartrateAddParam")
+@interface NWHHeartrateAddParam : NSObject
+@property (nonatomic, copy) NSString * _Nullable deviceId;
+@property (nonatomic, copy) NSString * _Nullable userId;
+@property (nonatomic, copy) NSDate * _Nullable date;
+@property (nonatomic, copy) NSDate * _Nullable itemsStartTime;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit20NWHLastSyncDateParam")
+@interface NWHLastSyncDateParam : NSObject
+@property (nonatomic, copy) NSString * _Nullable userId;
+@property (nonatomic, copy) NSString * _Nullable deviceId;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit16NWHSleepAddParam")
+@interface NWHSleepAddParam : NSObject
+@property (nonatomic, copy) NSString * _Nullable deviceId;
+@property (nonatomic, copy) NSString * _Nullable userId;
+@property (nonatomic, copy) NSDate * _Nullable date;
+@property (nonatomic, copy) NSDate * _Nullable endedDatetime;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit15NWHStepAddParam")
+@interface NWHStepAddParam : NSObject
+@property (nonatomic, copy) NSString * _Nullable deviceId;
+@property (nonatomic, copy) NSString * _Nullable userId;
+@property (nonatomic, copy) NSDate * _Nullable date;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit19NWHTrainingAddParam")
+@interface NWHTrainingAddParam : NSObject
+@property (nonatomic, copy) NSString * _Nullable deviceId;
+@property (nonatomic, copy) NSString * _Nullable userId;
+@property (nonatomic, copy) NSDate * _Nullable date;
+@property (nonatomic, copy) NSDate * _Nullable startedAt;
+@property (nonatomic, copy) NSString * _Nullable mapSource;
+@property (nonatomic, copy) NSArray<NSNumber *> * _Nullable steps;
+@property (nonatomic, copy) NSArray<NSNumber *> * _Nullable heartRates;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class NWHUserVerificationCodeParam;
+@class NWHUserRegisterParam;
+@class NWHUserConfirmVerificationCodeParam;
+@class NWHUserChangePasswordParam;
+@class NWHUserLogonParam;
+@class NWHUserUpdateParam;
+@class NWHUserUploadParam;
+
+SWIFT_CLASS("_TtC8AngelFit7NWHUser")
+@interface NWHUser : NSObject
++ (NWHUser * _Nonnull)share SWIFT_WARN_UNUSED_RESULT;
+- (void)getVerificationCodeWithParam:(NWHUserVerificationCodeParam * _Nonnull)param closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)registerWithParam:(NWHUserRegisterParam * _Nonnull)param closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)confirmVerificationCodeWithParam:(NWHUserConfirmVerificationCodeParam * _Nonnull)param closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)changePasswordWithParam:(NWHUserChangePasswordParam * _Nonnull)param closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)logonWithParam:(NWHUserLogonParam * _Nonnull)param closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)updateWithParam:(NWHUserUpdateParam * _Nonnull)param closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)uploadPhotoWithParam:(NWHUserUploadParam * _Nonnull)param closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit26NWHUserChangePasswordParam")
+@interface NWHUserChangePasswordParam : NSObject
+@property (nonatomic, copy) NSString * _Nullable userId;
+@property (nonatomic, copy) NSString * _Nullable newPassword;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit35NWHUserConfirmVerificationCodeParam")
+@interface NWHUserConfirmVerificationCodeParam : NSObject
+@property (nonatomic, copy) NSString * _Nullable userId;
+@property (nonatomic, copy) NSString * _Nullable code;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit17NWHUserLogonParam")
+@interface NWHUserLogonParam : NSObject
+@property (nonatomic, copy) NSString * _Nullable userId;
+@property (nonatomic, copy) NSString * _Nullable password;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit20NWHUserRegisterParam")
+@interface NWHUserRegisterParam : NSObject
+@property (nonatomic, copy) NSString * _Nullable userId;
+@property (nonatomic, copy) NSString * _Nullable password;
+@property (nonatomic, copy) NSString * _Nullable confirm;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit18NWHUserUpdateParam")
+@interface NWHUserUpdateParam : NSObject
+@property (nonatomic, copy) NSString * _Nullable userId;
+@property (nonatomic, copy) NSString * _Nullable password;
+@property (nonatomic, copy) NSString * _Nullable email;
+@property (nonatomic, copy) NSString * _Nullable weixin;
+@property (nonatomic, copy) NSString * _Nullable mobile;
+@property (nonatomic, copy) NSString * _Nullable showName;
+@property (nonatomic, copy) NSDate * _Nullable birthday;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class UIImage;
+
+SWIFT_CLASS("_TtC8AngelFit18NWHUserUploadParam")
+@interface NWHUserUploadParam : NSObject
+@property (nonatomic, copy) NSString * _Nullable userId;
+@property (nonatomic, strong) UIImage * _Nullable image;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit28NWHUserVerificationCodeParam")
+@interface NWHUserVerificationCodeParam : NSObject
+@property (nonatomic, copy) NSString * _Nullable email;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC8AngelFit14NetworkHandler")
+@interface NetworkHandler : NSObject
+@property (nonatomic, strong) NWHUser * _Nonnull user;
+@property (nonatomic, strong) NWHDevice * _Nonnull device;
+@property (nonatomic, strong) NWHEverydayData * _Nonnull everyday;
++ (NetworkHandler * _Nonnull)share SWIFT_WARN_UNUSED_RESULT;
+- (void)updateStepsWithUserId:(NSString * _Nonnull)userId steps:(NSInteger)steps date:(NSDate * _Nonnull)date closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (void)pullStepsWith:(NSInteger)target date:(NSDate * _Nonnull)date closure:(void (^ _Nonnull)(NSInteger, NSString * _Nonnull, id _Nullable))closure;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 
@@ -997,7 +1270,7 @@ SWIFT_CLASS_NAMED("SleepEverydayData")
 @property (nonatomic) int32_t itemsCount;
 @property (nonatomic) int32_t lightSleepCount;
 @property (nonatomic) int16_t lightSleepMinutes;
-@property (nonatomic) int64_t objectId;
+@property (nonatomic, copy) NSString * _Nullable objectId;
 @property (nonatomic) int16_t remSleepMinutes;
 @property (nonatomic) int16_t totalMinutes;
 @property (nonatomic, strong) Device * _Nullable device;
@@ -1036,7 +1309,7 @@ SWIFT_CLASS_NAMED("SportEverydayData")
 
 @interface SportEverydayData (SWIFT_EXTENSION(AngelFit))
 @property (nonatomic, strong) NSDate * _Nullable date;
-@property (nonatomic) int64_t objectId;
+@property (nonatomic, copy) NSString * _Nullable objectId;
 @property (nonatomic) int32_t offset;
 @property (nonatomic) int32_t perMinute;
 @property (nonatomic) int32_t sportItemCount;
@@ -1106,13 +1379,12 @@ SWIFT_CLASS_NAMED("User")
 - (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class UserSyncToServerLog;
 
 @interface User (SWIFT_EXTENSION(AngelFit))
-- (void)addUserSyncToServerLogListObject:(UserSyncToServerLog * _Nonnull)value;
-- (void)removeUserSyncToServerLogListObject:(UserSyncToServerLog * _Nonnull)value;
-- (void)addUserSyncToServerLogList:(NSSet * _Nonnull)values;
-- (void)removeUserSyncToServerLogList:(NSSet * _Nonnull)values;
+- (void)addDeviceListObject:(Device * _Nonnull)value;
+- (void)removeDeviceListObject:(Device * _Nonnull)value;
+- (void)addDeviceList:(NSSet * _Nonnull)values;
+- (void)removeDeviceList:(NSSet * _Nonnull)values;
 @end
 
 
@@ -1121,6 +1393,23 @@ SWIFT_CLASS_NAMED("User")
 - (void)removeMindBodyStateListObject:(MindBodyState * _Nonnull)value;
 - (void)addMindBodyStateList:(NSSet * _Nonnull)values;
 - (void)removeMindBodyStateList:(NSSet * _Nonnull)values;
+@end
+
+
+@interface User (SWIFT_EXTENSION(AngelFit))
+- (void)addUserActivityListObject:(UserActivity * _Nonnull)value;
+- (void)removeUserActivityListObject:(UserActivity * _Nonnull)value;
+- (void)addUserActivityList:(NSSet * _Nonnull)values;
+- (void)removeUserActivityList:(NSSet * _Nonnull)values;
+@end
+
+@class UserSyncToServerLog;
+
+@interface User (SWIFT_EXTENSION(AngelFit))
+- (void)addUserSyncToServerLogListObject:(UserSyncToServerLog * _Nonnull)value;
+- (void)removeUserSyncToServerLogListObject:(UserSyncToServerLog * _Nonnull)value;
+- (void)addUserSyncToServerLogList:(NSSet * _Nonnull)values;
+- (void)removeUserSyncToServerLogList:(NSSet * _Nonnull)values;
 @end
 
 @class WeightData;
@@ -1132,29 +1421,13 @@ SWIFT_CLASS_NAMED("User")
 - (void)removeWeightDataList:(NSSet * _Nonnull)values;
 @end
 
-
-@interface User (SWIFT_EXTENSION(AngelFit))
-- (void)addDeviceListObject:(Device * _Nonnull)value;
-- (void)removeDeviceListObject:(Device * _Nonnull)value;
-- (void)addDeviceList:(NSSet * _Nonnull)values;
-- (void)removeDeviceList:(NSSet * _Nonnull)values;
-@end
-
-
-@interface User (SWIFT_EXTENSION(AngelFit))
-- (void)addUserActivityListObject:(UserActivity * _Nonnull)value;
-- (void)removeUserActivityListObject:(UserActivity * _Nonnull)value;
-- (void)addUserActivityList:(NSSet * _Nonnull)values;
-- (void)removeUserActivityList:(NSSet * _Nonnull)values;
-@end
-
 @class UserFamily;
 @class UserInfo;
 @class UserPhoneInfo;
 
 @interface User (SWIFT_EXTENSION(AngelFit))
 @property (nonatomic, copy) NSString * _Nullable email;
-@property (nonatomic) int64_t userId;
+@property (nonatomic, copy) NSString * _Nullable userId;
 @property (nonatomic, strong) NSSet * _Nullable deviceList;
 @property (nonatomic, strong) Goal * _Nullable goal;
 @property (nonatomic, strong) NSSet * _Nullable mindBodyStateList;
@@ -1173,13 +1446,12 @@ SWIFT_CLASS_NAMED("UserActivity")
 - (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class UserActivityComment;
 
 @interface UserActivity (SWIFT_EXTENSION(AngelFit))
-- (void)addUserActivityCommentListObject:(UserActivityComment * _Nonnull)value;
-- (void)removeUserActivityCommentListObject:(UserActivityComment * _Nonnull)value;
-- (void)addUserActivityCommentList:(NSSet * _Nonnull)values;
-- (void)removeUserActivityCommentList:(NSSet * _Nonnull)values;
+- (void)addDoctorHaSuggestionListObject:(DoctorHaSuggestion * _Nonnull)value;
+- (void)removeDoctorHaSuggestionListObject:(DoctorHaSuggestion * _Nonnull)value;
+- (void)addDoctorHaSuggestionList:(NSSet * _Nonnull)values;
+- (void)removeDoctorHaSuggestionList:(NSSet * _Nonnull)values;
 @end
 
 @class UserActivityLiker;
@@ -1191,12 +1463,13 @@ SWIFT_CLASS_NAMED("UserActivity")
 - (void)removeUserActivityLikerList:(NSSet * _Nonnull)values;
 @end
 
+@class UserActivityComment;
 
 @interface UserActivity (SWIFT_EXTENSION(AngelFit))
-- (void)addDoctorHaSuggestionListObject:(DoctorHaSuggestion * _Nonnull)value;
-- (void)removeDoctorHaSuggestionListObject:(DoctorHaSuggestion * _Nonnull)value;
-- (void)addDoctorHaSuggestionList:(NSSet * _Nonnull)values;
-- (void)removeDoctorHaSuggestionList:(NSSet * _Nonnull)values;
+- (void)addUserActivityCommentListObject:(UserActivityComment * _Nonnull)value;
+- (void)removeUserActivityCommentListObject:(UserActivityComment * _Nonnull)value;
+- (void)addUserActivityCommentList:(NSSet * _Nonnull)values;
+- (void)removeUserActivityCommentList:(NSSet * _Nonnull)values;
 @end
 
 
@@ -1205,7 +1478,7 @@ SWIFT_CLASS_NAMED("UserActivity")
 @property (nonatomic) int32_t id;
 @property (nonatomic) int16_t lastLikeEmotion;
 @property (nonatomic) int16_t likes;
-@property (nonatomic) int64_t objectId;
+@property (nonatomic, copy) NSString * _Nullable objectId;
 @property (nonatomic) int16_t type;
 @property (nonatomic, strong) NSSet * _Nullable doctorHaSuggestionList;
 @property (nonatomic, strong) User * _Nullable user;
@@ -1253,7 +1526,7 @@ SWIFT_CLASS_NAMED("UserDataInServerLog")
 @property (nonatomic, strong) NSDate * _Nullable fromTime;
 @property (nonatomic, strong) NSDate * _Nullable lastUpdatedTime;
 @property (nonatomic, strong) NSDate * _Nullable toTime;
-@property (nonatomic) int64_t userId;
+@property (nonatomic, copy) NSString * _Nullable userId;
 @end
 
 
@@ -1272,9 +1545,9 @@ SWIFT_CLASS_NAMED("UserFamily")
 
 
 @interface UserFamily (SWIFT_EXTENSION(AngelFit))
-@property (nonatomic) int64_t isOnlineUserId;
+@property (nonatomic, copy) NSString * _Nullable isOnlineUserId;
 @property (nonatomic) BOOL isSyncedToServer;
-@property (nonatomic) int64_t userId;
+@property (nonatomic, copy) NSString * _Nullable userId;
 @property (nonatomic, strong) NSSet * _Nullable users;
 @end
 
@@ -1333,7 +1606,7 @@ SWIFT_CLASS_NAMED("WeightData")
 
 @interface WeightData (SWIFT_EXTENSION(AngelFit))
 @property (nonatomic, strong) NSDate * _Nullable date;
-@property (nonatomic) int64_t objectId;
+@property (nonatomic, copy) NSString * _Nullable objectId;
 @property (nonatomic) int32_t weight10000TimesKG;
 @property (nonatomic, strong) User * _Nullable user;
 @end

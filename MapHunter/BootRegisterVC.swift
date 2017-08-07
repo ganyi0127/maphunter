@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AngelFit
 class BootRegisterVC: UIViewController {
     @IBOutlet weak var accountTextField: UITextField!
     @IBOutlet weak var verificationTextField: UITextField!
@@ -32,8 +33,9 @@ class BootRegisterVC: UIViewController {
     fileprivate let passwordMaxLength = 20          //密码最大长度
     fileprivate let verifyLenght = 6                //验证码长度
     fileprivate let accountMinLength = 4            //账号最小长度
-    fileprivate let accountMaxLength = 32           //账号最大长度
+    fileprivate let accountMaxLength = 50           //账号最大长度
     
+    fileprivate let networkHandler = NetworkHandler.share()
     
     private var mailAddress: String?                //存储合法邮箱地址
     
@@ -265,27 +267,28 @@ class BootRegisterVC: UIViewController {
         verificationTextField.endEditing(true)
         passwordTextField.endEditing(true)
         
-        if isEmailLegal(emailString: accountTextField.text) {
-            //发送验证码
-            ACAccountManager.sendVerifyCode(withAccount: accountTextField.text!, template: 1){
-                error in
+        if isEmailLegal(emailString: accountTextField.text) {            
+            //获取验证码
+            let verificationCodeParam = NWHUserVerificationCodeParam()
+            verificationCodeParam.email = accountTextField.text
+            networkHandler.user.getVerificationCode(withParam: verificationCodeParam, closure: {
+                resultCode, message, data in
                 DispatchQueue.main.async {
-                    if let err = error {
-                        debugPrint("<verify code> 发送验证码错误 error: \(err)")
-                        self.tipLabel.text = "发送验证码错误"
-                        return
+                    if resultCode == ResultCode.success {
+                        self.tipLabel.text = "验证码已发送，请在邮箱中查找"
+                        debugPrint("<verify code> 发送验证码成功")
+                        
+                        //倒计时
+                        self.countDown(flag: true)
+                        
+                        //存储该邮箱
+                        self.mailAddress = self.accountTextField.text
+                    }else {
+                        debugPrint("<verify code> 发送验证码错误 message: " + message)
+                        self.tipLabel.text = message
                     }
-                    
-                    self.tipLabel.text = "验证码发送正常，请在注册邮箱中查收"
-                    debugPrint("<verify code> 发送验证码成功")
-                    
-                    //倒计时
-                    self.countDown(flag: true)
-                    
-                    //存储该邮箱
-                    self.mailAddress = self.accountTextField.text
                 }
-            }
+            })
         }
     }
     
@@ -365,41 +368,44 @@ class BootRegisterVC: UIViewController {
         //loading视图
         beginLoading()
         
-        //判断验证码是否正确 注册
-        ACAccountManager.checkVerifyCode(withAccount: account, verifyCode: verifyCode){
-            flag, error in
-            
+        //注册
+        let userRegisterParam = NWHUserRegisterParam()
+        userRegisterParam.userId = account
+        userRegisterParam.password = password
+        userRegisterParam.confirm = verifyCode
+        networkHandler.user.register(withParam: userRegisterParam, closure: {
+            resultCode, message, data in
             DispatchQueue.main.async {
-                
                 self.endLoading()
-                if let err = error{
-                    debugPrint("<register error> error: \(err)")
-                    self.tipLabel.text = "请求失败"
-                    return
-                }
-                if flag{
-                    //验证码正确
-                    self.beginLoading(byTitle: "登录中")
-                    ACAccountManager.register(withNickName: nil, phone: nil, email: account, password: password, verifyCode: verifyCode){
-                        userinfo, error in
-                        
+                
+                if resultCode == ResultCode.success {
+                    debugPrint("<register success> message: " + message)
+                    
+                    self.tipLabel.text = message
+                    
+                    //注册成功并载入登录
+                    userDefaults.set(account, forKey: "account")
+                    userDefaults.set(password, forKey: "password")
+                    
+                    //上传个人信息
+                    self.beginLoading(byTitle: "正在初始化个人信息")
+                    let userUpdateParam = NWHUserUpdateParam()
+                    userUpdateParam.userId = account
+                    userUpdateParam.password = password
+                    userUpdateParam.email = account
+                    userUpdateParam.weixin = nil
+                    userUpdateParam.mobile = nil
+                    userUpdateParam.showName = nil
+                    userUpdateParam.heightCM = UInt(userDefaults.integer(forKey: "height"))
+                    userUpdateParam.weightG = UInt(userDefaults.integer(forKey: "weight"))
+                    userUpdateParam.genderBoy = userDefaults.integer(forKey: "gender") == 1
+                    userUpdateParam.birthday = Date(timeInterval: -userDefaults.double(forKey: "offsetdays") * 60 * 60 * 24, since: Date())
+                    self.networkHandler.user.update(withParam: userUpdateParam, closure: {
+                        resultCode, message, data in
                         DispatchQueue.main.async {
-                            
-                            self.endLoading()   //停止loading
-                            if let err = error{
-                                debugPrint("<register error> userinfo: \(String(describing: userinfo)), \(err)")
-                                self.tipLabel.text = "注册信息错误"
-                                let alert = UIAlertController(title: "测试注册错误", message: "\(err)", preferredStyle: .alert)
-                                let cancel = UIAlertAction(title: "关闭", style: .cancel, handler: nil)
-                                alert.addAction(cancel)
-                                self.present(alert, animated: true, completion: nil)
-                                return
-                            }
-                            debugPrint("<register success> userinfo: \(String(describing: userinfo)), error: nil")
-                            self.tipLabel.text = "注册成功"
-                            //注册成功并载入登录
-                            userDefaults.set(account, forKey: "account")
-                            userDefaults.set(password, forKey: "password")
+                            self.endLoading()
+                          
+                            print("<更新个人信息> resultCode: \(resultCode), message: " + message + ", data: \(String(describing: data))")
                             
                             //登录到通知与提醒页面 判断
                             //let notificationSettingTypes = UIApplication.shared.currentUserNotificationSettings?.types
@@ -414,18 +420,18 @@ class BootRegisterVC: UIViewController {
                                 }
                                 return
                             }
-                            
                             //跳转到主页
                             let rootTBC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController() as! RootTBC
                             self.present(rootTBC, animated: true, completion: nil)
                         }
-                    }
-                }else{
-                    //验证码错误
-                    self.tipLabel.text = "验证码错误"
+                    })
+                    
+                    
+                }else {
+                    self.tipLabel.text = message
                 }
             }
-        }
+        })
     }
     
     //MARK:- 第三方登录

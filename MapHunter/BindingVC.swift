@@ -10,13 +10,19 @@ import UIKit
 import AngelFit
 class BindingVC: UIViewController {
     @IBOutlet weak var topView: UIView!
-    @IBOutlet weak var bandImageview: UIImageView!
-    @IBOutlet weak var unbindingButton: UIButton!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var synchroDateLabel: UILabel!
-    @IBOutlet weak var versionLabel: UILabel!
+    @IBOutlet weak var bgImageView: UIImageView!
     @IBOutlet weak var energyLabel: UILabel!
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var tableview: UITableView!
+    
+    fileprivate var energy: Int16 = 0 {
+        didSet{
+            let text = "\(energy)%"
+            
+            let attributedText = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: fontHuge, NSForegroundColorAttributeName: UIColor.white])
+            attributedText.addAttributes([NSFontAttributeName: fontMiddle], range: NSMakeRange(text.characters.count - 1, 1))
+            energyLabel.attributedText = attributedText
+        }
+    }
     
     //MARK:- 功能列表
     fileprivate var funcTable: DeviceFunction?{
@@ -46,11 +52,27 @@ class BindingVC: UIViewController {
         }
     }
     
+    //所有
+    fileprivate let functableTypeList: [[FunctableType]] = [
+        [.callRemind, .smartRemind, .longsitRemind, .alarm, .silent],
+        [.music, .camera],
+        [.watchBG, .heartrate, .activeMode],
+        [.update],
+        [.more]
+    ]
+    
+    //MARK:-init***************************************************
     override func viewDidLoad() {
         super.viewDidLoad()
         
         config()
         createContents()
+    }
+        
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.setNavigationOpacity(opacity: false)
     }
     
     private func config(){
@@ -58,68 +80,25 @@ class BindingVC: UIViewController {
         navigationController?.setNavigation(hidden: false)
         
         //背景色
-        topView.backgroundColor = .white
+        bgImageView.image = UIImage(named: "resource/me/functable/background")
         view.backgroundColor = timeColor
         
-        //按钮
-        unbindingButton.setTitle("解绑", for: .normal)
-        unbindingButton.setTitleColor(subWordColor, for: .normal)
-        if let image = UIImage(named: "resource/scan/unbund"){
-            unbindingButton.setBackgroundImage(image, for: .normal)
-        }
-        
-        //标签
-        nameLabel.textColor = wordColor
-        nameLabel.font = fontMiddle
-        nameLabel.text = "~"
-        synchroDateLabel.textColor = subWordColor
-        synchroDateLabel.font = fontSmall
-        synchroDateLabel.text = "上次同步时间: ~"
-        versionLabel.textColor = subWordColor
-        versionLabel.font = fontSmall
-        versionLabel.text = "固件版本: ~"
-        energyLabel.textColor = subWordColor
-        energyLabel.font = fontSmall
-        energyLabel.text = "电池容量: ~"
-        
-        //注册functable cell
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "custom")
-        collectionView.backgroundColor = .clear
-//        collectionView.collectionViewLayout = UICollectionViewLayout()
+        tableview.backgroundColor = .clear
     }
     
     private func createContents(){
         
         //获取设备名称
         let name = PeripheralManager.share().currentPeripheral?.name
-        nameLabel.text = name
-        
-        //更新图片
-        if let bandName = name  {
-            var imageName: String
-            if bandName.contains("100") || bandName.contains("102"){
-                imageName = "resource/scan/id100_102"
-            }else if bandName.contains("101"){
-                imageName = "resource/scan/id101"
-            }else if bandName.contains("107"){
-                imageName = "resource/scan/id107"
-            }else if bandName.contains("115"){
-                imageName = "resource/scan/id115"
-            }else if bandName.contains("119"){
-                imageName = "resource/scan/id119"
-            }else{
-                imageName = "resource/scan/undefined"
-            }
-            if let image = UIImage(named: imageName){
-                bandImageview.image = image
-            }
-        }
+        navigationItem.title = name
         
         beginLoading()
         
         //获取设备信息
         let angelManager = AngelManager.share()
-        angelManager?.getDevice{
+        let accessoryId = angelManager?.accessoryId
+
+        angelManager?.getDevice(accessoryId, closure: {
             device in
             self.endLoading()
             
@@ -128,6 +107,7 @@ class BindingVC: UIViewController {
             }
             
             DispatchQueue.main.async {
+                /*
                 var dateStr = "~"
                 if let date = existDevice.lastSyncTime{
                     //获取日期格式
@@ -137,10 +117,12 @@ class BindingVC: UIViewController {
                 }
                 self.synchroDateLabel.text = "上次同步时间: " + dateStr
                 self.versionLabel.text = "固件版本: v\(existDevice.version)"
-                self.energyLabel.text = "电池容量: \(existDevice.batteryLevel)%"
-//                self.funcTable = existDevice.funcTable
+                self.funcTable = existDevice.deviceFunction
+                 */
+                self.energy = existDevice.batteryLevel
+                print(existDevice.deviceFunction)
             }
-        }
+        })
         
         //单独获取设备列表
         angelManager?.getFuncTable{
@@ -152,7 +134,7 @@ class BindingVC: UIViewController {
     }
     
     //MARK:- 解除绑定
-    @IBAction func unbinding(_ sender: UIButton) {
+    func unbinding() {
         
         if let peripheral = PeripheralManager.share().currentPeripheral {
             
@@ -177,6 +159,127 @@ class BindingVC: UIViewController {
             }
             _ = self.navigationController?.popViewController(animated: true)
         }
+    }
+}
+
+//MARK:-tableview delegate
+extension BindingVC: UITableViewDelegate, UITableViewDataSource{
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return functableTypeList.count + 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == functableTypeList.count {
+            return 1
+        }
+        return functableTypeList[section].count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0{
+            return 0
+        }
+        return 8
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = indexPath.section
+        let row = indexPath.row
+        var identifier: String
+        
+        if section == functableTypeList.count { //解绑
+            identifier = "cell1"
+            let cell = tableView.dequeueReusableCell(withIdentifier: identifier)
+            return cell!
+        }else {                                 //功能列表
+            identifier = "cell0"
+            let functableType = functableTypeList[section][row]
+            let cell = tableView.dequeueReusableCell(withIdentifier: identifier)
+            let functableCell = cell as! FunctableCell
+            functableCell.type = functableType
+            return functableCell
+        }
+    }
+    
+    //点击
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let section = indexPath.section
+        let row = indexPath.row
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.setSelected(false, animated: true)
+        if section == functableTypeList.count{  //解绑
+            unbinding()
+        }else{
+            let functableType = functableTypeList[section][row]
+            /*
+            enum FunctableType: String {
+                case callRemind = "来电提醒"
+                case smartRemind = "智能提醒"
+                case longsitRemind = "走动提醒"
+                case alarm = "手环闹钟"
+                case silent = "勿扰模式"
+                case music = "音乐控制"
+                case camera = "遥控拍照"
+                case watchBG = "表盘设置"
+                case heartrate = "心率检测"
+                case activeMode = "活动模式"
+                case update = "固件升级"
+                case more = "更多"
+            }
+            //跳转
+            switch functableType {
+            case .callRemind:
+                break
+            case .smartRemind:
+                break
+            case .longsitRemind:
+                break
+            case .alarm:
+                break
+            case .silent:
+                break
+            case .music:
+                break
+            case .camera:
+                break
+            case .watchBG:
+                break
+            case .heartrate:
+                break
+            case .activeMode:
+                break
+            case .update:
+                break
+            default:    //more
+                performSegue(withIdentifier: "more", sender: nil)
+            }
+            */
+            performSegue(withIdentifier: "\(functableType)".lowercased(), sender: functableType.rawValue)
+        }
+    }
+    
+    //设置功能列表标题
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let pushVC = segue.destination
+        pushVC.navigationItem.title = sender as! String
+        pushVC.view.backgroundColor = .red
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        let y = scrollView.contentOffset.y
+        guard y < 0 else {
+            return
+        }
+        
+        let newHeight = topView.frame.height - y
+        let newWidth = newHeight * topView.frame.width / topView.frame.height
+        let newFrame = CGRect(x: (topView.frame.width - newWidth) / 2, y: 0, width: newWidth, height: newHeight)
+        
+        UIView.animate(withDuration: 0, animations: {
+            self.bgImageView.frame = newFrame
+            self.energyLabel.frame = newFrame
+        })
     }
 }
 

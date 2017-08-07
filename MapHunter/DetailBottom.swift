@@ -150,7 +150,7 @@ class DetailBottom: UIView {
                 
                 //获取数据
                 let coredataHandler = CoreDataHandler.share()
-                if let macaddress = AngelManager.share()?.macAddress{
+                if let accessoryId = AngelManager.share()?.accessoryId{
                     let userId = UserManager.share().userId
                     
                     //获取数据。。。

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AngelFit
 class ConfirmPasswordVC: UIViewController {
     
     @IBOutlet weak var firstPasswordSeparatorLine: UIView!        //线->密码1
@@ -24,6 +25,8 @@ class ConfirmPasswordVC: UIViewController {
     
     var account: String?
     var verifyCode: String?
+    
+    fileprivate let networkHandler = NetworkHandler.share()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,6 +112,7 @@ class ConfirmPasswordVC: UIViewController {
         beginLoading()
         
         //修改密码
+        /*
         ACAccountManager.resetPassword(withAccount: account, verifyCode: verifyCode, password: firstPasswordTextfield.text!){
             uid, error in
             DispatchQueue.main.async {
@@ -123,11 +127,34 @@ class ConfirmPasswordVC: UIViewController {
                 self.tipLabel.text = "修改密码成功"
             }
         }
+         */
         
-        //修改密码成功并载入登录
-        if let bootLoginVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "bootlogin") as? BootLoginVC {
-            navigationController?.show(bootLoginVC, sender: nil)
+        guard let acct = account else {
+            return
         }
+        
+        guard let newPassword = firstPasswordTextfield.text else {
+            return
+        }
+       
+        let changePasswordParam = NWHUserChangePasswordParam()
+        changePasswordParam.userId = acct
+        changePasswordParam.newPassword = newPassword
+        networkHandler.user.changePassword(withParam: changePasswordParam, closure: {
+            resultCode, message, data in
+            
+            DispatchQueue.main.async {
+                self.endLoading()
+                self.tipLabel.text = message
+                if resultCode == ResultCode.success {
+                    //修改密码成功并载入登录
+                    if let bootLoginVC = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateViewController(withIdentifier: "bootlogin") as? BootLoginVC {
+                        self.navigationController?.show(bootLoginVC, sender: nil)
+                    }
+                }else {
+                }
+            }
+        })
     }
     
     //MARK:- 输入判断
