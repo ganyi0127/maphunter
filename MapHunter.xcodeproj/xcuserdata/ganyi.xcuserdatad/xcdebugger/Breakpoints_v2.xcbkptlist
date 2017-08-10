@@ -224,11 +224,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/RootTBC.swift"
-            timestampString = "522729604.060124"
+            timestampString = "524031150.697718"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "329"
-            endingLineNumber = "329"
+            startingLineNumber = "335"
+            endingLineNumber = "335"
             landmarkName = "satanManager(didUpdateState:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -240,11 +240,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/RootTBC.swift"
-            timestampString = "522729604.060124"
+            timestampString = "524031150.697718"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "356"
-            endingLineNumber = "356"
+            startingLineNumber = "362"
+            endingLineNumber = "362"
             landmarkName = "satanManagerDistanceByLocation(withBleDistance:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -256,11 +256,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MapHunter/RootTBC.swift"
-            timestampString = "522729604.060124"
+            timestampString = "524031150.697718"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "363"
-            endingLineNumber = "363"
+            startingLineNumber = "369"
+            endingLineNumber = "369"
             landmarkName = "satanManager(didSwitchingReplyCalories:distance:step:curHeartrate:heartrateSerial:available:heartrateValue:)"
             landmarkType = "7">
          </BreakpointContent>

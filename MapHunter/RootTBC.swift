@@ -227,6 +227,12 @@ class RootTBC: UITabBarController {
         //获取手环状态
         NotificationCenter.default.addObserver(self, selector: #selector(binded), name: connected_notiy, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(disConnected), name: disconnected_notiy, object: nil)
+        
+        //iOS自带debug
+        let overlayClass = NSClassFromString("UIDebuggingInformationOverlay") as? UIWindow.Type
+        _ = overlayClass?.perform(NSSelectorFromString("prepareDebuggingOverlay"))
+        let overlay = overlayClass?.perform(NSSelectorFromString("overlay")).takeUnretainedValue() as? UIWindow
+        _ = overlay?.perform(NSSelectorFromString("toggleVisibility"))
     }
     
     @objc private func binded(){

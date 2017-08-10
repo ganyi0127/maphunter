@@ -47,11 +47,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let navigation = UIStoryboard(name: "Boot", bundle: Bundle.main).instantiateInitialViewController()
             window?.rootViewController = navigation
         }
-        window?.makeKeyAndVisible()
+        window?.makeKeyAndVisible()                
         
         //当点击通知启动应用后如何获取通知
         if let options = launchOptions{
-            
             if let localNotification = options[UIApplicationLaunchOptionsKey.localNotification] as? UILocalNotification {
                 if let dict = localNotification.userInfo {
                     // 获取通知上绑定的信息后作相应处理...
