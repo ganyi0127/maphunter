@@ -110,6 +110,7 @@ class PrepareVC: UIViewController {
         circleView.layer.cornerRadius = circleView.frame.width / 2
     }
     
+    var isShortcut = false
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -131,6 +132,11 @@ class PrepareVC: UIViewController {
             
             settingButtonItem = UIBarButtonItem(customView: button)
             navigationItem.rightBarButtonItem = settingButtonItem
+        }
+        
+        if isShortcut {
+            isShortcut = false
+            start(startButton)
         }
     }
     

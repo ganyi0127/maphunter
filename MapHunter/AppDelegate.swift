@@ -229,5 +229,59 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Fallback on earlier versions
         }
     }
+    
+    //MARK:-shortcut
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        let type = shortcutItem.type
+        
+        //进入
+        if let password = userDefaults.string(forKey: "password"), !password.characters.isEmpty{
+            
+            var rootTBC: RootTBC?
+            
+            //登录到通知与提醒页面 判断
+            //let notificationSettingTypes = UIApplication.shared.currentUserNotificationSettings?.types
+            let isNotification = userDefaults.bool(forKey: "notification")
+            let locationStatus = CLLocationManager.authorizationStatus()
+            let isAlreadyRequestAppleHealth = userDefaults.bool(forKey: "applehealth")
+            if isNotification && isAlreadyRequestAppleHealth && !(locationStatus == .notDetermined) {
+                //直接登陆
+                rootTBC = window?.rootViewController as? RootTBC
+                while rootTBC == nil {
+                    rootTBC = (window?.rootViewController as? UINavigationController)?.popViewController(animated: true) as? RootTBC
+                }
+            }else{
+                rootTBC = (window?.rootViewController as? UINavigationController)?.visibleViewController as? RootTBC
+            }
+            
+            //跳转
+            if let root = rootTBC {
+                
+                switch type {
+                case "first":       //跳转到运动记录
+                    let index = 1
+                    root.selectedIndex = index
+                    let playNav = root.viewControllers?[index] as? UINavigationController
+                    let playVC = playNav?.topViewController as? PlayVC
+                    root.selectedViewController = playNav
+                    
+                    playVC?.performSegue(withIdentifier: "outdoor", sender: "shortcut")
+                case "second":      //跳转到周报
+
+                    let index = 3
+                    root.selectedIndex = index
+                    let nav = root.viewControllers?[index] as? UINavigationController
+                    root.selectedViewController = nav
+
+                    let weeklyVC = UIStoryboard(name: "Discover", bundle: Bundle.main).instantiateViewController(withIdentifier: "weekly")
+                    nav?.pushViewController(weeklyVC, animated: true)
+                default:
+                    break
+                }
+            }
+        }else{
+            print("未登录无法跳转")
+        }
+    }
 }
 

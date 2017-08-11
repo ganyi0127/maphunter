@@ -241,6 +241,7 @@
 		BEDF4F741D99040300E98D63 /* ButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDF4F731D99040300E98D63 /* ButtonExtension.swift */; };
 		BEDF4F771D9909ED00E98D63 /* TopScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDF4F761D9909ED00E98D63 /* TopScrollView.swift */; };
 		BEDF4F791D990EF800E98D63 /* DateProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDF4F781D990EF800E98D63 /* DateProgress.swift */; };
+		BEE9FCC71F3D588900A0C053 /* gan.png in Resources */ = {isa = PBXBuildFile; fileRef = BEE9FCC61F3D588900A0C053 /* gan.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -519,6 +520,7 @@
 		BEDF4F731D99040300E98D63 /* ButtonExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonExtension.swift; sourceTree = "<group>"; };
 		BEDF4F761D9909ED00E98D63 /* TopScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopScrollView.swift; sourceTree = "<group>"; };
 		BEDF4F781D990EF800E98D63 /* DateProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateProgress.swift; sourceTree = "<group>"; };
+		BEE9FCC61F3D588900A0C053 /* gan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gan.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -819,6 +821,7 @@
 				BE82534E1EA75A9A001B276B /* ExceptionHandler.swift */,
 				BE2DC9F21D9210A300978C97 /* Assets.xcassets */,
 				BE2DC9F41D9210A300978C97 /* LaunchScreen.storyboard */,
+				BEE9FCC61F3D588900A0C053 /* gan.png */,
 				BE2DC9F71D9210A300978C97 /* Info.plist */,
 				BEDF4F341D93910E00E98D63 /* Configure.swift */,
 				BE3DB3351E976D4B001CA7AF /* LocalNotification.swift */,
@@ -1468,6 +1471,7 @@
 				BE43A6E31F02629900D5BBAC /* Map.storyboard in Resources */,
 				BE2DC9F61D9210A300978C97 /* LaunchScreen.storyboard in Resources */,
 				BE2DC9F31D9210A300978C97 /* Assets.xcassets in Resources */,
+				BEE9FCC71F3D588900A0C053 /* gan.png in Resources */,
 				BE2DC9EE1D9210A300978C97 /* Main.storyboard in Resources */,
 				BE3DB3201E961E7A001CA7AF /* Boot.storyboard in Resources */,
 				BE8FCAE91F06441C00F8A6D2 /* Discover.storyboard in Resources */,

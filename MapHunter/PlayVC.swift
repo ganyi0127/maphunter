@@ -47,6 +47,18 @@ class PlayVC: UIViewController {
                 
     }
     
+    
+    //MARK:-判断是否由shortcut进入，是则开始记录
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        if segue.identifier == "outdoor" {
+            if let s = sender as? String, s == "shortcut" {
+                let prepareVC = segue.destination as! PrepareVC
+                prepareVC.isShortcut = true
+            }
+        }
+    }
+    
     //MARK:-点击回调
     func clickView(_ tag: Int) {
         switch tag {
